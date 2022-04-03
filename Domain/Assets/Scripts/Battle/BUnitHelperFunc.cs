@@ -41,6 +41,8 @@ public static class BUnitHelperFunc
         {
             total = battleUnit.executor.battleSpace.tiles1;
         }
+
+        /*
         foreach (BattleTile x in total)
         {
             if (!x.occupied)
@@ -49,6 +51,42 @@ public static class BUnitHelperFunc
             }
         }
         return (total[0]);
+        */
+        
+        foreach (BattleTile x in total)
+        {
+            if (!x.occupied)
+            {
+                eligible.Add(x);
+            }
+        }
+        System.Random random = new System.Random();
+        return (eligible[(int)random.Next(eligible.Count)]);
+        
     }
 
+    public static BattleTile GetNextBattleTile(BattleUnit u1, BattleUnit u2)
+    {
+        Vector3 position1 = u1.position;
+        Vector3 position2 = u2.position;
+        List<BattleTile> total = u1.executor.battleSpace.tiles;
+        BattleTile currTile = u1.currentTile;
+        List<BattleTile> eligible = new List<BattleTile>();
+
+        float tileDist = 1.5f;
+
+        foreach (BattleTile x in total)
+        {
+            if (!x.occupied && Vector3.Distance(x.position, currTile.position) < tileDist)
+            {
+                eligible.Add(x);
+            }
+        }
+        eligible = eligible.OrderBy(o => Vector3.Distance(o.position, position2)).ToList();
+        if (eligible.Count > 0)
+        {
+            return eligible[0];
+        }
+        return currTile;
+    }
 }

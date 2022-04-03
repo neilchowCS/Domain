@@ -37,8 +37,9 @@ public class BattleExecutor : MonoBehaviour
         ExecuteBattle();
     }
 
-    private void ExecuteBattle()
+    public void ExecuteBattle()
     {
+        run = true;
         InitState();
 
         while (run)
@@ -50,7 +51,7 @@ public class BattleExecutor : MonoBehaviour
 
     public void StepUp()
     {
-        if (player0.Count > 0 && player1.Count > 0)
+        if (IsRunning())
         {
             eventHandler.OnTickUp();
         }
@@ -59,6 +60,16 @@ public class BattleExecutor : MonoBehaviour
             Debug.Log(player0.Count != 0 ? "Player won!" : "Player lost!");
             run = false;
         }
+        if (globalTick> 200)
+        {
+            Debug.Log("Player timed out!");
+            run = false;
+        }
+    }
+
+    public bool IsRunning()
+    {
+        return player0.Count > 0 && player1.Count > 0;
     }
 
     private void InitState()
@@ -83,14 +94,22 @@ public class BattleExecutor : MonoBehaviour
         playerObjects = new List<BattleObject>[] { playerObjects0, playerObjects1 };
 
 
-        int teamSize0 = 2;
-        int teamSize1 = 1;
+        int teamSize0 = 1;
+        int teamSize01 = 1;
         for (int i = 0; i < teamSize0; i++)
         {
             BattleUnit test = new AliceBU(this, 0);
 
             player0.Add(test);
         }
+        for (int i = 0; i < teamSize01; i++)
+        {
+            BattleUnit test = new BobBU(this, 0);
+
+            player0.Add(test);
+        }
+
+        int teamSize1 = 2;
         for (int i = 0; i < teamSize1; i++)
         {
             BattleUnit test = new AliceBU(this, 1);
