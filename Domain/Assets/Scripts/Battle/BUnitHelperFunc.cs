@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+/// <summary>
+/// Static helper functions.
+/// </summary>
 public static class BUnitHelperFunc
 {
+    /// <summary>
+    /// Returns the closest BattleUnit to param.
+    /// </summary>
     public static BattleUnit GetClosestEnemy(BattleUnit battleUnit)
     {
         List<BattleUnit> eligible;
@@ -24,11 +30,17 @@ public static class BUnitHelperFunc
         return null;
     }
 
+    /// <summary>
+    /// Returns the distance between two BattleUnits.
+    /// </summary>
     public static float GetBattleUnitDistance(BattleUnit u1, BattleUnit u2)
     {
         return (Vector3.Distance(u1.position, u2.position));
     }
 
+    /// <summary>
+    /// Returns random empty BattleTile on the side of param.
+    /// </summary>
     public static BattleTile GetSpawnLoc(BattleUnit battleUnit)
     {
         List<BattleTile> total;
@@ -65,6 +77,9 @@ public static class BUnitHelperFunc
         
     }
 
+    /// <summary>
+    /// Gets the BattleTile that is adjacent to u1.currentTile and closest to u2.
+    /// </summary>
     public static BattleTile GetNextBattleTile(BattleUnit u1, BattleUnit u2)
     {
         Vector3 position1 = u1.position;

@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A unit created during battle sim.
+/// </summary>
 public class BattleUnit : BattleObject
 {
     public int unitMaxHealth;
@@ -27,11 +30,18 @@ public class BattleUnit : BattleObject
 
     public BattleTile currentTile;
     public BattleTile targetTile;
+
     public BattleUnit currentTarget;
 
-    public enum MoveStates {noTarget, movingToTile, tileArrived, inRange};
+    public enum MoveStates {noTarget, movingToTile, tileArrived, inRange, stopped};
+    /// <summary>
+    /// noTarget, movingToTile, tileArrived, inRange, stopped.
+    /// </summary>
     public MoveStates moveState;
 
+    /// <summary>
+    /// FIX ME: event subscription
+    /// </summary>
     public BattleUnit(BattleExecutor exec, int side, int id, string name, int health, int attack,
         float attackSpeed, float range, float moveSpeed)
         : base(exec, side, id,name)
@@ -58,6 +68,10 @@ public class BattleUnit : BattleObject
         Debug.Log("Spawned " + objectName + " (" + globalObjectId + ")");
     }
 
+    /// <summary>
+    /// Event subscriber.
+    /// Logic for every tick during battle while running.
+    /// </summary>
     public override void OnTickUp()
     {
         if (executor.IsRunning())
@@ -67,6 +81,9 @@ public class BattleUnit : BattleObject
         }
     }
 
+    /// <summary>
+    /// Handles movement during OnTickUp().
+    /// </summary>
     public virtual void TickUpMove()
     {
         if (moveState == MoveStates.noTarget)
@@ -131,6 +148,9 @@ public class BattleUnit : BattleObject
         }
     }
 
+    /// <summary>
+    /// Handles attacking during OnTickUp().
+    /// </summary>
     public virtual void TickUpAttack()
     {
         if (moveState == MoveStates.inRange)
@@ -139,11 +159,23 @@ public class BattleUnit : BattleObject
         }
     }
 
+    /// <summary>
+    /// Raises DealDamage event.
+    /// Deals damage equal to unit's attack to damageTarget.
+    /// </summary>
     public virtual void DealDamage(BattleUnit damageTarget)
     {
         executor.eventHandler.OnDamageDealt(this, damageTarget, unitAttack);
     }
 
+    //FIX ME: unsubscribe from events
+
+    /// <summary>
+    /// Decreases this unit's health.
+    /// Raises TakeDamage event.
+    /// Checks if this is dead.
+    /// If true, unsubscribes and raises UnitDeath event.
+    /// </summary>
     public virtual void TakeDamage(BattleUnit damageSource, int amount)
     {
         unitHealth -= amount;
@@ -155,6 +187,11 @@ public class BattleUnit : BattleObject
         }
     }
 
+    /// <summary>
+    /// Event subscriber.
+    /// Checks if this is damageTarget.
+    /// If true, raises modified TakeDamage event.
+    /// </summary>
     public virtual void OnDamageDealt(BattleUnit damageSource, BattleUnit damageTarget, int amount)
     {
         if (damageTarget == this)
@@ -163,6 +200,11 @@ public class BattleUnit : BattleObject
         }
     }
 
+    /// <summary>
+    /// Event subscriber.
+    /// Checks if this BattleUnit is dead.
+    /// Checks if currentTarget is dead.
+    /// </summary>
     public virtual void OnUnitDeath(BattleUnit deadUnit)
     {
         if (deadUnit == this)
@@ -192,6 +234,9 @@ public class BattleUnit : BattleObject
 
     }
 
+    /// <summary>
+    /// Sets currentTarget for this BattleUnit.
+    /// </summary>
     public virtual void LookForward()
     {
         currentTarget = BUnitHelperFunc.GetClosestEnemy(this) ?? BUnitHelperFunc.GetClosestEnemy(this);

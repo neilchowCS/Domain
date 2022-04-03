@@ -10,6 +10,9 @@ public class BattleExecutor : MonoBehaviour
     public Timeline timeline;
 
     public int globalTick;
+    /// <summary>
+    /// Holds delegates and events
+    /// </summary>
     public BattleEventHandler eventHandler;
 
     public BattleSpace battleSpace;

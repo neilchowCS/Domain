@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Base object during battle.
+/// </summary>
 public class BattleObject
 {
     public BattleExecutor executor;
     public int side;
 
-    //what type of object
+    /// <summary>
+    /// What type of object.
+    /// </summary>
     public int objectId;
-    //execution identifier
+    /// <summary>
+    /// Global identifier.
+    /// </summary>
     public int globalObjectId;
+
     public string objectName;
 
     public int localTick;
@@ -24,7 +32,7 @@ public class BattleObject
         globalObjectId = executor.SetGlobalObjectId();
         objectName = name;
         localTick = executor.globalTick;
-
+        
         executor.eventHandler.TickUp += this.OnTickUp;
     }
 

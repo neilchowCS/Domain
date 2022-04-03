@@ -4,10 +4,23 @@ using UnityEngine;
 
 public class BattleSpace
 {
+    /// <summary>
+    /// List of all tiles.
+    /// </summary>
     public List<BattleTile> tiles;
+    /// <summary>
+    /// List of tiles on player 0 side.
+    /// </summary>
     public List<BattleTile> tiles0;
+    /// <summary>
+    /// List of tiles on player 1 side.
+    /// </summary>
     public List<BattleTile> tiles1;
 
+    /// <summary>
+    /// Constructor for BattleSpace.
+    /// Creates numRows (6) * numColumns (8) tiles and adds them to list.
+    /// </summary>
     public BattleSpace()
     {
         int numRows = 6;
