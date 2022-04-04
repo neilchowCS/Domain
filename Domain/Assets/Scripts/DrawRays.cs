@@ -10,7 +10,6 @@ public class DrawRays : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        main = Camera.main;
         screenPos = main.WorldToScreenPoint(this.gameObject.transform.position);
         Debug.Log(screenPos.x + ", " + screenPos.y + ", " + screenPos.z);
         ray = new Ray(main.transform.position,
