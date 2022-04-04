@@ -88,7 +88,7 @@ public static class BUnitHelperFunc
         BattleTile currTile = u1.currentTile;
         List<BattleTile> eligible = new List<BattleTile>();
 
-        float tileDist = 1.5f;
+        float tileDist = 1.75f;
 
         foreach (BattleTile x in total)
         {

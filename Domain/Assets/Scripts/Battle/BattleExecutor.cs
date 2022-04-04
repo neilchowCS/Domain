@@ -18,6 +18,10 @@ public class BattleExecutor : MonoBehaviour
     public BattleSpace battleSpace;
 
     private int globalObjectId;
+    /// <summary>
+    /// Sets global object ID and increments it.
+    /// </summary>
+    /// <returns></returns>
     public int SetGlobalObjectId()
     {
         globalObjectId++;
@@ -96,7 +100,7 @@ public class BattleExecutor : MonoBehaviour
         playerUnits = new List<BattleUnit>[] { player0, player0Dead, player1 , player1Dead};
         playerObjects = new List<BattleObject>[] { playerObjects0, playerObjects1 };
 
-
+        //init team
         int teamSize0 = 1;
         int teamSize01 = 1;
         for (int i = 0; i < teamSize0; i++)
