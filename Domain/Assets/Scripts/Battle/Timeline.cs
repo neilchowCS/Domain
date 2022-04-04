@@ -40,7 +40,7 @@ public class Timeline
 
             foreach (TimelineEvent i in pair.Value)
             {
-                int[] temp = i.GetData();
+                float[] temp = i.GetData();
                 string x = "";
                 foreach (int xx in temp)
                 {

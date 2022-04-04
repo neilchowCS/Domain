@@ -6,6 +6,7 @@ using System;
 public class BattleExecutor : MonoBehaviour
 {
     public bool run = true;
+    public ReplayExecutor replayExecutor;
 
     public Timeline timeline;
 
@@ -49,6 +50,7 @@ public class BattleExecutor : MonoBehaviour
         run = true;
         InitState();
 
+        globalTick++;
         while (run)
         {
             StepUp();
@@ -66,6 +68,7 @@ public class BattleExecutor : MonoBehaviour
         {
             Debug.Log(player0.Count != 0 ? "Player won!" : "Player lost!");
             run = false;
+            replayExecutor.StartReplay(timeline);
         }
         if (globalTick> 200)
         {

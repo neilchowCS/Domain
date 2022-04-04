@@ -33,7 +33,7 @@ public class BattleUnit : BattleObject
 
     public BattleUnit currentTarget;
 
-    public enum MoveStates {noTarget, movingToTile, tileArrived, inRange, stopped};
+    public enum MoveStates { noTarget, movingToTile, tileArrived, inRange, stopped };
     /// <summary>
     /// noTarget, movingToTile, tileArrived, inRange, stopped.
     /// </summary>
@@ -44,7 +44,7 @@ public class BattleUnit : BattleObject
     /// </summary>
     public BattleUnit(BattleExecutor exec, int side, int id, string name, int health, int attack,
         float attackSpeed, float range, float moveSpeed)
-        : base(exec, side, id,name)
+        : base(exec, side, id, name)
     {
         unitMaxHealth = health;
         unitHealth = unitMaxHealth;
@@ -60,11 +60,13 @@ public class BattleUnit : BattleObject
 
         moveState = MoveStates.noTarget;
 
+        //FIX ME
         executor.eventHandler.DamageDealt += this.OnDamageDealt;
         executor.eventHandler.DamageTaken += this.OnDamageTaken;
         executor.eventHandler.UnitDeath += this.OnUnitDeath;
 
-        executor.timeline.AddTimelineEvent(new EventSpawn(id));
+        executor.timeline.AddTimelineEvent(new TimelineSpawn(id, globalObjectId, side,
+            0, position.x, position.y, position.z));
         Debug.Log("Spawned " + objectName + " (" + globalObjectId + ")");
     }
 
@@ -103,7 +105,8 @@ public class BattleUnit : BattleObject
                 }
                 targetTile.occupied = true;
             }
-        }else if (moveState == MoveStates.movingToTile)
+        }
+        else if (moveState == MoveStates.movingToTile)
         {
             /*
             Debug.Log(objectName + " (" + globalObjectId + ") attempting to move");
@@ -121,7 +124,7 @@ public class BattleUnit : BattleObject
                 currentTile.occupied = false;
                 currentTile = targetTile;
             }
-            if(Vector3.Distance(position, targetTile.position) < 0.000001f)
+            if (Vector3.Distance(position, targetTile.position) < 0.000001f)
             {
                 Debug.Log("Tile arrived");
                 targetTile = null;
@@ -134,9 +137,10 @@ public class BattleUnit : BattleObject
                 {
                     moveState = MoveStates.tileArrived;
                 }
-                
+
             }
-        }else if (moveState == MoveStates.tileArrived)
+        }
+        else if (moveState == MoveStates.tileArrived)
         {
             moveState = MoveStates.movingToTile;
             targetTile = BUnitHelperFunc.GetNextBattleTile(this, currentTarget);
@@ -241,7 +245,7 @@ public class BattleUnit : BattleObject
     {
         currentTarget = BUnitHelperFunc.GetClosestEnemy(this) ?? BUnitHelperFunc.GetClosestEnemy(this);
         Debug.Log(objectName + " (" + globalObjectId + ") targeting "
-            + currentTarget.objectName +" (" + currentTarget.globalObjectId + ")");
+            + currentTarget.objectName + " (" + currentTarget.globalObjectId + ")");
     }
 
 }
