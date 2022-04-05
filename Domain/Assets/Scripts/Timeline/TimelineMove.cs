@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// eventId 3
 /// 0 = selfId
 /// 1 = nextTileId
 /// 2 = ntPosX
@@ -19,7 +18,6 @@ public class TimelineMove : TimelineEvent
     public float ntPosZ;
 
     /// <summary>
-    /// eventId 3
     /// 0 = selfId
     /// 1 = nextTileId
     /// 2 = ntPosX
@@ -29,7 +27,6 @@ public class TimelineMove : TimelineEvent
     public TimelineMove(int selfId, int nextTileId,
         float ntPosX, float ntPosY, float ntPosZ)
     {
-        eventId = 3;
         this.selfId = selfId;
         this.nextTileId = nextTileId;
         this.ntPosX = ntPosX;
@@ -42,5 +39,27 @@ public class TimelineMove : TimelineEvent
         //Debug.Log("Move");
         return new float[] { selfId, nextTileId,
         ntPosX, ntPosY, ntPosZ};
+    }
+
+    public override void ExecuteEvent(ReplayExecutor replayExecutor)
+    {
+        ReplayObject self = null;
+        Vector3 destination = new Vector3(ntPosX, ntPosY + .5f, ntPosZ);
+        foreach (ReplayObject rO in replayExecutor.replayObjects)
+        {
+            if (rO.globalId == selfId)
+            {
+                self = rO;
+            }
+        }
+        if (self != null)
+        {
+            self.gameObject.GetComponent<ReplayUnit>().destination = destination;
+            self.gameObject.GetComponent<ReplayUnit>().moving = true;
+        }
+        else
+        {
+            Debug.Log("Movement failed");
+        }
     }
 }

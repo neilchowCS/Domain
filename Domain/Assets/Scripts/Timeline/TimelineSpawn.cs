@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// eventId 1
 /// 0 = spawnId
 /// 1 = globalSpawnId
 /// 2 = side
@@ -21,9 +20,9 @@ public class TimelineSpawn : TimelineEvent
     public float spawnPosX;
     public float spawnPosY;
     public float spawnPosZ;
+    public int maxHp;
 
     /// <summary>
-    /// eventId
     /// 0 = spawnId
     /// 1 = globalSpawnId
     /// 2 = side
@@ -38,9 +37,9 @@ public class TimelineSpawn : TimelineEvent
         int spawnTileId,
         float spawnPosX,
         float spawnPosY,
-        float spawnPosZ)
+        float spawnPosZ,
+        int maxHp)
     {
-        eventId = 1;
         this.spawnId = spawnId;
         this.globalSpawnId = globalSpawnId;
         this.side = side;
@@ -48,12 +47,28 @@ public class TimelineSpawn : TimelineEvent
         this.spawnPosX = spawnPosX;
         this.spawnPosY = spawnPosY;
         this.spawnPosZ = spawnPosZ;
+        this.maxHp = maxHp;
     }
 
     public override float[] GetData()
     {
         //Debug.Log("Spawn");
         return new float[] { spawnId, globalSpawnId, spawnTileId, side,
-        spawnPosX, spawnPosY, spawnPosZ };
+        spawnPosX, spawnPosY, spawnPosZ, maxHp };
+    }
+
+    public override void ExecuteEvent(ReplayExecutor replayExecutor)
+    {
+        GameObject x = GameObject.Instantiate(replayExecutor.rm.prefabs[spawnId]);
+        x.transform.position = new Vector3(spawnPosX, spawnPosY + .5f, spawnPosZ);
+        if (side == 1)
+        {
+            x.transform.rotation = Quaternion.Euler(0, -90, 0);
+        }
+        replayExecutor.replayObjects.Add(x.GetComponent<ReplayUnit>());
+        replayExecutor.replayUnits.Add(x.GetComponent<ReplayUnit>());
+        replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].globalId = globalSpawnId;
+        replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].maxHealth = maxHp;
+        replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].currentHealth = maxHp;
     }
 }

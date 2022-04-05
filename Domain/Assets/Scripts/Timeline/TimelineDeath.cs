@@ -5,19 +5,16 @@ using UnityEngine;
 public class TimelineDeath : TimelineEvent
 {
     /// <summary>
-    /// eventId 4
     /// 0 = selfId
     /// </summary>
 
     public int selfId;
 
     /// <summary>
-    /// eventId 4
     /// 0 = selfId
     /// </summary>
     public TimelineDeath(int selfId)
     {
-        eventId = 4;
         this.selfId = selfId;
     }
 
@@ -25,5 +22,23 @@ public class TimelineDeath : TimelineEvent
     {
         //Debug.Log("Target");
         return new float[] { selfId };
+    }
+
+    public override void ExecuteEvent(ReplayExecutor replayExecutor)
+    {
+        ReplayObject self = null;
+        foreach (ReplayObject rO in replayExecutor.replayObjects)
+        {
+            if (rO.globalId == selfId)
+            {
+                self = rO;
+            }
+        }
+        if (self != null)
+        {
+            replayExecutor.replayObjects.Remove(self);
+            replayExecutor.replayUnits.Remove(self.gameObject.GetComponent<ReplayUnit>());
+            GameObject.Destroy(self.gameObject);
+        }
     }
 }

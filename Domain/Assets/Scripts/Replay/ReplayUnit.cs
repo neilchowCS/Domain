@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ReplayUnit : ReplayObject
 {
+    public HealthBar healthBar;
+    public int maxHealth;
+    public int currentHealth;
+
     public ReplayObject target;
     public Vector3 destination;
     public bool moving;
@@ -11,6 +15,8 @@ public class ReplayUnit : ReplayObject
     public virtual void Start()
     {
         moving = false;
+        HealthBar x = Instantiate(healthBar);
+        x.parent = this;
     }
 
     // Update is called once per frame
@@ -31,7 +37,7 @@ public class ReplayUnit : ReplayObject
         }
         if (moving)
         {
-            float MoveSpeed = 1f;
+            float MoveSpeed = 1.5f;
             this.transform.position = Vector3.MoveTowards(this.transform.position,
                 destination, Time.deltaTime * MoveSpeed);
         }

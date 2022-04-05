@@ -66,7 +66,7 @@ public class BattleUnit : BattleObject
         executor.eventHandler.UnitDeath += this.OnUnitDeath;
 
         executor.timeline.AddTimelineEvent(new TimelineSpawn(id, globalObjectId, side,
-            0, position.x, position.y, position.z));
+            0, position.x, position.y, position.z, unitMaxHealth));
         Debug.Log("Spawned " + objectName + " (" + globalObjectId + ")");
     }
 
@@ -175,6 +175,8 @@ public class BattleUnit : BattleObject
     public virtual void DealDamage(BattleUnit damageTarget)
     {
         executor.eventHandler.OnDamageDealt(this, damageTarget, unitAttack);
+        executor.timeline.AddTimelineEvent(new TimelineDamageDealt(this.globalObjectId,
+            damageTarget.globalObjectId, unitAttack));
     }
 
     //FIX ME: unsubscribe from events

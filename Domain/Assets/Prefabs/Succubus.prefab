@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4713311655651288803}
   - component: {fileID: 1275170450427564522}
   m_Layer: 0
-  m_Name: SW
+  m_Name: Succubus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,5 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalId: 0
+  healthBar: {fileID: 6647489774567441945, guid: e6b6ce823b3044bc4a0f747dffe33241, type: 3}
   target: {fileID: 0}
-  looking: 0
+  destination: {x: 0, y: 0, z: 0}
+  moving: 0

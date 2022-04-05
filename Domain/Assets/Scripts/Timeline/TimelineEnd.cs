@@ -6,6 +6,12 @@ public class TimelineEnd : TimelineEvent
 {
     public TimelineEnd()
     {
-        eventId = -1;
+
+    }
+
+    public override void ExecuteEvent(ReplayExecutor replayExecutor)
+    {
+        replayExecutor.replayRun = false;
+        replayExecutor.enabled = false;
     }
 }
