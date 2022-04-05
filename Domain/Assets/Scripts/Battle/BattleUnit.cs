@@ -97,8 +97,11 @@ public class BattleUnit : BattleObject
             }
             else
             {
+                //FIX ME
                 moveState = MoveStates.movingToTile;
                 targetTile = BUnitHelperFunc.GetNextBattleTile(this, currentTarget);
+                executor.timeline.AddTimelineEvent(new TimelineMove(globalObjectId,
+                0, targetTile.position.x, targetTile.position.y, targetTile.position.z));
                 if (targetTile.occupied)
                 {
                     Debug.Log("Uh oh!");
@@ -144,6 +147,8 @@ public class BattleUnit : BattleObject
         {
             moveState = MoveStates.movingToTile;
             targetTile = BUnitHelperFunc.GetNextBattleTile(this, currentTarget);
+            executor.timeline.AddTimelineEvent(new TimelineMove(globalObjectId,
+                0, targetTile.position.x, targetTile.position.y, targetTile.position.z));
             if (targetTile.occupied)
             {
                 Debug.Log("Uh oh!");
@@ -188,6 +193,7 @@ public class BattleUnit : BattleObject
         {
             executor.eventHandler.TickUp -= this.OnTickUp;
             executor.eventHandler.OnUnitDeath(this);
+            executor.timeline.AddTimelineEvent(new TimelineDeath(globalObjectId));
         }
     }
 
@@ -244,6 +250,7 @@ public class BattleUnit : BattleObject
     public virtual void LookForward()
     {
         currentTarget = BUnitHelperFunc.GetClosestEnemy(this) ?? BUnitHelperFunc.GetClosestEnemy(this);
+        executor.timeline.AddTimelineEvent(new TimelineTarget(globalObjectId, currentTarget.globalObjectId));
         Debug.Log(objectName + " (" + globalObjectId + ") targeting "
             + currentTarget.objectName + " (" + currentTarget.globalObjectId + ")");
     }

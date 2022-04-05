@@ -68,6 +68,7 @@ public class BattleExecutor : MonoBehaviour
         {
             Debug.Log(player0.Count != 0 ? "Player won!" : "Player lost!");
             run = false;
+            timeline.AddTimelineEvent(new TimelineEnd());
             replayExecutor.StartReplay(timeline);
         }
         if (globalTick> 200)

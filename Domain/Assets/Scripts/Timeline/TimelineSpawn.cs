@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// eventId 1
+/// 0 = spawnId
+/// 1 = globalSpawnId
+/// 2 = side
+/// 3 = spawnTileId
+/// 4 = spawnPosX
+/// 5 = spawnPosY
+/// 6 = spawnPosZ
+/// </summary>
 public class TimelineSpawn : TimelineEvent
 {
     public int spawnId;
@@ -12,6 +22,16 @@ public class TimelineSpawn : TimelineEvent
     public float spawnPosY;
     public float spawnPosZ;
 
+    /// <summary>
+    /// eventId
+    /// 0 = spawnId
+    /// 1 = globalSpawnId
+    /// 2 = side
+    /// 3 = spawnTileId
+    /// 4 = spawnPosX
+    /// 5 = spawnPosY
+    /// 6 = spawnPosZ
+    /// </summary>
     public TimelineSpawn(int spawnId,
         int globalSpawnId,
         int side,

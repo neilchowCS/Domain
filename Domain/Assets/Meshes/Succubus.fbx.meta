@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 72d68ab4eab7f41798fa66c917db8a8a
+guid: e26214d19fe7346e9b17c75884cca324
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: material
-    second: {fileID: 2100000, guid: c10eabdd4a2134e6cb6b6a6aafa6e6cd, type: 2}
+      name: SuccubusMaterial
+    second: {fileID: 2100000, guid: b48aedbab7ea744bfb31889f1069f732, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: material_baseColor
+    second: {fileID: 2800000, guid: 763ad5541f7a54efe9459e5487eea784, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -6,35 +6,35 @@ public class Timeline
 {
     public BattleExecutor exec;
 
-    public SortedDictionary<int, List<TimelineEvent>> timeline;
+    public SortedDictionary<int, List<TimelineEvent>> timeEvent;
 
     public Timeline(BattleExecutor e)
     {
         exec = e;
-        timeline = new SortedDictionary<int, List<TimelineEvent>>();
+        timeEvent = new SortedDictionary<int, List<TimelineEvent>>();
     }
 
     public void AddTimelineEvent(TimelineEvent timelineEvent)
     {
-        if (!timeline.ContainsKey(exec.globalTick))
+        if (!timeEvent.ContainsKey(exec.globalTick))
         {
-            timeline.Add(exec.globalTick, new List<TimelineEvent>());
+            timeEvent.Add(exec.globalTick, new List<TimelineEvent>());
         }
-        timeline[exec.globalTick].Add(timelineEvent);
+        timeEvent[exec.globalTick].Add(timelineEvent);
     }
 
     public void AddTimelineEvent(TimelineEvent timelineEvent, int delay)
     {
-        if (!timeline.ContainsKey(exec.globalTick + delay))
+        if (!timeEvent.ContainsKey(exec.globalTick + delay))
         {
-            timeline.Add(exec.globalTick + delay, new List<TimelineEvent>());
+            timeEvent.Add(exec.globalTick + delay, new List<TimelineEvent>());
         }
-        timeline[exec.globalTick + delay].Add(timelineEvent);
+        timeEvent[exec.globalTick + delay].Add(timelineEvent);
     }
 
     public void Output()
     {
-        foreach (var pair in timeline)
+        foreach (var pair in timeEvent)
         {
             Debug.Log("tick " + pair.Key);
 
