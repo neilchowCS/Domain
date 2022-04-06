@@ -77,7 +77,7 @@ public class BattleEventHandler
         //Alice (x) has x health remaining out of y
         Debug.Log(damageTarget.objectName + " (" + damageTarget.globalObjectId + ")"
             + " has " + damageTarget.unitHealth + " health remaining out of "
-            + damageTarget.unitMaxHealth);
+            + damageTarget.unitData.baseHealth);
         DamageTakenEventHandler handler = DamageTaken;
         //raise event
         handler?.Invoke(damageTarget, damageSource, amount);

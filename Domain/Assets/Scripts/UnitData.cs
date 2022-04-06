@@ -3,35 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-static class UnitData
+public class UnitData
 {
-    public static UnitDataS[] data;
-
-    static UnitData()
-    {
-        data = new UnitDataS[] {
-
-            //Alice
-            //10 hp
-            //1 atk
-            //1 Defense
-            //1 MDefense
-            //.1 AtkSpd
-            //2 Range
-            //.3 MoveSpd
-            //10 Mana
-            //20 TickPerMana
-            //2 Crit
-            //.1 CritChance
-            new UnitDataS("Alice",10, 1, 1, 1, .1f, 2f, .3f, 10, 20, 2f, .1f)
-
-        };
-    }
-
-}
-
-public struct UnitDataS
-{
+    public int id;
     public string baseName;
     public int baseHealth;
     public int baseAttack;
@@ -45,10 +19,10 @@ public struct UnitDataS
     public float baseCrit;
     public float baseCritChance;
 
-    public UnitDataS(string baseName, int health, int attack, int defense, int mDefense, float attackSpeed,
+    public void SetValues(string name, int health, int attack, int defense, int mDefense, float attackSpeed,
         float range, float moveSpeed, int mana, int tickPerMana, float crit, float critChance)
     {
-        this.baseName = baseName;
+        baseName = name;
         baseHealth = health;
         baseAttack = attack;
         baseDefense = defense;
@@ -60,5 +34,34 @@ public struct UnitDataS
         baseTickPerMana = tickPerMana;
         baseCrit = crit;
         baseCritChance = critChance;
+    }
+
+    public UnitData(int i)
+    {
+        this.id = i;
+        switch (i)
+        {
+            case 0:
+                SetValues("Alice", 10, 1, 0, 0, 1, 1.75f * 3, .75f, 10, 20, 2f, .1f);
+                break;
+            case 1:
+                SetValues("Bob", 15, 1, 0, 0, 1, 1.75f * 2, .75f, 10, 20, 2f, .1f);
+                break;
+        }
+    }
+
+    public BattleUnit GetBattleUnit(BattleExecutor exec, int side)
+    {
+        BattleUnit output = null;
+        switch (id)
+        {
+            case 0:
+                output = new AliceBU(exec, side, this);
+                break;
+            case 1:
+                output = new BobBU(exec, side, this);
+                break;
+        }
+        return output;
     }
 }

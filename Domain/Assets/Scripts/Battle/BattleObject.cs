@@ -22,7 +22,7 @@ public class BattleObject
 
     public string objectName;
 
-    public int localTick;
+    //public int localTick;
 
     public BattleObject(BattleExecutor exec, int side, int id, string name)
     {
@@ -31,8 +31,18 @@ public class BattleObject
         objectId = id;
         globalObjectId = executor.SetGlobalObjectId();
         objectName = name;
-        localTick = executor.globalTick;
+        //localTick = executor.globalTick;
         
+        executor.eventHandler.TickUp += this.OnTickUp;
+    }
+
+    public BattleObject(BattleExecutor exec, int side)
+    {
+        executor = exec;
+        this.side = side;
+        globalObjectId = executor.SetGlobalObjectId();
+
+        //localTick = executor.globalTick;
         executor.eventHandler.TickUp += this.OnTickUp;
     }
 

@@ -105,27 +105,16 @@ public class BattleExecutor : MonoBehaviour
         playerObjects = new List<BattleObject>[] { playerObjects0, playerObjects1 };
 
         //init team
-        int teamSize0 = 1;
-        int teamSize01 = 1;
-        for (int i = 0; i < teamSize0; i++)
-        {
-            BattleUnit test = new AliceBU(this, 0);
+        TeamData team0 = new TeamData(0);
+        TeamData team1 = new TeamData(1);
 
-            player0.Add(test);
+        foreach (UnitData i in team0.unitList)
+        {
+            player0.Add(i.GetBattleUnit(this, 0));
         }
-        for (int i = 0; i < teamSize01; i++)
+        foreach (UnitData i in team1.unitList)
         {
-            BattleUnit test = new BobBU(this, 0);
-
-            player0.Add(test);
-        }
-
-        int teamSize1 = 2;
-        for (int i = 0; i < teamSize1; i++)
-        {
-            BattleUnit test = new AliceBU(this, 1);
-
-            player1.Add(test);
+            player1.Add(i.GetBattleUnit(this, 1));
         }
     }
 

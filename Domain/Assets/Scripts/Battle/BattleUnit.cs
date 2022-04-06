@@ -8,23 +8,8 @@ using UnityEngine;
 /// </summary>
 public class BattleUnit : BattleObject
 {
-    public int unitMaxHealth;
+    public UnitData unitData;
     public int unitHealth;
-
-    public int unitAttack;
-
-    //public int baseDefense;
-    //public int baseMDefense;
-
-    public float unitAttackSpeed;
-    public float unitRange;
-    public float unitMoveSpeed;
-    /*
-    public int baseMana;
-    public int baseTickPerMana;
-    public float baseCrit;
-    public float baseCritChance;
-    */
 
     public Vector3 position;
 
@@ -42,16 +27,12 @@ public class BattleUnit : BattleObject
     /// <summary>
     /// FIX ME: event subscription
     /// </summary>
-    public BattleUnit(BattleExecutor exec, int side, int id, string name, int health, int attack,
-        float attackSpeed, float range, float moveSpeed)
-        : base(exec, side, id, name)
+    public BattleUnit(BattleExecutor exec, int side, UnitData unitData)
+        : base(exec, side)
     {
-        unitMaxHealth = health;
-        unitHealth = unitMaxHealth;
-        unitAttack = attack;
-        unitAttackSpeed = attackSpeed;
-        unitRange = range;
-        unitMoveSpeed = moveSpeed;
+        this.unitData = unitData;
+        objectName = unitData.baseName;
+        unitHealth = unitData.baseHealth;
 
         currentTile = BUnitHelperFunc.GetSpawnLoc(this);
         position = currentTile.position;
@@ -65,8 +46,8 @@ public class BattleUnit : BattleObject
         executor.eventHandler.DamageTaken += this.OnDamageTaken;
         executor.eventHandler.UnitDeath += this.OnUnitDeath;
 
-        executor.timeline.AddTimelineEvent(new TimelineSpawn(id, globalObjectId, side,
-            0, position.x, position.y, position.z, unitMaxHealth));
+        executor.timeline.AddTimelineEvent(new TimelineSpawn(unitData, globalObjectId, side,
+            0, position.x, position.y, position.z));
         Debug.Log("Spawned " + objectName + " (" + globalObjectId + ")");
     }
 
@@ -91,7 +72,7 @@ public class BattleUnit : BattleObject
         if (moveState == MoveStates.noTarget)
         {
             LookForward();
-            if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitRange)
+            if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitData.baseRange)
             {
                 moveState = MoveStates.inRange;
             }
@@ -120,7 +101,7 @@ public class BattleUnit : BattleObject
                 Debug.Log(objectName + " (" + globalObjectId + ") moved in range");
             }
             */
-            position = Vector3.MoveTowards(position, targetTile.position, unitMoveSpeed);
+            position = Vector3.MoveTowards(position, targetTile.position, unitData.baseMoveSpeed);
             if (Vector3.Distance(position, currentTile.position)
                 < Vector3.Distance(position, targetTile.position))
             {
@@ -131,7 +112,7 @@ public class BattleUnit : BattleObject
             {
                 Debug.Log("Tile arrived");
                 targetTile = null;
-                if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitRange)
+                if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitData.baseRange)
                 {
                     moveState = MoveStates.inRange;
                     Debug.Log(objectName + " (" + globalObjectId + ") moved in range");
@@ -174,9 +155,9 @@ public class BattleUnit : BattleObject
     /// </summary>
     public virtual void DealDamage(BattleUnit damageTarget)
     {
-        executor.eventHandler.OnDamageDealt(this, damageTarget, unitAttack);
+        executor.eventHandler.OnDamageDealt(this, damageTarget, unitData.baseAttack);
         executor.timeline.AddTimelineEvent(new TimelineDamageDealt(this.globalObjectId,
-            damageTarget.globalObjectId, unitAttack));
+            damageTarget.globalObjectId, unitData.baseAttack));
     }
 
     //FIX ME: unsubscribe from events

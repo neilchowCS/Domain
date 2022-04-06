@@ -23,7 +23,7 @@ public class HealthBar : MonoBehaviour
         }
         else
         {
-            float shrinkFactor = parent.currentHealth / (float)parent.maxHealth;
+            float shrinkFactor = parent.currentHealth / (float)parent.unitData.baseHealth;
             this.transform.position = new Vector3(parent.transform.position.x,
             this.transform.position.y, parent.transform.position.z);
             child.transform.localScale = new Vector3 (initialTransform * shrinkFactor,

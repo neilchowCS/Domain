@@ -5,7 +5,7 @@ using UnityEngine;
 public class ReplayUnit : ReplayObject
 {
     public HealthBar healthBar;
-    public int maxHealth;
+    public UnitData unitData;
     public int currentHealth;
 
     public ReplayObject target;
@@ -22,7 +22,7 @@ public class ReplayUnit : ReplayObject
     // Update is called once per frame
     public virtual void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward * 4);
+        Debug.DrawRay(transform.position, transform.forward * unitData.baseRange);
         if (target != null)
         {
             Vector3 direction = (target.transform.position - this.transform.position).normalized;

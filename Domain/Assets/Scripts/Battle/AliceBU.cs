@@ -9,8 +9,8 @@ public class AliceBU : BattleUnit
     /// </summary>
     /// <param name="exec"> BattleExecutor </param>
     /// <param name="side"> 0 or 1 </param>
-    public AliceBU(BattleExecutor exec, int side)
-        : base(exec, side, 0, "Alice", 10, 1, 20f, 1.75f * 3, .3f)
+    public AliceBU(BattleExecutor exec, int side, UnitData unitData)
+        : base(exec, side, unitData)
     {
         
     }
