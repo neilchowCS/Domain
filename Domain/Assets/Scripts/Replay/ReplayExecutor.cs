@@ -8,9 +8,13 @@ public class ReplayExecutor : MonoBehaviour
     public Timeline timeline;
     public List<ReplayObject> replayObjects;
     public List<ReplayUnit> replayUnits;
+    public List<ReplayProfile> profiles;
     public int index;
     public float timer;
     public bool replayRun = false;
+
+    public int side0 = 0;
+    public int side1 = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +48,16 @@ public class ReplayExecutor : MonoBehaviour
                 Destroy(x.gameObject);
             }
         }
+        if (profiles != null)
+        {
+            foreach (ReplayProfile x in profiles)
+            {
+                Destroy(x.gameObject);
+            }
+            
+        }
+        side0 = 0;
+        side1 = 0;
 
         replayObjects = new List<ReplayObject>();
         replayUnits = new List<ReplayUnit>();

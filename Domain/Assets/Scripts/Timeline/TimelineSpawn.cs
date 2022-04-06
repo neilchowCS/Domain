@@ -51,5 +51,26 @@ public class TimelineSpawn : TimelineEvent
         replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].globalId = globalSpawnId;
         replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].unitData = unitData;
         replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].currentHealth = unitData.baseHealth;
+
+
+        GameObject y = GameObject.Instantiate(replayExecutor.rm.profile);
+        replayExecutor.profiles.Add(y.GetComponent<ReplayProfile>());
+        replayExecutor.profiles[replayExecutor.profiles.Count - 1].globalId = globalSpawnId;
+        replayExecutor.profiles[replayExecutor.profiles.Count - 1].SetName(unitData.baseName);
+        y.transform.SetParent(replayExecutor.rm.profileParent.transform, false);
+        if (side == 1)
+        {
+            y.transform.position = new Vector3(y.transform.position.x + 600,
+                y.transform.position.y - (replayExecutor.side1)*200 ,
+                y.transform.position.z);
+            replayExecutor.side1++;
+        }
+        else
+        {
+            y.transform.position = new Vector3(y.transform.position.x,
+                y.transform.position.y - (replayExecutor.side0) * 200,
+                y.transform.position.z);
+            replayExecutor.side0++;
+        }
     }
 }

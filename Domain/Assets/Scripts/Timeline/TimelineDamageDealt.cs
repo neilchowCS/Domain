@@ -38,5 +38,13 @@ public class TimelineDamageDealt : TimelineEvent
         {
             Debug.Log("DamageFailed");
         }
+
+        foreach (ReplayProfile i in replayExecutor.profiles)
+        {
+            if (i.globalId == sourceId)
+            {
+                i.IncreaseDamage(amount);
+            }
+        }
     }
 }
