@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 4713311655651288796}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   globalId: 0
   healthBar: {fileID: 6647489774567441945, guid: e6b6ce823b3044bc4a0f747dffe33241, type: 3}
+  currentHealth: 0
   target: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   moving: 0

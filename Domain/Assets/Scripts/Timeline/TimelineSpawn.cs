@@ -60,16 +60,16 @@ public class TimelineSpawn : TimelineEvent
         y.transform.SetParent(replayExecutor.rm.profileParent.transform, false);
         if (side == 1)
         {
-            y.transform.position = new Vector3(y.transform.position.x + 600,
-                y.transform.position.y - (replayExecutor.side1)*200 ,
-                y.transform.position.z);
+            y.transform.localPosition = new Vector3(-y.transform.localPosition.x,
+                y.transform.localPosition.y - (replayExecutor.side1)* 75 ,
+                y.transform.localPosition.z);
             replayExecutor.side1++;
         }
         else
         {
-            y.transform.position = new Vector3(y.transform.position.x,
-                y.transform.position.y - (replayExecutor.side0) * 200,
-                y.transform.position.z);
+            y.transform.localPosition = new Vector3(y.transform.localPosition.x,
+                y.transform.localPosition.y - (replayExecutor.side0) * 75,
+                y.transform.localPosition.z);
             replayExecutor.side0++;
         }
     }

@@ -53,14 +53,16 @@ public class ReplayExecutor : MonoBehaviour
             foreach (ReplayProfile x in profiles)
             {
                 Destroy(x.gameObject);
+
             }
-            
+
         }
         side0 = 0;
         side1 = 0;
 
         replayObjects = new List<ReplayObject>();
         replayUnits = new List<ReplayUnit>();
+        profiles = new List<ReplayProfile>();
 
         timeline = t;
         index = 0;

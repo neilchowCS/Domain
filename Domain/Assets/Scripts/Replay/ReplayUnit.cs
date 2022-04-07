@@ -16,6 +16,10 @@ public class ReplayUnit : ReplayObject
     {
         moving = false;
         HealthBar x = Instantiate(healthBar);
+        if (this.transform.position.x >= 0)
+        {
+            x.child.GetComponent<SpriteRenderer>().color = Color.red;
+        }
         x.parent = this;
     }
 

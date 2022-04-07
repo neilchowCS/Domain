@@ -18,11 +18,19 @@ public class TeamData
         {
             AddUnitData(new UnitData(0));
             AddUnitData(new UnitData(0));
+            AddUnitData(new UnitData(0));
+            AddUnitData(new UnitData(0));
+            AddUnitData(new UnitData(1));
+            AddUnitData(new UnitData(1));
         }
         else if (i == 1)
         {
             AddUnitData(new UnitData(0));
-            AddUnitData(new UnitData(1));
+            AddUnitData(new UnitData(0));
+            AddUnitData(new UnitData(0));
+            AddUnitData(new UnitData(0));
+            AddUnitData(new UnitData(0));
+            AddUnitData(new UnitData(0));
         }
     }
 
