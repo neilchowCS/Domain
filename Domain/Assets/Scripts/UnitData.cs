@@ -5,55 +5,29 @@ using System;
 
 public class UnitData
 {
-    public int id;
-    public string baseName;
-    public int baseHealth;
-    public int baseAttack;
-    public int baseDefense;
-    public int baseMDefense;
-    public float baseAttackSpeed;
-    public float baseRange;
-    public float baseMoveSpeed;
-    public int baseMana;
-    public int baseTickPerMana;
-    public float baseCrit;
-    public float baseCritChance;
+    public UnitDataScriptableObject baseData;
 
-    public void SetValues(string name, int health, int attack, int defense, int mDefense, float attackSpeed,
-        float range, float moveSpeed, int mana, int tickPerMana, float crit, float critChance)
-    {
-        baseName = name;
-        baseHealth = health;
-        baseAttack = attack;
-        baseDefense = defense;
-        baseMDefense = mDefense;
-        baseAttackSpeed = attackSpeed;
-        baseRange = range;
-        baseMoveSpeed = moveSpeed;
-        baseMana = mana;
-        baseTickPerMana = tickPerMana;
-        baseCrit = crit;
-        baseCritChance = critChance;
-    }
+    public int unitHealth { get { return baseData.baseHealth; } }
+    public int unitAttack { get { return baseData.baseAttack; } }
+    public int unitDefense { get { return baseData.baseDefense; } }
+    public int unitMDefense { get { return baseData.baseMDefense; } }
+    public float unitAttackSpeed { get { return baseData.baseAttackSpeed; } }
+    public float unitRange { get { return baseData.baseRange; } }
+    public float unitMoveSpeed { get { return baseData.baseMoveSpeed; } }
+    public int unitMana { get { return baseData.baseMana; } }
+    public int unitTickPerMana { get { return baseData.baseTickPerMana; } }
+    public float unitCrit { get { return baseData.baseCrit; } }
+    public float unitCritChance { get { return baseData.baseCritChance; } }
 
-    public UnitData(int i)
+    public UnitData(UnitDataScriptableObject i)
     {
-        this.id = i;
-        switch (i)
-        {
-            case 0:
-                SetValues("Alice", 10, 1, 0, 0, 1, 1.75f * 3, .75f, 10, 20, 2f, .1f);
-                break;
-            case 1:
-                SetValues("Bob", 15, 1, 0, 0, 1, 1.75f * 2, .75f, 10, 20, 2f, .1f);
-                break;
-        }
+        baseData = i;
     }
 
     public BattleUnit GetBattleUnit(BattleExecutor exec, int side)
     {
         BattleUnit output = null;
-        switch (id)
+        switch (baseData.unitId)
         {
             case 0:
                 output = new AliceBU(exec, side, this);
@@ -64,4 +38,6 @@ public class UnitData
         }
         return output;
     }
+
+
 }

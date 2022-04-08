@@ -31,8 +31,8 @@ public class BattleUnit : BattleObject
         : base(exec, side)
     {
         this.unitData = unitData;
-        objectName = unitData.baseName;
-        unitHealth = unitData.baseHealth;
+        objectName = unitData.baseData.unitName;
+        unitHealth = unitData.unitHealth;
 
         currentTile = BUnitHelperFunc.GetSpawnLoc(this);
         position = currentTile.position;
@@ -41,10 +41,7 @@ public class BattleUnit : BattleObject
 
         moveState = MoveStates.noTarget;
 
-        //FIX ME
-        executor.eventHandler.DamageDealt += this.OnDamageDealt;
-        executor.eventHandler.DamageTaken += this.OnDamageTaken;
-        executor.eventHandler.UnitDeath += this.OnUnitDeath;
+        EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
 
         executor.timeline.AddTimelineEvent(new TimelineSpawn(unitData, globalObjectId, side,
             0, position.x, position.y, position.z));
@@ -72,7 +69,7 @@ public class BattleUnit : BattleObject
         if (moveState == MoveStates.noTarget)
         {
             LookForward();
-            if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitData.baseRange)
+            if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitData.unitRange)
             {
                 moveState = MoveStates.inRange;
             }
@@ -101,7 +98,7 @@ public class BattleUnit : BattleObject
                 Debug.Log(objectName + " (" + globalObjectId + ") moved in range");
             }
             */
-            position = Vector3.MoveTowards(position, targetTile.position, unitData.baseMoveSpeed);
+            position = Vector3.MoveTowards(position, targetTile.position, unitData.unitMoveSpeed);
             if (Vector3.Distance(position, currentTile.position)
                 < Vector3.Distance(position, targetTile.position))
             {
@@ -112,7 +109,7 @@ public class BattleUnit : BattleObject
             {
                 Debug.Log("Tile arrived");
                 targetTile = null;
-                if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitData.baseRange)
+                if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitData.unitRange)
                 {
                     moveState = MoveStates.inRange;
                     Debug.Log(objectName + " (" + globalObjectId + ") moved in range");
@@ -155,9 +152,9 @@ public class BattleUnit : BattleObject
     /// </summary>
     public virtual void DealDamage(BattleUnit damageTarget)
     {
-        executor.eventHandler.OnDamageDealt(this, damageTarget, unitData.baseAttack);
+        executor.eventHandler.OnDamageDealt(this, damageTarget, unitData.unitAttack);
         executor.timeline.AddTimelineEvent(new TimelineDamageDealt(this.globalObjectId,
-            damageTarget.globalObjectId, unitData.baseAttack));
+            damageTarget.globalObjectId, unitData.unitAttack));
     }
 
     //FIX ME: unsubscribe from events

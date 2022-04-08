@@ -9,6 +9,7 @@ public class BattleExecutor : MonoBehaviour
     public ReplayExecutor replayExecutor;
 
     public Timeline timeline;
+    public UDListScriptableObject dataListSO;
 
     public int globalTick;
     /// <summary>
@@ -105,8 +106,8 @@ public class BattleExecutor : MonoBehaviour
         playerObjects = new List<BattleObject>[] { playerObjects0, playerObjects1 };
 
         //init team
-        TeamData team0 = new TeamData(0);
-        TeamData team1 = new TeamData(1);
+        TeamData team0 = new TeamData(dataListSO, 0);
+        TeamData team1 = new TeamData(dataListSO, 1);
 
         foreach (UnitData i in team0.unitList)
         {

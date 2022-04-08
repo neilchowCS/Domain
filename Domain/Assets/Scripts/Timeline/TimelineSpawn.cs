@@ -40,7 +40,7 @@ public class TimelineSpawn : TimelineEvent
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
     {
-        GameObject x = GameObject.Instantiate(replayExecutor.rm.prefabs[unitData.id]);
+        GameObject x = GameObject.Instantiate(replayExecutor.rm.prefabs[unitData.baseData.unitId]);
         x.transform.position = new Vector3(spawnPosX, spawnPosY + .5f, spawnPosZ);
         if (side == 1)
         {
@@ -50,13 +50,13 @@ public class TimelineSpawn : TimelineEvent
         replayExecutor.replayUnits.Add(x.GetComponent<ReplayUnit>());
         replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].globalId = globalSpawnId;
         replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].unitData = unitData;
-        replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].currentHealth = unitData.baseHealth;
+        replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].currentHealth = unitData.unitHealth;
 
 
         GameObject y = GameObject.Instantiate(replayExecutor.rm.profile);
         replayExecutor.profiles.Add(y.GetComponent<ReplayProfile>());
         replayExecutor.profiles[replayExecutor.profiles.Count - 1].globalId = globalSpawnId;
-        replayExecutor.profiles[replayExecutor.profiles.Count - 1].SetName(unitData.baseName);
+        replayExecutor.profiles[replayExecutor.profiles.Count - 1].SetName(unitData.baseData.unitName);
         y.transform.SetParent(replayExecutor.rm.profileParent.transform, false);
         if (side == 1)
         {

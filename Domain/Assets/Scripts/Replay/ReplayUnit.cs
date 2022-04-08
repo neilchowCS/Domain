@@ -26,7 +26,7 @@ public class ReplayUnit : ReplayObject
     // Update is called once per frame
     public virtual void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward * unitData.baseRange);
+        Debug.DrawRay(transform.position, transform.forward * unitData.unitRange);
         if (target != null)
         {
             Vector3 direction = (target.transform.position - this.transform.position).normalized;
@@ -41,7 +41,7 @@ public class ReplayUnit : ReplayObject
         }
         if (moving)
         {
-            float MoveSpeed = unitData.baseMoveSpeed * 2;
+            float MoveSpeed = unitData.unitMoveSpeed * 2;
             this.transform.position = Vector3.MoveTowards(this.transform.position,
                 destination, Time.deltaTime * MoveSpeed);
         }
