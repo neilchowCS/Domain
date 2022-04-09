@@ -36,6 +36,7 @@ public class TimelineDeath : TimelineEvent
         }
         if (self != null)
         {
+            //FIXME play death anim
             self.gameObject.SetActive(false);
             GameObject.Destroy(self.healthBar.gameObject);
         }

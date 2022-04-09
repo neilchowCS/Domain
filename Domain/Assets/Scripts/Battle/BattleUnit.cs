@@ -66,76 +66,20 @@ public class BattleUnit : BattleObject
 
     /// <summary>
     /// Handles movement during OnTickUp().
-    /// FIXME
     /// </summary>
     public virtual void TickUpMove()
     {
         if (moveState == MoveStates.noTarget)
         {
-            LookForward();
-            if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitData.unitRange)
-            {
-                moveState = MoveStates.inRange;
-            }
-            else
-            {
-                //FIX ME
-                moveState = MoveStates.movingToTile;
-                targetTile = BUnitHelperFunc.GetNextBattleTile(this, currentTarget);
-                executor.timeline.AddTimelineEvent(new TimelineMove(globalObjectId,
-                0, targetTile.position.x, targetTile.position.y, targetTile.position.z));
-                if (targetTile.occupied)
-                {
-                    Debug.Log("Uh oh!");
-                }
-                targetTile.occupied = true;
-            }
+            BattleMovement.TargetDecision(this);
         }
         else if (moveState == MoveStates.movingToTile)
         {
-            /*
-            Debug.Log(objectName + " (" + globalObjectId + ") attempting to move");
-            position = Vector3.MoveTowards(position, currentTarget.position, unitMoveSpeed);
-            if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitRange)
-            {
-                moveState = MoveStates.inRange;
-                Debug.Log(objectName + " (" + globalObjectId + ") moved in range");
-            }
-            */
-            position = Vector3.MoveTowards(position, targetTile.position, unitData.unitMoveSpeed);
-            if (Vector3.Distance(position, currentTile.position)
-                < Vector3.Distance(position, targetTile.position))
-            {
-                currentTile.occupied = false;
-                currentTile = targetTile;
-            }
-            if (Vector3.Distance(position, targetTile.position) < 0.000001f)
-            {
-                Debug.Log("Tile arrived");
-                targetTile = null;
-                if (BUnitHelperFunc.GetBattleUnitDistance(this, currentTarget) <= unitData.unitRange)
-                {
-                    moveState = MoveStates.inRange;
-                    Debug.Log(objectName + " (" + globalObjectId + ") moved in range");
-                }
-                else
-                {
-                    moveState = MoveStates.tileArrived;
-                }
-
-            }
+            BattleMovement.MoveTowardsNext(this);
         }
         else if (moveState == MoveStates.tileArrived)
         {
-            moveState = MoveStates.movingToTile;
-            targetTile = BUnitHelperFunc.GetNextBattleTile(this, currentTarget);
-            executor.timeline.AddTimelineEvent(new TimelineMove(globalObjectId,
-                0, targetTile.position.x, targetTile.position.y, targetTile.position.z));
-            if (targetTile.occupied)
-            {
-                Debug.Log("Uh oh!");
-            }
-            targetTile.occupied = true;
+            BattleMovement.TargetDecision(this);
         }
     }
 
