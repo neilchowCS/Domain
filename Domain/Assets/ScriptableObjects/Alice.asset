@@ -27,3 +27,4 @@ MonoBehaviour:
   baseCrit: 2
   baseCritChance: 0.1
   eventSubscriptions: 0100010000
+  healthBarPrefab: {fileID: 6647489774567441945, guid: e6b6ce823b3044bc4a0f747dffe33241, type: 3}

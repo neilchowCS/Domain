@@ -16,7 +16,7 @@ public class BattleUnit : BattleObject
     public BattleTile currentTile;
     public BattleTile targetTile;
 
-    public BattleUnit currentTarget;
+    public BattleUnit currentTarget = null;
 
     public bool needsCleaning = false;
 
@@ -24,10 +24,10 @@ public class BattleUnit : BattleObject
     /// <summary>
     /// noTarget, movingToTile, tileArrived, inRange, stopped.
     /// </summary>
-    public MoveStates moveState;
+    public MoveStates moveState = MoveStates.noTarget;
 
     /// <summary>
-    /// FIX ME: event subscription
+    /// BattleUnit constructor
     /// </summary>
     public BattleUnit(BattleExecutor exec, int side, UnitData unitData)
         : base(exec, side)
@@ -39,9 +39,10 @@ public class BattleUnit : BattleObject
         currentTile = BUnitHelperFunc.GetSpawnLoc(this);
         position = currentTile.position;
         currentTile.occupied = true;
-        currentTarget = null;
 
-        moveState = MoveStates.noTarget;
+        //currentTarget = null;
+
+        //moveState = MoveStates.noTarget;
 
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
 
@@ -65,6 +66,7 @@ public class BattleUnit : BattleObject
 
     /// <summary>
     /// Handles movement during OnTickUp().
+    /// FIXME
     /// </summary>
     public virtual void TickUpMove()
     {
@@ -221,10 +223,6 @@ public class BattleUnit : BattleObject
             Debug.Log(objectName + " (" + globalObjectId + ") has no target");
         }
     }
-    /*
-     * 
-            
-    */
 
     public virtual void OnDamageTaken(BattleUnit damageTarget, BattleUnit damageSource, int amount)
     {
