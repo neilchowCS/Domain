@@ -64,6 +64,7 @@ public class BattleExecutor : MonoBehaviour
         if (IsRunning())
         {
             eventHandler.OnTickUp();
+            CleanUp();
         }
         else
         {
@@ -72,7 +73,7 @@ public class BattleExecutor : MonoBehaviour
             timeline.AddTimelineEvent(new TimelineEnd());
             replayExecutor.StartReplay(timeline);
         }
-        if (globalTick> 200)
+        if (globalTick > 200)
         {
             Debug.Log("Player timed out!");
             run = false;
@@ -102,7 +103,7 @@ public class BattleExecutor : MonoBehaviour
         player1Dead = new List<BattleUnit>();
         playerObjects1 = new List<BattleObject>();
 
-        playerUnits = new List<BattleUnit>[] { player0, player0Dead, player1 , player1Dead};
+        playerUnits = new List<BattleUnit>[] { player0, player0Dead, player1, player1Dead };
         playerObjects = new List<BattleObject>[] { playerObjects0, playerObjects1 };
 
         //init team
@@ -111,12 +112,31 @@ public class BattleExecutor : MonoBehaviour
 
         foreach (UnitData i in team0.unitList)
         {
-            player0.Add(i.GetBattleUnit(this, 0));
+            player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0, i));
         }
         foreach (UnitData i in team1.unitList)
         {
-            player1.Add(i.GetBattleUnit(this, 1));
+            player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1, i));
         }
     }
 
+    private void CleanUp()
+    {
+        foreach (BattleUnit unit in player0Dead)
+        {
+            if (unit.needsCleaning)
+            {
+                eventHandler.TickUp -= unit.OnTickUp;
+                unit.needsCleaning = false;
+            }
+        }
+        foreach (BattleUnit unit in player1Dead)
+        {
+            if (unit.needsCleaning)
+            {
+                eventHandler.TickUp -= unit.OnTickUp;
+                unit.needsCleaning = false;
+            }
+        }
+    }
 }

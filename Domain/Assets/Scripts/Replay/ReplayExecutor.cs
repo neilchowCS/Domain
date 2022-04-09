@@ -4,43 +4,54 @@ using UnityEngine;
 
 public class ReplayExecutor : MonoBehaviour
 {
-    public ReplayManager rm;
+    public ReplayManager replayManager;
     public Timeline timeline;
     public List<ReplayObject> replayObjects;
     public List<ReplayUnit> replayUnits;
     public List<ReplayProfile> profiles;
     public int index;
     public float timer;
-    public bool replayRun = false;
+    //public bool replayRun = false;
 
-    public int side0 = 0;
-    public int side1 = 0;
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        this.enabled = false;
     }
 
     // Update is called once per frame
     
     void Update()
     {
-        if (replayRun)
-        {
             timer += Time.deltaTime;
             if (timer >= .5f)
             {
                 Advance();
                 timer = 0;
             }
-        }
     }
 
     public void StartReplay(Timeline t)
     {
-        this.enabled = true;
+        ClearRemnants();
+        InitializeState(t);
 
+        Advance();
+    }
+
+    public void Advance()
+    {
+        if (timeline.timeEvent.ContainsKey(index))
+        {
+            for (int i = 0; i < timeline.timeEvent[index].Count; i++)
+            {
+                timeline.timeEvent[index][i].ExecuteEvent(this);
+            }
+        }
+        index++;
+    }
+    
+    public void ClearRemnants()
+    {
         if (replayObjects != null)
         {
             foreach (ReplayObject x in replayObjects)
@@ -57,8 +68,11 @@ public class ReplayExecutor : MonoBehaviour
             }
 
         }
-        side0 = 0;
-        side1 = 0;
+    }
+
+    public void InitializeState(Timeline t)
+    {
+        this.enabled = true;
 
         replayObjects = new List<ReplayObject>();
         replayUnits = new List<ReplayUnit>();
@@ -67,20 +81,19 @@ public class ReplayExecutor : MonoBehaviour
         timeline = t;
         index = 0;
         timer = 0;
-        replayRun = true;
-
-        Advance();
     }
 
-    public void Advance()
+    public int GetNumberOfSide(int side)
     {
-        if (timeline.timeEvent.ContainsKey(index))
+        int count = 0;
+        foreach (ReplayUnit unit in replayUnits)
         {
-            for (int i = 0; i < timeline.timeEvent[index].Count; i++)
+            if (unit.side == side)
             {
-                timeline.timeEvent[index][i].ExecuteEvent(this);
+                count++;
             }
         }
-        index++;
+        return count;
     }
+
 }

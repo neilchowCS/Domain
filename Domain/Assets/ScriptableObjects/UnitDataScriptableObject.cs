@@ -22,4 +22,6 @@ public class UnitDataScriptableObject : ScriptableObject
     public float baseCritChance;
 
     public bool[] eventSubscriptions;
+
+    public HealthBar healthBarPrefab;
 }

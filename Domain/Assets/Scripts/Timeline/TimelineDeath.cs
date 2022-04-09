@@ -26,19 +26,18 @@ public class TimelineDeath : TimelineEvent
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
     {
-        ReplayObject self = null;
-        foreach (ReplayObject rO in replayExecutor.replayObjects)
+        ReplayUnit self = null;
+        foreach (ReplayUnit rU in replayExecutor.replayUnits)
         {
-            if (rO.globalId == selfId)
+            if (rU.globalId == selfId)
             {
-                self = rO;
+                self = rU;
             }
         }
         if (self != null)
         {
-            replayExecutor.replayObjects.Remove(self);
-            replayExecutor.replayUnits.Remove(self.gameObject.GetComponent<ReplayUnit>());
-            GameObject.Destroy(self.gameObject);
+            self.gameObject.SetActive(false);
+            self.healthBar.gameObject.SetActive(false);
         }
     }
 }

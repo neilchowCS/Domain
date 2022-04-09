@@ -18,6 +18,8 @@ public class BattleUnit : BattleObject
 
     public BattleUnit currentTarget;
 
+    public bool needsCleaning = false;
+
     public enum MoveStates { noTarget, movingToTile, tileArrived, inRange, stopped };
     /// <summary>
     /// noTarget, movingToTile, tileArrived, inRange, stopped.
@@ -58,6 +60,7 @@ public class BattleUnit : BattleObject
         {
             TickUpMove();
             TickUpAttack();
+            Debug.Log(needsCleaning);
         }
     }
 
@@ -155,6 +158,7 @@ public class BattleUnit : BattleObject
         executor.eventHandler.OnDamageDealt(this, damageTarget, unitData.unitAttack);
         executor.timeline.AddTimelineEvent(new TimelineDamageDealt(this.globalObjectId,
             damageTarget.globalObjectId, unitData.unitAttack));
+
     }
 
     //FIX ME: unsubscribe from events
@@ -171,7 +175,6 @@ public class BattleUnit : BattleObject
         executor.eventHandler.OnDamageTaken(this, damageSource, amount);
         if (unitHealth <= 0)
         {
-            executor.eventHandler.TickUp -= this.OnTickUp;
             executor.eventHandler.OnUnitDeath(this);
             executor.timeline.AddTimelineEvent(new TimelineDeath(globalObjectId));
         }
@@ -209,6 +212,7 @@ public class BattleUnit : BattleObject
                 executor.player1.Remove(this);
                 executor.player1Dead.Add(this);
             }
+            needsCleaning = true;
         }
 
         if (deadUnit == currentTarget)
@@ -218,6 +222,10 @@ public class BattleUnit : BattleObject
             Debug.Log(objectName + " (" + globalObjectId + ") has no target");
         }
     }
+    /*
+     * 
+            
+    */
 
     public virtual void OnDamageTaken(BattleUnit damageTarget, BattleUnit damageSource, int amount)
     {

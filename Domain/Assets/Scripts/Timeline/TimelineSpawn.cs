@@ -40,37 +40,45 @@ public class TimelineSpawn : TimelineEvent
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
     {
-        GameObject x = GameObject.Instantiate(replayExecutor.rm.prefabs[unitData.baseData.unitId]);
-        x.transform.position = new Vector3(spawnPosX, spawnPosY + .5f, spawnPosZ);
+        ReplayUnit x = GameObject.Instantiate(replayExecutor.replayManager.prefabs[unitData.baseData.unitId]).GetComponent<ReplayUnit>();
+
+        InitProfile(replayExecutor);
+        InitUnit(replayExecutor, x);
+    }
+
+    public void InitUnit(ReplayExecutor executor, ReplayUnit unit)
+    {
+        unit.transform.position = new Vector3(spawnPosX, spawnPosY + .5f, spawnPosZ);
         if (side == 1)
         {
-            x.transform.rotation = Quaternion.Euler(0, -90, 0);
+            unit.transform.rotation = Quaternion.Euler(0, -90, 0);
+            unit.side = side;
         }
-        replayExecutor.replayObjects.Add(x.GetComponent<ReplayUnit>());
-        replayExecutor.replayUnits.Add(x.GetComponent<ReplayUnit>());
-        replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].globalId = globalSpawnId;
-        replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].unitData = unitData;
-        replayExecutor.replayUnits[replayExecutor.replayUnits.Count - 1].currentHealth = unitData.unitHealth;
+        executor.replayObjects.Add(unit);
+        executor.replayUnits.Add(unit);
+        unit.globalId = globalSpawnId;
+        unit.unitData = unitData;
+        unit.currentHealth = unitData.unitHealth;
+    }
 
-
-        GameObject y = GameObject.Instantiate(replayExecutor.rm.profile);
-        replayExecutor.profiles.Add(y.GetComponent<ReplayProfile>());
-        replayExecutor.profiles[replayExecutor.profiles.Count - 1].globalId = globalSpawnId;
-        replayExecutor.profiles[replayExecutor.profiles.Count - 1].SetName(unitData.baseData.unitName);
-        y.transform.SetParent(replayExecutor.rm.profileParent.transform, false);
+    public void InitProfile(ReplayExecutor executor)
+    {
+        ReplayProfile y = GameObject.Instantiate(executor.replayManager.profile).GetComponent<ReplayProfile>();
+        executor.profiles.Add(y);
+        y.globalId = globalSpawnId;
+        y.SetName(unitData.baseData.unitName);
+        y.transform.SetParent(executor.replayManager.profileParent.transform, false);
         if (side == 1)
         {
             y.transform.localPosition = new Vector3(-y.transform.localPosition.x,
-                y.transform.localPosition.y - (replayExecutor.side1)* 75 ,
+                y.transform.localPosition.y - (executor.GetNumberOfSide(1)) * 75,
                 y.transform.localPosition.z);
-            replayExecutor.side1++;
         }
         else
         {
             y.transform.localPosition = new Vector3(y.transform.localPosition.x,
-                y.transform.localPosition.y - (replayExecutor.side0) * 75,
+                y.transform.localPosition.y - (executor.GetNumberOfSide(0)) * 75,
                 y.transform.localPosition.z);
-            replayExecutor.side0++;
         }
     }
 }

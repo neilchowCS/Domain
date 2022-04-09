@@ -23,21 +23,4 @@ public class UnitData
     {
         baseData = i;
     }
-
-    public BattleUnit GetBattleUnit(BattleExecutor exec, int side)
-    {
-        BattleUnit output = null;
-        switch (baseData.unitId)
-        {
-            case 0:
-                output = new AliceBU(exec, side, this);
-                break;
-            case 1:
-                output = new BobBU(exec, side, this);
-                break;
-        }
-        return output;
-    }
-
-
 }

@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class ReplayUnit : ReplayObject
 {
-    public HealthBar healthBar;
+    public int side = 0;
     public UnitData unitData;
-    public int currentHealth;
+    public HealthBar healthBar;
 
+    public int currentHealth;
     public ReplayObject target;
     public Vector3 destination;
     public bool moving;
+
     // Start is called before the first frame update
     public virtual void Start()
     {
         moving = false;
-        HealthBar x = Instantiate(healthBar);
+        healthBar = Instantiate(unitData.baseData.healthBarPrefab);
         if (this.transform.position.x >= 0)
         {
-            x.child.GetComponent<SpriteRenderer>().color = Color.red;
+            healthBar.child.GetComponent<SpriteRenderer>().color = Color.red;
         }
-        x.parent = this;
+        healthBar.parent = this;
     }
 
     // Update is called once per frame

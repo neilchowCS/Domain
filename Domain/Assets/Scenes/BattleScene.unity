@@ -10013,15 +10013,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19fef32577394fd9b59690a68853a9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rm: {fileID: 1969906531}
+  replayManager: {fileID: 1969906531}
   replayObjects: []
   replayUnits: []
   profiles: []
   index: 0
   timer: 0
   replayRun: 0
-  side0: 0
-  side1: 0
 --- !u!114 &1969906531
 MonoBehaviour:
   m_ObjectHideFlags: 0

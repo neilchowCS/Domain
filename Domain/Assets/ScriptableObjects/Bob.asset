@@ -26,4 +26,4 @@ MonoBehaviour:
   baseTickPerMana: 20
   baseCrit: 2
   baseCritChance: 0.1
-  eventSubscriptions: 0101010001
+  eventSubscriptions: 0100010000

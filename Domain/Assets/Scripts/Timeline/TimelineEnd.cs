@@ -11,7 +11,6 @@ public class TimelineEnd : TimelineEvent
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
     {
-        replayExecutor.replayRun = false;
         replayExecutor.enabled = false;
     }
 }
