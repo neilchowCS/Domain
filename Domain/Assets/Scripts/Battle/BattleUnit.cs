@@ -56,11 +56,10 @@ public class BattleUnit : BattleObject
     /// </summary>
     public override void OnTickUp()
     {
-        if (executor.IsRunning())
+        if (executor.IsRunning(side))
         {
             TickUpMove();
             TickUpAttack();
-            Debug.Log(needsCleaning);
         }
     }
 

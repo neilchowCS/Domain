@@ -85,6 +85,18 @@ public class BattleExecutor : MonoBehaviour
         return player0.Count > 0 && player1.Count > 0;
     }
 
+    public bool IsRunning(int i)
+    {
+        if (i == 0)
+        {
+            return player1.Count > 0;
+        }else if (i == 1)
+        {
+            return player0.Count > 0;
+        }
+        return false;
+    }
+
     private void InitState()
     {
         eventHandler = new BattleEventHandler(this);

@@ -37,7 +37,7 @@ public class TimelineDeath : TimelineEvent
         if (self != null)
         {
             self.gameObject.SetActive(false);
-            self.healthBar.gameObject.SetActive(false);
+            GameObject.Destroy(self.healthBar.gameObject);
         }
     }
 }
