@@ -11,23 +11,25 @@ public class ReplayExecutor : MonoBehaviour
     public List<ReplayProfile> profiles;
     public int index;
     public float timer;
+    public float secondsPerTick;
     //public bool replayRun = false;
 
     void Awake()
     {
         this.enabled = false;
+        secondsPerTick = 1f / TickSpeed.ticksPerSecond;
     }
 
     // Update is called once per frame
-    
+
     void Update()
     {
-            timer += Time.deltaTime;
-            if (timer >= .5f)
-            {
-                Advance();
-                timer = 0;
-            }
+        timer += Time.deltaTime;
+        if (timer >= secondsPerTick)
+        {
+            Advance();
+            timer -= secondsPerTick;
+        }
     }
 
     public void StartReplay(Timeline t)
@@ -49,7 +51,7 @@ public class ReplayExecutor : MonoBehaviour
         }
         index++;
     }
-    
+
     public void ClearRemnants()
     {
         if (replayObjects != null)

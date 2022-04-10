@@ -43,7 +43,7 @@ public class ReplayUnit : ReplayObject
         }
         if (moving)
         {
-            float MoveSpeed = unitData.unitMoveSpeed * 2;
+            float MoveSpeed = unitData.unitMoveSpeed;
             this.transform.position = Vector3.MoveTowards(this.transform.position,
                 destination, Time.deltaTime * MoveSpeed);
         }

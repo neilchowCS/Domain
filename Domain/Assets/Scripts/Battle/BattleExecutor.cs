@@ -73,7 +73,7 @@ public class BattleExecutor : MonoBehaviour
             timeline.AddTimelineEvent(new TimelineEnd());
             replayExecutor.StartReplay(timeline);
         }
-        if (globalTick > 200)
+        if (globalTick > 4000)
         {
             Debug.Log("Player timed out!");
             run = false;

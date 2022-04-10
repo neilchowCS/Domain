@@ -26,6 +26,8 @@ public class BattleUnit : BattleObject
     /// </summary>
     public MoveStates moveState = MoveStates.noTarget;
 
+    public float attackCounter = 0;
+
     /// <summary>
     /// BattleUnit constructor
     /// </summary>
@@ -88,9 +90,17 @@ public class BattleUnit : BattleObject
     /// </summary>
     public virtual void TickUpAttack()
     {
-        if (moveState == MoveStates.inRange)
+        if (attackCounter < 1)
         {
-            DealDamage(currentTarget);
+            if (moveState == MoveStates.inRange)
+            {
+                DealDamage(currentTarget);
+                attackCounter = unitData.unitAttackSpeed;
+            }
+        }
+        else
+        {
+            attackCounter -= 1;
         }
     }
 
@@ -175,6 +185,7 @@ public class BattleUnit : BattleObject
 
     /// <summary>
     /// Sets currentTarget for this BattleUnit.
+    /// FIXME uneccessary code?? refactor
     /// </summary>
     public virtual void LookForward()
     {

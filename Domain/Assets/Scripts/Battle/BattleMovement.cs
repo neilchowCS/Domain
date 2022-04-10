@@ -24,9 +24,11 @@ static class BattleMovement
     }
 
     /// <summary>
-    /// Find target
-    /// Check if in range or not
-    /// change states and prepare movement
+    /// Find target.
+    /// Check if in range or not.
+    /// Change states and prepare movement.
+    /// Decision to place state in range.
+    /// Contains timeline update.
     /// </summary>
     public static void TargetDecision(BattleUnit unit)
     {
@@ -40,7 +42,6 @@ static class BattleMovement
             //FIX ME
             unit.moveState = BattleUnit.MoveStates.movingToTile;
             BattleMovement.PrepareMovement(unit);
-
         }
     }
 
@@ -49,7 +50,7 @@ static class BattleMovement
     /// </summary>
     public static void MoveTowardsNext(BattleUnit unit)
     {
-        unit.position = Vector3.MoveTowards(unit.position, unit.targetTile.position, unit.unitData.unitMoveSpeed);
+        unit.position = Vector3.MoveTowards(unit.position, unit.targetTile.position, unit.unitData.unitMoveSpeed/TickSpeed.ticksPerSecond);
         if (Vector3.Distance(unit.position, unit.currentTile.position)
             < Vector3.Distance(unit.position, unit.targetTile.position))
         {
