@@ -94,7 +94,7 @@ public class BattleUnit : BattleObject
         {
             if (moveState == MoveStates.inRange)
             {
-                DealDamage(currentTarget);
+                SpawnProjectile();
                 attackCounter = unitData.unitAttackSpeed;
             }
         }
@@ -102,6 +102,19 @@ public class BattleUnit : BattleObject
         {
             attackCounter -= 1;
         }
+    }
+
+    public virtual void SpawnProjectile()
+    {
+        BattleProjectile x = new BattleProjectile(executor, side, this, 0, currentTarget);
+        
+        executor.playerObjects0.Add(x);
+        executor.timeline.AddTimelineEvent(new TimelineProjectile(globalObjectId, currentTarget.globalObjectId));
+    }
+
+    public virtual void ProjectileHit(BattleUnit target)
+    {
+        DealDamage(target);
     }
 
     /// <summary>
@@ -116,13 +129,12 @@ public class BattleUnit : BattleObject
 
     }
 
-    //FIX ME: unsubscribe from events
 
     /// <summary>
     /// Decreases this unit's health.
     /// Raises TakeDamage event.
     /// Checks if this is dead.
-    /// If true, unsubscribes and raises UnitDeath event.
+    /// If true, raises UnitDeath event.
     /// </summary>
     public virtual void TakeDamage(BattleUnit damageSource, int amount)
     {

@@ -24,4 +24,6 @@ public class UnitDataScriptableObject : ScriptableObject
     public bool[] eventSubscriptions;
 
     public HealthBar healthBarPrefab;
+
+    public List<ProjectileDataScriptableObject> projectileData;
 }

@@ -19,9 +19,9 @@ MonoBehaviour:
   baseAttack: 1
   baseDefense: 0
   baseMDefense: 0
-  baseAttackSpeed: 1
+  baseAttackSpeed: 20
   baseRange: 5.25
-  baseMoveSpeed: 0.75
+  baseMoveSpeed: 1.5
   baseMana: 10
   baseTickPerMana: 20
   baseCrit: 2
