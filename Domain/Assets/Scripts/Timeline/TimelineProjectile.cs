@@ -37,7 +37,7 @@ public class TimelineProjectile : TimelineEvent
     public void InitProjectile(ReplayExecutor executor, ReplayProjectile self,
         ReplayUnit source, ReplayUnit target)
     {
-        self.transform.position = source.transform.position;
+        self.transform.position = source.transform.position + new Vector3(0, 1, 0);
         self.target = target;
         /*
         if (side == 1)

@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fece079a77dad496289847d9d153f228, type: 3}
   m_Name: Projectile
   m_EditorClassIdentifier: 
-  projectile: {fileID: 0}
-  followTarget: 0
+  projectile: {fileID: 6901632286107021206, guid: a27c45c2ecb8046d9a5aa66b47efb8c6, type: 3}
+  travel: 1
+  followTarget: 1
+  delay: 0
+  speed: 12
