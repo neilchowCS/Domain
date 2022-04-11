@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleProjectile : BattleObject
 {
     public BattleUnit source;
-    public BattleUnit target = null;
+    public BattleUnit target;
     public Vector3 position;
     public Vector3 targetLocation;
     public ProjectileDataScriptableObject projectile;
@@ -30,7 +30,7 @@ public class BattleProjectile : BattleObject
 
     public override void OnTickUp()
     {
-        if (projectile.projectile && projectile.followTarget)
+        if (projectile.projectile && projectile.followTarget && target != null)
         {
             position = Vector3.MoveTowards(position, target.position,
                 projectile.speed * 1f / TickSpeed.ticksPerSecond);
@@ -46,9 +46,8 @@ public class BattleProjectile : BattleObject
     {
         if (deadUnit == target)
         {
-            target = null;
-            source.executor.eventHandler.TickUp -= OnTickUp;
-            source.executor.eventHandler.UnitDeath -= OnUnitDeath;
+            Debug.Log("Target dead");
+            Unassign();
         }
     }
 

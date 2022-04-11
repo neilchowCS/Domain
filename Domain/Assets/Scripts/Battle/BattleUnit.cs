@@ -106,10 +106,14 @@ public class BattleUnit : BattleObject
 
     public virtual void SpawnProjectile()
     {
-        BattleProjectile x = new BattleProjectile(executor, side, this, 0, currentTarget);
+        if (currentTarget != null)
+        {
+            BattleProjectile x = new BattleProjectile(executor, side, this, 0, currentTarget);
+
+            executor.playerObjects0.Add(x);
+            executor.timeline.AddTimelineEvent(new TimelineProjectile(globalObjectId, currentTarget.globalObjectId));
+        }
         
-        executor.playerObjects0.Add(x);
-        executor.timeline.AddTimelineEvent(new TimelineProjectile(globalObjectId, currentTarget.globalObjectId));
     }
 
     public virtual void ProjectileHit(BattleUnit target)
