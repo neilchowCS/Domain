@@ -19,9 +19,12 @@ public class TeamData
         if (i == 0)
         {
             AddUnitData(new UnitData(dataList.uDList[0]));
+            AddUnitData(new UnitData(dataList.uDList[1]));
             AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
+            AddUnitData(new UnitData(dataList.uDList[1]));
             /*
+            AddUnitData(new UnitData(dataList.uDList[0]));
+            AddUnitData(new UnitData(dataList.uDList[0]));
             AddUnitData(new UnitData(dataList.uDList[0]));
             AddUnitData(new UnitData(dataList.uDList[1]));
             */
@@ -29,11 +32,13 @@ public class TeamData
         else if (i == 1)
         {
             AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            /*
+            AddUnitData(new UnitData(dataList.uDList[1]));
             AddUnitData(new UnitData(dataList.uDList[0]));
             AddUnitData(new UnitData(dataList.uDList[1]));
+            /*
+            AddUnitData(new UnitData(dataList.uDList[0]));
+            AddUnitData(new UnitData(dataList.uDList[0]));
+            AddUnitData(new UnitData(dataList.uDList[0]));
             */
         }
     }

@@ -337,6 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalId: 0
+  image: {fileID: 7807559540704521316}
   profileName: {fileID: 7807559541270693215}
   damageNumber: {fileID: 7807559541685828205}
   bar: {fileID: 7807559540692034633}

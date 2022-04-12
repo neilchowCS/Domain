@@ -116,24 +116,6 @@ public class BattleUnit : BattleObject
         
     }
 
-    public virtual void ProjectileHit(BattleUnit target)
-    {
-        DealDamage(target);
-    }
-
-    /// <summary>
-    /// Raises DealDamage event.
-    /// Deals damage equal to unit's attack to damageTarget.
-    /// </summary>
-    public virtual void DealDamage(BattleUnit damageTarget)
-    {
-        executor.eventHandler.OnDamageDealt(this, damageTarget, unitData.unitAttack);
-        executor.timeline.AddTimelineEvent(new TimelineDamageDealt(this.globalObjectId,
-            damageTarget.globalObjectId, unitData.unitAttack));
-
-    }
-
-
     /// <summary>
     /// Decreases this unit's health.
     /// Raises TakeDamage event.

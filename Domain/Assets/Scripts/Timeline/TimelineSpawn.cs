@@ -67,6 +67,7 @@ public class TimelineSpawn : TimelineEvent
         executor.profiles.Add(y);
         y.globalId = globalSpawnId;
         y.SetName(unitData.baseData.unitName);
+        y.SetImage(unitData.baseData.unitSprite);
         y.transform.SetParent(executor.replayManager.profileParent.transform, false);
         if (side == 1)
         {

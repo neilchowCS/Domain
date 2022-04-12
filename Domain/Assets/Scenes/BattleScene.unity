@@ -5279,7 +5279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 4713311655651288796, guid: 00927272abfe848e59430a46b712a060, type: 3}
-  - {fileID: 4713311655651288796, guid: 00927272abfe848e59430a46b712a060, type: 3}
+  - {fileID: 5403786841203019931, guid: 726616deb01914f8c9600ca8e14f8c8a, type: 3}
   profile: {fileID: 7807559541628803033, guid: ae331ec6ea6b046fc839f3a7b45bc180, type: 3}
   profileParent: {fileID: 609977584}
 --- !u!114 &1969906532

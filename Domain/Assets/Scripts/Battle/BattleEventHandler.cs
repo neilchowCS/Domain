@@ -49,9 +49,12 @@ public class BattleEventHandler
     public virtual void OnDamageDealt(BattleUnit damageSource, BattleUnit damageTarget, int amount)
     {
         //Alice (x) dealt x damage to Alice(y)
-        Debug.Log(damageSource.objectName + " (" + damageSource.globalObjectId + ")"
+        if (damageSource != null)
+        {
+            Debug.Log(damageSource.objectName + " (" + damageSource.globalObjectId + ")"
             + " dealt " + amount + " damage to "
             + damageTarget.objectName + " (" + damageTarget.globalObjectId + ")");
+        }
         DamageDealtEventHandler handler = DamageDealt;
         //raise event
         handler?.Invoke(damageSource, damageTarget, amount);

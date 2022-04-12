@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ReplayProfile : MonoBehaviour
 {
     public int globalId;
+    public Image image;
     public TextMeshProUGUI profileName;
     public TextMeshProUGUI damageNumber;
     public GameObject bar;
@@ -22,6 +24,11 @@ public class ReplayProfile : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetImage(Sprite s)
+    {
+        image.sprite = s;
     }
 
     public void SetName(string name)
