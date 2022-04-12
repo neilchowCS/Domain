@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ReplayUnit : ReplayObject
 {
@@ -20,7 +21,7 @@ public class ReplayUnit : ReplayObject
         healthBar = Instantiate(unitData.baseData.healthBarPrefab);
         if (this.transform.position.x >= 0)
         {
-            healthBar.child.GetComponent<SpriteRenderer>().color = Color.red;
+            healthBar.child.GetComponent<Image>().color = Color.red;
         }
         healthBar.parent = this;
     }
