@@ -25,5 +25,5 @@ public class UnitDataScriptableObject : ScriptableObject
 
     public HealthBar healthBarPrefab;
 
-    public List<ProjectileDataScriptableObject> projectileData;
+    public List<UnitAttackDataScriptableObject> attackDataList;
 }

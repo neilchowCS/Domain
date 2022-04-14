@@ -21,7 +21,7 @@ public class ReplayUnit : ReplayObject
         healthBar = Instantiate(unitData.baseData.healthBarPrefab);
         if (this.transform.position.x >= 0)
         {
-            healthBar.child.GetComponent<Image>().color = Color.red;
+            healthBar.healthFill.GetComponent<Image>().color = Color.red;
         }
         healthBar.parent = this;
     }

@@ -10,6 +10,7 @@ public class BattleUnit : BattleObject
 {
     public UnitData unitData;
     public int unitHealth;
+    public int unitMana;
 
     public Vector3 position;
 
@@ -26,7 +27,7 @@ public class BattleUnit : BattleObject
     /// </summary>
     public MoveStates moveState = MoveStates.noTarget;
 
-    public float attackCounter = 0;
+    public float attackTimer = -10;
 
     /// <summary>
     /// BattleUnit constructor
@@ -90,28 +91,41 @@ public class BattleUnit : BattleObject
     /// </summary>
     public virtual void TickUpAttack()
     {
-        if (attackCounter < 1)
+        if (attackTimer == -10 || attackTimer >= 1f / unitData.unitAttackSpeed)
         {
             if (moveState == MoveStates.inRange)
             {
-                SpawnProjectile();
-                attackCounter = unitData.unitAttackSpeed;
+                SpawnProjectile(0);
+                attackTimer = 0;
+            }
+        }
+
+        attackTimer += TickSpeed.secondsPerTick;
+        /*
+        if (attackTimer < 1)
+        {
+            if (moveState == MoveStates.inRange)
+            {
+                SpawnProjectile(0);
+                attackTimer = unitData.unitAttackSpeed;
             }
         }
         else
         {
-            attackCounter -= 1;
+            attackTimer -= 1;
         }
+        */
     }
 
-    public virtual void SpawnProjectile()
+    public virtual void SpawnProjectile(int i)
     {
         if (currentTarget != null)
         {
             BattleProjectile x = new BattleProjectile(executor, side, this, 0, currentTarget);
 
             executor.playerObjects0.Add(x);
-            executor.timeline.AddTimelineEvent(new TimelineProjectile(globalObjectId, currentTarget.globalObjectId));
+            executor.timeline.AddTimelineEvent(
+                new TimelineProjectile(globalObjectId, currentTarget.globalObjectId, i));
         }
         
     }

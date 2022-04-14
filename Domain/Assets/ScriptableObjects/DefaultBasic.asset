@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fece079a77dad496289847d9d153f228, type: 3}
-  m_Name: Projectile
+  m_Script: {fileID: 11500000, guid: c6ffa8ebff9974463bfd75722c659aed, type: 3}
+  m_Name: DefaultBasic
   m_EditorClassIdentifier: 
+  attackType: Basic
   projectile: {fileID: 6901632286107021206, guid: a27c45c2ecb8046d9a5aa66b47efb8c6, type: 3}
   travel: 1
   followTarget: 1
-  delay: 0
   speed: 12
+  backswing: 7

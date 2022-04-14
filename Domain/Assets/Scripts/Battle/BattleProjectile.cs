@@ -10,7 +10,7 @@ public class BattleProjectile : BattleObject
     public BattleUnit target;
     public Vector3 position;
     public Vector3 targetLocation;
-    public ProjectileDataScriptableObject projectile;
+    public UnitAttackDataScriptableObject attackData;
 
     public BattleProjectile(BattleExecutor exec, int side, BattleUnit source,
         int index, BattleUnit target):base(exec, side)
@@ -18,7 +18,7 @@ public class BattleProjectile : BattleObject
         executor.eventHandler.UnitDeath += OnUnitDeath;
         this.source = source;
         this.position = source.position;
-        projectile = source.unitData.baseData.projectileData[index];
+        attackData = source.unitData.baseData.attackDataList[index];
         this.target = target;
         sourceAttack = source.unitData.unitAttack;
         sourceGlobalId = source.globalObjectId;
@@ -28,17 +28,17 @@ public class BattleProjectile : BattleObject
         int index, Vector3 target) : base(exec, side)
     {
         this.source = source;
-        projectile = source.unitData.baseData.projectileData[index];
+        attackData = source.unitData.baseData.attackDataList[index];
         this.targetLocation = target;
         sourceAttack = source.unitData.unitAttack;
     }
 
     public override void OnTickUp()
     {
-        if (projectile.projectile && projectile.followTarget && target != null)
+        if (attackData.projectile && attackData.followTarget && target != null)
         {
             position = Vector3.MoveTowards(position, target.position,
-                projectile.speed * 1f / TickSpeed.ticksPerSecond);
+                attackData.speed * 1f / TickSpeed.ticksPerSecond);
             if (Vector3.Distance(position, target.position) < 0.00001f)
             {
                 ProjectileEffect();

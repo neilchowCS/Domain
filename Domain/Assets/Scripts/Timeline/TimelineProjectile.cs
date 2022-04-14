@@ -6,10 +6,12 @@ public class TimelineProjectile : TimelineEvent
 {
     public int sourceId;
     public int targetId;
-    public TimelineProjectile(int sourceId, int targetId)
+    public int projectileIndex;
+    public TimelineProjectile(int sourceId, int targetId, int projectileIndex)
     {
         this.sourceId = sourceId;
         this.targetId = targetId;
+        this.projectileIndex = projectileIndex;
     }
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
@@ -29,7 +31,8 @@ public class TimelineProjectile : TimelineEvent
             }
         }
 
-        ReplayProjectile x = GameObject.Instantiate(source.unitData.baseData.projectileData[0].projectile);
+        ReplayProjectile x =
+            GameObject.Instantiate(source.unitData.baseData.attackDataList[projectileIndex].projectile);
 
         InitProjectile(replayExecutor, x, source, target);
     }
