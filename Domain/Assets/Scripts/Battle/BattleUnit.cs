@@ -119,8 +119,7 @@ public class BattleUnit : BattleObject
                 executor.timeline.AddTimelineEvent(
                 new TimelineManaChange(globalObjectId, unitMana));
                 backswing = unitData.baseData.attackDataList[1].backswing;
-            }
-            if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed)
+            }else if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed)
             {
                 if (moveState == MoveStates.inRange)
                 {
