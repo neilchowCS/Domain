@@ -9,6 +9,7 @@ using UnityEngine;
 public class BattleUnit : BattleObject
 {
     public UnitData unitData;
+    //FIXME
     public int unitHealth;
     public int unitMana;
 
@@ -27,7 +28,10 @@ public class BattleUnit : BattleObject
     /// </summary>
     public MoveStates moveState = MoveStates.noTarget;
 
-    public float attackTimer = -10;
+    public float attackTimer = 0;
+    public bool firstAttack = true;
+    public float backswing = 0;
+    public int manaCounter = 0;
 
     /// <summary>
     /// BattleUnit constructor
@@ -38,6 +42,7 @@ public class BattleUnit : BattleObject
         this.unitData = unitData;
         objectName = unitData.baseData.unitName;
         unitHealth = unitData.unitHealth;
+        unitMana = 0;
 
         currentTile = BUnitHelperFunc.GetSpawnLoc(this);
         position = currentTile.position;
@@ -62,13 +67,27 @@ public class BattleUnit : BattleObject
     {
         if (executor.IsRunning(side))
         {
+            TickUpMana();
             TickUpMove();
             TickUpAttack();
         }
     }
 
+    public virtual void TickUpMana()
+    {
+        manaCounter++;
+        if (manaCounter >= unitData.unitTickPerMana)
+        {
+            unitMana++;
+            executor.timeline.AddTimelineEvent(
+                new TimelineManaChange(globalObjectId, unitMana));
+            manaCounter = 0;
+        }
+    }
+
     /// <summary>
     /// Handles movement during OnTickUp().
+    /// FIXME bugged movement
     /// </summary>
     public virtual void TickUpMove()
     {
@@ -91,41 +110,56 @@ public class BattleUnit : BattleObject
     /// </summary>
     public virtual void TickUpAttack()
     {
-        if (attackTimer == -10 || attackTimer >= 1f / unitData.unitAttackSpeed)
+        if (backswing <= 0)
         {
-            if (moveState == MoveStates.inRange)
+            if (unitMana >= unitData.unitMana)
             {
-                SpawnProjectile(0);
-                attackTimer = 0;
+                SpawnProjectile(1);
+                unitMana = 0;
+                executor.timeline.AddTimelineEvent(
+                new TimelineManaChange(globalObjectId, unitMana));
+                backswing = unitData.baseData.attackDataList[1].backswing;
             }
-        }
-
-        attackTimer += TickSpeed.secondsPerTick;
-        /*
-        if (attackTimer < 1)
-        {
-            if (moveState == MoveStates.inRange)
+            if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed)
             {
-                SpawnProjectile(0);
-                attackTimer = unitData.unitAttackSpeed;
+                if (moveState == MoveStates.inRange)
+                {
+                    SpawnProjectile(0);
+                    attackTimer = 0;
+                    firstAttack = false;
+                    backswing = unitData.baseData.attackDataList[0].backswing;
+                }
             }
         }
         else
         {
-            attackTimer -= 1;
+            backswing--;
         }
-        */
+
+        attackTimer += TickSpeed.secondsPerTick;
     }
 
     public virtual void SpawnProjectile(int i)
     {
         if (currentTarget != null)
         {
-            BattleProjectile x = new BattleProjectile(executor, side, this, 0, currentTarget);
-
-            executor.playerObjects0.Add(x);
-            executor.timeline.AddTimelineEvent(
-                new TimelineProjectile(globalObjectId, currentTarget.globalObjectId, i));
+            BattleProjectile x = null;
+            switch (i)
+            {
+                case 0:
+                    x = new BattleProjectile(executor, side, this, i, currentTarget);
+                    break;
+                case 1:
+                    x = new AliceSkillBP(executor, side, this, i, currentTarget);
+                    break;
+            }
+            if (x != null)
+            {
+                executor.playerObjects0.Add(x);
+                executor.timeline.AddTimelineEvent(
+                    new TimelineProjectile(globalObjectId, currentTarget.globalObjectId, i));
+            }
+            
         }
         
     }

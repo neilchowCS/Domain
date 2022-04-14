@@ -5,8 +5,8 @@ using UnityEngine;
 public class BattleProjectile : BattleObject
 {
     public BattleUnit source;
-    private int sourceAttack;
-    private int sourceGlobalId;
+    protected int sourceAttack;
+    protected int sourceGlobalId;
     public BattleUnit target;
     public Vector3 position;
     public Vector3 targetLocation;
@@ -58,22 +58,22 @@ public class BattleProjectile : BattleObject
 
     public virtual void ProjectileEffect()
     {
-        DealDamage(target);
+        DealDamage(target, sourceAttack);
     }
 
     /// <summary>
     /// Raises DealDamage event.
     /// Deals damage equal to unit's attack to damageTarget.
     /// </summary>
-    public virtual void DealDamage(BattleUnit damageTarget)
+    public virtual void DealDamage(BattleUnit damageTarget, int amount)
     {
-        executor.eventHandler.OnDamageDealt(source, damageTarget, sourceAttack);
+        executor.eventHandler.OnDamageDealt(source, damageTarget, amount);
         executor.timeline.AddTimelineEvent(new TimelineDamageDealt(sourceGlobalId,
-            damageTarget.globalObjectId, sourceAttack));
+            damageTarget.globalObjectId, amount));
 
     }
 
-    public void Unassign()
+    public virtual void Unassign()
     {
         target = null;
         source.executor.eventHandler.TickUp -= OnTickUp;
