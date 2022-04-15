@@ -42,6 +42,7 @@ public class TimelineProjectile : TimelineEvent
     {
         self.transform.position = source.transform.position + new Vector3(0, 1, 0);
         self.target = target;
+        self.speed = source.unitData.baseData.attackDataList[projectileIndex].speed;
         /*
         if (side == 1)
         {

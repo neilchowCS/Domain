@@ -16,5 +16,5 @@ MonoBehaviour:
   projectile: {fileID: 6745758870691893061, guid: 70ebc532f7cac40538adb848d9915f50, type: 3}
   travel: 1
   followTarget: 1
-  speed: 12
+  speed: 7
   backswing: 7

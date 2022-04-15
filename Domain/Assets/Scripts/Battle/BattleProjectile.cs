@@ -38,7 +38,7 @@ public class BattleProjectile : BattleObject
         if (attackData.projectile && attackData.followTarget && target != null)
         {
             position = Vector3.MoveTowards(position, target.position,
-                attackData.speed * 1f / TickSpeed.ticksPerSecond);
+                attackData.speed / TickSpeed.ticksPerSecond);
             if (Vector3.Distance(position, target.position) < 0.00001f)
             {
                 ProjectileEffect();

@@ -23,7 +23,7 @@ MonoBehaviour:
   baseRange: 5.25
   baseMoveSpeed: 1.5
   baseMana: 10
-  baseTickPerMana: 20
+  baseTickPerMana: 12
   baseCrit: 2
   baseCritChance: 0.1
   eventSubscriptions: 0100010000
