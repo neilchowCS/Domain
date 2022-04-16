@@ -119,6 +119,9 @@ public class BattleUnit : BattleObject
                 executor.timeline.AddTimelineEvent(
                 new TimelineManaChange(globalObjectId, unitMana));
                 backswing = unitData.baseData.attackDataList[1].backswing;
+                //moveState = MoveStates.noTarget;
+                //why does it cease to move when not in range?
+                //FIXME
             }else if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed)
             {
                 if (moveState == MoveStates.inRange)

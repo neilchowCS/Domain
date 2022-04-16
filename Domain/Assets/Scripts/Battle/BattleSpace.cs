@@ -61,10 +61,12 @@ public class BattleSpace
                 if (num > count / 2)
                 {
                     tiles1.Add(x);
+                    Debug.Log(tiles1.Count);
                 }
                 else
                 {
                     tiles0.Add(x);
+                    Debug.Log(tiles0.Count);
                 }
             }
         }
