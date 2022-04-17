@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class TeamData
 {
-    public List<UnitData> unitList;
     public UDListScriptableObject dataList;
+
+    public List<UnitData> unitList;
+    public List<int> positionList;
 
     public TeamData()
     {
@@ -46,6 +48,12 @@ public class TeamData
     public void AddUnitData(UnitData data)
     {
         unitList.Add(data);
+    }
+
+    public void AddUnitData(UnitData data, int i)
+    {
+        unitList.Add(data);
+        positionList.Add(i);
     }
 
 }

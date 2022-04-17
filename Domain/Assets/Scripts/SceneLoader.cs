@@ -22,4 +22,9 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene("BattleScene", LoadSceneMode.Single);
     }
+
+    public void LoadTeamBuilder()
+    {
+        SceneManager.LoadScene("TeamBuilder", LoadSceneMode.Single);
+    }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HexCollider : MonoBehaviour
 {
+    public bool occupied = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,9 +16,15 @@ public class HexCollider : MonoBehaviour
     {
         
     }
-
+    /*
     public void OnMouseDown()
     {
         Debug.Log("collider clicked");
     }
+    
+    public void OnMouseOver()
+    {
+        Debug.Log("Highlight");
+    }
+    */
 }

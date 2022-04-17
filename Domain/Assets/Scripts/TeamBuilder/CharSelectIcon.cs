@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharSelectIcon : MonoBehaviour
 {
+    public TeamBuildManager manager;
+    public UnitDataScriptableObject unitData;
     public Vector3 initialPos;
+    public Image image;
+
     private bool drag = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        initialPos = this.transform.position;
+        
     }
 
     // Update is called once per frame
@@ -30,8 +36,17 @@ public class CharSelectIcon : MonoBehaviour
     {
         if (drag)
         {
+            manager.IconReleased(this);
             this.transform.position = initialPos;
             drag = false;
         }
+    }
+
+    public void SetInitial(Vector3 pos, UnitDataScriptableObject data)
+    {
+        this.transform.localPosition = pos;
+        initialPos = this.transform.position;
+        unitData = data;
+        image.sprite = data.unitSprite;
     }
 }
