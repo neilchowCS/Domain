@@ -12,12 +12,14 @@ public class TeamData
     public TeamData()
     {
         unitList = new List<UnitData>();
+        positionList = new List<int>();
     }
     
     public TeamData(UDListScriptableObject dl, int i)
     {
         dataList = dl;
         unitList = new List<UnitData>();
+        positionList = new List<int>();
         if (i == 0)
         {
             AddUnitData(new UnitData(dataList.uDList[0]));

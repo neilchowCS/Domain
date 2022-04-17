@@ -19,4 +19,19 @@ static class BattleUnitConstructor
         }
         return output;
     }
+
+    public static BattleUnit GetBattleUnit(BattleExecutor exec, int side, UnitData data, int tileId)
+    {
+        BattleUnit output = null;
+        switch (data.baseData.unitId)
+        {
+            case 0:
+                output = new AliceBU(exec, side, data, tileId);
+                break;
+            case 1:
+                output = new BobBU(exec, side, data, tileId);
+                break;
+        }
+        return output;
+    }
 }

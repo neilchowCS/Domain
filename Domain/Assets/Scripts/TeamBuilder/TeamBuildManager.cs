@@ -11,6 +11,7 @@ public class TeamBuildManager : MonoBehaviour
     public HexParent hexParent;
     public CharGridMarker marker;
     public List<CharGridMarker> markList;
+    public TeamMessenger teamMessenger;
 
     public int maxTeamSize = 4;
     public TeamData teamData;
@@ -37,25 +38,43 @@ public class TeamBuildManager : MonoBehaviour
 
     public void IconReleased(CharSelectIcon icon)
     {
-        foreach (HexCollider collider in hexParent.hexColliders)
+        //FIXME dynamically generate, replace with foreach
+        for (int i = 0; i < hexParent.hexColliders.Count; i++)
         {
-            //Debug.Log(icon.transform.position.z);
+            HexCollider collider = hexParent.hexColliders[i];
             if (collider.GetComponentInParent<PolygonCollider2D>().bounds.Contains(icon.transform.position))
             {
-                IconHit(icon, collider);
+                IconHit(icon, collider, i);
                 return;
             }
         }
     }
 
-    public void IconHit(CharSelectIcon icon, HexCollider collider)
+    public void IconHit(CharSelectIcon icon, HexCollider collider, int i)
     {
         if (!collider.occupied && markList.Count < maxTeamSize)
         {
             CharGridMarker temp = Instantiate(marker, charSelectParent.transform);
-            temp.SetInitial(collider.transform.position, icon.unitData);
+            temp.SetInitial(collider.transform.position, icon.unitData, i);
             collider.occupied = true;
             markList.Add(temp);
         }
+    }
+
+    public void ExportTeam()
+    {
+        TeamMessenger dontDestroy = Instantiate(teamMessenger);
+        GameObject.DontDestroyOnLoad(dontDestroy);
+        foreach(CharGridMarker mark in markList)
+        {
+            teamData.AddUnitData(new UnitData(mark.unitData), mark.positionId);
+        }
+        dontDestroy.teamData = teamData;
+    }
+
+    public void ExitToBattle()
+    {
+        ExportTeam();
+        SceneLoader.LoadBattle();
     }
 }

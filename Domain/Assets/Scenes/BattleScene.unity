@@ -502,7 +502,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 134861894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec78586dd633e4d9481186d31ecd1204, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a6a837db781b4abd9d448bb2e98bc6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &134861897
@@ -550,8 +550,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 134861896}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadTeamBuilder
+        m_TargetAssemblyTypeName: LoadTeamBuilder, Assembly-CSharp
+        m_MethodName: LoadTBScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

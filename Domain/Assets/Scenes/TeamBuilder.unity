@@ -2277,6 +2277,7 @@ MonoBehaviour:
   hexParent: {fileID: 1488227735}
   marker: {fileID: -6848569798024810456, guid: 0515cd64819774f99af9d9eaf5f4cc2c, type: 3}
   markList: []
+  teamMessenger: {fileID: 6270839139888991475, guid: 7b476ec8a28824966ab2b8bccd859d1a, type: 3}
   maxTeamSize: 4
 --- !u!1 &1773773977
 GameObject:
@@ -2687,7 +2688,6 @@ GameObject:
   - component: {fileID: 2016222282}
   - component: {fileID: 2016222281}
   - component: {fileID: 2016222280}
-  - component: {fileID: 2016222283}
   m_Layer: 5
   m_Name: ToBattle
   m_TagString: Untagged
@@ -2759,9 +2759,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2016222283}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadBattle
+      - m_Target: {fileID: 1574069103}
+        m_TargetAssemblyTypeName: TeamBuildManager, Assembly-CSharp
+        m_MethodName: ExitToBattle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2809,18 +2809,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016222278}
   m_CullTransparentMesh: 1
---- !u!114 &2016222283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016222278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec78586dd633e4d9481186d31ecd1204, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2082279071
 GameObject:
   m_ObjectHideFlags: 0

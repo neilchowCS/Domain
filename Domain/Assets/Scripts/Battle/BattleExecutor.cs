@@ -11,6 +11,9 @@ public class BattleExecutor : MonoBehaviour
     public Timeline timeline;
     public UDListScriptableObject dataListSO;
 
+    public TeamData team0;
+    public TeamData team1;
+
     public int globalTick;
     /// <summary>
     /// Holds delegates and events
@@ -119,17 +122,57 @@ public class BattleExecutor : MonoBehaviour
         playerObjects = new List<BattleObject>[] { playerObjects0, playerObjects1 };
 
         //init team
-        TeamData team0 = new TeamData(dataListSO, 0);
-        TeamData team1 = new TeamData(dataListSO, 1);
+        if (!ReadTeamMessenger())
+        {
+            Debug.Log("here");
+            team0 = new TeamData(dataListSO, 0);
+        }
+        team1 = new TeamData(dataListSO, 1);
 
-        foreach (UnitData i in team0.unitList)
+        for (int i = 0; i < team0.unitList.Count; i++)
         {
-            player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0, i));
+            if (team0.unitList.Count == team0.positionList.Count)
+            {
+                player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0,
+                    team0.unitList[i], team0.positionList[i]));
+            }
+            else
+            {
+                player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0, team0.unitList[i]));
+            }
         }
-        foreach (UnitData i in team1.unitList)
+
+        for (int i = 0; i < team0.unitList.Count; i++)
         {
-            player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1, i));
+            if (team1.unitList.Count == team1.positionList.Count)
+            {
+                player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1,
+                    team1.unitList[i], team1.positionList[i]));
+            }
+            else
+            {
+                player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1, team1.unitList[i]));
+            }
         }
+    }
+
+    /// <summary>
+    /// returns false if no messenger found
+    /// </summary>
+    private bool ReadTeamMessenger()
+    {
+        TeamMessenger m;
+        m = FindObjectOfType<TeamMessenger>();
+        if (m != null)
+        {
+            team0 = m.teamData;
+            foreach(TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
+            {
+                Destroy(messenger.gameObject);
+            }
+            return true;
+        }
+        return false;
     }
 
     private void CleanUp()

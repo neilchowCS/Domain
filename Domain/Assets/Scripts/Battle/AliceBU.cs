@@ -14,4 +14,10 @@ public class AliceBU : BattleUnit
     {
         
     }
+
+    public AliceBU(BattleExecutor exec, int side, UnitData unitData, int tileId)
+        : base(exec, side, unitData, tileId)
+    {
+
+    }
 }

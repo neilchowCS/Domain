@@ -60,6 +60,32 @@ public class BattleUnit : BattleObject
     }
 
     /// <summary>
+    /// BattleUnit constructor
+    /// </summary>
+    public BattleUnit(BattleExecutor exec, int side, UnitData unitData, int tileId)
+        : base(exec, side)
+    {
+        this.unitData = unitData;
+        objectName = unitData.baseData.unitName;
+        unitHealth = unitData.unitHealth;
+        unitMana = 0;
+
+        currentTile = exec.battleSpace.tiles0[tileId];
+        position = currentTile.position;
+        currentTile.occupied = true;
+
+        //currentTarget = null;
+
+        //moveState = MoveStates.noTarget;
+
+        EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
+
+        executor.timeline.AddTimelineEvent(new TimelineSpawn(unitData, globalObjectId, side,
+            0, position.x, position.y, position.z));
+        Debug.Log("Spawned " + objectName + " (" + globalObjectId + ")");
+    }
+
+    /// <summary>
     /// Event subscriber.
     /// Logic for every tick during battle while running.
     /// </summary>
