@@ -19,12 +19,14 @@ public class ReplayUnit : ReplayObject
     public virtual void Start()
     {
         moving = false;
-        healthBar = Instantiate(unitData.baseData.healthBarPrefab);
+        healthBar = Instantiate(unitData.baseData.commonRef.healthBarPrefab);
         if (this.transform.position.x >= 0)
         {
             healthBar.healthFill.GetComponent<Image>().color = Color.red;
         }
         healthBar.parent = this;
+        Instantiate(unitData.baseData.commonRef.warpParticle, this.transform.position,
+            unitData.baseData.commonRef.warpParticle.transform.rotation);
     }
 
     // Update is called once per frame

@@ -23,7 +23,7 @@ public class UnitDataScriptableObject : ScriptableObject
 
     public bool[] eventSubscriptions;
 
-    public HealthBar healthBarPrefab;
-
     public List<UnitAttackDataScriptableObject> attackDataList;
+
+    public CommonReference commonRef;
 }

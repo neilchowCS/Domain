@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b133e1c06534dff8f0c6b235d760aa, type: 3}
+  m_Name: CommonRef
+  m_EditorClassIdentifier: 
+  healthBarPrefab: {fileID: 6647489774567441945, guid: e6b6ce823b3044bc4a0f747dffe33241, type: 3}
+  warpParticle: {fileID: 5042688469488161316, guid: 80a4b7a4e7ec1440da4428419376ce7c, type: 3}
