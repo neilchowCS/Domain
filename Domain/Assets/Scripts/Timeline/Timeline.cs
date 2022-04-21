@@ -6,35 +6,42 @@ public class Timeline
 {
     public BattleExecutor exec;
 
-    public SortedDictionary<int, List<TimelineEvent>> timeEvent;
+    public List<TimelineSpawn> initialSpawnEvents;
+    public SortedDictionary<int, List<TimelineEvent>> timeEvents;
 
     public Timeline(BattleExecutor e)
     {
         exec = e;
-        timeEvent = new SortedDictionary<int, List<TimelineEvent>>();
+        initialSpawnEvents = new List<TimelineSpawn>();
+        timeEvents = new SortedDictionary<int, List<TimelineEvent>>();
     }
 
     public void AddTimelineEvent(TimelineEvent timelineEvent)
     {
-        if (!timeEvent.ContainsKey(exec.globalTick))
+        if (!timeEvents.ContainsKey(exec.globalTick))
         {
-            timeEvent.Add(exec.globalTick, new List<TimelineEvent>());
+            timeEvents.Add(exec.globalTick, new List<TimelineEvent>());
         }
-        timeEvent[exec.globalTick].Add(timelineEvent);
+        timeEvents[exec.globalTick].Add(timelineEvent);
+    }
+
+    public void AddInitialSpawn(TimelineSpawn timelineEvent)
+    {
+        initialSpawnEvents.Add(timelineEvent);
     }
 
     public void AddTimelineEvent(TimelineEvent timelineEvent, int delay)
     {
-        if (!timeEvent.ContainsKey(exec.globalTick + delay))
+        if (!timeEvents.ContainsKey(exec.globalTick + delay))
         {
-            timeEvent.Add(exec.globalTick + delay, new List<TimelineEvent>());
+            timeEvents.Add(exec.globalTick + delay, new List<TimelineEvent>());
         }
-        timeEvent[exec.globalTick + delay].Add(timelineEvent);
+        timeEvents[exec.globalTick + delay].Add(timelineEvent);
     }
 
     public void Output()
     {
-        foreach (var pair in timeEvent)
+        foreach (var pair in timeEvents)
         {
             Debug.Log("tick " + pair.Key);
 

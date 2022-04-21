@@ -11,6 +11,9 @@ public class ReplayExecutor : MonoBehaviour
     public List<ReplayProfile> profiles;
     public int index;
     public float timer;
+    private bool inSpawnAnim;
+    private float spawnAnimDuration = 1.5f;
+    //FIXME
     public float secondsPerTick;
     //public bool replayRun = false;
 
@@ -25,7 +28,14 @@ public class ReplayExecutor : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= secondsPerTick)
+        if (inSpawnAnim)
+        {
+            if (timer >= spawnAnimDuration)
+            {
+                timer -= spawnAnimDuration;
+                inSpawnAnim = false;
+            }
+        }else if (timer >= secondsPerTick)
         {
             Advance();
             timer -= secondsPerTick;
@@ -37,16 +47,25 @@ public class ReplayExecutor : MonoBehaviour
         ClearRemnants();
         InitializeState(t);
 
-        Advance();
+        StartSpawn();
+    }
+
+    public void StartSpawn()
+    {
+        foreach (TimelineSpawn spawnEvent in timeline.initialSpawnEvents)
+        {
+            spawnEvent.ExecuteEvent(this);
+        }
+        inSpawnAnim = true;
     }
 
     public void Advance()
     {
-        if (timeline.timeEvent.ContainsKey(index))
+        if (timeline.timeEvents.ContainsKey(index))
         {
-            for (int i = 0; i < timeline.timeEvent[index].Count; i++)
+            for (int i = 0; i < timeline.timeEvents[index].Count; i++)
             {
-                timeline.timeEvent[index][i].ExecuteEvent(this);
+                timeline.timeEvents[index][i].ExecuteEvent(this);
             }
         }
         index++;

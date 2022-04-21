@@ -142,7 +142,7 @@ public class BattleExecutor : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < team0.unitList.Count; i++)
+        for (int i = 0; i < team1.unitList.Count; i++)
         {
             if (team1.unitList.Count == team1.positionList.Count)
             {

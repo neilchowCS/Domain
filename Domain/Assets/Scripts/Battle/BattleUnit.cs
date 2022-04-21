@@ -54,7 +54,7 @@ public class BattleUnit : BattleObject
 
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
 
-        executor.timeline.AddTimelineEvent(new TimelineSpawn(unitData, globalObjectId, side,
+        executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData, globalObjectId, side,
             0, position.x, position.y, position.z));
         Debug.Log("Spawned " + objectName + " (" + globalObjectId + ")");
     }
