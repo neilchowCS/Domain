@@ -36,7 +36,6 @@ public class TimelineMove : TimelineEvent
 
     public override float[] GetData()
     {
-        //Debug.Log("Move");
         return new float[] { selfId, nextTileId,
         ntPosX, ntPosY, ntPosZ};
     }

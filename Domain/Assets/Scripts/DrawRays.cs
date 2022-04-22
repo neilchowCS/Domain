@@ -11,7 +11,6 @@ public class DrawRays : MonoBehaviour
     void Start()
     {
         screenPos = main.WorldToScreenPoint(this.gameObject.transform.position);
-        Debug.Log(screenPos.x + ", " + screenPos.y + ", " + screenPos.z);
         ray = new Ray(main.transform.position,
             (this.gameObject.transform.position - main.transform.position)/Vector3.Distance(this.gameObject.transform.position,main.transform.position));
     }

@@ -43,8 +43,6 @@ public class Timeline
     {
         foreach (var pair in timeEvents)
         {
-            Debug.Log("tick " + pair.Key);
-
             foreach (TimelineEvent i in pair.Value)
             {
                 float[] temp = i.GetData();
@@ -53,7 +51,6 @@ public class Timeline
                 {
                     x += xx;
                 }
-                Debug.Log(x);
             }
         }
     }

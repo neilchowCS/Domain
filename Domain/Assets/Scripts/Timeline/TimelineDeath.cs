@@ -20,7 +20,6 @@ public class TimelineDeath : TimelineEvent
 
     public override float[] GetData()
     {
-        //Debug.Log("Target");
         return new float[] { selfId };
     }
 

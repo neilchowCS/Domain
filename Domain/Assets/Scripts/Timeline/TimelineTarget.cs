@@ -23,7 +23,6 @@ public class TimelineTarget : TimelineEvent
 
     public override float[] GetData()
     {
-        //Debug.Log("Target");
         return new float[] { selfId, selfTarget };
     }
 

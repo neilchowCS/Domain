@@ -13,14 +13,11 @@ public class ReplayExecutor : MonoBehaviour
     public float timer;
     private bool inSpawnAnim;
     private float spawnAnimDuration = 1.5f;
-    //FIXME
-    public float secondsPerTick;
     //public bool replayRun = false;
 
     void Awake()
     {
         this.enabled = false;
-        secondsPerTick = 1f / TickSpeed.ticksPerSecond;
     }
 
     // Update is called once per frame
@@ -35,10 +32,10 @@ public class ReplayExecutor : MonoBehaviour
                 timer -= spawnAnimDuration;
                 inSpawnAnim = false;
             }
-        }else if (timer >= secondsPerTick)
+        }else if (timer >= TickSpeed.secondsPerTick)
         {
             Advance();
-            timer -= secondsPerTick;
+            timer -= TickSpeed.secondsPerTick;
         }
     }
 

@@ -51,7 +51,6 @@ public class BattleProjectile : BattleObject
     {
         if (deadUnit == target)
         {
-            Debug.Log("Target dead");
             Unassign();
         }
     }

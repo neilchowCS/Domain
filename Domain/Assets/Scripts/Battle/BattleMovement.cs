@@ -59,12 +59,10 @@ static class BattleMovement
         }
         if (Vector3.Distance(unit.position, unit.targetTile.position) < 0.000001f)
         {
-            Debug.Log("Tile arrived");
             unit.targetTile = null;
             if (BUnitHelperFunc.GetBattleUnitDistance(unit, unit.currentTarget) <= unit.unitData.unitRange)
             {
                 unit.moveState = BattleUnit.MoveStates.inRange;
-                Debug.Log(unit.objectName + " (" + unit.globalObjectId + ") moved in range");
             }
             else
             {

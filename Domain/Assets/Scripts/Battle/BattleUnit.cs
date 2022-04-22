@@ -56,7 +56,6 @@ public class BattleUnit : BattleObject
 
         executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData, globalObjectId, side,
             0, position.x, position.y, position.z));
-        Debug.Log("Spawned " + objectName + " (" + globalObjectId + ")");
     }
 
     /// <summary>
@@ -80,9 +79,8 @@ public class BattleUnit : BattleObject
 
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
 
-        executor.timeline.AddTimelineEvent(new TimelineSpawn(unitData, globalObjectId, side,
+        executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData, globalObjectId, side,
             0, position.x, position.y, position.z));
-        Debug.Log("Spawned " + objectName + " (" + globalObjectId + ")");
     }
 
     /// <summary>
@@ -248,7 +246,6 @@ public class BattleUnit : BattleObject
         {
             currentTarget = null;
             moveState = MoveStates.noTarget;
-            Debug.Log(objectName + " (" + globalObjectId + ") has no target");
         }
     }
 
@@ -265,8 +262,6 @@ public class BattleUnit : BattleObject
     {
         currentTarget = BUnitHelperFunc.GetClosestEnemy(this) ?? BUnitHelperFunc.GetClosestEnemy(this);
         executor.timeline.AddTimelineEvent(new TimelineTarget(globalObjectId, currentTarget.globalObjectId));
-        Debug.Log(objectName + " (" + globalObjectId + ") targeting "
-            + currentTarget.objectName + " (" + currentTarget.globalObjectId + ")");
     }
 
 }

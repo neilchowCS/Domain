@@ -26,7 +26,6 @@ public class BattleEventHandler
     /// </summary>
     public virtual void OnTickUp()
     {
-        Debug.Log(executor.globalTick);
 
         TickUpEventHandler handler = TickUp;
         //raise event
@@ -48,13 +47,6 @@ public class BattleEventHandler
     /// <param name="amount"> How much damage </param>
     public virtual void OnDamageDealt(BattleUnit damageSource, BattleUnit damageTarget, int amount)
     {
-        //Alice (x) dealt x damage to Alice(y)
-        if (damageSource != null)
-        {
-            Debug.Log(damageSource.objectName + " (" + damageSource.globalObjectId + ")"
-            + " dealt " + amount + " damage to "
-            + damageTarget.objectName + " (" + damageTarget.globalObjectId + ")");
-        }
         DamageDealtEventHandler handler = DamageDealt;
         //raise event
         handler?.Invoke(damageSource, damageTarget, amount);
@@ -73,14 +65,6 @@ public class BattleEventHandler
     /// <param name="amount"> How much damage </param>
     public virtual void OnDamageTaken(BattleUnit damageTarget, BattleUnit damageSource, int amount)
     {
-        //Alice (x) took x damage from Alice(y)
-        Debug.Log(damageTarget.objectName + " (" + damageTarget.globalObjectId + ")"
-            + " took " + amount + " damage from "
-            + damageSource.objectName + " (" + damageSource.globalObjectId + ")");
-        //Alice (x) has x health remaining out of y
-        Debug.Log(damageTarget.objectName + " (" + damageTarget.globalObjectId + ")"
-            + " has " + damageTarget.unitHealth + " health remaining out of "
-            + damageTarget.unitData.unitHealth);
         DamageTakenEventHandler handler = DamageTaken;
         //raise event
         handler?.Invoke(damageTarget, damageSource, amount);
@@ -97,9 +81,6 @@ public class BattleEventHandler
     /// <param name="deadUnit"> What died </param>
     public virtual void OnUnitDeath(BattleUnit deadUnit)
     {
-        //Alice (x) died
-        Debug.Log(deadUnit.objectName + " (" + deadUnit.globalObjectId + ")"
-            + " died");
         UnitDeathEventHandler handler = UnitDeath;
         handler?.Invoke(deadUnit);
     }

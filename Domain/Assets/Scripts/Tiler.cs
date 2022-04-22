@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Not used
+/// </summary>
 public class Tiler : MonoBehaviour
 {
     public GameObject tile;
@@ -55,7 +58,6 @@ public class Tiler : MonoBehaviour
         {
             o += ("new Vector3(" + v.x + "f," + v.y + "f," + v.z + "f), ");
         }
-        //Debug.Log(o);
     }
 
     // Update is called once per frame
