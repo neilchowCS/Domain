@@ -124,7 +124,6 @@ public class BattleExecutor : MonoBehaviour
         //init team
         if (!ReadTeamMessenger())
         {
-            Debug.Log("here");
             team0 = new TeamData(dataListSO, 0);
         }
         team1 = new TeamData(dataListSO, 1);

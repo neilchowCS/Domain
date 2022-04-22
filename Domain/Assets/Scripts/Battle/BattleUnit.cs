@@ -36,51 +36,36 @@ public class BattleUnit : BattleObject
     /// <summary>
     /// BattleUnit constructor
     /// </summary>
-    public BattleUnit(BattleExecutor exec, int side, UnitData unitData)
-        : base(exec, side)
-    {
-        this.unitData = unitData;
-        objectName = unitData.baseData.unitName;
-        unitHealth = unitData.unitHealth;
-        unitMana = 0;
-
-        currentTile = BUnitHelperFunc.GetSpawnLoc(this);
-        position = currentTile.position;
-        currentTile.occupied = true;
-
-        //currentTarget = null;
-
-        //moveState = MoveStates.noTarget;
-
-        EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
-
-        executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData, globalObjectId, side,
-            0, position.x, position.y, position.z));
-    }
-
-    /// <summary>
-    /// BattleUnit constructor
-    /// </summary>
     public BattleUnit(BattleExecutor exec, int side, UnitData unitData, int tileId)
         : base(exec, side)
     {
+        InitBattleUnitValues(exec, side, unitData, tileId);
+    }
+
+    /// <summary>
+    /// BattleUnit constructor for random location
+    /// </summary>
+    public BattleUnit(BattleExecutor exec, int side, UnitData unitData)
+        : base(exec, side)
+    {
+        InitBattleUnitValues(exec, side, unitData, BUnitHelperFunc.GetSpawnLoc(this).id);
+    }
+
+    private void InitBattleUnitValues(BattleExecutor exec, int side, UnitData unitData, int tileId)
+    {
         this.unitData = unitData;
         objectName = unitData.baseData.unitName;
         unitHealth = unitData.unitHealth;
         unitMana = 0;
 
-        currentTile = exec.battleSpace.tiles0[tileId];
+        currentTile = exec.battleSpace.tiles[tileId];
         position = currentTile.position;
         currentTile.occupied = true;
-
-        //currentTarget = null;
-
-        //moveState = MoveStates.noTarget;
 
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
 
         executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData, globalObjectId, side,
-            0, position.x, position.y, position.z));
+            tileId, position.x, position.y, position.z));
     }
 
     /// <summary>

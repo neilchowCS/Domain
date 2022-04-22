@@ -48,12 +48,12 @@ public class BattleSpace
 
                 if (i % 2 == 0)
                 {
-                    x = new BattleTile(initX - (distX * i), 0f, initZ1 - (distZ * j));
+                    x = new BattleTile(initX - (distX * i), 0f, initZ1 - (distZ * j), i * numRows + j);
 
                 }
                 else
                 {
-                    x = new BattleTile(initX - (distX * i), 0f, initZ2 - (distZ * j));
+                    x = new BattleTile(initX - (distX * i), 0f, initZ2 - (distZ * j), i * numRows + j);
                 }
 
                 tiles.Add(x);
@@ -61,15 +61,15 @@ public class BattleSpace
                 if (num > count / 2)
                 {
                     tiles1.Add(x);
-                    Debug.Log(tiles1.Count);
                 }
                 else
                 {
                     tiles0.Add(x);
-                    Debug.Log(tiles0.Count);
                 }
             }
         }
 
+        Debug.Log(tiles0.Count);
+        Debug.Log(tiles1.Count);
     }
 }

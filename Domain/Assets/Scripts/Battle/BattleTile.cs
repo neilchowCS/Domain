@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BattleTile
 {
+    public int id;
     public Vector3 position;
     /// <summary>
     /// Changed in BattleUnit TickUpMove.
@@ -13,9 +14,10 @@ public class BattleTile
     /// <summary>
     /// Constructor for BattleTile with position x, y, z.
     /// </summary>
-    public BattleTile(float x, float y, float z)
+    public BattleTile(float x, float y, float z, int id)
     {
         Vector3 pos = new Vector3(x, y, z);
+        this.id = id;
         position = pos;
         occupied = false;
     }

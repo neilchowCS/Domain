@@ -19,8 +19,8 @@ public class UnitData
     public float unitCrit { get { return baseData.baseCrit; } }
     public float unitCritChance { get { return baseData.baseCritChance; } }
 
-    public UnitData(UnitDataScriptableObject i)
+    public UnitData(UnitDataScriptableObject scriptableObject)
     {
-        baseData = i;
+        baseData = scriptableObject;
     }
 }
