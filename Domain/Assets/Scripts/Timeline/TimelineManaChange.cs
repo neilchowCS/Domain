@@ -25,7 +25,7 @@ public class TimelineManaChange : TimelineEvent
         }
         if (source != null)
         {
-            source.currentMana = newAmount;
+            source.unitData.mana = newAmount;
         }
         else
         {

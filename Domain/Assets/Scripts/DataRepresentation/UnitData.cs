@@ -8,8 +8,8 @@ public class UnitData
     public UnitDataScriptableObject baseData;
     public UnitIndependentData independentData;
 
-    public int unitHealth;
-    public int unitMana;
+    public int health;
+    public int mana;
     public AttributeInt unitMaxHealth;
     public AttributeInt unitAttack;
     public AttributeInt unitDefense;
@@ -22,12 +22,13 @@ public class UnitData
     public AttributeFloat unitCrit;
     public AttributeFloat unitCritChance;
 
-    public UnitData(UnitDataScriptableObject scriptableObject)
+    public UnitData(UnitIndependentData independentData)
     {
-        baseData = scriptableObject;
+        this.independentData = independentData;
+        this.baseData = independentData.baseData;
 
-        unitHealth = baseData.baseHealth;
-        unitMana = 0;
+        health = baseData.baseHealth;
+        mana = 0;
         unitMaxHealth = new AttributeInt(baseData.baseHealth);
         unitAttack = new AttributeInt(baseData.baseAttack);
         unitDefense = new AttributeInt(baseData.baseDefense);

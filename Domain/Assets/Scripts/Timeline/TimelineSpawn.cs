@@ -13,7 +13,7 @@ using UnityEngine;
 /// </summary>
 public class TimelineSpawn : TimelineEvent
 {
-    public UnitData unitData;
+    public UnitIndependentData indData;
     public int globalSpawnId;
     public int side;
     public int spawnTileId;
@@ -21,7 +21,7 @@ public class TimelineSpawn : TimelineEvent
     public float spawnPosY;
     public float spawnPosZ;
 
-    public TimelineSpawn(UnitData unitData,
+    public TimelineSpawn(UnitIndependentData indData,
         int globalSpawnId,
         int side,
         int spawnTileId,
@@ -29,7 +29,7 @@ public class TimelineSpawn : TimelineEvent
         float spawnPosY,
         float spawnPosZ)
     {
-        this.unitData = unitData;
+        this.indData = indData;
         this.globalSpawnId = globalSpawnId;
         this.side = side;
         this.spawnTileId = spawnTileId;
@@ -40,7 +40,7 @@ public class TimelineSpawn : TimelineEvent
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
     {
-        ReplayUnit x = GameObject.Instantiate(replayExecutor.replayManager.prefabs[unitData.baseData.unitId]).GetComponent<ReplayUnit>();
+        ReplayUnit x = GameObject.Instantiate(replayExecutor.replayManager.prefabs[indData.baseData.unitId]).GetComponent<ReplayUnit>();
 
         InitProfile(replayExecutor);
         InitUnit(replayExecutor, x);
@@ -57,8 +57,7 @@ public class TimelineSpawn : TimelineEvent
         executor.replayObjects.Add(unit);
         executor.replayUnits.Add(unit);
         unit.globalId = globalSpawnId;
-        unit.unitData = unitData;
-        unit.currentHealth = unitData.unitHealth;
+        unit.unitData = new UnitData(indData);
     }
 
     public void InitProfile(ReplayExecutor executor)
@@ -66,8 +65,8 @@ public class TimelineSpawn : TimelineEvent
         ReplayProfile y = GameObject.Instantiate(executor.replayManager.profile).GetComponent<ReplayProfile>();
         executor.profiles.Add(y);
         y.globalId = globalSpawnId;
-        y.SetName(unitData.baseData.unitName);
-        y.SetImage(unitData.baseData.unitSprite);
+        y.SetName(indData.baseData.unitName);
+        y.SetImage(indData.baseData.unitSprite);
         y.transform.SetParent(executor.replayManager.profileParent.transform, false);
         if (side == 1)
         {

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CharGridMarker : MonoBehaviour
 {
     public Image image;
-    public UnitDataScriptableObject unitData;
+    public UnitIndependentData indData;
     public int positionId;
 
     // Start is called before the first frame update
@@ -21,11 +21,11 @@ public class CharGridMarker : MonoBehaviour
         
     }
 
-    public void SetInitial(Vector3 worldPosition, UnitDataScriptableObject data, int id)
+    public void SetInitial(Vector3 worldPosition, UnitIndependentData indData, int id)
     {
         this.transform.position = worldPosition;
-        unitData = data;
-        image.sprite = data.unitSprite;
+        this.indData = indData;
+        image.sprite = indData.baseData.unitSprite;
         positionId = id;
     }
 }

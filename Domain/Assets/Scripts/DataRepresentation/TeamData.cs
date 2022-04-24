@@ -22,28 +22,17 @@ public class TeamData
         positionList = new List<int>();
         if (i == 0)
         {
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[1]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[1]));
-            /*
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[1]));
-            */
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[0])));
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[1])));
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[0])));
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[1])));
         }
         else if (i == 1)
         {
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[1]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[1]));
-            /*
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            AddUnitData(new UnitData(dataList.uDList[0]));
-            */
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[0])));
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[1])));
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[0])));
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[1])));
         }
     }
 

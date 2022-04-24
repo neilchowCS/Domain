@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CharSelectIcon : MonoBehaviour
 {
     public TeamBuildManager manager;
-    public UnitDataScriptableObject unitData;
+    public UnitIndependentData indData;
     public Vector3 initialPos;
     public Image image;
 
@@ -42,11 +42,11 @@ public class CharSelectIcon : MonoBehaviour
         }
     }
 
-    public void SetInitial(Vector3 pos, UnitDataScriptableObject data)
+    public void SetInitial(Vector3 pos, UnitIndependentData indData)
     {
         this.transform.localPosition = pos;
         initialPos = this.transform.position;
-        unitData = data;
-        image.sprite = data.unitSprite;
+        this.indData = indData;
+        image.sprite = indData.baseData.unitSprite;
     }
 }

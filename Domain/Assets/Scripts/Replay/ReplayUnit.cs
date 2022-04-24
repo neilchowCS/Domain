@@ -9,8 +9,6 @@ public class ReplayUnit : ReplayObject
     public UnitData unitData;
     public HealthBar healthBar;
 
-    public int currentHealth;
-    public int currentMana;
     public ReplayObject target;
     public Vector3 destination;
     public bool moving;

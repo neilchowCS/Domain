@@ -59,7 +59,7 @@ public class BattleUnit : BattleObject
 
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
 
-        executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData, globalObjectId, side,
+        executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData.independentData, globalObjectId, side,
             tileId, position.x, position.y, position.z));
     }
 
@@ -82,9 +82,9 @@ public class BattleUnit : BattleObject
         manaCounter++;
         if (manaCounter >= unitData.unitTickPerMana.Value)
         {
-            unitData.unitMana++;
+            unitData.mana++;
             executor.timeline.AddTimelineEvent(
-                new TimelineManaChange(globalObjectId, unitData.unitMana));
+                new TimelineManaChange(globalObjectId, unitData.mana));
             manaCounter = 0;
         }
     }
@@ -116,12 +116,12 @@ public class BattleUnit : BattleObject
     {
         if (backswing <= 0)
         {
-            if (unitData.unitMana >= unitData.unitMaxMana.Value)
+            if (unitData.mana >= unitData.unitMaxMana.Value)
             {
                 SpawnProjectile(1);
-                unitData.unitMana = 0;
+                unitData.mana = 0;
                 executor.timeline.AddTimelineEvent(
-                new TimelineManaChange(globalObjectId, unitData.unitMana));
+                new TimelineManaChange(globalObjectId, unitData.mana));
                 backswing = unitData.baseData.attackDataList[1].backswing;
                 //moveState = MoveStates.noTarget;
                 //why does it cease to move when not in range?
@@ -179,9 +179,9 @@ public class BattleUnit : BattleObject
     /// </summary>
     public virtual void TakeDamage(BattleUnit damageSource, int amount)
     {
-        unitData.unitHealth -= amount;
+        unitData.health -= amount;
         executor.eventHandler.OnDamageTaken(this, damageSource, amount);
-        if (unitData.unitHealth <= 0)
+        if (unitData.health <= 0)
         {
             executor.eventHandler.OnUnitDeath(this);
             executor.timeline.AddTimelineEvent(new TimelineDeath(globalObjectId));

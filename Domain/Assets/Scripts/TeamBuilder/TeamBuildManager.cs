@@ -24,7 +24,9 @@ public class TeamBuildManager : MonoBehaviour
         for (int i = 0; i < dataListSO.uDList.Count; i++)
         {
             CharSelectIcon temp = Instantiate(charSelectIcon, charSelectParent.transform);
-            temp.SetInitial(temp.transform.localPosition + new Vector3(300 * i, 0, 0), dataListSO.uDList[i]);
+            //FIXME
+            temp.SetInitial(temp.transform.localPosition + new Vector3(300 * i, 0, 0),
+                new UnitIndependentData(dataListSO.uDList[i]));
             temp.manager = this;
         }
 
@@ -55,7 +57,7 @@ public class TeamBuildManager : MonoBehaviour
         if (!collider.occupied && markList.Count < maxTeamSize)
         {
             CharGridMarker temp = Instantiate(marker, charSelectParent.transform);
-            temp.SetInitial(collider.transform.position, icon.unitData, i);
+            temp.SetInitial(collider.transform.position, icon.indData, i);
             collider.occupied = true;
             markList.Add(temp);
         }
@@ -67,7 +69,7 @@ public class TeamBuildManager : MonoBehaviour
         GameObject.DontDestroyOnLoad(dontDestroy);
         foreach(CharGridMarker mark in markList)
         {
-            teamData.AddUnitData(new UnitData(mark.unitData), mark.positionId);
+            teamData.AddUnitData(new UnitData(mark.indData), mark.positionId);
         }
         dontDestroy.teamData = teamData;
     }

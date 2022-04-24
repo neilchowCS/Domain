@@ -25,8 +25,8 @@ public class HealthBar : MonoBehaviour
         }
         else
         {
-            healthFill.fillAmount = parent.currentHealth / (float)parent.unitData.unitHealth;
-            manaFill.fillAmount = parent.currentMana / (float)parent.unitData.unitMaxMana.Value;
+            healthFill.fillAmount = parent.unitData.health / (float)parent.unitData.unitMaxHealth.Value;
+            manaFill.fillAmount = parent.unitData.mana / (float)parent.unitData.unitMaxMana.Value;
             this.transform.position =
                 Camera.main.WorldToScreenPoint(parent.transform.position + new Vector3(0,2.5f,0));
         }

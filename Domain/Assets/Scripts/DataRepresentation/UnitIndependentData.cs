@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class UnitIndependentData
 {
-    public UnitDataScriptableObject scriptableObject;
+    public UnitDataScriptableObject baseData;
     public int level;
 
-    public UnitIndependentData(int level, UnitDataScriptableObject scriptableObject)
+    public UnitIndependentData(UnitDataScriptableObject baseData)
     {
-        this.scriptableObject = scriptableObject;
+        this.baseData = baseData;
+    }
+
+    public UnitIndependentData(int level, UnitDataScriptableObject baseData)
+    {
+        this.baseData = baseData;
         this.level = level;
     }
 }

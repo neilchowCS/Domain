@@ -32,7 +32,7 @@ public class TimelineDamageDealt : TimelineEvent
         }
         if (target != null)
         {
-            target.currentHealth -= amount;
+            target.unitData.health -= amount;
         }
         else
         {
