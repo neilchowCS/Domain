@@ -6,21 +6,38 @@ using System;
 public class UnitData
 {
     public UnitDataScriptableObject baseData;
+    public UnitIndependentData independentData;
 
-    public int unitHealth { get { return baseData.baseHealth; } }
-    public int unitAttack { get { return baseData.baseAttack; } }
-    public int unitDefense { get { return baseData.baseDefense; } }
-    public int unitMDefense { get { return baseData.baseMDefense; } }
-    public float unitAttackSpeed { get { return baseData.baseAttackSpeed; } }
-    public float unitRange { get { return baseData.baseRange; } }
-    public float unitMoveSpeed { get { return baseData.baseMoveSpeed; } }
-    public int unitMana { get { return baseData.baseMana; } }
-    public int unitTickPerMana { get { return baseData.baseTickPerMana; } }
-    public float unitCrit { get { return baseData.baseCrit; } }
-    public float unitCritChance { get { return baseData.baseCritChance; } }
+    public int unitHealth;
+    public int unitMana;
+    public AttributeInt unitMaxHealth;
+    public AttributeInt unitAttack;
+    public AttributeInt unitDefense;
+    public AttributeInt unitMDefense;
+    public AttributeFloat unitAttackSpeed;
+    public AttributeFloat unitRange;
+    public AttributeFloat unitMoveSpeed;
+    public AttributeInt unitMaxMana;
+    public AttributeInt unitTickPerMana;
+    public AttributeFloat unitCrit;
+    public AttributeFloat unitCritChance;
 
     public UnitData(UnitDataScriptableObject scriptableObject)
     {
         baseData = scriptableObject;
+
+        unitHealth = baseData.baseHealth;
+        unitMana = 0;
+        unitMaxHealth = new AttributeInt(baseData.baseHealth);
+        unitAttack = new AttributeInt(baseData.baseAttack);
+        unitDefense = new AttributeInt(baseData.baseDefense);
+        unitMDefense = new AttributeInt(baseData.baseMDefense);
+        unitAttackSpeed = new AttributeFloat(baseData.baseAttackSpeed);
+        unitRange = new AttributeFloat(baseData.baseRange);
+        unitMoveSpeed = new AttributeFloat(baseData.baseMoveSpeed);
+        unitMaxMana = new AttributeInt(baseData.baseMana);
+        unitTickPerMana = new AttributeInt(baseData.baseTickPerMana);
+        unitCrit = new AttributeFloat(baseData.baseCrit);
+        unitCritChance = new AttributeFloat(baseData.baseCritChance);
     }
 }

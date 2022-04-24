@@ -33,7 +33,7 @@ static class BattleMovement
     public static void TargetDecision(BattleUnit unit)
     {
         unit.LookForward();
-        if (BUnitHelperFunc.GetBattleUnitDistance(unit, unit.currentTarget) <= unit.unitData.unitRange)
+        if (BUnitHelperFunc.GetBattleUnitDistance(unit, unit.currentTarget) <= unit.unitData.unitRange.Value)
         {
             unit.moveState = BattleUnit.MoveStates.inRange;
         }
@@ -50,7 +50,8 @@ static class BattleMovement
     /// </summary>
     public static void MoveTowardsNext(BattleUnit unit)
     {
-        unit.position = Vector3.MoveTowards(unit.position, unit.targetTile.position, unit.unitData.unitMoveSpeed/TickSpeed.ticksPerSecond);
+        unit.position = Vector3.MoveTowards(unit.position, unit.targetTile.position,
+            unit.unitData.unitMoveSpeed.Value/TickSpeed.ticksPerSecond);
         if (Vector3.Distance(unit.position, unit.currentTile.position)
             < Vector3.Distance(unit.position, unit.targetTile.position))
         {
@@ -60,7 +61,8 @@ static class BattleMovement
         if (Vector3.Distance(unit.position, unit.targetTile.position) < 0.000001f)
         {
             unit.targetTile = null;
-            if (BUnitHelperFunc.GetBattleUnitDistance(unit, unit.currentTarget) <= unit.unitData.unitRange)
+            if (BUnitHelperFunc.GetBattleUnitDistance(unit, unit.currentTarget)
+                <= unit.unitData.unitRange.Value)
             {
                 unit.moveState = BattleUnit.MoveStates.inRange;
             }

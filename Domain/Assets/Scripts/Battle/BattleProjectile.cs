@@ -20,7 +20,7 @@ public class BattleProjectile : BattleObject
         this.position = source.position;
         attackData = source.unitData.baseData.attackDataList[index];
         this.target = target;
-        sourceAttack = source.unitData.unitAttack;
+        sourceAttack = source.unitData.unitAttack.Value;
         sourceGlobalId = source.globalObjectId;
     }
 
@@ -30,7 +30,7 @@ public class BattleProjectile : BattleObject
         this.source = source;
         attackData = source.unitData.baseData.attackDataList[index];
         this.targetLocation = target;
-        sourceAttack = source.unitData.unitAttack;
+        sourceAttack = source.unitData.unitAttack.Value;
     }
 
     public override void OnTickUp()

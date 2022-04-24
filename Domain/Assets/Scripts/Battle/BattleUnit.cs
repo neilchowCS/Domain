@@ -9,9 +9,6 @@ using UnityEngine;
 public class BattleUnit : BattleObject
 {
     public UnitData unitData;
-    //FIXME
-    public int unitHealth;
-    public int unitMana;
 
     public Vector3 position;
 
@@ -55,8 +52,6 @@ public class BattleUnit : BattleObject
     {
         this.unitData = unitData;
         objectName = unitData.baseData.unitName;
-        unitHealth = unitData.unitHealth;
-        unitMana = 0;
 
         currentTile = exec.battleSpace.tiles[tileId];
         position = currentTile.position;
@@ -85,11 +80,11 @@ public class BattleUnit : BattleObject
     public virtual void TickUpMana()
     {
         manaCounter++;
-        if (manaCounter >= unitData.unitTickPerMana)
+        if (manaCounter >= unitData.unitTickPerMana.Value)
         {
-            unitMana++;
+            unitData.unitMana++;
             executor.timeline.AddTimelineEvent(
-                new TimelineManaChange(globalObjectId, unitMana));
+                new TimelineManaChange(globalObjectId, unitData.unitMana));
             manaCounter = 0;
         }
     }
@@ -121,17 +116,18 @@ public class BattleUnit : BattleObject
     {
         if (backswing <= 0)
         {
-            if (unitMana >= unitData.unitMana)
+            if (unitData.unitMana >= unitData.unitMaxMana.Value)
             {
                 SpawnProjectile(1);
-                unitMana = 0;
+                unitData.unitMana = 0;
                 executor.timeline.AddTimelineEvent(
-                new TimelineManaChange(globalObjectId, unitMana));
+                new TimelineManaChange(globalObjectId, unitData.unitMana));
                 backswing = unitData.baseData.attackDataList[1].backswing;
                 //moveState = MoveStates.noTarget;
                 //why does it cease to move when not in range?
                 //FIXME
-            }else if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed)
+            }
+            else if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed.Value)
             {
                 if (moveState == MoveStates.inRange)
                 {
@@ -170,9 +166,9 @@ public class BattleUnit : BattleObject
                 executor.timeline.AddTimelineEvent(
                     new TimelineProjectile(globalObjectId, currentTarget.globalObjectId, i));
             }
-            
+
         }
-        
+
     }
 
     /// <summary>
@@ -183,9 +179,9 @@ public class BattleUnit : BattleObject
     /// </summary>
     public virtual void TakeDamage(BattleUnit damageSource, int amount)
     {
-        unitHealth -= amount;
+        unitData.unitHealth -= amount;
         executor.eventHandler.OnDamageTaken(this, damageSource, amount);
-        if (unitHealth <= 0)
+        if (unitData.unitHealth <= 0)
         {
             executor.eventHandler.OnUnitDeath(this);
             executor.timeline.AddTimelineEvent(new TimelineDeath(globalObjectId));
