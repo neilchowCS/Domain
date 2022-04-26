@@ -5,6 +5,9 @@ using UnityEngine;
 public class ReplayExecutor : MonoBehaviour
 {
     public ReplayManager replayManager;
+    public Tiler tiler;
+    public List<GameObject> tiles;
+
     public Timeline timeline;
     public List<ReplayObject> replayObjects;
     public List<ReplayUnit> replayUnits;
@@ -17,6 +20,7 @@ public class ReplayExecutor : MonoBehaviour
 
     void Awake()
     {
+        tiles = tiler.CreateTiles();
         this.enabled = false;
     }
 

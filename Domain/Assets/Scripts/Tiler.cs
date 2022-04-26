@@ -8,10 +8,10 @@ using UnityEngine;
 public class Tiler : MonoBehaviour
 {
     public GameObject tile;
-    public List<Vector3> output;
     // Start is called before the first frame update
-    void Start()
+    public List<GameObject> CreateTiles()
     {
+        List<GameObject> output = new List<GameObject>();
         if (tile != null)
         {
             int column = 8;
@@ -47,17 +47,12 @@ public class Tiler : MonoBehaviour
                     {
                         x.transform.position = new Vector3(initX - (distX * i), 0f, initZ2 - (distZ * j));
                     }
-                    output.Add(x.transform.position);
+                    output.Add(x);
                 }
             }
             
         }
-        //this.gameObject.SetActive(false);
-        string o = "";
-        foreach (Vector3 v in output)
-        {
-            o += ("new Vector3(" + v.x + "f," + v.y + "f," + v.z + "f), ");
-        }
+        return output;
     }
 
     // Update is called once per frame

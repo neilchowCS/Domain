@@ -17,25 +17,16 @@ public class TimelineSpawn : TimelineEvent
     public int globalSpawnId;
     public int side;
     public int spawnTileId;
-    public float spawnPosX;
-    public float spawnPosY;
-    public float spawnPosZ;
 
     public TimelineSpawn(UnitIndependentData indData,
         int globalSpawnId,
         int side,
-        int spawnTileId,
-        float spawnPosX,
-        float spawnPosY,
-        float spawnPosZ)
+        int spawnTileId)
     {
         this.indData = indData;
         this.globalSpawnId = globalSpawnId;
         this.side = side;
         this.spawnTileId = spawnTileId;
-        this.spawnPosX = spawnPosX;
-        this.spawnPosY = spawnPosY;
-        this.spawnPosZ = spawnPosZ;
     }
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
@@ -48,7 +39,9 @@ public class TimelineSpawn : TimelineEvent
 
     public void InitUnit(ReplayExecutor executor, ReplayUnit unit)
     {
-        unit.transform.position = new Vector3(spawnPosX, spawnPosY + .5f, spawnPosZ);
+        unit.transform.position = new Vector3(executor.tiles[spawnTileId].transform.position.x,
+            executor.tiles[spawnTileId].transform.position.y + .5f,
+            executor.tiles[spawnTileId].transform.position.z);
         if (side == 1)
         {
             unit.transform.rotation = Quaternion.Euler(0, -90, 0);

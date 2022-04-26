@@ -60,7 +60,7 @@ public class BattleUnit : BattleObject
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
 
         executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData.independentData, globalObjectId, side,
-            tileId, position.x, position.y, position.z));
+            tileId));
     }
 
     /// <summary>
