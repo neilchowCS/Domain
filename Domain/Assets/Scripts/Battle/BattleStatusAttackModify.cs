@@ -42,6 +42,7 @@ public class BattleStatusAttackModify : BattleStatus
         {
             host.unitData.unitAttack.ModifyAdditive(-amount);
         }
+
         host.statusList.Remove(this);
     }
 }

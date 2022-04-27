@@ -13,6 +13,7 @@ public class AliceSkillBP : BattleProjectile
     public override void ProjectileEffect()
     {
         int damageAmount = sourceAttack * 5;
+        Debug.Log(damageAmount);
         DealDamage(target, damageAmount);
     }
 }
