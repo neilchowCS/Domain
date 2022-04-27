@@ -24,6 +24,16 @@ public class BattleObject
 
     //public int localTick;
 
+    public BattleObject(BattleExecutor exec, int side)
+    {
+        executor = exec;
+        this.side = side;
+        globalObjectId = executor.SetGlobalObjectId();
+
+        //localTick = executor.globalTick;
+        executor.eventHandler.TickUp += this.OnTickUp;
+    }
+
     public BattleObject(BattleExecutor exec, int side, int id, string name)
     {
         executor = exec;
@@ -36,15 +46,6 @@ public class BattleObject
         executor.eventHandler.TickUp += this.OnTickUp;
     }
 
-    public BattleObject(BattleExecutor exec, int side)
-    {
-        executor = exec;
-        this.side = side;
-        globalObjectId = executor.SetGlobalObjectId();
-
-        //localTick = executor.globalTick;
-        executor.eventHandler.TickUp += this.OnTickUp;
-    }
 
     public virtual void OnTickUp()
     {
