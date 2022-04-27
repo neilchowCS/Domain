@@ -4,11 +4,17 @@ using UnityEngine;
 
 public abstract class Attribute
 {
-    protected float modifier;
+    protected float constantModifier;
+    protected float coefficientModifier = 1;
 
-    public virtual void Modify(float i)
+    public virtual void ModifyAdditive(float i)
     {
-        modifier += i;
+        constantModifier += i;
+    }
+
+    public virtual void ModifyMultiplicative(float i)
+    {
+        constantModifier += i;
     }
 
 }

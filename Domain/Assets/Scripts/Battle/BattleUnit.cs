@@ -30,6 +30,8 @@ public class BattleUnit : BattleObject
     public float backswing = 0;
     public int manaCounter = 0;
 
+    public List<BattleStatus> statusList;
+
     /// <summary>
     /// BattleUnit constructor
     /// </summary>
@@ -52,6 +54,7 @@ public class BattleUnit : BattleObject
     {
         this.unitData = unitData;
         objectName = unitData.baseData.unitName;
+        statusList = new List<BattleStatus>();
 
         currentTile = exec.battleSpace.tiles[tileId];
         position = currentTile.position;

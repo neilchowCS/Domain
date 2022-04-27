@@ -6,7 +6,7 @@ public class AttributeFloat : Attribute
 {
     private float value;
     //return
-    public float Value { get { return value + modifier; } }
+    public float Value { get { return coefficientModifier * value + constantModifier; } }
 
     public AttributeFloat()
     {
