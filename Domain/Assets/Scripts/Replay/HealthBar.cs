@@ -12,8 +12,7 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.parent = GameObject.FindObjectOfType<Canvas>().transform;
-        this.transform.rotation = Quaternion.identity;
+
     }
 
     // Update is called once per frame

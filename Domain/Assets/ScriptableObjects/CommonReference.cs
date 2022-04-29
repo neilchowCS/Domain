@@ -7,4 +7,6 @@ public class CommonReference : ScriptableObject
 {
     public HealthBar healthBarPrefab;
     public GameObject warpParticle;
+
+    public Sprite attackIncreaseIcon;
 }
