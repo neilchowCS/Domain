@@ -9,6 +9,13 @@ public class HealthBar : MonoBehaviour
     public Image healthFill;
     public Image manaFill;
 
+    public List<StatusIcon> icons;
+
+    void Awake()
+    {
+        icons = new List<StatusIcon>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,5 +37,11 @@ public class HealthBar : MonoBehaviour
                 Camera.main.WorldToScreenPoint(parent.transform.position + new Vector3(0,2.5f,0));
         }
         
+    }
+
+    public void AddStatusIcon(StatusIcon i)
+    {
+        //fix me
+        icons.Add(Instantiate(i, this.transform));
     }
 }
