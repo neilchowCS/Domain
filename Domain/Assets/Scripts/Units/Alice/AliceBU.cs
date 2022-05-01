@@ -27,7 +27,8 @@ public class AliceBU : BattleUnit
         {
             if (unitData.mana >= unitData.unitMaxMana.Value)
             {
-                statusList.Add(new BattleStatusAttackModify(this, 1f, true, true));
+                statusList.Add(new BattleStatusAttackModify(this, .5f, true, true));
+                executor.timeline.AddTimelineEvent(new TimelineAddStatus(globalObjectId, 0));
                 SpawnProjectile(1);
                 unitData.mana = 0;
                 executor.timeline.AddTimelineEvent(

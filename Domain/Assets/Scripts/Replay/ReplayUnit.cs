@@ -22,8 +22,6 @@ public class ReplayUnit : ReplayObject
         if (this.transform.position.x >= 0)
         {
             healthBar.healthFill.GetComponent<Image>().color = Color.red;
-
-            healthBar.AddStatusIcon(unitData.baseData.commonRef.statusIconPrefab);
         }
         healthBar.parent = this;
         Instantiate(unitData.baseData.commonRef.warpParticle, this.transform.position,
