@@ -43,5 +43,7 @@ public class HealthBar : MonoBehaviour
     {
         //fix me
         icons.Add(Instantiate(i, this.transform));
+        icons[icons.Count - 1].transform.position = icons[icons.Count - 1].transform.position +
+            new Vector3(40 * (icons.Count - 1f), 0, 0);
     }
 }

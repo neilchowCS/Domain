@@ -26,5 +26,6 @@ public class TimelineAddStatus : TimelineEvent
         }
 
         source.healthBar.AddStatusIcon(source.unitData.baseData.commonRef.statusIconPrefab);
+        
     }
 }
