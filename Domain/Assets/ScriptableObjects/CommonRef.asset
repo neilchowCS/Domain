@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b133e1c06534dff8f0c6b235d760aa, type: 3}
   m_Name: CommonRef
   m_EditorClassIdentifier: 
-  healthBarPrefab: {fileID: 6647489774567441945, guid: e6b6ce823b3044bc4a0f747dffe33241, type: 3}
+  healthBarPrefab: {fileID: 7255787935485818497, guid: 7096843a4585447068bb7ba2af9345c2, type: 3}
   warpParticle: {fileID: 5042688469488161316, guid: 80a4b7a4e7ec1440da4428419376ce7c, type: 3}
+  statusIconPrefab: {fileID: 719384084399565846, guid: adf1e3c2862c048baa0766dba59d3a7e, type: 3}
   attackIncreaseIcon: {fileID: 21300000, guid: 34d5f86f0879e46f7a1103ca7bb8e198, type: 3}

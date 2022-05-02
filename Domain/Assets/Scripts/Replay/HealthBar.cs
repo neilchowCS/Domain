@@ -42,8 +42,18 @@ public class HealthBar : MonoBehaviour
     public void AddStatusIcon(StatusIcon i)
     {
         //fix me
-        icons.Add(Instantiate(i, this.transform));
-        icons[icons.Count - 1].transform.position = icons[icons.Count - 1].transform.position +
-            new Vector3(40 * (icons.Count - 1f), 0, 0);
+        if (icons.Count == 0)
+        {
+            icons.Add(Instantiate(i, this.transform));
+            icons[icons.Count - 1].transform.position = icons[icons.Count - 1].transform.position +
+                new Vector3(40 * (icons.Count - 1f), 0, 0);
+        }
+        else
+        {
+            icons[0].number.gameObject.SetActive(true);
+            icons[0].count++;
+            icons[0].number.text = icons[0].count + "";
+        }
+        
     }
 }
