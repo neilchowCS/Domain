@@ -72,8 +72,7 @@ public static class BUnitHelperFunc
                 eligible.Add(x);
             }
         }
-        System.Random random = new System.Random();
-        int output = (int)random.Next(eligible.Count);
+        int output = Random.Range(0, eligible.Count);
         Debug.Log(output);
         return (eligible[output]);
         
