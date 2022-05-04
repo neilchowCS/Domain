@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class HealthBar : MonoBehaviour
 {
@@ -41,18 +42,37 @@ public class HealthBar : MonoBehaviour
 
     public void AddStatusIcon(StatusIcon i)
     {
+        List<int> listId = new List<int>();
+        int iconIndex = 0;
+        bool exist = false;
+        foreach(StatusIcon j in icons)
+        {
+            if (!listId.Contains(j.id))
+            {
+                listId.Add(j.id);
+            }
+        }
+
+        if (listId.Contains(i.id))
+        {
+            exist = true;
+            iconIndex = listId.IndexOf(i.id);
+        }
+
         //fix me
-        if (icons.Count == 0)
+        if (!exist)
         {
             icons.Add(Instantiate(i, this.transform));
+            
             icons[icons.Count - 1].transform.position = icons[icons.Count - 1].transform.position +
                 new Vector3(40 * (icons.Count - 1f), 0, 0);
+            iconIndex = icons.Count - 1;
         }
         else
         {
-            icons[0].number.gameObject.SetActive(true);
-            icons[0].count++;
-            icons[0].number.text = icons[0].count + "";
+            icons[iconIndex].number.gameObject.SetActive(true);
+            icons[iconIndex].count++;
+            icons[iconIndex].number.text = icons[0].count + "";
         }
         
     }

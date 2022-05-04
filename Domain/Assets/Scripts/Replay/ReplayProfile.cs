@@ -10,7 +10,7 @@ public class ReplayProfile : MonoBehaviour
     public Image image;
     public TextMeshProUGUI profileName;
     public TextMeshProUGUI damageNumber;
-    public GameObject bar;
+    public Image bar;
     public int damageInt;
 
     // Start is called before the first frame update

@@ -44,7 +44,10 @@ public class TimelineDamageDealt : TimelineEvent
             if (i.globalId == sourceId)
             {
                 i.IncreaseDamage(amount);
+                break;
             }
         }
+
+        replayExecutor.ReorderProfile();
     }
 }

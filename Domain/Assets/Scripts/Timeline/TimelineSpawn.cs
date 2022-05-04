@@ -33,7 +33,7 @@ public class TimelineSpawn : TimelineEvent
     {
         ReplayUnit x = GameObject.Instantiate(replayExecutor.replayManager.prefabs[indData.baseData.unitId]).GetComponent<ReplayUnit>();
 
-        InitProfile(replayExecutor);
+        replayExecutor.InitProfile(globalSpawnId, indData, side);
         InitUnit(replayExecutor, x);
     }
 
@@ -53,25 +53,5 @@ public class TimelineSpawn : TimelineEvent
         unit.unitData = new UnitData(indData);
     }
 
-    public void InitProfile(ReplayExecutor executor)
-    {
-        ReplayProfile y = GameObject.Instantiate(executor.replayManager.profile).GetComponent<ReplayProfile>();
-        executor.profiles.Add(y);
-        y.globalId = globalSpawnId;
-        y.SetName(indData.baseData.unitName);
-        y.SetImage(indData.baseData.unitSprite);
-        y.transform.SetParent(executor.replayManager.profileParent.transform, false);
-        if (side == 1)
-        {
-            y.transform.localPosition = new Vector3(-y.transform.localPosition.x,
-                y.transform.localPosition.y - (executor.GetNumberOfSide(1)) * 75,
-                y.transform.localPosition.z);
-        }
-        else
-        {
-            y.transform.localPosition = new Vector3(y.transform.localPosition.x,
-                y.transform.localPosition.y - (executor.GetNumberOfSide(0)) * 75,
-                y.transform.localPosition.z);
-        }
-    }
+    
 }
