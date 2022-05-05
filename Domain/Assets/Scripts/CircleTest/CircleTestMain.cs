@@ -15,7 +15,7 @@ public class CircleTestMain : MonoBehaviour
     public GameObject tempPoint2;
     public GameObject tempPoint3;
 
-    private const int NumPoints = 48;
+    private const int NumPoints = 12;
 
     public LineRenderer lineRenderer;
     public LineRenderer lineRendererBlue;
@@ -26,7 +26,7 @@ public class CircleTestMain : MonoBehaviour
     public float scaleFactor;
 
     private float margin = 0.002f;
-    private float minSubdivisions = 0.015f;
+    private float minSubdivisions = 0.01f;
 
     void Start()
     {
@@ -36,11 +36,6 @@ public class CircleTestMain : MonoBehaviour
         Destroy(temp);
 
         Execute();
-    }
-
-    private void Update()
-    {
-        //Debug.DrawRay(rayOrigin, rayDirection, Color.black);
     }
 
     public void Execute()
@@ -349,15 +344,16 @@ public class CircleTestMain : MonoBehaviour
     private Circle RecenterCircle(Circle circle)
     {
         List<Vector3> points = GetPointsInCircle(circle, pointList);
-        if (points.Count < 2)
+        if (points.Count <= 2)
         {
             Debug.Log("insufficient");
-            return circle;
+            if (points.Count == 1) return circle;
+            return new Circle((points[0] + points[1])/2, circle.radius, circle.chord1, circle.chord2);
         }
 
-        //float span = Vector3.Distance(circle.chord1, circle.chord2);
+        //float span = Vector3.Distance(circle.chord1, circle.chord2)/4;
         int count = 1;
-        return Subdivide(circle, Vector3.Distance(circle.chord1, circle.chord2), points, false, count);
+        return Subdivide(circle, Vector3.Distance(circle.chord1, circle.chord2)/4, points, false, count);
     }
 
     //subdivision = 0
@@ -378,7 +374,7 @@ public class CircleTestMain : MonoBehaviour
 
         if (!exceeded)
         {
-            Circle newCircle = AdjustCenter(circle, circle.radius - (span/2));
+            Circle newCircle = AdjustCenter(circle, circle.radius - span);
             if (GetPointsInCircle(newCircle, points).Count == points.Count)
             {
                 return Subdivide(newCircle, span / 2, points, false, count + 1);
@@ -390,7 +386,7 @@ public class CircleTestMain : MonoBehaviour
         }
         else
         {
-            Circle newCircle = AdjustCenter(circle, circle.radius + (span / 2));
+            Circle newCircle = AdjustCenter(circle, circle.radius + span);
             if (GetPointsInCircle(newCircle, points).Count == points.Count)
             {
                 return Subdivide(newCircle, span / 2, points, false, count + 1);
