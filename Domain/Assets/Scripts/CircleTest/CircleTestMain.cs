@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class CircleTestMain : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class CircleTestMain : MonoBehaviour
     public GameObject tempPoint2;
     public GameObject tempPoint3;
 
-    private const int NumPoints = 3;
+    private const int NumPoints = 5;
 
     public LineRenderer lineRenderer;
     public LineRenderer lineRendererBlue;
@@ -23,8 +24,8 @@ public class CircleTestMain : MonoBehaviour
     public Vector3 rayOrigin;
     public float scaleFactor;
 
-    private float margin = 0;
-    private float speedStep = 0.975f;
+    private float margin = 0.002f;
+    private float speedStep = 0.98f;
 
     void Start()
     {
@@ -46,20 +47,21 @@ public class CircleTestMain : MonoBehaviour
         pointList = new List<Vector3>();
         for (int i = 0; i < NumPoints; i++)
         {
-            pointList.Add(RandomPoint(1, 1));
+            pointList.Add(RandomPoint(2.5f, 2.5f));
         }
         DrawPoints();
 
         float radius = 2;
 
-        List<Vector3> circleList = GetAllCircles(radius);
+        List<Circle> circleList = GetAllCircles(radius);
         int index = 0;
         int[] counts = new int[circleList.Count];
-        foreach (Vector3 circleCenter in circleList)
+        //points in each circle
+        foreach (Circle circle in circleList)
         {
             foreach (Vector3 point in pointList)
             {
-                if (Vector3.Distance(point, circleCenter) <= radius)
+                if (Vector3.Distance(point, circle.center) <= radius)
                 {
                     counts[index] += 1;
                 }
@@ -73,16 +75,26 @@ public class CircleTestMain : MonoBehaviour
             if (counts[i] > max)
             {
                 max = counts[i];
-                index = i;
             }
         }
 
-        Vector3 maxCenter = circleList[index];
+        List<int> indices = new List<int>();
+        for (int i = 0; i < counts.Length; i++)
+        {
+            if (counts[i] == max)
+            {
+                indices.Add(i);
+            }
+        }
+
+        indices = indices.OrderByDescending(o => Vector3.Distance(circleList[o].chord1, circleList[o].chord2)).ToList();
+
+        Circle maxCircle = circleList[indices[0]];
         Debug.Log(max + " points in circle");
 
-        DrawCircle(maxCenter, radius);
+        DrawCircle(maxCircle);
 
-        DrawCircleBlue(RecenterCircle(maxCenter, radius), radius);
+        DrawCircleBlue(RecenterCircle(maxCircle));
     }
 
     public Vector3 RandomPoint(float xRange, float yRange)
@@ -130,9 +142,9 @@ public class CircleTestMain : MonoBehaviour
         }
     }
 
-    private void DrawCircle(Vector3 center, float radius)
+    private void DrawCircle(Circle circle)
     {
-        lineRenderer.transform.localPosition = center - new Vector3(0, 0, 0.5f);
+        lineRenderer.transform.localPosition = circle.center - new Vector3(0, 0, 0.5f);
 
         int segments = 100;
         lineRenderer.positionCount = segments + 1;
@@ -145,20 +157,20 @@ public class CircleTestMain : MonoBehaviour
 
         for (int i = 0; i < (segments + 1); i++)
         {
-            x = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
-            y = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
+            x = Mathf.Sin(Mathf.Deg2Rad * angle) * circle.radius;
+            y = Mathf.Cos(Mathf.Deg2Rad * angle) * circle.radius;
 
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
 
             angle += (360f / segments);
         }
 
-        ColorPointsInCircle(center, radius);
+        ColorPointsInCircle(circle);
     }
 
-    private void DrawCircleBlue(Vector3 center, float radius)
+    private void DrawCircleBlue(Circle circle)
     {
-        lineRendererBlue.transform.localPosition = center - new Vector3(0, 0, 0.5f);
+        lineRendererBlue.transform.localPosition = circle.center - new Vector3(0, 0, 0.5f);
 
         int segments = 100;
         lineRendererBlue.positionCount = segments + 1;
@@ -171,15 +183,15 @@ public class CircleTestMain : MonoBehaviour
 
         for (int i = 0; i < (segments + 1); i++)
         {
-            x = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
-            y = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
+            x = Mathf.Sin(Mathf.Deg2Rad * angle) * circle.radius;
+            y = Mathf.Cos(Mathf.Deg2Rad * angle) * circle.radius;
 
             lineRendererBlue.SetPosition(i, new Vector3(x, y, 0));
 
             angle += (360f / segments);
         }
 
-        ColorPointsInCircle(center, radius);
+        //ColorPointsInCircle(circle);
     }
 
     private (int, int) GetPointPair(float maxDistance)
@@ -250,10 +262,10 @@ public class CircleTestMain : MonoBehaviour
             midPoint - (perp.normalized * (radius - positiveSolution)));
     }
 
-    private List<Vector3> GetAllCircles(float radius)
+    private List<Circle> GetAllCircles(float radius)
     {
         float diameter = radius * 2;
-        List<Vector3> output = new List<Vector3>();
+        List<Circle> output = new List<Circle>();
 
         for (int i = 0; i < pointList.Count; i++)
         {
@@ -262,20 +274,20 @@ public class CircleTestMain : MonoBehaviour
                 if (i != j && Vector3.Distance(pointList[i], pointList[j]) <= diameter)
                 {
                     (Vector3, Vector3) calcCenter = GetCentersFromChord(pointList[i], pointList[j], radius);
-                    output.Add(calcCenter.Item1);
-                    output.Add(calcCenter.Item2);
+                    output.Add(new Circle(calcCenter.Item1, radius, pointList[i], pointList[j]));
+                    output.Add(new Circle(calcCenter.Item2, radius, pointList[i], pointList[j]));
                 }
             }
         }
         return output;
     }
 
-    private List<Vector3> GetPointsInCircle(Vector3 center, float radius, List<Vector3> points)
+    private List<Vector3> GetPointsInCircle(Circle circle, List<Vector3> points)
     {
         List<Vector3> output = new List<Vector3>();
         for (int i = 0; i < points.Count; i++)
         {
-            if (Vector3.Distance(points[i], center) <= radius + margin)
+            if (Vector3.Distance(points[i], circle.center) <= circle.radius + margin)
             {
                 output.Add(points[i]);
             }
@@ -283,74 +295,57 @@ public class CircleTestMain : MonoBehaviour
         return output;
     }
 
-    private void ColorPointsInCircle(Vector3 center, float radius)
+    private void ColorPointsInCircle(Circle circle)
     {
         for (int i = 0; i < pointList.Count; i++)
         {
-            if (Vector3.Distance(pointList[i], center) <= radius + margin)
+            if (Vector3.Distance(pointList[i], circle.center) <= circle.radius + margin)
             {
                 pointObjects[i].GetComponent<Image>().color = Color.red;
             }
         }
     }
 
-    private Vector3 AdjustCenter(Vector3 oldCenter, float radius, Vector3 newChord1, Vector3 newChord2)
+    private Circle AdjustCenter(Circle oldCircle, float newRadius)
     {
-        (Vector3, Vector3) newCenters = GetCentersFromChord(newChord1, newChord2, radius);
-        if (Vector3.Distance(newCenters.Item1, oldCenter) < Vector3.Distance(newCenters.Item2, oldCenter))
+        (Vector3, Vector3) newCenters = GetCentersFromChord(oldCircle.chord1, oldCircle.chord2, newRadius);
+        if (Vector3.Distance(newCenters.Item1, oldCircle.center) < Vector3.Distance(newCenters.Item2, oldCircle.center))
         {
-            return newCenters.Item1;
+            return new Circle(newCenters.Item1, newRadius, oldCircle.chord1, oldCircle.chord2);
         }
-        return newCenters.Item2;
+        return new Circle(newCenters.Item2, newRadius, oldCircle.chord1, oldCircle.chord2);
     }
 
-    private Vector3 RecenterCircle(Vector3 oldCenter, float radius)
+    private Circle RecenterCircle(Circle circle)
     {
-        List<Vector3> points = GetPointsInCircle(oldCenter, radius, pointList);
+        List<Vector3> points = GetPointsInCircle(circle, pointList);
         if (points.Count < 2)
         {
             Debug.Log("insufficient");
-            return oldCenter;
+            return circle;
         }
 
-        Vector3 chord1 = points[0];
-        Vector3 chord2 = points[1];
-        //Find chord
-        if (points.Count > 2)
-        {
-            for (int i = 2; i < points.Count; i++)
-            {
-                if (Mathf.Abs(Vector3.Distance(oldCenter, points[i]) - radius) < margin)
-                {
-                    if (Vector3.Distance(oldCenter, chord1) < Vector3.Distance(oldCenter, chord2))
-                    {
-                        chord1 = points[i];
-                    }
-                    else
-                    {
-                        chord2 = points[i];
-                    }
-                }
-            }
-        }
-
+        int numLoops = 0;
         
-        Vector3 validCenter = oldCenter;
+        Circle validCircle = circle;
 
-        float newRadius = radius * speedStep;
-        Vector3 newCenter = AdjustCenter(validCenter, newRadius, chord1, chord2);
+        float newRadius = validCircle.radius * speedStep;
+        Circle newCircle = AdjustCenter(validCircle, newRadius);
 
-        while (GetPointsInCircle(newCenter, newRadius, points).Count == points.Count)
+        while (GetPointsInCircle(newCircle, points).Count == points.Count)
         {
-            Debug.Log("loop");
-            validCenter = newCenter;
-            newRadius *= speedStep;
-            newCenter = AdjustCenter(validCenter, newRadius, chord1, chord2);
+            validCircle = newCircle;
+            newCircle = AdjustCenter(validCircle, validCircle.radius * speedStep);
+            numLoops++;
         }
 
-        Debug.Log("New Center: " + GetPointsInCircle(validCenter, radius, points).Count);
+        if (numLoops > 0)
+        {
+            Debug.Log(numLoops + " loops");
+        }
+        //Debug.Log("New Center: " + GetPointsInCircle(validCenter, radius, points).Count);
         
-        return validCenter;
+        return new Circle(validCircle.center, circle.radius, circle.chord1, circle.chord2);
     }
 }
 
