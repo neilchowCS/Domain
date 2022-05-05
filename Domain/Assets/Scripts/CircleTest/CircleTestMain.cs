@@ -14,7 +14,7 @@ public class CircleTestMain : MonoBehaviour
     public GameObject tempPoint2;
     public GameObject tempPoint3;
 
-    private const int NumPoints = 50;
+    private const int NumPoints = 3;
 
     public LineRenderer lineRenderer;
     public LineRenderer lineRendererBlue;
@@ -23,7 +23,8 @@ public class CircleTestMain : MonoBehaviour
     public Vector3 rayOrigin;
     public float scaleFactor;
 
-
+    private float margin = 0;
+    private float speedStep = 0.975f;
 
     void Start()
     {
@@ -37,7 +38,7 @@ public class CircleTestMain : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawRay(rayOrigin, rayDirection, Color.black);
+        //Debug.DrawRay(rayOrigin, rayDirection, Color.black);
     }
 
     public void Execute()
@@ -45,7 +46,7 @@ public class CircleTestMain : MonoBehaviour
         pointList = new List<Vector3>();
         for (int i = 0; i < NumPoints; i++)
         {
-            pointList.Add(RandomPoint(5, 5));
+            pointList.Add(RandomPoint(1, 1));
         }
         DrawPoints();
 
@@ -58,7 +59,7 @@ public class CircleTestMain : MonoBehaviour
         {
             foreach (Vector3 point in pointList)
             {
-                if (Vector3.Distance(point,circleCenter) <= radius)
+                if (Vector3.Distance(point, circleCenter) <= radius)
                 {
                     counts[index] += 1;
                 }
@@ -79,9 +80,9 @@ public class CircleTestMain : MonoBehaviour
         Vector3 maxCenter = circleList[index];
         Debug.Log(max + " points in circle");
 
-        DrawCircle(maxCenter - new Vector3(0, 0, 0.5f), radius);
-        //DrawCircleBlue(RecenterCircle(maxCenter, GetPointsInCircle(maxCenter,radius)) - new Vector3(0, 0, 0.5f), radius);
-        DrawCircleBlue(new Vector3(0, 0, -0.5f), radius);
+        DrawCircle(maxCenter, radius);
+
+        DrawCircleBlue(RecenterCircle(maxCenter, radius), radius);
     }
 
     public Vector3 RandomPoint(float xRange, float yRange)
@@ -131,7 +132,7 @@ public class CircleTestMain : MonoBehaviour
 
     private void DrawCircle(Vector3 center, float radius)
     {
-        lineRenderer.transform.localPosition = center;
+        lineRenderer.transform.localPosition = center - new Vector3(0, 0, 0.5f);
 
         int segments = 100;
         lineRenderer.positionCount = segments + 1;
@@ -151,11 +152,13 @@ public class CircleTestMain : MonoBehaviour
 
             angle += (360f / segments);
         }
+
+        ColorPointsInCircle(center, radius);
     }
 
     private void DrawCircleBlue(Vector3 center, float radius)
     {
-        lineRendererBlue.transform.localPosition = center;
+        lineRendererBlue.transform.localPosition = center - new Vector3(0, 0, 0.5f);
 
         int segments = 100;
         lineRendererBlue.positionCount = segments + 1;
@@ -175,6 +178,8 @@ public class CircleTestMain : MonoBehaviour
 
             angle += (360f / segments);
         }
+
+        ColorPointsInCircle(center, radius);
     }
 
     private (int, int) GetPointPair(float maxDistance)
@@ -265,33 +270,87 @@ public class CircleTestMain : MonoBehaviour
         return output;
     }
 
-    private List<Vector3> GetPointsInCircle(Vector3 center, float radius)
+    private List<Vector3> GetPointsInCircle(Vector3 center, float radius, List<Vector3> points)
     {
         List<Vector3> output = new List<Vector3>();
-        foreach (Vector3 point in pointList)
-        {
-            if (Vector3.Distance(point, center) <= radius)
-            {
-                output.Add(point);
-            }
-        }
-        return (output);
-    }
-
-    private Vector3 RecenterCircle(Vector3 oldCenter, List<Vector3> points)
-    {
-        (Vector3, Vector3) max = (points[0], points[0]);
         for (int i = 0; i < points.Count; i++)
         {
-            for (int j = 0; i < points.Count; i++)
+            if (Vector3.Distance(points[i], center) <= radius + margin)
             {
-                if (i != j && Vector3.Distance(points[i],points[j]) < Vector3.Distance(max.Item1, max.Item2))
+                output.Add(points[i]);
+            }
+        }
+        return output;
+    }
+
+    private void ColorPointsInCircle(Vector3 center, float radius)
+    {
+        for (int i = 0; i < pointList.Count; i++)
+        {
+            if (Vector3.Distance(pointList[i], center) <= radius + margin)
+            {
+                pointObjects[i].GetComponent<Image>().color = Color.red;
+            }
+        }
+    }
+
+    private Vector3 AdjustCenter(Vector3 oldCenter, float radius, Vector3 newChord1, Vector3 newChord2)
+    {
+        (Vector3, Vector3) newCenters = GetCentersFromChord(newChord1, newChord2, radius);
+        if (Vector3.Distance(newCenters.Item1, oldCenter) < Vector3.Distance(newCenters.Item2, oldCenter))
+        {
+            return newCenters.Item1;
+        }
+        return newCenters.Item2;
+    }
+
+    private Vector3 RecenterCircle(Vector3 oldCenter, float radius)
+    {
+        List<Vector3> points = GetPointsInCircle(oldCenter, radius, pointList);
+        if (points.Count < 2)
+        {
+            Debug.Log("insufficient");
+            return oldCenter;
+        }
+
+        Vector3 chord1 = points[0];
+        Vector3 chord2 = points[1];
+        //Find chord
+        if (points.Count > 2)
+        {
+            for (int i = 2; i < points.Count; i++)
+            {
+                if (Mathf.Abs(Vector3.Distance(oldCenter, points[i]) - radius) < margin)
                 {
-                    max = (points[i], points[j]);
+                    if (Vector3.Distance(oldCenter, chord1) < Vector3.Distance(oldCenter, chord2))
+                    {
+                        chord1 = points[i];
+                    }
+                    else
+                    {
+                        chord2 = points[i];
+                    }
                 }
             }
         }
-        return (max.Item1 + max.Item2) / 2;
+
+        
+        Vector3 validCenter = oldCenter;
+
+        float newRadius = radius * speedStep;
+        Vector3 newCenter = AdjustCenter(validCenter, newRadius, chord1, chord2);
+
+        while (GetPointsInCircle(newCenter, newRadius, points).Count == points.Count)
+        {
+            Debug.Log("loop");
+            validCenter = newCenter;
+            newRadius *= speedStep;
+            newCenter = AdjustCenter(validCenter, newRadius, chord1, chord2);
+        }
+
+        Debug.Log("New Center: " + GetPointsInCircle(validCenter, radius, points).Count);
+        
+        return validCenter;
     }
 }
 
