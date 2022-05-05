@@ -15,17 +15,18 @@ public class CircleTestMain : MonoBehaviour
     public GameObject tempPoint2;
     public GameObject tempPoint3;
 
-    private const int NumPoints = 5;
+    private const int NumPoints = 48;
 
     public LineRenderer lineRenderer;
     public LineRenderer lineRendererBlue;
+    public LineRenderer lineRendererLightBlue;
 
     public Vector3 rayDirection;
     public Vector3 rayOrigin;
     public float scaleFactor;
 
     private float margin = 0.002f;
-    private float speedStep = 0.98f;
+    private float minSubdivisions = 0.015f;
 
     void Start()
     {
@@ -47,7 +48,7 @@ public class CircleTestMain : MonoBehaviour
         pointList = new List<Vector3>();
         for (int i = 0; i < NumPoints; i++)
         {
-            pointList.Add(RandomPoint(2.5f, 2.5f));
+            pointList.Add(RandomPoint(5f, 5f));
         }
         DrawPoints();
 
@@ -94,7 +95,10 @@ public class CircleTestMain : MonoBehaviour
 
         DrawCircle(maxCircle);
 
-        DrawCircleBlue(RecenterCircle(maxCircle));
+        Circle recenteredCircle = (RecenterCircle(maxCircle));
+
+        DrawCircleLightBlue(recenteredCircle);
+        DrawCircleBlue(new Circle(recenteredCircle.center, maxCircle.radius, maxCircle.chord1, maxCircle.chord2));
     }
 
     public Vector3 RandomPoint(float xRange, float yRange)
@@ -146,7 +150,7 @@ public class CircleTestMain : MonoBehaviour
     {
         lineRenderer.transform.localPosition = circle.center - new Vector3(0, 0, 0.5f);
 
-        int segments = 100;
+        int segments = 50;
         lineRenderer.positionCount = segments + 1;
         lineRenderer.useWorldSpace = false;
 
@@ -172,7 +176,7 @@ public class CircleTestMain : MonoBehaviour
     {
         lineRendererBlue.transform.localPosition = circle.center - new Vector3(0, 0, 0.5f);
 
-        int segments = 100;
+        int segments = 50;
         lineRendererBlue.positionCount = segments + 1;
         lineRendererBlue.useWorldSpace = false;
 
@@ -187,6 +191,32 @@ public class CircleTestMain : MonoBehaviour
             y = Mathf.Cos(Mathf.Deg2Rad * angle) * circle.radius;
 
             lineRendererBlue.SetPosition(i, new Vector3(x, y, 0));
+
+            angle += (360f / segments);
+        }
+
+        //ColorPointsInCircle(circle);
+    }
+
+    private void DrawCircleLightBlue(Circle circle)
+    {
+        lineRendererLightBlue.transform.localPosition = circle.center - new Vector3(0, 0, 0.5f);
+
+        int segments = 50;
+        lineRendererLightBlue.positionCount = segments + 1;
+        lineRendererLightBlue.useWorldSpace = false;
+
+        float x;
+        float y;
+
+        float angle = 20f;
+
+        for (int i = 0; i < (segments + 1); i++)
+        {
+            x = Mathf.Sin(Mathf.Deg2Rad * angle) * circle.radius;
+            y = Mathf.Cos(Mathf.Deg2Rad * angle) * circle.radius;
+
+            lineRendererLightBlue.SetPosition(i, new Vector3(x, y, 0));
 
             angle += (360f / segments);
         }
@@ -325,27 +355,51 @@ public class CircleTestMain : MonoBehaviour
             return circle;
         }
 
-        int numLoops = 0;
-        
-        Circle validCircle = circle;
+        //float span = Vector3.Distance(circle.chord1, circle.chord2);
+        int count = 1;
+        return Subdivide(circle, Vector3.Distance(circle.chord1, circle.chord2), points, false, count);
+    }
 
-        float newRadius = validCircle.radius * speedStep;
-        Circle newCircle = AdjustCenter(validCircle, newRadius);
-
-        while (GetPointsInCircle(newCircle, points).Count == points.Count)
+    //subdivision = 0
+    private Circle Subdivide(Circle circle, float span, List<Vector3> points, bool exceeded, int count)
+    {
+        if (span < minSubdivisions/2)
         {
-            validCircle = newCircle;
-            newCircle = AdjustCenter(validCircle, validCircle.radius * speedStep);
-            numLoops++;
+            Debug.Log(count);
+            if (!exceeded)
+            {
+                return circle;
+            }
+            else
+            {
+                return AdjustCenter(circle, circle.radius + (span * 2));
+            }
         }
 
-        if (numLoops > 0)
+        if (!exceeded)
         {
-            Debug.Log(numLoops + " loops");
+            Circle newCircle = AdjustCenter(circle, circle.radius - (span/2));
+            if (GetPointsInCircle(newCircle, points).Count == points.Count)
+            {
+                return Subdivide(newCircle, span / 2, points, false, count + 1);
+            }
+            else
+            {
+                return Subdivide(newCircle, span / 2, points, true, count + 1);
+            }
         }
-        //Debug.Log("New Center: " + GetPointsInCircle(validCenter, radius, points).Count);
-        
-        return new Circle(validCircle.center, circle.radius, circle.chord1, circle.chord2);
+        else
+        {
+            Circle newCircle = AdjustCenter(circle, circle.radius + (span / 2));
+            if (GetPointsInCircle(newCircle, points).Count == points.Count)
+            {
+                return Subdivide(newCircle, span / 2, points, false, count + 1);
+            }
+            else
+            {
+                return Subdivide(newCircle, span / 2, points, true, count + 1);
+            }
+        }
     }
 }
 
