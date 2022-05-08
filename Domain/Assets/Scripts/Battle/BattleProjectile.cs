@@ -35,7 +35,7 @@ public class BattleProjectile : BattleObject
 
     public override void OnTickUp()
     {
-        if (attackData.projectile && attackData.followTarget && target != null)
+        if (/*attackData.projectile &&*/ attackData.followTarget && target != null)
         {
             position = Vector3.MoveTowards(position, target.position,
                 attackData.speed / TickSpeed.ticksPerSecond);
@@ -44,6 +44,9 @@ public class BattleProjectile : BattleObject
                 ProjectileEffect();
                 Unassign();
             }
+        } else if (attackData.projectile && !attackData.travel && targetLocation != null)
+        {
+
         }
     }
 
