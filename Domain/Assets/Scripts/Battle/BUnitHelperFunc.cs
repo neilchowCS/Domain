@@ -8,20 +8,31 @@ using System.Linq;
 /// </summary>
 public static class BUnitHelperFunc
 {
+    public static List<BattleUnit> GetEnemyList(BattleUnit battleUnit)
+    {
+        if (battleUnit.side == 0)
+        {
+            return battleUnit.executor.player1;
+        }
+        return battleUnit.executor.player0;
+    }
+
+    public static List<Vector3> GetEnemyPositionList(BattleUnit battleUnit)
+    {
+        List<Vector3> output = new List<Vector3>();
+        foreach (BattleUnit enemy in GetEnemyList(battleUnit))
+        {
+            output.Add(enemy.position);
+        }
+        return output;
+    }
+
     /// <summary>
     /// Returns the closest BattleUnit to param.
     /// </summary>
     public static BattleUnit GetClosestEnemy(BattleUnit battleUnit)
     {
-        List<BattleUnit> eligible;
-        if (battleUnit.side == 0)
-        {
-            eligible = battleUnit.executor.player1;
-        }
-        else
-        {
-            eligible = battleUnit.executor.player0;
-        }
+        List<BattleUnit> eligible = GetEnemyList(battleUnit);
         eligible = eligible.OrderBy(o => GetBattleUnitDistance(battleUnit, o)).ToList();
         if (eligible.Count > 0)
         {
