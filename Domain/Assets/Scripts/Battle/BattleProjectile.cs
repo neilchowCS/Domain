@@ -6,7 +6,7 @@ public class BattleProjectile : BattleObject
 {
     public BattleUnit source;
     protected int sourceAttack;
-    protected int sourceGlobalId;
+    protected int sourceGlobalId = -1;
     public BattleUnit target;
     public Vector3 position;
     public Vector3 targetLocation;
@@ -37,6 +37,7 @@ public class BattleProjectile : BattleObject
         attackData = source.unitData.baseData.attackDataList[index];
         this.targetLocation = target;
         sourceAttack = source.unitData.unitAttack.Value;
+        sourceGlobalId = source.globalObjectId;
 
         executor.GetAlliedObjects(this).Add(this);
         executor.timeline.AddTimelineEvent(
