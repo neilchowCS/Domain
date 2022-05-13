@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AoeTargetingExtension;
 
 /// <summary>
 /// A unit created during battle sim.
@@ -167,7 +168,7 @@ public class BattleUnit : BattleObject
                     {
                         Debug.Log("WEEEEWOOOO!!! " + this.objectName);
                     }
-                    x = new BattleProjectile(executor, side, this, i, AoeTargeting.GetAoeLocation(this, 6, 0));
+                    x = new BattleProjectile(executor, side, this, i, this.GetAoeLocation(3, 0));
                     break;
             }
         }

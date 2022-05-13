@@ -55,9 +55,7 @@ public class TimelineProjectile : TimelineEvent
                 }
             }
         }
-        Debug.Log("Source:" + sourceId);
-        Debug.Log("Count:" + source.unitData.baseData.attackDataList.Count);
-        Debug.Log("Index:" + projectileIndex);
+
         ReplayProjectile x =
             GameObject.Instantiate(source.unitData.baseData.attackDataList[projectileIndex].projectile);
 
