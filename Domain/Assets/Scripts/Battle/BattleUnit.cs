@@ -162,14 +162,14 @@ public class BattleUnit : BattleObject
                 case 1:
                     x = new AliceSkillBP(executor, side, this, i, currentTarget);
                     break;
+                case 2:
+                    //if (this.objectName != "Joe")
+                    {
+                        Debug.Log("WEEEEWOOOO!!! " + this.objectName);
+                    }
+                    x = new BattleProjectile(executor, side, this, i, AoeTargeting.GetAoeLocation(this, 6, 0));
+                    break;
             }
-            if (x != null)
-            {
-                executor.playerObjects0.Add(x);
-                executor.timeline.AddTimelineEvent(
-                    new TimelineProjectile(globalObjectId, currentTarget.globalObjectId, i));
-            }
-
         }
 
     }

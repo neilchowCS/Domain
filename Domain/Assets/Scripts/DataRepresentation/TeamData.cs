@@ -29,9 +29,9 @@ public class TeamData
         }
         else if (i == 1)
         {
-            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[0])));
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[2])));
             AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[1])));
-            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[0])));
+            AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[2])));
             AddUnitData(new UnitData(new UnitIndependentData(dataList.uDList[1])));
         }
     }

@@ -13,7 +13,7 @@ public class BattleProjectile : BattleObject
     public UnitAttackDataScriptableObject attackData;
 
     public BattleProjectile(BattleExecutor exec, int side, BattleUnit source,
-        int index, BattleUnit target):base(exec, side)
+        int index, BattleUnit target) : base(exec, side)
     {
         executor.eventHandler.UnitDeath += OnUnitDeath;
         this.source = source;
@@ -22,15 +22,25 @@ public class BattleProjectile : BattleObject
         this.target = target;
         sourceAttack = source.unitData.unitAttack.Value;
         sourceGlobalId = source.globalObjectId;
+
+
+        executor.GetAlliedObjects(this).Add(this);
+        executor.timeline.AddTimelineEvent(
+                new TimelineProjectile(sourceGlobalId, target.globalObjectId, index));
     }
 
     public BattleProjectile(BattleExecutor exec, int side, BattleUnit source,
         int index, Vector3 target) : base(exec, side)
     {
         this.source = source;
+        this.position = source.position;
         attackData = source.unitData.baseData.attackDataList[index];
         this.targetLocation = target;
         sourceAttack = source.unitData.unitAttack.Value;
+
+        executor.GetAlliedObjects(this).Add(this);
+        executor.timeline.AddTimelineEvent(
+                new TimelineProjectile(sourceGlobalId, target, index));
     }
 
     public override void OnTickUp()
@@ -39,14 +49,21 @@ public class BattleProjectile : BattleObject
         {
             position = Vector3.MoveTowards(position, target.position,
                 attackData.speed / TickSpeed.ticksPerSecond);
-            if (Vector3.Distance(position, target.position) < 0.00001f)
+            if (Vector3.Distance(position, target.position) < 0.0001f)
             {
                 ProjectileEffect();
                 Unassign();
             }
-        } else if (attackData.projectile && !attackData.travel && targetLocation != null)
+        }
+        else if (attackData.projectile && !attackData.followTarget && targetLocation != null)
         {
-
+            position = Vector3.MoveTowards(position, targetLocation,
+                attackData.speed / TickSpeed.ticksPerSecond);
+            if (Vector3.Distance(position, targetLocation) < 0.0001f)
+            {
+                //ProjectileEffect();
+                Unassign();
+            }
         }
     }
 
@@ -80,6 +97,6 @@ public class BattleProjectile : BattleObject
         target = null;
         source.executor.eventHandler.TickUp -= OnTickUp;
         source.executor.eventHandler.UnitDeath -= OnUnitDeath;
-        source.executor.playerObjects0.Remove(this);
+        executor.GetAlliedObjects(this).Remove(this);
     }
 }

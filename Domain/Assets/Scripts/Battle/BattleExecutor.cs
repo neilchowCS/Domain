@@ -194,4 +194,40 @@ public class BattleExecutor : MonoBehaviour
             }
         }
     }
+
+    public List<BattleObject> GetAlliedObjects(BattleObject obj)
+    {
+        if (obj.side == 0)
+        {
+            return playerObjects0;
+        }
+        return playerObjects1;
+    }
+
+    public List<BattleObject> GetEnemyObjects(BattleObject obj)
+    {
+        if (obj.side == 0)
+        {
+            return playerObjects1;
+        }
+        return playerObjects0;
+    }
+
+    public List<BattleUnit> GetAlliedUnits(BattleObject obj)
+    {
+        if (obj.side == 0)
+        {
+            return player0;
+        }
+        return player1;
+    }
+
+    public List<BattleUnit> GetEnemyUnits(BattleObject obj)
+    {
+        if (obj.side == 0)
+        {
+            return player0;
+        }
+        return player1;
+    }
 }

@@ -5,13 +5,25 @@ using UnityEngine;
 public class TimelineProjectile : TimelineEvent
 {
     public int sourceId;
+    public bool targeted;
     public int targetId;
+    public Vector3 targetLocation;
     public int projectileIndex;
+
     public TimelineProjectile(int sourceId, int targetId, int projectileIndex)
     {
         this.sourceId = sourceId;
         this.targetId = targetId;
         this.projectileIndex = projectileIndex;
+        targeted = true;
+    }
+
+    public TimelineProjectile(int sourceId, Vector3 targetLocation, int projectileIndex)
+    {
+        this.sourceId = sourceId;
+        this.targetLocation = targetLocation;
+        this.projectileIndex = projectileIndex;
+        targeted = false;
     }
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
@@ -19,18 +31,33 @@ public class TimelineProjectile : TimelineEvent
         ReplayUnit source = null;
         ReplayUnit target = null;
 
-        foreach (ReplayUnit rU in replayExecutor.replayUnits)
+        if (targeted)
         {
-            if (rU.globalId == sourceId)
+            foreach (ReplayUnit rU in replayExecutor.replayUnits)
             {
-                source = rU;
-            }
-            if (rU.globalId == targetId)
-            {
-                target = rU;
+                if (rU.globalId == sourceId)
+                {
+                    source = rU;
+                }
+                if (rU.globalId == targetId)
+                {
+                    target = rU;
+                }
             }
         }
-
+        else
+        {
+            foreach (ReplayUnit rU in replayExecutor.replayUnits)
+            {
+                if (rU.globalId == sourceId)
+                {
+                    source = rU;
+                }
+            }
+        }
+        Debug.Log("Source:" + sourceId);
+        Debug.Log("Count:" + source.unitData.baseData.attackDataList.Count);
+        Debug.Log("Index:" + projectileIndex);
         ReplayProjectile x =
             GameObject.Instantiate(source.unitData.baseData.attackDataList[projectileIndex].projectile);
 
@@ -41,8 +68,18 @@ public class TimelineProjectile : TimelineEvent
         ReplayUnit source, ReplayUnit target)
     {
         self.transform.position = source.transform.position + new Vector3(0, 1, 0);
-        self.target = target;
         self.speed = source.unitData.baseData.attackDataList[projectileIndex].speed;
+        if (targeted)
+        {
+            if (target != null)
+            {
+                self.target = target;
+            }
+        }
+        else
+        {
+            self.targetLocation = targetLocation;
+        }
         /*
         if (side == 1)
         {

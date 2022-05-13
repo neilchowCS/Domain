@@ -16,6 +16,9 @@ static class BattleUnitConstructor
             case 1:
                 output = new BobBU(exec, side, data);
                 break;
+            case 2:
+                output = new JoeBU(exec, side, data);
+                break;
         }
         return output;
     }
@@ -30,6 +33,9 @@ static class BattleUnitConstructor
                 break;
             case 1:
                 output = new BobBU(exec, side, data, tileId);
+                break;
+            case 2:
+                output = new JoeBU(exec, side, data, tileId);
                 break;
         }
         return output;

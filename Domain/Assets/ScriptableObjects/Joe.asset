@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3068ff77e24f45e0a2c0dc750a3d42e, type: 3}
+  m_Name: Joe
+  m_EditorClassIdentifier: 
+  unitId: 2
+  unitName: Joe
+  unitSprite: {fileID: 21300000, guid: 6b9633d1eb43343bfbd822f111c1ce92, type: 3}
+  baseHealth: 10
+  baseAttack: 1
+  baseDefense: 0
+  baseMDefense: 0
+  baseAttackSpeed: 0.5
+  baseRange: 20
+  baseMoveSpeed: 4
+  baseMana: 5
+  baseTickPerMana: 20
+  baseCrit: 0
+  baseCritChance: 0
+  eventSubscriptions: 0100010000
+  attackDataList:
+  - {fileID: 11400000, guid: 6ec212f13add44fbe97c73d48aaf0273, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 81782060ac8cc4a3cb278c52fa9b7a97, type: 2}
+  commonRef: {fileID: 11400000, guid: 536a12f5993b7409f84ff73f293d44f6, type: 2}

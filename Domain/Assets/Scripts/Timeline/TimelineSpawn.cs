@@ -31,7 +31,7 @@ public class TimelineSpawn : TimelineEvent
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
     {
-        ReplayUnit x = GameObject.Instantiate(replayExecutor.replayManager.prefabs[indData.baseData.unitId]).GetComponent<ReplayUnit>();
+        ReplayUnit x = GameObject.Instantiate(replayExecutor.replayManager.replayUnitPrefabs[indData.baseData.unitId]).GetComponent<ReplayUnit>();
 
         replayExecutor.InitProfile(globalSpawnId, indData, side);
         InitUnit(replayExecutor, x);
