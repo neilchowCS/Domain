@@ -14,6 +14,6 @@ public class AliceSkillBP : BattleProjectile
     {
         int damageAmount = sourceAttack * 5;
         Debug.Log(damageAmount);
-        DealDamage(target, damageAmount);
+        executor.DealDamage(source, target, damageAmount);
     }
 }

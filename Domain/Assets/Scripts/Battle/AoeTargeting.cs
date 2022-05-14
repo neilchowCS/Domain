@@ -12,47 +12,65 @@ namespace AoeTargetingExtension
 
         static public Vector3 GetAoeLocation(this BattleUnit unit, float radius, float range)
         {
-            List<Circle> circleList = GetAllCircles(unit, radius);
-            int index = 0;
-            int[] counts = new int[circleList.Count];
-            //points in each circle
-            foreach (Circle circle in circleList)
+            List<Vector3> enemyPositions = BUnitHelperFunc.GetEnemyPositionList(unit);
+
+            if (enemyPositions.Count == 1)
             {
-                foreach (Vector3 point in BUnitHelperFunc.GetEnemyPositionList(unit))
+                return enemyPositions[0];
+            }
+
+            if (enemyPositions.Count == 2 && Vector3.Distance(enemyPositions[0], enemyPositions[1]) <= radius)
+            {
+                return (enemyPositions[0] + enemyPositions[1]) / 2;
+            }
+
+            List<Circle> circleList = GetAllCircles(unit, radius);
+
+            if (circleList.Count > 0)
+            {
+
+                int index = 0;
+                int[] counts = new int[circleList.Count];
+                //points in each circle
+                foreach (Circle circle in circleList)
                 {
-                    if (Vector3.Distance(point, circle.center) <= radius)
+                    foreach (Vector3 point in BUnitHelperFunc.GetEnemyPositionList(unit))
                     {
-                        counts[index] += 1;
+                        if (Vector3.Distance(point, circle.center) <= radius)
+                        {
+                            counts[index] += 1;
+                        }
+                    }
+                    index++;
+                }
+
+                int max = 0;
+                for (int i = 0; i < counts.Length; i++)
+                {
+                    if (counts[i] > max)
+                    {
+                        max = counts[i];
                     }
                 }
-                index++;
-            }
 
-            int max = 0;
-            for (int i = 0; i < counts.Length; i++)
-            {
-                if (counts[i] > max)
+                List<int> indices = new List<int>();
+                for (int i = 0; i < counts.Length; i++)
                 {
-                    max = counts[i];
+                    if (counts[i] == max)
+                    {
+                        indices.Add(i);
+                    }
                 }
+
+                indices = indices.OrderByDescending(o => Vector3.Distance(circleList[o].chord1, circleList[o].chord2)).ToList();
+
+                Circle finalCircle = RecenterCircle(circleList[indices[0]], unit);
+
+                //Debug.Log(finalCircle.center.x + "x, " + finalCircle.center.z + "z");
+
+                return finalCircle.center;
             }
-
-            List<int> indices = new List<int>();
-            for (int i = 0; i < counts.Length; i++)
-            {
-                if (counts[i] == max)
-                {
-                    indices.Add(i);
-                }
-            }
-
-            indices = indices.OrderByDescending(o => Vector3.Distance(circleList[o].chord1, circleList[o].chord2)).ToList();
-
-            Circle finalCircle = RecenterCircle(circleList[indices[0]], unit);
-
-            Debug.Log(finalCircle.center.x + "x, " + finalCircle.center.z + "z");
-
-            return finalCircle.center;
+            return enemyPositions[0];
         }
 
         static private List<Circle> GetAllCircles(BattleUnit battleUnit, float radius)
@@ -147,7 +165,7 @@ namespace AoeTargetingExtension
             List<Vector3> points = GetPointsInCircle(circle, BUnitHelperFunc.GetEnemyPositionList(battleUnit));
             if (points.Count <= 2)
             {
-                Debug.Log("insufficient");
+                //Debug.Log("insufficient");
                 if (points.Count == 1) return circle;
                 return new Circle((points[0] + points[1]) / 2, circle.radius, circle.chord1, circle.chord2);
             }
@@ -162,7 +180,7 @@ namespace AoeTargetingExtension
         {
             if (span < minSubdivisions / 2)
             {
-                Debug.Log(count);
+                //Debug.Log(count);
                 if (!exceeded)
                 {
                     return circle;

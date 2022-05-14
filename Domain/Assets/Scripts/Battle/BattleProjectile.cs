@@ -6,6 +6,7 @@ public class BattleProjectile : BattleObject
 {
     public BattleUnit source;
     protected int sourceAttack;
+    //FIXME ???
     protected int sourceGlobalId = -1;
     public BattleUnit target;
     public Vector3 position;
@@ -30,18 +31,18 @@ public class BattleProjectile : BattleObject
     }
 
     public BattleProjectile(BattleExecutor exec, int side, BattleUnit source,
-        int index, Vector3 target) : base(exec, side)
+        int index, Vector3 targetLocation) : base(exec, side)
     {
         this.source = source;
         this.position = source.position;
         attackData = source.unitData.baseData.attackDataList[index];
-        this.targetLocation = target;
+        this.targetLocation = targetLocation;
         sourceAttack = source.unitData.unitAttack.Value;
         sourceGlobalId = source.globalObjectId;
 
         executor.GetAlliedObjects(this).Add(this);
         executor.timeline.AddTimelineEvent(
-                new TimelineProjectile(sourceGlobalId, target, index));
+                new TimelineProjectile(sourceGlobalId, targetLocation, index));
     }
 
     public override void OnTickUp()
@@ -62,7 +63,7 @@ public class BattleProjectile : BattleObject
                 attackData.speed / TickSpeed.ticksPerSecond);
             if (Vector3.Distance(position, targetLocation) < 0.0001f)
             {
-                //ProjectileEffect();
+                ProjectileEffect();
                 Unassign();
             }
         }
@@ -78,19 +79,7 @@ public class BattleProjectile : BattleObject
 
     public virtual void ProjectileEffect()
     {
-        DealDamage(target, sourceAttack);
-    }
-
-    /// <summary>
-    /// Raises DealDamage event.
-    /// Deals damage equal to unit's attack to damageTarget.
-    /// </summary>
-    public virtual void DealDamage(BattleUnit damageTarget, int amount)
-    {
-        executor.eventHandler.OnDamageDealt(source, damageTarget, amount);
-        executor.timeline.AddTimelineEvent(new TimelineDamageDealt(sourceGlobalId,
-            damageTarget.globalObjectId, amount));
-
+        executor.DealDamage(source, target, sourceAttack);
     }
 
     public virtual void Unassign()

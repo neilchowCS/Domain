@@ -84,7 +84,7 @@ public static class BUnitHelperFunc
             }
         }
         int output = Random.Range(0, eligible.Count);
-        Debug.Log(output);
+        //Debug.Log(output);
         return (eligible[output]);
         
     }

@@ -69,7 +69,7 @@ public class BattleSpace
             }
         }
 
-        Debug.Log(tiles0.Count);
-        Debug.Log(tiles1.Count);
+        //Debug.Log(tiles0.Count);
+        //Debug.Log(tiles1.Count);
     }
 }

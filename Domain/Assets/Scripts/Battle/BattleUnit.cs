@@ -168,7 +168,7 @@ public class BattleUnit : BattleObject
                     {
                         Debug.Log("WEEEEWOOOO!!! " + this.objectName);
                     }
-                    x = new BattleProjectile(executor, side, this, i, this.GetAoeLocation(3, 0));
+                    x = new JoeSkillBP(executor, side, this, i, this.GetAoeLocation(3, 0));
                     break;
             }
         }

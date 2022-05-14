@@ -226,8 +226,24 @@ public class BattleExecutor : MonoBehaviour
     {
         if (obj.side == 0)
         {
-            return player0;
+            return player1;
         }
-        return player1;
+        return player0;
+    }
+
+    /// <summary>
+    /// Raises DealDamage event.
+    /// Deals damage equal to unit's attack to damageTarget.
+    /// </summary>
+    public void DealDamage(BattleUnit damageSource, BattleUnit damageTarget, int amount)
+    {
+        eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
+        if (damageSource == null)
+        {
+            Debug.Log("error!");
+        }
+        timeline.AddTimelineEvent(new TimelineDamageDealt(damageSource.globalObjectId,
+            damageTarget.globalObjectId, amount));
+
     }
 }
