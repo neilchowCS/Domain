@@ -40,7 +40,7 @@ public class HealthBar : MonoBehaviour
         
     }
 
-    public void AddStatusIcon(StatusIcon i)
+    public void AddStatusIcon(StatusIcon i, Sprite statusSprite)
     {
         List<int> listId = new List<int>();
         int iconIndex = 0;
@@ -63,7 +63,7 @@ public class HealthBar : MonoBehaviour
         if (!exist)
         {
             icons.Add(Instantiate(i, this.transform));
-            
+            icons[icons.Count - 1].GetComponent<Image>().sprite = statusSprite;
             icons[icons.Count - 1].transform.position = icons[icons.Count - 1].transform.position +
                 new Vector3(40 * (icons.Count - 1f), 0, 0);
             iconIndex = icons.Count - 1;

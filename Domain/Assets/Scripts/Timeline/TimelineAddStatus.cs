@@ -25,7 +25,9 @@ public class TimelineAddStatus : TimelineEvent
             }
         }
 
-        source.healthBar.AddStatusIcon(source.unitData.baseData.commonRef.statusIconPrefab);
+
+        source.healthBar.AddStatusIcon(source.unitData.baseData.commonRef.statusIconPrefab,
+            source.unitData.baseData.commonRef.statusIconList[statusId]);
         
     }
 }

@@ -10,5 +10,5 @@ public class CommonReference : ScriptableObject
 
     public StatusIcon statusIconPrefab;
 
-    public Sprite attackIncreaseIcon;
+    public List<Sprite> statusIconList;
 }
