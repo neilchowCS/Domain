@@ -28,8 +28,7 @@ public class ReplayProjectile : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-        else
-        {
+        else{
             Destroy(this.gameObject);
         }
         

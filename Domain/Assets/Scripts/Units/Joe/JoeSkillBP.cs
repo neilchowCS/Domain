@@ -27,6 +27,9 @@ public class JoeSkillBP : BattleProjectile
             enemy.statusList.Add(new BattleStatusBurn(enemy, source, sourceAttack * 7, 0));
             executor.timeline.AddTimelineEvent(new TimelineAddStatus(enemy.globalObjectId, 1));
         }
-   
+
+        executor.timeline.AddTimelineEvent(new TimelineProjectile(source.globalObjectId,
+            targetLocation, targetLocation, 3));
+
     }
 }

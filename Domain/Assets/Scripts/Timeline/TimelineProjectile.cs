@@ -7,6 +7,7 @@ public class TimelineProjectile : TimelineEvent
     public int sourceId;
     public bool targeted;
     public int targetId;
+    public Vector3 spawnLocation;
     public Vector3 targetLocation;
     public int projectileIndex;
 
@@ -21,6 +22,15 @@ public class TimelineProjectile : TimelineEvent
     public TimelineProjectile(int sourceId, Vector3 targetLocation, int projectileIndex)
     {
         this.sourceId = sourceId;
+        this.targetLocation = targetLocation;
+        this.projectileIndex = projectileIndex;
+        targeted = false;
+    }
+
+    public TimelineProjectile(int sourceId, Vector3 spawnLocation, Vector3 targetLocation, int projectileIndex)
+    {
+        this.sourceId = sourceId;
+        this.spawnLocation = spawnLocation;
         this.targetLocation = targetLocation;
         this.projectileIndex = projectileIndex;
         targeted = false;
@@ -65,8 +75,17 @@ public class TimelineProjectile : TimelineEvent
     public void InitProjectile(ReplayExecutor executor, ReplayProjectile self,
         ReplayUnit source, ReplayUnit target)
     {
-        self.transform.position = source.transform.position + new Vector3(0, 1, 0);
+        if (spawnLocation == null)
+        {
+            self.transform.position = source.transform.position + new Vector3(0, 1, 0);
+        }
+        else
+        {
+            self.transform.position = spawnLocation;
+        }
+
         self.speed = source.unitData.baseData.attackDataList[projectileIndex].speed;
+
         if (targeted)
         {
             if (target != null)
