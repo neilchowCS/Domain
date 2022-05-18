@@ -4,8 +4,28 @@ using UnityEngine;
 
 public class BattleStatus : BattleObject
 {
-    public BattleStatus(BattleExecutor exec, int side, int id, string name)
-        :base(exec, side, id, name){
+    public BattleUnit host;
 
+    public BattleStatus(BattleExecutor exec, int side, int id, string name, BattleUnit host)
+        :base(exec, side, id, name){
+        this.host = host;
+        executor.eventHandler.UnitDeath += this.OnUnitDeath;
+    }
+
+    public virtual void OnUnitDeath(BattleUnit deadUnit)
+    {
+        if (deadUnit == host)
+        {
+            OnUnapply();
+            this.host = null;
+        }
+    }
+
+    public virtual void OnUnapply()
+    {
+        if (host != null)
+        {
+            host.statusList.Remove(this);
+        }
     }
 }

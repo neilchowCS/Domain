@@ -23,7 +23,7 @@ MonoBehaviour:
   baseRange: 20
   baseMoveSpeed: 4
   baseMana: 5
-  baseTickPerMana: 20
+  baseTickPerMana: 15
   baseCrit: 0
   baseCritChance: 0
   eventSubscriptions: 0100010000
@@ -31,4 +31,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6ec212f13add44fbe97c73d48aaf0273, type: 2}
   - {fileID: 0}
   - {fileID: 11400000, guid: 81782060ac8cc4a3cb278c52fa9b7a97, type: 2}
+  - {fileID: 11400000, guid: 98fc35a1457174010a5ad29bd1f11440, type: 2}
   commonRef: {fileID: 11400000, guid: 536a12f5993b7409f84ff73f293d44f6, type: 2}

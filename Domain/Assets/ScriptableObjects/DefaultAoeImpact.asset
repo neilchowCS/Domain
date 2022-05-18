@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultAoeImpact
   m_EditorClassIdentifier: 
   attackType: Visual
-  projectile: {fileID: 3673845980194086480, guid: 99abd17c15d8d4dc59d69f8e840a9374, type: 3}
+  projectile: {fileID: -8406086463753370622, guid: 99abd17c15d8d4dc59d69f8e840a9374, type: 3}
   travel: 0
   followTarget: 0
   speed: 0

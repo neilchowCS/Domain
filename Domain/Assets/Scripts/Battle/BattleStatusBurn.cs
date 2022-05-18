@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class BattleStatusBurn : BattleStatus
 {
-    public BattleUnit host;
     public BattleUnit source;
     public int damagePerTick;
     public float seconds;
+    private float lifetime = 0;
     private float timer = 0;
 
     public BattleStatusBurn(BattleUnit host, BattleUnit source, int damagePerTick, float seconds)
-        : base(host.executor, source.side, 1, "Burn")
+        : base(host.executor, source.side, 1, "Burn", host)
     {
-        this.host = host;
         this.source = source;
         this.damagePerTick = damagePerTick;
         this.seconds = seconds;
@@ -21,13 +20,26 @@ public class BattleStatusBurn : BattleStatus
         OnApply();
     }
 
-    public void OnApply()
+    public override void OnTickUp()
     {
-        executor.DealDamage(source, host, damagePerTick);
+        timer++;
+        lifetime++;
+        if (timer >= TickSpeed.ticksPerSecond)
+        {
+            OnApply();
+            timer -= TickSpeed.ticksPerSecond;
+        }
+        if (lifetime >= TickSpeed.ticksPerSecond * seconds)
+        {
+            OnUnapply();
+        }
     }
 
-    public void OnUnapply()
+    public void OnApply()
     {
-        host.statusList.Remove(this);
+        if (host != null)
+        {
+            executor.DealDamage(source, host, damagePerTick);
+        }
     }
 }

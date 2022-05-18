@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class BattleStatusAttackModify : BattleStatus
 {
-    public BattleUnit host;
     public bool isPercent;
     public bool isPermanent;
     public float amount;
 
     public BattleStatusAttackModify(BattleUnit host, float amount, bool percent, bool permanence)
-        :base(host.executor, host.side, 0, "Attack modify")
+        :base(host.executor, host.side, 0, "Attack modify", host)
     {
         this.host = host;
         isPercent = percent;
@@ -32,7 +31,7 @@ public class BattleStatusAttackModify : BattleStatus
         }
     }
 
-    public void OnUnapply()
+    public override void OnUnapply()
     {
         if (isPercent)
         {
