@@ -9,7 +9,7 @@ using AoeTargetingExtension;
 /// </summary>
 public class BattleUnit : BattleObject
 {
-    public UnitData unitData;
+    public UnitRuntimeData unitData;
 
     public Vector3 position;
 
@@ -36,7 +36,7 @@ public class BattleUnit : BattleObject
     /// <summary>
     /// BattleUnit constructor
     /// </summary>
-    public BattleUnit(BattleExecutor exec, int side, UnitData unitData, int tileId)
+    public BattleUnit(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId)
         : base(exec, side)
     {
         InitBattleUnitValues(exec, side, unitData, tileId);
@@ -45,13 +45,13 @@ public class BattleUnit : BattleObject
     /// <summary>
     /// BattleUnit constructor for random location
     /// </summary>
-    public BattleUnit(BattleExecutor exec, int side, UnitData unitData)
+    public BattleUnit(BattleExecutor exec, int side, UnitRuntimeData unitData)
         : base(exec, side)
     {
         InitBattleUnitValues(exec, side, unitData, BUnitHelperFunc.GetSpawnLoc(this).id);
     }
 
-    private void InitBattleUnitValues(BattleExecutor exec, int side, UnitData unitData, int tileId)
+    private void InitBattleUnitValues(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId)
     {
         this.unitData = unitData;
         objectName = unitData.baseData.unitName;
@@ -63,8 +63,8 @@ public class BattleUnit : BattleObject
 
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
 
-        executor.timeline.AddInitialSpawn(new TimelineSpawn(unitData.independentData, globalObjectId, side,
-            tileId));
+        executor.timeline.AddInitialSpawn(new TimelineSpawn((unitData.baseData, unitData.individualData),
+            globalObjectId, side, tileId));
     }
 
     /// <summary>

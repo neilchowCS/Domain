@@ -13,17 +13,17 @@ using UnityEngine;
 /// </summary>
 public class TimelineSpawn : TimelineEvent
 {
-    public UnitIndependentData indData;
+    public (UnitDataScriptableObject, UnitIndividualData) compositeData;
     public int globalSpawnId;
     public int side;
     public int spawnTileId;
 
-    public TimelineSpawn(UnitIndependentData indData,
+    public TimelineSpawn((UnitDataScriptableObject, UnitIndividualData) compositeData,
         int globalSpawnId,
         int side,
         int spawnTileId)
     {
-        this.indData = indData;
+        this.compositeData = compositeData;
         this.globalSpawnId = globalSpawnId;
         this.side = side;
         this.spawnTileId = spawnTileId;
@@ -31,9 +31,9 @@ public class TimelineSpawn : TimelineEvent
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
     {
-        ReplayUnit x = GameObject.Instantiate(replayExecutor.replayManager.replayUnitPrefabs[indData.baseData.unitId]).GetComponent<ReplayUnit>();
+        ReplayUnit x = GameObject.Instantiate(replayExecutor.replayManager.replayUnitPrefabs[compositeData.Item1.unitId]).GetComponent<ReplayUnit>();
 
-        replayExecutor.InitProfile(globalSpawnId, indData, side);
+        replayExecutor.InitProfile(globalSpawnId, compositeData, side);
         InitUnit(replayExecutor, x);
     }
 
@@ -50,7 +50,7 @@ public class TimelineSpawn : TimelineEvent
         executor.replayObjects.Add(unit);
         executor.replayUnits.Add(unit);
         unit.globalId = globalSpawnId;
-        unit.unitData = new UnitData(indData);
+        unit.unitData = new UnitRuntimeData(compositeData);
     }
 
     

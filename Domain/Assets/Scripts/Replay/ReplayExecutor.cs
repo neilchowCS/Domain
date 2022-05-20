@@ -153,13 +153,14 @@ public class ReplayExecutor : MonoBehaviour
         }
     }
 
-    public void InitProfile(int globalSpawnId, UnitIndependentData indData, int side)
+    public void InitProfile(int globalSpawnId,
+        (UnitDataScriptableObject, UnitIndividualData) compositeData, int side)
     {
         ReplayProfile y = GameObject.Instantiate(replayManager.profile).GetComponent<ReplayProfile>();
         profiles.Add(y);
         y.globalId = globalSpawnId;
-        y.SetName(indData.baseData.unitName);
-        y.SetImage(indData.baseData.unitSprite);
+        y.SetName(compositeData.Item1.unitName);
+        y.SetImage(compositeData.Item1.unitSprite);
         y.transform.SetParent(replayManager.profileParent.transform, false);
         if (side == 0)
         {

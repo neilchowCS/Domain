@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ReplayUnit : ReplayObject
 {
     public int side = 0;
-    public UnitData unitData;
+    public UnitRuntimeData unitData;
     public HealthBar healthBar;
 
     public ReplayObject target;

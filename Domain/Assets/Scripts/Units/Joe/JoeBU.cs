@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class JoeBU : BattleUnit
 {
-    public JoeBU(BattleExecutor exec, int side, UnitData unitData)
+    public JoeBU(BattleExecutor exec, int side, UnitRuntimeData unitData)
         : base(exec, side, unitData)
     {
 
     }
 
-    public JoeBU(BattleExecutor exec, int side, UnitData unitData, int tileId)
+    public JoeBU(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId)
         : base(exec, side, unitData, tileId)
     {
 

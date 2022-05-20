@@ -5,7 +5,7 @@ using UnityEngine;
 static class BattleUnitConstructor
 {
 
-    public static BattleUnit GetBattleUnit(BattleExecutor exec, int side, UnitData data)
+    public static BattleUnit GetBattleUnit(BattleExecutor exec, int side, UnitRuntimeData data)
     {
         BattleUnit output = null;
         switch (data.baseData.unitId)
@@ -23,7 +23,7 @@ static class BattleUnitConstructor
         return output;
     }
 
-    public static BattleUnit GetBattleUnit(BattleExecutor exec, int side, UnitData data, int tileId)
+    public static BattleUnit GetBattleUnit(BattleExecutor exec, int side, UnitRuntimeData data, int tileId)
     {
         BattleUnit output = null;
         switch (data.baseData.unitId)

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class UnitData
+public class UnitRuntimeData
 {
     public UnitDataScriptableObject baseData;
-    public UnitIndependentData independentData;
+    public UnitIndividualData individualData;
 
     public int health;
     public int mana;
@@ -22,10 +22,10 @@ public class UnitData
     public AttributeFloat unitCrit;
     public AttributeFloat unitCritChance;
 
-    public UnitData(UnitIndependentData independentData)
+    public UnitRuntimeData((UnitDataScriptableObject, UnitIndividualData) compositeData)
     {
-        this.independentData = independentData;
-        this.baseData = independentData.baseData;
+        this.baseData = compositeData.Item1;
+        this.individualData = compositeData.Item2;
 
         health = baseData.baseHealth;
         mana = 0;

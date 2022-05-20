@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/UnitCollection", order = 1)]
 public class UnitCollectionScriptableObject : ScriptableObject
 {
-    public List<UnitIndependentData> collectionList;
+    public List<UnitIndividualData> collectionList;
 }
