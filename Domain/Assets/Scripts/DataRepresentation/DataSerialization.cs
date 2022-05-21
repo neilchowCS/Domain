@@ -9,9 +9,15 @@ public class DataSerialization
 
     }
 
+    public string SerializeCollection(PlayerCollection collection)
+    {
+        string json = JsonUtility.ToJson(collection, true);
+        return json;
+    }
+
     public string SerializeIndividual(UnitIndividualData individualData)
     {
-        string json = JsonUtility.ToJson(individualData);
+        string json = JsonUtility.ToJson(individualData, true);
         return json;
     }
 }
