@@ -20,4 +20,9 @@ public class DataSerialization
         string json = JsonUtility.ToJson(individualData, true);
         return json;
     }
+
+    public PlayerCollection DeserializeCollection(string text)
+    {
+        return JsonUtility.FromJson<PlayerCollection>(text);
+    }
 }
