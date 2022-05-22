@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TeamBuildManager : MonoBehaviour
 {
     public UDListScriptableObject dataListSO;
+    public Image charIconBounds;
     public CharSelectIcon charSelectIcon;
     public GameObject charSelectParent;
     public HexParent hexParent;
@@ -23,7 +24,7 @@ public class TeamBuildManager : MonoBehaviour
         teamData = new TeamData();
         for (int i = 0; i < dataListSO.uDList.Count; i++)
         {
-            CharSelectIcon temp = Instantiate(charSelectIcon, charSelectParent.transform);
+            CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);
             //FIXME
             temp.SetInitial(temp.transform.localPosition + new Vector3(300 * i, 0, 0),
                 (dataListSO.uDList[i], new UnitIndividualData()));
@@ -69,7 +70,7 @@ public class TeamBuildManager : MonoBehaviour
         GameObject.DontDestroyOnLoad(dontDestroy);
         foreach(CharGridMarker mark in markList)
         {
-            teamData.AddUnitData(new UnitRuntimeData(mark.compositeData), mark.positionId);
+            teamData.AddUnitData(mark.compositeData.Item2, mark.positionId);
         }
         dontDestroy.teamData = teamData;
     }

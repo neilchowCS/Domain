@@ -4,47 +4,50 @@ using UnityEngine;
 
 public class TeamData
 {
-    public UDListScriptableObject dataList;
-
-    public List<UnitRuntimeData> unitList;
+    public List<UnitIndividualData> unitList;
     public List<int> positionList;
 
     public TeamData()
     {
-        unitList = new List<UnitRuntimeData>();
+        unitList = new List<UnitIndividualData>();
         positionList = new List<int>();
     }
     
-    public TeamData(UDListScriptableObject dl, int i)
+    public TeamData(int i)
     {
-        dataList = dl;
-        unitList = new List<UnitRuntimeData>();
         positionList = new List<int>();
         if (i == 0)
         {
-            AddUnitData(new UnitRuntimeData((dataList.uDList[0], new UnitIndividualData())));
-            AddUnitData(new UnitRuntimeData((dataList.uDList[0], new UnitIndividualData())));
-            AddUnitData(new UnitRuntimeData((dataList.uDList[1], new UnitIndividualData())));
-            AddUnitData(new UnitRuntimeData((dataList.uDList[1], new UnitIndividualData())));
-        }
-        else if (i == 1)
-        {
-            AddUnitData(new UnitRuntimeData((dataList.uDList[2], new UnitIndividualData())));
-            AddUnitData(new UnitRuntimeData((dataList.uDList[2], new UnitIndividualData())));
-            AddUnitData(new UnitRuntimeData((dataList.uDList[1], new UnitIndividualData())));
-            AddUnitData(new UnitRuntimeData((dataList.uDList[1], new UnitIndividualData())));
+            AddUnitData(new UnitIndividualData());
+            AddUnitData(new UnitIndividualData());
+            AddUnitData(new UnitIndividualData());
+            AddUnitData(new UnitIndividualData());
         }
     }
 
-    public void AddUnitData(UnitRuntimeData data)
+    public void AddUnitData(UnitIndividualData data)
     {
         unitList.Add(data);
     }
 
-    public void AddUnitData(UnitRuntimeData data, int i)
+    public void AddUnitData(UnitIndividualData data, int i)
     {
         unitList.Add(data);
         positionList.Add(i);
     }
 
+    public List<UnitRuntimeData> CreateRuntimeList(UDListScriptableObject UDlistSO)
+    {
+        List<UnitRuntimeData> output = new List<UnitRuntimeData>();
+        foreach (UnitIndividualData unit in unitList)
+        {
+            output.Add(new UnitRuntimeData((UDlistSO.uDList[unit.unitId], unit)));
+        }
+        return output;
+    }
+
+    public UnitRuntimeData CreateUnitRuntimeData(UDListScriptableObject UDlistSO, int index)
+    {
+        return new UnitRuntimeData((UDlistSO.uDList[unitList[index].unitId], unitList[index]));
+    }
 }
