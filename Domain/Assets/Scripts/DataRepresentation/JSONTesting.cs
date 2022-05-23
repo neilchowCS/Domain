@@ -31,10 +31,10 @@ public class JSONTesting : MonoBehaviour
         stage0.dataList.Add(new UnitIndividualData());
         stage0.dataList.Add(new UnitIndividualData());
         stage0.dataList.Add(new UnitIndividualData());
-        stage0.positionList.Add(0);
-        stage0.positionList.Add(1);
-        stage0.positionList.Add(2);
-        stage0.positionList.Add(3);
+        stage0.positionList.Add(30);
+        stage0.positionList.Add(31);
+        stage0.positionList.Add(32);
+        stage0.positionList.Add(33);
         stageData.stageDataList.Add(stage0);
 
         jsonOutput = serializer.SerializeData(stageData);

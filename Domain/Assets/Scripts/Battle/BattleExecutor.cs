@@ -13,8 +13,6 @@ public class BattleExecutor : MonoBehaviour
 
     public TeamData team0;
     public TeamData team1;
-    List<UnitRuntimeData> team0Units;
-    List<UnitRuntimeData> team1Units;
 
     public int globalTick;
     /// <summary>
@@ -124,28 +122,22 @@ public class BattleExecutor : MonoBehaviour
         playerUnits = new List<BattleUnit>[] { player0, player0Dead, player1, player1Dead };
         playerObjects = new List<BattleObject>[] { playerObjects0, playerObjects1 };
 
-
-        team0 = new TeamData(0);
-        team0Units = new List<UnitRuntimeData>();
-        //init team
         if (!ReadTeamMessenger())
         {
-            team0 = new TeamData(0);
-            team0Units = team0.CreateRuntimeList(dataListSO);
+            team0 = new TeamData();
         }
-        team1 = new TeamData(0);
-        team1Units = team1.CreateRuntimeList(dataListSO);
+        team1 = new TeamData();
 
         for (int i = 0; i < team0.unitList.Count; i++)
         {
             if (team0.unitList.Count == team0.positionList.Count)
             {
                 player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0,
-                    team0Units[i], team0.positionList[i]));
+                    team0.unitList[i], team0.positionList[i]));
             }
             else
             {
-                player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0, team0Units[i]));
+                player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0, team0.unitList[i]));
             }
         }
 
@@ -154,11 +146,11 @@ public class BattleExecutor : MonoBehaviour
             if (team1.unitList.Count == team1.positionList.Count)
             {
                 player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1,
-                    team1Units[i], team1.positionList[i]));
+                    team1.unitList[i], team1.positionList[i]));
             }
             else
             {
-                player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1, team1Units[i]));
+                player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1, team1.unitList[i]));
             }
         }
     }

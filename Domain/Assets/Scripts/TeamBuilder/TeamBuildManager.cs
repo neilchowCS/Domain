@@ -70,7 +70,7 @@ public class TeamBuildManager : MonoBehaviour
         GameObject.DontDestroyOnLoad(dontDestroy);
         foreach(CharGridMarker mark in markList)
         {
-            teamData.AddUnitData(mark.compositeData.Item2, mark.positionId);
+            teamData.AddUnitData(new UnitRuntimeData(mark.compositeData), mark.positionId);
         }
         dontDestroy.teamData = teamData;
     }
