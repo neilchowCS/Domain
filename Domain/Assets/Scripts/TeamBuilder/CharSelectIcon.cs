@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CharSelectIcon : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class CharSelectIcon : MonoBehaviour
     public (UnitDataScriptableObject, UnitIndividualData) compositeData;
     public Vector3 initialPos;
     public Image image;
+    public TextMeshProUGUI levelText;
 
     private bool drag = false;
 
@@ -48,5 +50,6 @@ public class CharSelectIcon : MonoBehaviour
         initialPos = this.transform.position;
         this.compositeData = compositeData;
         image.sprite = compositeData.Item1.unitSprite;
+        levelText.text = compositeData.Item2.level + "";
     }
 }

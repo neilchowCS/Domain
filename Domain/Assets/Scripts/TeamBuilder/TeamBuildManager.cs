@@ -20,15 +20,25 @@ public class TeamBuildManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DataSerialization serializer = new DataSerialization();
         markList = new List<CharGridMarker>();
         teamData = new TeamData();
-        for (int i = 0; i < dataListSO.uDList.Count; i++)
+        UnitIndividualCollection newCollection = serializer.DeserializeCollection(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
+
+        for (int i = 0; i < newCollection.collection.Count; i++)
         {
             CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);
-            //FIXME
-            temp.SetInitial(temp.transform.localPosition + new Vector3(300 * i, 0, 0),
-                (dataListSO.uDList[i], new UnitIndividualData()));
+            temp.SetInitial(temp.transform.localPosition + new Vector3(-450 + (300 * i), 0, 0),
+                (dataListSO.uDList[newCollection.collection[i].unitId], newCollection.collection[i]));
             temp.manager = this;
+        }
+
+        for (int i = 0; i < dataListSO.uDList.Count; i++)
+        {
+            
+            //FIXME
+            
         }
 
     }
