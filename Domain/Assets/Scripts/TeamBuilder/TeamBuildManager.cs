@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TeamBuildManager : MonoBehaviour
 {
     public UDListScriptableObject dataListSO;
+
     public Image charIconBounds;
     public CharSelectIcon charSelectIcon;
     public GameObject charSelectParent;
@@ -13,6 +14,7 @@ public class TeamBuildManager : MonoBehaviour
     public CharGridMarker marker;
     public List<CharGridMarker> markList;
     public TeamMessenger teamMessenger;
+    public StageNumberTesting stageObject;
 
     public int maxTeamSize = 4;
     public TeamData teamData;
@@ -28,7 +30,7 @@ public class TeamBuildManager : MonoBehaviour
 
         for (int i = 0; i < newCollection.collection.Count; i++)
         {
-            CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);//, charIconBounds.transform);
+            CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);
             temp.SetInitial(temp.transform.localPosition + new Vector3(-450 + (300 * i), 0, 0),
                 (dataListSO.uDList[newCollection.collection[i].unitId], newCollection.collection[i]));
             temp.manager = this;
@@ -83,7 +85,7 @@ public class TeamBuildManager : MonoBehaviour
             teamData.AddUnitData(new UnitRuntimeData(mark.compositeData), mark.positionId);
         }
         //FIXME
-        dontDestroy.stageId = 0;
+        dontDestroy.stageId = stageObject.stage;
         dontDestroy.teamData = teamData;
     }
 
