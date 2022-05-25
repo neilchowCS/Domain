@@ -13,6 +13,16 @@ public class TeamData
         positionList = new List<int>();
     }
 
+    public TeamData(PrimitiveTeamData primitive, UDListScriptableObject uDList)
+    {
+        unitList = new List<UnitRuntimeData>();
+        foreach (UnitIndividualData individualData in primitive.dataList)
+        {
+            unitList.Add(new UnitRuntimeData((uDList.uDList[individualData.unitId], individualData)));
+        }
+        positionList = primitive.positionList;
+    }
+
     public void AddUnitData(UnitRuntimeData data, int i)
     {
         unitList.Add(data);

@@ -82,6 +82,8 @@ public class TeamBuildManager : MonoBehaviour
         {
             teamData.AddUnitData(new UnitRuntimeData(mark.compositeData), mark.positionId);
         }
+        //FIXME
+        dontDestroy.stageId = 0;
         dontDestroy.teamData = teamData;
     }
 

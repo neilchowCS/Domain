@@ -12,6 +12,7 @@ public class BattleExecutor : MonoBehaviour
     public UDListScriptableObject dataListSO;
 
     public TeamData team0;
+    public int stageId = -1;
     public TeamData team1;
 
     public int globalTick;
@@ -141,6 +142,12 @@ public class BattleExecutor : MonoBehaviour
             }
         }
 
+        //FIXME
+        DataSerialization serializer = new DataSerialization();
+        StageDataCollection stageData = serializer.DeserializeStageData(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/StageData.json"));
+        team1 = new TeamData(stageData.stageDataList[stageId], dataListSO);
+
         for (int i = 0; i < team1.unitList.Count; i++)
         {
             if (team1.unitList.Count == team1.positionList.Count)
@@ -165,6 +172,7 @@ public class BattleExecutor : MonoBehaviour
         if (m != null)
         {
             team0 = m.teamData;
+            stageId = m.stageId;
             foreach(TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
             {
                 Destroy(messenger.gameObject);

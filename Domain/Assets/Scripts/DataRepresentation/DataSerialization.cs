@@ -37,4 +37,9 @@ public class DataSerialization
     {
         return JsonUtility.FromJson<UnitIndividualCollection>(text);
     }
+
+    public StageDataCollection DeserializeStageData(string text)
+    {
+        return JsonUtility.FromJson<StageDataCollection>(text);
+    }
 }
