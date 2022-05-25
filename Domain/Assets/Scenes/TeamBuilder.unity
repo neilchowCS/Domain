@@ -539,7 +539,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 856427234}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1263,8 +1263,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1748429118}
   - {fileID: 200954485}
+  - {fileID: 1748429118}
   - {fileID: 1488227734}
   - {fileID: 741998146}
   - {fileID: 2016222279}
@@ -2309,9 +2309,6 @@ MonoBehaviour:
   markList: []
   teamMessenger: {fileID: 6270839139888991475, guid: 7b476ec8a28824966ab2b8bccd859d1a, type: 3}
   maxTeamSize: 4
-  teamData:
-    unitList: []
-    positionList: 
 --- !u!1 &1748429117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,12 +2335,12 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748429117}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 856427234}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
