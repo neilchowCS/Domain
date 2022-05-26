@@ -5,7 +5,6 @@ using System;
 
 public class BattleExecutor : MonoBehaviour
 {
-    public bool run = true;
     public ReplayExecutor replayExecutor;
 
     public Timeline timeline;
@@ -41,9 +40,6 @@ public class BattleExecutor : MonoBehaviour
     public List<BattleObject> playerObjects0;
     public List<BattleObject> playerObjects1;
 
-    public List<BattleUnit>[] playerUnits;
-    public List<BattleObject>[] playerObjects;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -53,43 +49,31 @@ public class BattleExecutor : MonoBehaviour
 
     public void ExecuteBattle()
     {
-        run = true;
         InitState();
 
         globalTick++;
-        while (run)
+        while (ContinueRun())
         {
             StepUp();
         }
         //timeline.Output();
+        Debug.Log(player0.Count != 0 ? "Player won!" : "Player lost!");
+        timeline.AddTimelineEvent(new TimelineEnd());
+        replayExecutor.StartReplay(timeline);
     }
 
     public void StepUp()
     {
-        if (IsRunning())
-        {
-            eventHandler.OnTickUp();
-            CleanUp();
-        }
-        else
-        {
-            Debug.Log(player0.Count != 0 ? "Player won!" : "Player lost!");
-            run = false;
-            timeline.AddTimelineEvent(new TimelineEnd());
-            replayExecutor.StartReplay(timeline);
-        }
-        if (globalTick > 4000)
-        {
-            Debug.Log("Player timed out!");
-            run = false;
-        }
+        eventHandler.OnTickUp();
+        CleanUp();
     }
 
-    public bool IsRunning()
+    public bool ContinueRun()
     {
-        return player0.Count > 0 && player1.Count > 0;
+        return (player0.Count > 0 && player1.Count > 0 && globalTick < 4000);
     }
 
+    /*
     public bool IsRunning(int i)
     {
         if (i == 0)
@@ -101,6 +85,7 @@ public class BattleExecutor : MonoBehaviour
         }
         return false;
     }
+    */
 
     private void InitState()
     {
@@ -120,9 +105,7 @@ public class BattleExecutor : MonoBehaviour
         player1Dead = new List<BattleUnit>();
         playerObjects1 = new List<BattleObject>();
 
-        playerUnits = new List<BattleUnit>[] { player0, player0Dead, player1, player1Dead };
-        playerObjects = new List<BattleObject>[] { playerObjects0, playerObjects1 };
-
+        //Create TeamData
         if (!ReadTeamMessenger())
         {
             if (team0 != null)
@@ -136,6 +119,7 @@ public class BattleExecutor : MonoBehaviour
         }
         team1 = new TeamData();
 
+        //Generate player runtime data
         for (int i = 0; i < team0.unitList.Count; i++)
         {
             if (team0.unitList.Count == team0.positionList.Count)
@@ -149,6 +133,7 @@ public class BattleExecutor : MonoBehaviour
             }
         }
 
+        //Read stage data, generate enemy runtime data
         //FIXME
         DataSerialization serializer = new DataSerialization();
         StageDataCollection stageData = serializer.DeserializeStageData(
@@ -170,7 +155,8 @@ public class BattleExecutor : MonoBehaviour
     }
 
     /// <summary>
-    /// returns false if no messenger found
+    /// Reads team messenger and sets team0, stage id. 
+    /// Returns false if no messenger found
     /// </summary>
     private bool ReadTeamMessenger()
     {
@@ -180,7 +166,7 @@ public class BattleExecutor : MonoBehaviour
         {
             team0 = m.teamData;
             stageId = m.stageId;
-            foreach(TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
+            foreach (TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
             {
                 Destroy(messenger.gameObject);
             }
@@ -251,6 +237,7 @@ public class BattleExecutor : MonoBehaviour
     /// </summary>
     public void DealDamage(BattleUnit damageSource, BattleUnit damageTarget, int amount)
     {
+        //damage reduction calcs here
         eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
         if (damageSource == null)
         {
@@ -258,6 +245,5 @@ public class BattleExecutor : MonoBehaviour
         }
         timeline.AddTimelineEvent(new TimelineDamageDealt(damageSource.globalObjectId,
             damageTarget.globalObjectId, amount));
-
     }
 }

@@ -73,7 +73,7 @@ public class BattleUnit : BattleObject
     /// </summary>
     public override void OnTickUp()
     {
-        if (executor.IsRunning(side))
+        //if (executor.IsRunning(side))
         {
             TickUpMana();
             TickUpMove();

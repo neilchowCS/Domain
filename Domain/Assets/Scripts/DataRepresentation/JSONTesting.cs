@@ -15,6 +15,8 @@ public class JSONTesting : MonoBehaviour
         collection.collection.Add(new UnitIndividualData(1, 1));
         collection.collection.Add(new UnitIndividualData(2, 2));
         collection.collection.Add(new UnitIndividualData(1, 3));
+        collection.collection.Add(new UnitIndividualData(0, 0));
+        collection.collection.Add(new UnitIndividualData(2, 0));
         string jsonOutput = serializer.SerializeData(collection);
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerCollection.json", jsonOutput);

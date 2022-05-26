@@ -12,6 +12,8 @@ public class CharSelectIcon : MonoBehaviour
     public Image image;
     public TextMeshProUGUI levelText;
 
+    public bool used = false;
+
     private bool drag = false;
 
     // Start is called before the first frame update
@@ -28,15 +30,18 @@ public class CharSelectIcon : MonoBehaviour
 
     public void OnMouseDrag()
     {
-        Vector3 newPos = Input.mousePosition;
-        newPos.z = 10;
-        this.transform.position = Camera.main.ScreenToWorldPoint(newPos);
-        drag = true;
+        if (!used)
+        {
+            Vector3 newPos = Input.mousePosition;
+            newPos.z = 10;
+            this.transform.position = Camera.main.ScreenToWorldPoint(newPos);
+            drag = true;
+        }
     }
 
     public void OnMouseUp()
     {
-        if (drag)
+        if (drag && !used)
         {
             manager.IconReleased(this);
             this.transform.position = initialPos;
@@ -51,5 +56,11 @@ public class CharSelectIcon : MonoBehaviour
         this.compositeData = compositeData;
         image.sprite = compositeData.Item1.unitSprite;
         levelText.text = compositeData.Item2.level + "";
+    }
+
+    public void CharUsed()
+    {
+        used = true;
+        image.color = Color.gray;
     }
 }

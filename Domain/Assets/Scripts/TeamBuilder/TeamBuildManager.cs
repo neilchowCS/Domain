@@ -35,7 +35,7 @@ public class TeamBuildManager : MonoBehaviour
         for (int i = 0; i < newCollection.collection.Count; i++)
         {
             CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);
-            temp.SetInitial(temp.transform.localPosition + new Vector3(-450 + (300 * i), 0, 0),
+            temp.SetInitial(temp.transform.localPosition + new Vector3(-450 + (300 * (i % 4)), ((int)i/4) * -300, 0),
                 (dataListSO.uDList[newCollection.collection[i].unitId], newCollection.collection[i]));
             temp.manager = this;
         }
@@ -74,6 +74,7 @@ public class TeamBuildManager : MonoBehaviour
     {
         if (!collider.occupied && markList.Count < maxTeamSize)
         {
+            icon.CharUsed();
             CharGridMarker temp = Instantiate(marker, charSelectParent.transform);
             temp.SetInitial(collider.transform.position, icon.compositeData, i);
             collider.occupied = true;
