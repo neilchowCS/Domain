@@ -1303,7 +1303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &649084090
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1732,6 +1732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageIndicator: {fileID: 863945094}
+  buildManager: {fileID: 1574069103}
   stage: 0
 --- !u!1 &912091827
 GameObject:
@@ -2120,7 +2121,7 @@ GameObject:
   - component: {fileID: 1161626091}
   - component: {fileID: 1161626090}
   m_Layer: 5
-  m_Name: PlayerGrid (1)
+  m_Name: EnemyGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3124,8 +3125,11 @@ MonoBehaviour:
   charSelectIcon: {fileID: 2236480555451626438, guid: 5c35fcd935a2f4fb09eff72c016006a3, type: 3}
   charSelectParent: {fileID: 1716186550}
   hexParent: {fileID: 1488227735}
+  hexTileLocalPositions: []
   marker: {fileID: -6848569798024810456, guid: 0515cd64819774f99af9d9eaf5f4cc2c, type: 3}
   markList: []
+  enemyTileGrid: {fileID: 1161626088}
+  enemyMarkList: []
   teamMessenger: {fileID: 6270839139888991475, guid: 7b476ec8a28824966ab2b8bccd859d1a, type: 3}
   stageObject: {fileID: 863945096}
   maxTeamSize: 4
@@ -3258,10 +3262,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a73582ab3f864527828a336a9b954ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1000
+  speed: 6000
   minimizedPosition: {x: 0, y: 0, z: 0}
   expandedPosition: {x: 0, y: 0, z: 0}
   isMinimized: 0
+  minimizeButton: {fileID: 649084089}
+  expandButton: {fileID: 1537558457}
 --- !u!1 &1748429117
 GameObject:
   m_ObjectHideFlags: 0

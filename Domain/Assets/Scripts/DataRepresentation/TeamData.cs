@@ -28,4 +28,14 @@ public class TeamData
         unitList.Add(data);
         positionList.Add(i);
     }
+
+    public void RefreshRuntimeData()
+    {
+        List<UnitRuntimeData> newUnitList = new List<UnitRuntimeData>();
+        for (int i = 0; i < unitList.Count; i++)
+        {
+            newUnitList.Add(new UnitRuntimeData((unitList[i].baseData, unitList[i].individualData)));
+        }
+        unitList = newUnitList;
+    }
 }

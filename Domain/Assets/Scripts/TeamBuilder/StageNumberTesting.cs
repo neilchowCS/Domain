@@ -6,6 +6,7 @@ using TMPro;
 public class StageNumberTesting : MonoBehaviour
 {
     public TextMeshProUGUI stageIndicator;
+    public TeamBuildManager buildManager;
     public int stage;
     private int min;
     private int max;
@@ -28,6 +29,7 @@ public class StageNumberTesting : MonoBehaviour
             stage++;
         }
         stageIndicator.text = stage + "";
+        buildManager.SetEnemyIcons();
     }
 
     public void DecrementStage()
@@ -37,5 +39,6 @@ public class StageNumberTesting : MonoBehaviour
             stage--;
         }
         stageIndicator.text = stage + "";
+        buildManager.SetEnemyIcons();
     }
 }

@@ -125,7 +125,14 @@ public class BattleExecutor : MonoBehaviour
 
         if (!ReadTeamMessenger())
         {
-            team0 = new TeamData();
+            if (team0 != null)
+            {
+                team0.RefreshRuntimeData();
+            }
+            else
+            {
+                team0 = new TeamData();
+            }
         }
         team1 = new TeamData();
 

@@ -11,8 +11,12 @@ public class TeamBuildManager : MonoBehaviour
     public CharSelectIcon charSelectIcon;
     public GameObject charSelectParent;
     public HexParent hexParent;
+    private float yValPositionOffset = 235;
+    public List<Vector3> hexTileLocalPositions;
     public CharGridMarker marker;
     public List<CharGridMarker> markList;
+    public GameObject enemyTileGrid;
+    public List<CharGridMarker> enemyMarkList;
     public TeamMessenger teamMessenger;
     public StageNumberTesting stageObject;
 
@@ -36,13 +40,14 @@ public class TeamBuildManager : MonoBehaviour
             temp.manager = this;
         }
 
-        for (int i = 0; i < dataListSO.uDList.Count; i++)
+        hexTileLocalPositions = new List<Vector3>();
+        for (int i = 0; i < hexParent.hexColliders.Count; i++)
         {
-            
-            //FIXME
-            
+            hexTileLocalPositions.Add(hexParent.hexColliders[i].transform.localPosition);
+
         }
 
+        SetEnemyIcons();
     }
 
     // Update is called once per frame
@@ -87,6 +92,31 @@ public class TeamBuildManager : MonoBehaviour
         //FIXME
         dontDestroy.stageId = stageObject.stage;
         dontDestroy.teamData = teamData;
+    }
+
+    public void SetEnemyIcons()
+    {
+        foreach (CharGridMarker gridMarker in enemyMarkList)
+        {
+            Destroy(gridMarker.gameObject);
+        }
+        enemyMarkList = new List<CharGridMarker>();
+        DataSerialization serializer = new DataSerialization();
+        StageDataCollection stageList = serializer.DeserializeStageData(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/StageData.json"));
+        PrimitiveTeamData currentStageData = stageList.stageDataList[stageObject.stage];
+        for (int i = 0; i < currentStageData.dataList.Count; i++)
+        {
+            CharGridMarker temp = Instantiate(marker, enemyTileGrid.transform);
+            temp.SetEnemyInitial(hexTileLocalPositions[currentStageData.positionList[i] - 24] - new Vector3(0, yValPositionOffset, 0),
+                dataListSO.uDList[currentStageData.dataList[i].unitId].unitSprite);
+            /*
+            temp.SetEnemyInitial(hexTileLocalPositions[currentStageData.positionList[i] - 24] -
+                new Vector3(0,(enemyTileGrid.transform.localPosition.y - hexParent.transform.localPosition.y), 0),
+                dataListSO.uDList[currentStageData.dataList[i].unitId].unitSprite);
+            */
+            enemyMarkList.Add(temp);
+        }
     }
 
     public void ExitToBattle()

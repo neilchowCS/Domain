@@ -29,4 +29,10 @@ public class CharGridMarker : MonoBehaviour
         image.sprite = compositeData.Item1.unitSprite;
         positionId = id;
     }
+
+    public void SetEnemyInitial(Vector3 localPosition, Sprite sprite)
+    {
+        this.transform.localPosition = localPosition;
+        image.sprite = sprite;
+    }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ExpandFieldShowEnemy : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class ExpandFieldShowEnemy : MonoBehaviour
     public Vector3 minimizedPosition;
     public Vector3 expandedPosition;
     public bool isMinimized;
+    public GameObject minimizeButton;
+    public GameObject expandButton;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +18,8 @@ public class ExpandFieldShowEnemy : MonoBehaviour
         minimizedPosition = new Vector3(0, 0, 0);
         expandedPosition = new Vector3(-1600, 0, 0);
         isMinimized = true;
+        minimizeButton.SetActive(false);
+        expandButton.SetActive(true);
         this.enabled = false;
     }
 
@@ -27,6 +32,7 @@ public class ExpandFieldShowEnemy : MonoBehaviour
             if (this.transform.localPosition.x - expandedPosition.x < 0.01)
             {
                 this.enabled = false;
+                minimizeButton.SetActive(true);
             }
         }
         else
@@ -35,6 +41,7 @@ public class ExpandFieldShowEnemy : MonoBehaviour
             if (minimizedPosition.x - this.transform.localPosition.x < 0.01)
             {
                 this.enabled = false;
+                expandButton.SetActive(true);
             }
         }
     }
@@ -43,11 +50,13 @@ public class ExpandFieldShowEnemy : MonoBehaviour
     {
         this.enabled = true;
         isMinimized = false;
+        minimizeButton.SetActive(false);
     }
 
     public void MaximizeField()
     {
         this.enabled = true;
         isMinimized = true;
+        expandButton.SetActive(false);
     }
 }
