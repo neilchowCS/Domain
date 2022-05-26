@@ -7,7 +7,7 @@ public class JSONTesting : MonoBehaviour
     public UnitDataScriptableObject UDListSO;
 
     // Start is called before the first frame update
-    void Start()
+    public void GenerateJSON()
     {
         DataSerialization serializer = new DataSerialization();
         UnitIndividualCollection collection = new UnitIndividualCollection();
@@ -76,5 +76,10 @@ public class JSONTesting : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ToTeamBuilder()
+    {
+        SceneLoader.LoadTeamBuilder();
     }
 }

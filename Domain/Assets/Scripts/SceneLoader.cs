@@ -15,4 +15,9 @@ static class SceneLoader
     {
         SceneManager.LoadScene("TeamBuilder", LoadSceneMode.Single);
     }
+
+    public static void LoadJSON()
+    {
+        SceneManager.LoadScene("CollectionManager", LoadSceneMode.Single);
+    }
 }

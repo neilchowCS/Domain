@@ -124,4 +124,9 @@ public class TeamBuildManager : MonoBehaviour
         ExportTeam();
         SceneLoader.LoadBattle();
     }
+
+    public void GoToJSONScene()
+    {
+        SceneLoader.LoadJSON();
+    }
 }
