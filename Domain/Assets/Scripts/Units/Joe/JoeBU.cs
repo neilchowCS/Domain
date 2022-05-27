@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AoeTargetingExtension;
 
 public class JoeBU : BattleUnit
 {
@@ -22,11 +23,11 @@ public class JoeBU : BattleUnit
         {
             if (unitData.mana >= unitData.unitMaxMana.Value)
             {
-                SpawnProjectile(2);
+                SpawnProjectile(1);
                 unitData.mana = 0;
                 executor.timeline.AddTimelineEvent(
                 new TimelineManaChange(globalObjectId, unitData.mana));
-                backswing = unitData.baseData.attackDataList[2].backswing;
+                backswing = unitData.baseData.attackDataList[1].backswing;
                 //moveState = MoveStates.noTarget;
                 //why does it cease to move when not in range?
                 //FIXME
@@ -48,5 +49,22 @@ public class JoeBU : BattleUnit
         }
 
         attackTimer += TickSpeed.secondsPerTick;
+    }
+
+    public override void SpawnProjectile(int i)
+    {
+        if (currentTarget != null)
+        {
+            BattleProjectile x = null;
+            switch (i)
+            {
+                case 0:
+                    x = new BattleProjectile(executor, side, this, i, currentTarget);
+                    break;
+                case 1:
+                    x = new JoeSkillBP(executor, side, this, i, this.GetAoeLocation(3, 0));
+                    break;
+            }
+        }
     }
 }

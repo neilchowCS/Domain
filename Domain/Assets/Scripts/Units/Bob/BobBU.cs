@@ -20,4 +20,21 @@ public class BobBU : BattleUnit
     {
 
     }
+
+    public override void SpawnProjectile(int i)
+    {
+        if (currentTarget != null)
+        {
+            BattleProjectile x = null;
+            switch (i)
+            {
+                case 0:
+                    x = new BattleProjectile(executor, side, this, i, currentTarget);
+                    break;
+                case 1:
+                    x = new AliceSkillBP(executor, side, this, i, currentTarget);
+                    break;
+            }
+        }
+    }
 }

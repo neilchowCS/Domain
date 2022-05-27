@@ -29,7 +29,7 @@ public class JoeSkillBP : BattleProjectile
         }
 
         executor.timeline.AddTimelineEvent(new TimelineProjectile(source.globalObjectId,
-            targetLocation, targetLocation, 3));
+            targetLocation, targetLocation, 2));
 
     }
 }

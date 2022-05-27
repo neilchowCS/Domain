@@ -164,10 +164,6 @@ public class BattleUnit : BattleObject
                     x = new AliceSkillBP(executor, side, this, i, currentTarget);
                     break;
                 case 2:
-                    if (this.objectName != "Joe")
-                    {
-                        Debug.Log("WEEEEWOOOO!!! " + this.objectName);
-                    }
                     x = new JoeSkillBP(executor, side, this, i, this.GetAoeLocation(3, 0));
                     break;
             }
