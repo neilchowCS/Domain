@@ -122,11 +122,7 @@ public class BattleUnit : BattleObject
         {
             if (unitData.mana >= unitData.unitMaxMana.Value)
             {
-                SpawnProjectile(1);
-                unitData.mana = 0;
-                executor.timeline.AddTimelineEvent(
-                new TimelineManaChange(globalObjectId, unitData.mana));
-                backswing = unitData.baseData.attackDataList[1].backswing;
+                UseAbility(1);
                 //moveState = MoveStates.noTarget;
                 //why does it cease to move when not in range?
                 //FIXME
@@ -148,6 +144,15 @@ public class BattleUnit : BattleObject
         }
 
         attackTimer += TickSpeed.secondsPerTick;
+    }
+
+    public virtual void UseAbility(int i)
+    {
+        SpawnProjectile(i);
+        unitData.mana = 0;
+        executor.timeline.AddTimelineEvent(
+        new TimelineManaChange(globalObjectId, unitData.mana));
+        backswing = unitData.baseData.attackDataList[i].backswing;
     }
 
     public virtual void SpawnProjectile(int i)
