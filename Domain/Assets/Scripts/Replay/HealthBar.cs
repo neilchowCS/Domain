@@ -40,7 +40,7 @@ public class HealthBar : MonoBehaviour
         
     }
 
-    public void AddStatusIcon(StatusIcon i, Sprite statusSprite)
+    public void AddStatus(StatusIcon i, Sprite statusSprite, int statusId)
     {
         List<int> listId = new List<int>();
         int iconIndex = 0;
@@ -53,27 +53,52 @@ public class HealthBar : MonoBehaviour
             }
         }
 
-        if (listId.Contains(i.id))
+        if (listId.Contains(statusId))
         {
             exist = true;
-            iconIndex = listId.IndexOf(i.id);
+            iconIndex = listId.IndexOf(statusId);
         }
 
         //fix me
         if (!exist)
         {
             icons.Add(Instantiate(i, this.transform));
-            icons[icons.Count - 1].GetComponent<Image>().sprite = statusSprite;
-            icons[icons.Count - 1].transform.position = icons[icons.Count - 1].transform.position +
-                new Vector3(40 * (icons.Count - 1f), 0, 0);
-            iconIndex = icons.Count - 1;
+            icons[^1].id = statusId;
+            icons[^1].GetComponent<Image>().sprite = statusSprite;
+            icons[^1].transform.position = icons[^1].transform.position +
+                new Vector3(40 * (icons.Count - 1), 0, 0);
         }
         else
         {
             icons[iconIndex].number.gameObject.SetActive(true);
             icons[iconIndex].count++;
-            icons[iconIndex].number.text = icons[0].count + "";
+            icons[iconIndex].number.text = icons[iconIndex].count + "";
         }
-        
+    }
+
+    public void RemoveStatus(int statusId)
+    {
+        foreach (StatusIcon i in icons)
+        {
+            if (i.id == statusId)
+            {
+                if (i.count == 1)
+                {
+                    icons.Remove(i);
+                    Destroy(i.gameObject);
+                    return;
+                }
+                else
+                {
+                    i.count -= 1;
+                    i.number.text = i.count + "";
+                }
+            }
+        }
+    }
+
+    public void RefreshStatusDisplay()
+    {
+
     }
 }

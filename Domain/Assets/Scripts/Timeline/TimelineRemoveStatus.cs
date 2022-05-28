@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimelineAddStatus : TimelineEvent
+public class TimelineRemoveStatus : TimelineEvent
 {
     public int sourceId;
     public int statusId;
 
-    public TimelineAddStatus(int sourceId, int statusId)
+    public TimelineRemoveStatus(int sourceId, int statusId)
     {
         this.sourceId = sourceId;
         this.statusId = statusId;
@@ -25,9 +25,6 @@ public class TimelineAddStatus : TimelineEvent
             }
         }
 
-        //FIXME no need to pass reference to prefab, sprite
-        source.healthBar.AddStatus(source.unitData.baseData.commonRef.statusIconPrefab,
-            source.unitData.baseData.commonRef.statusIconList[statusId], statusId);
-        
+        source.healthBar.RemoveStatus(statusId);
     }
 }
