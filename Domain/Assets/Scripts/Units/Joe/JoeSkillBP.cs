@@ -18,7 +18,6 @@ public class JoeSkillBP : BattleProjectile
         {
             if (Vector3.Distance(enemy.position, targetLocation) <= radius)
             {
-                Debug.Log("JOE BURN");
                 targets.Add(enemy);
             }
         }

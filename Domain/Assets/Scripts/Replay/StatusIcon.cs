@@ -7,7 +7,7 @@ public class StatusIcon : MonoBehaviour
 {
     public int id;
     public TextMeshProUGUI number;
-    public int count = 1;
+    public int count;
     // Start is called before the first frame update
     void Start()
     {

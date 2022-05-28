@@ -26,7 +26,6 @@ public class BattleStatusBurn : BattleStatus
         lifetime++;
         if (timer >= TickSpeed.ticksPerSecond)
         {
-            Debug.Log(lifetime);
             OnApply();
             timer -= TickSpeed.ticksPerSecond;
         }
@@ -49,7 +48,7 @@ public class BattleStatusBurn : BattleStatus
         if (host != null)
         {
             host.statusList.Remove(this);
-            executor.timeline.AddTimelineEvent(new TimelineRemoveStatus(host.objectId, 1));
+            executor.timeline.AddTimelineEvent(new TimelineRemoveStatus(host.globalObjectId, 1));
         }
         executor.RemoveObject(this);
     }

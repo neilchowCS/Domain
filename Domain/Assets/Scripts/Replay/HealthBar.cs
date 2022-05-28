@@ -63,6 +63,7 @@ public class HealthBar : MonoBehaviour
         if (!exist)
         {
             icons.Add(Instantiate(i, this.transform));
+            icons[^1].count = 1;
             icons[^1].id = statusId;
             icons[^1].GetComponent<Image>().sprite = statusSprite;
             icons[^1].transform.position = icons[^1].transform.position +
@@ -70,7 +71,6 @@ public class HealthBar : MonoBehaviour
         }
         else
         {
-            icons[iconIndex].number.gameObject.SetActive(true);
             icons[iconIndex].count++;
             icons[iconIndex].number.text = icons[iconIndex].count + "";
         }
@@ -92,6 +92,7 @@ public class HealthBar : MonoBehaviour
                 {
                     i.count -= 1;
                     i.number.text = i.count + "";
+                    return;
                 }
             }
         }

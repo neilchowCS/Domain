@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class TimelineRemoveStatus : TimelineEvent
 {
-    public int sourceId;
+    public int hostId;
     public int statusId;
 
-    public TimelineRemoveStatus(int sourceId, int statusId)
+    public TimelineRemoveStatus(int hostId, int statusId)
     {
-        this.sourceId = sourceId;
+        this.hostId = hostId;
         this.statusId = statusId;
     }
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
     {
-        ReplayUnit source = null;
+        ReplayUnit host = null;
         foreach (ReplayUnit rO in replayExecutor.replayUnits)
         {
-            if (rO.globalId == sourceId)
+            if (rO.globalId == hostId)
             {
-                source = rO;
+                host = rO;
                 break;
             }
         }
 
-        source.healthBar.RemoveStatus(statusId);
+        host.healthBar.RemoveStatus(statusId);
     }
 }

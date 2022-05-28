@@ -13,5 +13,6 @@ public class UnitAttackDataScriptableObject : ScriptableObject
 
     public float speed;
 
+    public float leadup;
     public float backswing;
 }

@@ -22,7 +22,8 @@ MonoBehaviour:
   baseAttackSpeed: 1
   baseRange: 5.25
   baseMoveSpeed: 1.5
-  baseMana: 7
+  baseStartingMana: 0
+  baseMaxMana: 7
   baseTickPerMana: 12
   baseCrit: 2
   baseCritChance: 0.1
