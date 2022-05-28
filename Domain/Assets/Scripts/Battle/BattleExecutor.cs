@@ -195,6 +195,13 @@ public class BattleExecutor : MonoBehaviour
         }
     }
 
+    public void RemoveObject(BattleObject obj)
+    {
+        eventHandler.TickUp -= obj.OnTickUp;
+        playerObjects0.Remove(obj);
+        playerObjects1.Remove(obj);
+    }
+
     public List<BattleObject> GetAlliedObjects(BattleObject obj)
     {
         if (obj.side == 0)

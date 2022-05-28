@@ -26,6 +26,7 @@ public class BattleStatusBurn : BattleStatus
         lifetime++;
         if (timer >= TickSpeed.ticksPerSecond)
         {
+            Debug.Log(lifetime);
             OnApply();
             timer -= TickSpeed.ticksPerSecond;
         }
@@ -41,5 +42,14 @@ public class BattleStatusBurn : BattleStatus
         {
             executor.DealDamage(source, host, damagePerTick);
         }
+    }
+
+    public override void OnUnapply()
+    {
+        if (host != null)
+        {
+            host.statusList.Remove(this);
+        }
+        executor.RemoveObject(this);
     }
 }

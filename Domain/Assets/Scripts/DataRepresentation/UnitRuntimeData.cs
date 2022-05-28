@@ -28,7 +28,7 @@ public class UnitRuntimeData
         this.individualData = compositeData.Item2;
 
         health = baseData.baseHealth;
-        mana = 0;
+        mana = baseData.baseStartingMana;
         unitMaxHealth = new AttributeInt(baseData.baseHealth);
         unitAttack = new AttributeInt(baseData.baseAttack);
         unitDefense = new AttributeInt(baseData.baseDefense);
@@ -36,7 +36,7 @@ public class UnitRuntimeData
         unitAttackSpeed = new AttributeFloat(baseData.baseAttackSpeed);
         unitRange = new AttributeFloat(baseData.baseRange);
         unitMoveSpeed = new AttributeFloat(baseData.baseMoveSpeed);
-        unitMaxMana = new AttributeInt(baseData.baseMana);
+        unitMaxMana = new AttributeInt(baseData.baseMaxMana);
         unitTickPerMana = new AttributeInt(baseData.baseTickPerMana);
         unitCrit = new AttributeFloat(baseData.baseCrit);
         unitCritChance = new AttributeFloat(baseData.baseCritChance);

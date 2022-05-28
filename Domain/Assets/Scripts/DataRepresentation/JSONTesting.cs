@@ -69,6 +69,11 @@ public class JSONTesting : MonoBehaviour
         stage3.positionList.Add(33);
         stageData.stageDataList.Add(stage3);
 
+        PrimitiveTeamData stage4 = new PrimitiveTeamData();
+        stage4.dataList.Add(new UnitIndividualData(2, 0));
+        stage4.positionList.Add(30);
+        stageData.stageDataList.Add(stage4);
+
         jsonOutput = serializer.SerializeData(stageData);
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/StageData.json", jsonOutput);
