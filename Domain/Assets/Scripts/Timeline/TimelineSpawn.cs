@@ -51,6 +51,7 @@ public class TimelineSpawn : TimelineEvent
         executor.replayUnits.Add(unit);
         unit.globalId = globalSpawnId;
         unit.unitData = new UnitRuntimeData(compositeData);
+        unit.executor = executor;
     }
 
     
