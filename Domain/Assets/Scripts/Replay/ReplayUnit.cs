@@ -19,7 +19,7 @@ public class ReplayUnit : ReplayObject
     {
         moving = false;
         healthBar = Instantiate(unitData.baseData.commonRef.healthBarPrefab,
-            GameObject.FindObjectOfType<Canvas>().transform, true);
+            executor.replayManager.screenOverlayCanvas.transform, false);
         if (this.transform.position.x >= 0)
         {
             healthBar.healthFill.GetComponent<Image>().color = Color.red;
