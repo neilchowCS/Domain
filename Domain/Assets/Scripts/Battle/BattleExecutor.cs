@@ -242,7 +242,8 @@ public class BattleExecutor : MonoBehaviour
     /// Raises DealDamage event.
     /// Deals damage equal to unit's attack to damageTarget.
     /// </summary>
-    public void DealDamage(BattleUnit damageSource, BattleUnit damageTarget, int amount)
+    public void DealDamage(BattleUnit damageSource, BattleUnit damageTarget,
+        int amount, DamageType damageType)
     {
         //damage reduction calcs here
         eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
@@ -251,6 +252,6 @@ public class BattleExecutor : MonoBehaviour
             Debug.Log("error!");
         }
         timeline.AddTimelineEvent(new TimelineDamageDealt(damageSource.globalObjectId,
-            damageTarget.globalObjectId, amount));
+            damageTarget.globalObjectId, amount, damageType));
     }
 }

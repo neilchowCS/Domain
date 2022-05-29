@@ -39,7 +39,7 @@ public class BattleStatusBurn : BattleStatus
     {
         if (host != null)
         {
-            executor.DealDamage(source, host, damagePerTick);
+            executor.DealDamage(source, host, damagePerTick, DamageType.special);
         }
     }
 

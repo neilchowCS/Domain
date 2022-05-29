@@ -194,4 +194,18 @@ public class ReplayExecutor : MonoBehaviour
         }
     }
 
+    public void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType)
+    {
+        DamageNumber x = Instantiate(replayManager.damageNumber,
+                replayManager.screenOverlayCanvas.transform, false);
+        x.transform.position = Camera.main.WorldToScreenPoint(unitPosition) + new Vector3(0, 50, 0);
+        x.textMesh.text = "-" + value;
+        if (damageType == DamageType.normal)
+        {
+            
+        }else if (damageType == DamageType.special)
+        {
+            x.textMesh.color = new Color32(143, 0, 254, 255);
+        }
+    }
 }

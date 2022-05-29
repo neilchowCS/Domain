@@ -9,6 +9,7 @@ public class ReplayManager : MonoBehaviour
     public GameObject profileParent;
 
     public Canvas screenOverlayCanvas;
+    public DamageNumber damageNumber;
 
     // Start is called before the first frame update
     void Start()

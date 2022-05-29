@@ -1805,7 +1805,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1.8
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 800, y: 800}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -5989,6 +5989,7 @@ MonoBehaviour:
   profile: {fileID: 7807559541628803033, guid: ae331ec6ea6b046fc839f3a7b45bc180, type: 3}
   profileParent: {fileID: 609977584}
   screenOverlayCanvas: {fileID: 662525037}
+  damageNumber: {fileID: 6709998826439105631, guid: bd0bafabefd1a41af8479d663ff9008b, type: 3}
 --- !u!114 &1969906532
 MonoBehaviour:
   m_ObjectHideFlags: 0

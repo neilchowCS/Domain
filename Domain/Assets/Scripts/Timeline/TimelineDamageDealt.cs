@@ -7,12 +7,14 @@ public class TimelineDamageDealt : TimelineEvent
     public int sourceId;
     public int targetId;
     public int amount;
+    public DamageType damageType;
 
-    public TimelineDamageDealt(int sourceId, int targetId, int amount)
+    public TimelineDamageDealt(int sourceId, int targetId, int amount, DamageType damageType)
     {
         this.sourceId = sourceId;
         this.targetId = targetId;
         this.amount = amount;
+        this.damageType = damageType;
     }
 
     public override void ExecuteEvent(ReplayExecutor replayExecutor)
@@ -37,6 +39,7 @@ public class TimelineDamageDealt : TimelineEvent
         else
         {
             Debug.Log("DamageFailed");
+            return;
         }
 
         foreach (ReplayProfile i in replayExecutor.profiles)
@@ -48,6 +51,7 @@ public class TimelineDamageDealt : TimelineEvent
             }
         }
 
+        replayExecutor.CreateDamageNumber(target.transform.position, amount, damageType);
         replayExecutor.ReorderProfile();
     }
 }

@@ -79,7 +79,7 @@ public class BattleProjectile : BattleObject
 
     public virtual void ProjectileEffect()
     {
-        executor.DealDamage(source, target, sourceAttack);
+        executor.DealDamage(source, target, sourceAttack, DamageType.normal);
     }
 
     public virtual void Unassign()
