@@ -26,13 +26,14 @@ public class UnitRuntimeData
     {
         this.baseData = compositeData.Item1;
         this.individualData = compositeData.Item2;
+        float levelMultiplier = 1 + (individualData.level * 0.085f);
 
-        health = baseData.baseHealth;
+        health = (int)(baseData.baseHealth * levelMultiplier);
         mana = baseData.baseStartingMana;
-        unitMaxHealth = new AttributeInt(baseData.baseHealth);
-        unitAttack = new AttributeInt(baseData.baseAttack);
-        unitDefense = new AttributeInt(baseData.baseDefense);
-        unitMDefense = new AttributeInt(baseData.baseMDefense);
+        unitMaxHealth = new AttributeInt(health);
+        unitAttack = new AttributeInt((int)(baseData.baseAttack * levelMultiplier));
+        unitDefense = new AttributeInt((int)(baseData.baseDefense * levelMultiplier));
+        unitMDefense = new AttributeInt((int)(baseData.baseMDefense * levelMultiplier));
         unitAttackSpeed = new AttributeFloat(baseData.baseAttackSpeed);
         unitRange = new AttributeFloat(baseData.baseRange);
         unitMoveSpeed = new AttributeFloat(baseData.baseMoveSpeed);
