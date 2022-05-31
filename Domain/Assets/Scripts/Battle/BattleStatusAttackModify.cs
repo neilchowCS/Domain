@@ -21,6 +21,7 @@ public class BattleStatusAttackModify : BattleStatus
 
     public void OnApply()
     {
+        //Debug.Log(host.unitData.unitAttack.Value);
         if (isPercent)
         {
             host.unitData.unitAttack.ModifyMultiplicative(amount);

@@ -108,6 +108,7 @@ MonoBehaviour:
   initialPos: {x: -150, y: 634.7777, z: 0}
   image: {fileID: 2236480555451626435}
   levelText: {fileID: 5658649153064792651}
+  used: 0
 --- !u!1 &3213378509344793821
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +218,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}

@@ -26,7 +26,7 @@ public class UnitRuntimeData
     {
         this.baseData = compositeData.Item1;
         this.individualData = compositeData.Item2;
-        float levelMultiplier = 1 + (individualData.level * 0.085f);
+        float levelMultiplier = 1 + ((individualData.level - 1) * 0.085f);
 
         health = (int)(baseData.baseHealth * levelMultiplier);
         mana = baseData.baseStartingMana;

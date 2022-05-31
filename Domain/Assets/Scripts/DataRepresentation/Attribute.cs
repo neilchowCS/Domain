@@ -14,7 +14,11 @@ public abstract class Attribute
 
     public virtual void ModifyMultiplicative(float i)
     {
-        constantModifier += i;
+        coefficientModifier += i;
     }
 
+    public virtual float GetCoefficient()
+    {
+        return coefficientModifier;
+    }
 }
