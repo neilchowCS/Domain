@@ -34,7 +34,7 @@ public class JoeBU : BattleUnit
             }
             else if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed.Value)
             {
-                if (moveState == MoveStates.inRange)
+                if (!isMoving && TargetInRange())
                 {
                     SpawnProjectile(0);
                     attackTimer = 0;

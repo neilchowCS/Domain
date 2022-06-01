@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattleBehaviorExtension;
 using AoeTargetingExtension;
 
 /// <summary>
@@ -20,11 +21,7 @@ public class BattleUnit : BattleObject
 
     public bool needsCleaning = false;
 
-    public enum MoveStates { noTarget, movingToTile, tileArrived, inRange, stopped };
-    /// <summary>
-    /// noTarget, movingToTile, tileArrived, inRange, stopped.
-    /// </summary>
-    public MoveStates moveState = MoveStates.noTarget;
+    public bool isMoving = false;
 
     public float attackTimer = 0;
     public bool firstAttack = true;
@@ -97,6 +94,7 @@ public class BattleUnit : BattleObject
     /// Handles movement during OnTickUp().
     /// FIXME bugged movement
     /// </summary>
+    /*
     public virtual void TickUpMove()
     {
         if (moveState == MoveStates.noTarget)
@@ -111,6 +109,33 @@ public class BattleUnit : BattleObject
         {
             BattleMovement.TargetDecision(this);
         }
+    }
+    */
+
+    public virtual void TickUpMove()
+    {
+        if (currentTarget == null)
+        {
+            LookForward();
+        }
+        if (!isMoving)
+        {
+            if (!TargetInRange())
+            {
+                LookForward();
+                this.PrepareMovement();
+                isMoving = true;
+            }
+        }
+        else
+        {
+            this.MoveTowardsNext();
+            if (this.TileArrived())
+            {
+                isMoving = false;
+            }
+        }
+
     }
 
     /// <summary>
@@ -129,7 +154,7 @@ public class BattleUnit : BattleObject
             }
             else if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed.Value)
             {
-                if (moveState == MoveStates.inRange)
+                if (!isMoving && TargetInRange())
                 {
                     SpawnProjectile(0);
                     attackTimer = 0;
@@ -231,7 +256,6 @@ public class BattleUnit : BattleObject
         if (deadUnit == currentTarget)
         {
             currentTarget = null;
-            moveState = MoveStates.noTarget;
         }
     }
 
@@ -242,12 +266,26 @@ public class BattleUnit : BattleObject
 
     /// <summary>
     /// Sets currentTarget for this BattleUnit.
-    /// FIXME uneccessary code?? refactor
     /// </summary>
     public virtual void LookForward()
     {
-        currentTarget = BUnitHelperFunc.GetClosestEnemy(this) ?? BUnitHelperFunc.GetClosestEnemy(this);
-        executor.timeline.AddTimelineEvent(new TimelineTarget(globalObjectId, currentTarget.globalObjectId));
+        currentTarget = this.GetClosestEnemy();
+        currentTarget?.executor.timeline.AddTimelineEvent(
+            new TimelineTarget(globalObjectId, currentTarget.globalObjectId));
     }
 
+    public float GetBattleUnitDistance(BattleUnit otherUnit)
+    {
+        return Vector3.Distance(position, otherUnit.position);
+    }
+
+    public float GetTargetDistance()
+    {
+        return GetBattleUnitDistance(currentTarget);
+    }
+
+    public bool TargetInRange()
+    {
+        return GetTargetDistance() < unitData.unitRange.Value;
+    }
 }
