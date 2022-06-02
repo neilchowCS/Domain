@@ -23,9 +23,11 @@ public class BattleUnit : BattleObject
 
     public bool isMoving = false;
 
+    public enum AttackStates { idle, inForeswing, inAttack, inBackswing, inChannel };
+    public AttackStates attackState = AttackStates.idle;
+    public float tickOfLastAttack = 0;
     public float attackTimer = 0;
-    public bool firstAttack = true;
-    public float backswing = 0;
+
     public int manaCounter = 0;
 
     public List<BattleStatus> statusList;
@@ -118,12 +120,10 @@ public class BattleUnit : BattleObject
         {
             LookForward();
         }
-        if (this.objectName == "Bob" && this.side == 0)
+        //if not moving, not attacking, and no target in range => initiate movement
+        if (!isMoving && attackState == AttackStates.idle)
         {
-            Debug.Log(TargetInRange());
-        }
-        if (!isMoving)
-        {
+            //target can't be null because it is set at start of function
             if (!TargetInRange())
             {
                 LookForward();
@@ -134,7 +134,7 @@ public class BattleUnit : BattleObject
                 }
             }
         }
-        else
+        else if (isMoving)//move forward, set moving to false at arrival
         {
             this.MoveTowardsNext();
             if (this.TileArrived())
@@ -145,37 +145,34 @@ public class BattleUnit : BattleObject
 
     }
 
-    /// <summary>
-    /// Handles attacking during OnTickUp().
-    /// </summary>
     public virtual void TickUpAttack()
     {
-        if (backswing <= 0)
+        //Initiating attack should be in foreswing
+        if (attackState == AttackStates.idle)
         {
             if (unitData.mana >= unitData.unitMaxMana.Value)
             {
                 UseAbility(1);
-                //moveState = MoveStates.noTarget;
-                //why does it cease to move when not in range?
-                //FIXME
             }
-            else if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed.Value)
+            else if (!isMoving && (executor.globalTick - tickOfLastAttack
+                >= unitData.ticksPerAttack || tickOfLastAttack == 0) && TargetInRange())
             {
-                if (!isMoving && TargetInRange())
-                {
-                    SpawnProjectile(0);
-                    attackTimer = 0;
-                    firstAttack = false;
-                    backswing = unitData.baseData.attackDataList[0].backswing;
-                }
+                SpawnProjectile(0);
+                //FIXME float
+                tickOfLastAttack = executor.globalTick;
+                attackState = AttackStates.inBackswing;
+                attackTimer = unitData.baseData.attackDataList[0].backswing;
+            }
+        }else if (attackState == AttackStates.inBackswing)
+        {
+            //FIXME check order
+            attackTimer--;
+            if (attackTimer <= 0)
+            {
+                attackTimer = 0;
+                attackState = AttackStates.idle;
             }
         }
-        else
-        {
-            backswing--;
-        }
-
-        attackTimer += TickSpeed.secondsPerTick;
     }
 
     public virtual void UseAbility(int i)
@@ -184,7 +181,8 @@ public class BattleUnit : BattleObject
         unitData.mana = 0;
         executor.timeline.AddTimelineEvent(
         new TimelineManaChange(globalObjectId, unitData.mana));
-        backswing = unitData.baseData.attackDataList[i].backswing;
+        attackState = AttackStates.inBackswing;
+        attackTimer = unitData.baseData.attackDataList[i].backswing;
     }
 
     public virtual void SpawnProjectile(int i)
@@ -205,7 +203,6 @@ public class BattleUnit : BattleObject
                     break;
             }
         }
-
     }
 
     /// <summary>

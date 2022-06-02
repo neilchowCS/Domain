@@ -18,6 +18,11 @@ static class SceneLoader
 
     public static void LoadJSON()
     {
+        SceneManager.LoadScene("JSONGenerator", LoadSceneMode.Single);
+    }
+
+    public static void LoadCollection()
+    {
         SceneManager.LoadScene("CollectionManager", LoadSceneMode.Single);
     }
 }

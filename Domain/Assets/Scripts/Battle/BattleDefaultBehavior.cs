@@ -40,8 +40,7 @@ namespace BattleBehaviorExtension
             }
             //get adjacent tile with least distance between it and the target
             eligible = eligible.OrderBy(o => Vector3.Distance(o.position, position2)).ToList();
-            if (eligible.Count > 0 && Vector3.Distance(eligible[0].position, position2) <
-                Vector3.Distance(currTile.position, position2))
+            if (eligible.Count > 0) //&& Vector3.Distance(eligible[0].position, position2) < Vector3.Distance(currTile.position, position2))
             {
                 return eligible[0];
             }

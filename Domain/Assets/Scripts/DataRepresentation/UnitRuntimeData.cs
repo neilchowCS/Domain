@@ -15,6 +15,7 @@ public class UnitRuntimeData
     public AttributeInt unitDefense;
     public AttributeInt unitMDefense;
     public AttributeFloat unitAttackSpeed;
+    public float ticksPerAttack { get; private set; }
     public AttributeFloat unitRange;
     public AttributeFloat unitMoveSpeed;
     public AttributeInt unitMaxMana;
@@ -41,5 +42,13 @@ public class UnitRuntimeData
         unitTickPerMana = new AttributeInt(baseData.baseTickPerMana);
         unitCrit = new AttributeFloat(baseData.baseCrit);
         unitCritChance = new AttributeFloat(baseData.baseCritChance);
+
+        ticksPerAttack = TickSpeed.ticksPerSecond / unitAttackSpeed.Value;
+    }
+
+    public void ModifyAttackSpeed(float modifier)
+    {
+        unitAttackSpeed.ModifyMultiplicative(modifier);
+        ticksPerAttack = TickSpeed.ticksPerSecond / unitAttackSpeed.Value;
     }
 }

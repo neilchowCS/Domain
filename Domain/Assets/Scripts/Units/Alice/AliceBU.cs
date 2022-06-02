@@ -21,40 +21,19 @@ public class AliceBU : BattleUnit
 
     }
 
-    public override void TickUpAttack()
+    public override void UseAbility(int i)
     {
-        if (backswing <= 0)
+        if (i == 1)
         {
-            if (unitData.mana >= unitData.unitMaxMana.Value)
-            {
-                statusList.Add(new BattleStatusAttackModify(this, .25f, true, true));
-                executor.timeline.AddTimelineEvent(new TimelineAddStatus(globalObjectId, 0));
-                SpawnProjectile(1);
-                unitData.mana = 0;
-                executor.timeline.AddTimelineEvent(
-                new TimelineManaChange(globalObjectId, unitData.mana));
-                backswing = unitData.baseData.attackDataList[1].backswing;
-                //moveState = MoveStates.noTarget;
-                //why does it cease to move when not in range?
-                //FIXME
-            }
-            else if (firstAttack || attackTimer >= 1f / unitData.unitAttackSpeed.Value)
-            {
-                if (!isMoving && TargetInRange())
-                {
-                    SpawnProjectile(0);
-                    attackTimer = 0;
-                    firstAttack = false;
-                    backswing = unitData.baseData.attackDataList[0].backswing;
-                }
-            }
+            statusList.Add(new BattleStatusAttackModify(this, .25f, true, true));
+            executor.timeline.AddTimelineEvent(new TimelineAddStatus(globalObjectId, 0));
         }
-        else
-        {
-            backswing--;
-        }
-
-        attackTimer += TickSpeed.secondsPerTick;
+        SpawnProjectile(i);
+        unitData.mana = 0;
+        executor.timeline.AddTimelineEvent(
+        new TimelineManaChange(globalObjectId, unitData.mana));
+        attackState = AttackStates.inBackswing;
+        attackTimer = unitData.baseData.attackDataList[i].backswing;
     }
 
     public override void SpawnProjectile(int i)
