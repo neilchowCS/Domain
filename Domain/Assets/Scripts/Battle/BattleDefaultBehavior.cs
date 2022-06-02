@@ -56,15 +56,18 @@ namespace BattleBehaviorExtension
         public static void PrepareMovement(this BattleUnit unit)
         {
             unit.targetTile = unit.GetNextBattleTile();
-            unit.executor.timeline.AddTimelineEvent(new TimelineMove(unit.globalObjectId,
-            0, unit.targetTile.position.x, unit.targetTile.position.y, unit.targetTile.position.z));
-
-            if (unit.targetTile.occupied)
+            if (unit.targetTile != unit.currentTile)
             {
-                Debug.Log("Uh oh!");
-            }
+                unit.executor.timeline.AddTimelineEvent(new TimelineMove(unit.globalObjectId,
+                0, unit.targetTile.position.x, unit.targetTile.position.y, unit.targetTile.position.z));
 
-            unit.targetTile.occupied = true;
+                if (unit.targetTile.occupied)
+                {
+                    Debug.Log("Uh oh!");
+                }
+
+                unit.targetTile.occupied = true;
+            }
         }
 
         /// <summary>

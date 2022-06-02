@@ -118,13 +118,20 @@ public class BattleUnit : BattleObject
         {
             LookForward();
         }
+        if (this.objectName == "Bob" && this.side == 0)
+        {
+            Debug.Log(TargetInRange());
+        }
         if (!isMoving)
         {
             if (!TargetInRange())
             {
                 LookForward();
                 this.PrepareMovement();
-                isMoving = true;
+                if (targetTile != currentTile)
+                {
+                    isMoving = true;
+                }
             }
         }
         else
@@ -240,6 +247,11 @@ public class BattleUnit : BattleObject
     {
         if (deadUnit == this)
         {
+            currentTile.occupied = false;
+            if (targetTile != null)
+            {
+                targetTile.occupied = false;
+            }
             if (side == 0)
             {
                 executor.player0.Remove(this);
