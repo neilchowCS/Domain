@@ -27,7 +27,7 @@ MonoBehaviour:
   baseTickPerMana: 15
   baseCrit: 0
   baseCritChance: 0
-  eventSubscriptions: 0100010000
+  eventSubscriptions: 0100010100
   attackDataList:
   - {fileID: 11400000, guid: 6ec212f13add44fbe97c73d48aaf0273, type: 2}
   - {fileID: 11400000, guid: 81782060ac8cc4a3cb278c52fa9b7a97, type: 2}

@@ -154,12 +154,11 @@ public class BattleUnit : BattleObject
             {
                 UseAbility(1);
             }
-            else if (!isMoving && (executor.globalTick - tickOfLastAttack
-                >= unitData.ticksPerAttack || tickOfLastAttack == 0) && TargetInRange())
+            else if (!isMoving && executor.globalTick - tickOfLastAttack
+                >= unitData.ticksPerAttack && TargetInRange())
             {
                 SpawnProjectile(0);
-                //FIXME float
-                tickOfLastAttack = executor.globalTick;
+                tickOfLastAttack += unitData.ticksPerAttack;
                 attackState = AttackStates.inBackswing;
                 attackTimer = unitData.baseData.attackDataList[0].backswing;
             }
@@ -232,6 +231,20 @@ public class BattleUnit : BattleObject
         if (damageTarget == this)
         {
             TakeDamage(damageSource, amount);
+        }
+    }
+
+    public virtual void ReceiveHeal(BattleUnit healSource, int amount)
+    {
+        unitData.health += amount;
+
+    }
+
+    public virtual void OnHealApplied(BattleUnit healSource, BattleUnit healTarget, int amount)
+    {
+        if (healTarget == this)
+        {
+            ReceiveHeal(healSource, amount);
         }
     }
 

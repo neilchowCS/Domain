@@ -6,8 +6,8 @@ public class DamageNumber : MonoBehaviour
 {
     public TextMeshProUGUI textMesh;
     public Color color;
-    private float alphaSpeed = 3;
-    private float moveSpeed = 50;
+    private float alphaSpeed = 2;
+    private float moveSpeed = 65;
 
     // Start is called before the first frame update
     void Start()

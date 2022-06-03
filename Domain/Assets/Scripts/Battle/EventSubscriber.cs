@@ -20,7 +20,7 @@ static class EventSubscriber
         }
         if (list[3])
         {
-            //unit.executor.eventHandler.UnitDeath += unit.OnUnitMove;
+            unit.executor.eventHandler.HealApplied += unit.OnHealApplied;
         }
         if (list[4])
         {

@@ -5523,6 +5523,7 @@ MonoBehaviour:
   - {fileID: -2661869272620363572, guid: 07351470ecdd948548fc81bcb59d507f, type: 3}
   - {fileID: 2498509289051091395, guid: 8991db7d39f864861a1e985cd8d8de84, type: 3}
   - {fileID: 9098883056825244983, guid: 00927272abfe848e59430a46b712a060, type: 3}
+  - {fileID: 7274307091669848397, guid: 2a61f8d76b7654731b509d8894e8cd6b, type: 3}
   profile: {fileID: 7807559541628803033, guid: ae331ec6ea6b046fc839f3a7b45bc180, type: 3}
   profileParent: {fileID: 609977584}
   screenOverlayCanvas: {fileID: 662525037}

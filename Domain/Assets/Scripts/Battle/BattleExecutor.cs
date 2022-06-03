@@ -245,13 +245,36 @@ public class BattleExecutor : MonoBehaviour
     public void DealDamage(BattleUnit damageSource, BattleUnit damageTarget,
         int amount, DamageType damageType)
     {
-        //damage reduction calcs here
-        eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
         if (damageSource == null)
         {
-            Debug.Log("error!");
+            Debug.Log("damage error!");
         }
+        //damage reduction calcs here
+        eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
+        
         timeline.AddTimelineEvent(new TimelineDamageDealt(damageSource.globalObjectId,
             damageTarget.globalObjectId, amount, damageType));
+    }
+
+    public void ApplyHeal(BattleUnit healSource, BattleUnit healTarget, int amount)
+    {
+        Debug.Log(amount);
+        //apply healing reduction before
+        if (healTarget.unitData.health + amount > healTarget.unitData.unitMaxHealth.Value)
+        {
+            amount = healTarget.unitData.unitMaxHealth.Value - healTarget.unitData.health;
+        }
+
+        if (healSource == null)
+        {
+            Debug.Log("healing error!");
+        }
+
+        eventHandler.OnHealApplied(healSource, healTarget, amount);
+        if (amount > 0)
+        {
+            timeline.AddTimelineEvent(new TimelineHealApplied(healSource.globalObjectId,
+                healTarget.globalObjectId, amount));
+        }
     }
 }

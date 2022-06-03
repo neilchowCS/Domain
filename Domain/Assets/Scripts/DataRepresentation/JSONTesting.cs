@@ -18,6 +18,7 @@ public class JSONTesting : MonoBehaviour
         collection.collection.Add(new UnitIndividualData(0, 0));
         collection.collection.Add(new UnitIndividualData(2, 0));
         collection.collection.Add(new UnitIndividualData(1, 100));
+        collection.collection.Add(new UnitIndividualData(3, 20));
         string jsonOutput = serializer.SerializeData(collection);
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerCollection.json", jsonOutput);
@@ -74,6 +75,17 @@ public class JSONTesting : MonoBehaviour
         stage4.dataList.Add(new UnitIndividualData(2, 0));
         stage4.positionList.Add(30);
         stageData.stageDataList.Add(stage4);
+
+        PrimitiveTeamData stage5 = new PrimitiveTeamData();
+        stage5.dataList.Add(new UnitIndividualData(3, 0));
+        stage5.dataList.Add(new UnitIndividualData(3, 0));
+        stage5.dataList.Add(new UnitIndividualData(3, 0));
+        stage5.dataList.Add(new UnitIndividualData(3, 0));
+        stage5.positionList.Add(30);
+        stage5.positionList.Add(31);
+        stage5.positionList.Add(32);
+        stage5.positionList.Add(33);
+        stageData.stageDataList.Add(stage5);
 
         jsonOutput = serializer.SerializeData(stageData);
         Debug.Log(jsonOutput);

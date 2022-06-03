@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DamageType
+public class DoeRU : ReplayUnit
 {
-    normal, critical, special, trueDamage, healing
+
 }

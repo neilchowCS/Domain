@@ -84,4 +84,19 @@ public class BattleEventHandler
         UnitDeathEventHandler handler = UnitDeath;
         handler?.Invoke(deadUnit);
     }
+
+    public delegate void HealAppliedEventHandler(BattleUnit healSource, BattleUnit healTarget, int amount);
+    /// <summary>
+    /// Raises UnitDeath event.
+    /// </summary>
+    public event HealAppliedEventHandler HealApplied;
+    /// <summary>
+    /// Raises UnitDeath event.
+    /// </summary>
+    /// <param name="deadUnit"> What died </param>
+    public virtual void OnHealApplied(BattleUnit healSource, BattleUnit healTarget, int amount)
+    {
+        HealAppliedEventHandler handler = HealApplied;
+        handler?.Invoke(healSource, healTarget, amount);
+    }
 }
