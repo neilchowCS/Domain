@@ -8,12 +8,15 @@ public class UnitRuntimeData
     public UnitDataScriptableObject baseData;
     public UnitIndividualData individualData;
 
+    private float levelMultiplier;
+
     public int health;
     public int mana;
     public AttributeInt unitMaxHealth;
     public AttributeInt unitAttack;
     public AttributeInt unitDefense;
     public AttributeInt unitMDefense;
+    public float armorReduction { get; private set; }
     public AttributeFloat unitAttackSpeed;
     public float ticksPerAttack { get; private set; }
     public AttributeFloat unitRange;
@@ -27,7 +30,7 @@ public class UnitRuntimeData
     {
         this.baseData = compositeData.Item1;
         this.individualData = compositeData.Item2;
-        float levelMultiplier = 1 + ((individualData.level - 1) * 0.085f);
+        levelMultiplier = 1 + ((individualData.level - 1) * 0.085f);
 
         health = (int)(baseData.baseHealth * levelMultiplier);
         mana = baseData.baseStartingMana;
@@ -44,11 +47,19 @@ public class UnitRuntimeData
         unitCritChance = new AttributeFloat(baseData.baseCritChance);
 
         ticksPerAttack = TickSpeed.ticksPerSecond / unitAttackSpeed.Value;
+        armorReduction = Mathf.Pow(0.25f, unitDefense.Value / (levelMultiplier * 100));
     }
 
     public void ModifyAttackSpeed(float modifier)
     {
         unitAttackSpeed.ModifyMultiplicative(modifier);
         ticksPerAttack = TickSpeed.ticksPerSecond / unitAttackSpeed.Value;
+    }
+
+    //Hardcode coefficients
+    public void ModifyArmor(float modifier)
+    {
+        unitDefense.ModifyMultiplicative(modifier);
+        armorReduction = Mathf.Pow(0.25f, unitDefense.Value / (levelMultiplier * 100));
     }
 }

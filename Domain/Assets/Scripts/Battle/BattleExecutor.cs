@@ -249,6 +249,15 @@ public class BattleExecutor : MonoBehaviour
         {
             Debug.Log("damage error!");
         }
+
+        if (damageType == DamageType.normal)
+        {
+            if (damageTarget.unitData.armorReduction < 1)
+            {
+                amount = (int)(amount * damageTarget.unitData.armorReduction);
+            }
+        }
+
         //damage reduction calcs here
         eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
         

@@ -24,7 +24,7 @@ public class DoeSkillBP : BattleProjectile
         }
         foreach (BattleUnit ally in targets)
         {
-            executor.ApplyHeal(source, ally, (int)(sourceAttack * 2.5f));
+            executor.ApplyHeal(source, ally, (int)(sourceAttack * 1.5f));
         }
     }
 }

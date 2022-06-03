@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitId: 3
   unitName: Doe
-  unitSprite: {fileID: 21300000, guid: 6b9633d1eb43343bfbd822f111c1ce92, type: 3}
+  unitSprite: {fileID: 21300000, guid: 6dfbc217768cd4415a450cc22205cfde, type: 3}
   baseHealth: 450
-  baseAttack: 75
+  baseAttack: 60
   baseDefense: 0
   baseMDefense: 0
   baseAttackSpeed: 0.01
@@ -30,5 +30,5 @@ MonoBehaviour:
   eventSubscriptions: 0100010100
   attackDataList:
   - {fileID: 11400000, guid: 6ec212f13add44fbe97c73d48aaf0273, type: 2}
-  - {fileID: 11400000, guid: 98fc35a1457174010a5ad29bd1f11440, type: 2}
+  - {fileID: 11400000, guid: 7a06b0702d81d4f90a43844ff045deb5, type: 2}
   commonRef: {fileID: 11400000, guid: 536a12f5993b7409f84ff73f293d44f6, type: 2}

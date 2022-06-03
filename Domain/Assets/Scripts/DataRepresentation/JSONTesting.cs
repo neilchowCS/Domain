@@ -18,6 +18,7 @@ public class JSONTesting : MonoBehaviour
         collection.collection.Add(new UnitIndividualData(0, 0));
         collection.collection.Add(new UnitIndividualData(2, 0));
         collection.collection.Add(new UnitIndividualData(1, 100));
+        collection.collection.Add(new UnitIndividualData(3, 2));
         collection.collection.Add(new UnitIndividualData(3, 20));
         string jsonOutput = serializer.SerializeData(collection);
         Debug.Log(jsonOutput);
