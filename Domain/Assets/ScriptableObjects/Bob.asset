@@ -20,8 +20,8 @@ MonoBehaviour:
   baseDefense: 55
   baseMDefense: 0
   baseAttackSpeed: 1.25
-  baseRange: 3.5
-  baseMoveSpeed: 1
+  baseRange: 1.75
+  baseMoveSpeed: 1.7
   baseStartingMana: 0
   baseMaxMana: 20
   baseTickPerMana: 20

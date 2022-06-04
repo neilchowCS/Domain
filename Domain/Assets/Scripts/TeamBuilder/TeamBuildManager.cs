@@ -130,4 +130,9 @@ public class TeamBuildManager : MonoBehaviour
     {
         SceneLoader.LoadJSON();
     }
+
+    public void GoToCollectionScene()
+    {
+        SceneLoader.LoadCollection();
+    }
 }
