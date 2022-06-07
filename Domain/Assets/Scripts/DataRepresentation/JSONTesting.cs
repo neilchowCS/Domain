@@ -25,8 +25,8 @@ public class JSONTesting : MonoBehaviour
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerCollection.json", jsonOutput);
 
 
-        UnitIndividualCollection newCollection = serializer.DeserializeCollection(
-            System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
+        //UnitIndividualCollection newCollection = serializer.DeserializeCollection(
+        //    System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
 
         StageDataCollection stageCollection = new StageDataCollection();
 

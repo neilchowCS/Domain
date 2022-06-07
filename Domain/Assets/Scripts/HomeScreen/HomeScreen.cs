@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class HomeScreen : MonoBehaviour
 {
-    public GameObject collectionManager;
+    public CollectionManager collectionManager;
     public GameObject unitDisplay;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        collectionManager.InitializeCollection();
     }
 
     // Update is called once per frame
@@ -21,25 +21,25 @@ public class HomeScreen : MonoBehaviour
 
     public void ShowCollection()
     {
-        collectionManager.SetActive(true);
+        collectionManager.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
     }
 
     public void HideCollection()
     {
         this.gameObject.SetActive(true);
-        collectionManager.SetActive(false);
+        collectionManager.gameObject.SetActive(false);
     }
 
     public void DisplayUnit()
     {
         unitDisplay.SetActive(true);
-        collectionManager.SetActive(false);
+        collectionManager.gameObject.SetActive(false);
     }
 
     public void HideUnit()
     {
-        collectionManager.SetActive(true);
+        collectionManager.gameObject.SetActive(true);
         unitDisplay.SetActive(false);
     }
 }
