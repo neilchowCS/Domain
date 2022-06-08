@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class OpenUnitProfile : MonoBehaviour
 {
     public HomeScreen homeScreen;
     public Image image;
+    public TextMeshProUGUI levelText;
 
     // Start is called before the first frame update
     void Start()
@@ -20,14 +22,15 @@ public class OpenUnitProfile : MonoBehaviour
         
     }
 
-    public void InitButton(HomeScreen homeScreen, Sprite sprite)
+    public void InitButton(Sprite sprite, int level)
     {
         image.sprite = sprite;
-        this.homeScreen = homeScreen;
+        levelText.text = level + "";
     }
 
     public void OpenProfile()
     {
-        homeScreen.DisplayUnit();
+        homeScreen.DisplayUnit(homeScreen.collectionManager.
+            collection.individualDataList[transform.GetSiblingIndex()]);
     }
 }

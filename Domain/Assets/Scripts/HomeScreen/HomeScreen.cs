@@ -5,12 +5,15 @@ using UnityEngine;
 public class HomeScreen : MonoBehaviour
 {
     public CollectionManager collectionManager;
-    public GameObject unitDisplay;
+    public SummonManager summonManager;
+    public UnitProfileDisplay unitDisplay;
+    public GameObject currentActive;
 
     // Start is called before the first frame update
     void Start()
     {
         //QUESTION why does initializing player collection here not work?
+        currentActive = this.gameObject;
     }
 
     // Update is called once per frame
@@ -31,15 +34,28 @@ public class HomeScreen : MonoBehaviour
         collectionManager.gameObject.SetActive(false);
     }
 
-    public void DisplayUnit()
+    public void DisplayUnit(UnitIndividualData individualData)
     {
-        unitDisplay.SetActive(true);
+        Debug.Log(individualData.unitId);
+        unitDisplay.gameObject.SetActive(true);
         collectionManager.gameObject.SetActive(false);
     }
 
     public void HideUnit()
     {
         collectionManager.gameObject.SetActive(true);
-        unitDisplay.SetActive(false);
+        unitDisplay.gameObject.SetActive(false);
+    }
+
+    public void ShowSummon()
+    {
+        summonManager.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
+    }
+
+    public void HideSummon()
+    {
+        this.gameObject.SetActive(true);
+        summonManager.gameObject.SetActive(false);
     }
 }

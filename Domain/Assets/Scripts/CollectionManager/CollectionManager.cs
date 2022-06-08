@@ -13,20 +13,18 @@ public class CollectionManager : MonoBehaviour
 
     public PlayerData playerData;
     public PlayerCollectionData collection;
-    public enum SortState { unsorted, level, unitId }
-    public SortState sortState = SortState.unsorted;
+    public enum SortState { level, unitId }
+    public SortState sortState;
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         unitButtonList = new List<OpenUnitProfile>();
-        InitializeCollection();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    void OnEnable()
     {
-        
+        InitializeCollection();
     }
 
     public void InitializeCollection()
@@ -34,37 +32,68 @@ public class CollectionManager : MonoBehaviour
         DataSerialization serializer = new DataSerialization();
         collection = serializer.DeserializeCollection(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
-        foreach (UnitIndividualData data in collection.individualDataList)
+        if (unitButtonList.Count == 0)
         {
-            OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
-            //FIXME should be manager not homescreen
-            x.InitButton(this.homeScreen, UDListScriptableObject.uDList[data.unitId].unitSprite);
-            Debug.Log("here");
-            unitButtonList.Add(x);
+            foreach (UnitIndividualData data in collection.individualDataList)
+            {
+                OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
+                //FIXME should be manager not homescreen
+                x.homeScreen = this.homeScreen;
+                x.InitButton(UDListScriptableObject.uDList[data.unitId].unitSprite,
+                    data.level);
+                unitButtonList.Add(x);
+            }
         }
+        else
+        {
+            for (int i = 0; i < collection.individualDataList.Count - unitButtonList.Count; i++)
+            {
+                OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
+                x.homeScreen = this.homeScreen;
+                unitButtonList.Add(x);
+            }
+        }
+
+        SortCollection(SortState.level);
     }
 
     public void SortCollection()
     {
-        if (sortState == SortState.unsorted || sortState == SortState.unitId)
+        if (sortState == SortState.unitId)
         {
-            collection.individualDataList =
-                collection.individualDataList.OrderByDescending(o => o.level).ToList();
-            sortState = SortState.level;
+            SortCollection(SortState.level);
         }else if (sortState == SortState.level)
         {
-            collection.individualDataList =
-                collection.individualDataList.OrderBy(o => o.unitId).ToList();
-            sortState = SortState.unitId;
+            SortCollection(SortState.unitId);
         }
-        DataSerialization serializer = new DataSerialization();
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerCollection.json",
-            serializer.SerializeData(collection));
-        for (int i = 0; i < unitButtonList.Count; i++)
-        {
-            Debug.Log("here");
-            unitButtonList[i].image.sprite =
-                UDListScriptableObject.uDList[collection.individualDataList[i].unitId].unitSprite;
-        }
+    }
+
+    public void SortCollection(SortState state)
+    {
+            switch (state)
+            {
+                case SortState.level:
+                    collection.individualDataList =
+                        collection.individualDataList.OrderByDescending(o => o.level).
+                            ThenBy(o => o.unitId).ToList();
+                    sortState = SortState.level;
+                    break;
+                case SortState.unitId:
+                    collection.individualDataList =
+                        collection.individualDataList.OrderBy(o => o.unitId).
+                            ThenByDescending(o => o.level).ToList();
+                    sortState = SortState.unitId;
+                    break;
+            }
+
+            DataSerialization serializer = new DataSerialization();
+            System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerCollection.json",
+                serializer.SerializeData(collection));
+            for (int i = 0; i < unitButtonList.Count; i++)
+            {
+                unitButtonList[i].InitButton(UDListScriptableObject.uDList[collection.individualDataList[i].unitId].unitSprite,
+                    collection.individualDataList[i].level);
+            }
+        
     }
 }
