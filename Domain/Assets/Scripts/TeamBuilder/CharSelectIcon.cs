@@ -44,14 +44,16 @@ public class CharSelectIcon : MonoBehaviour
         if (drag && !used)
         {
             manager.IconReleased(this);
-            this.transform.position = initialPos;
+            LayoutRebuilder.MarkLayoutForRebuild(manager.charIconBounds.rectTransform);
+            //this.transform.position = initialPos;
             drag = false;
         }
     }
 
-    public void SetInitial(Vector3 pos, (UnitDataScriptableObject, UnitIndividualData) compositeData)
+    public void SetInitial(TeamBuildManager manager,
+        (UnitDataScriptableObject, UnitIndividualData) compositeData)
     {
-        this.transform.localPosition = pos;
+        this.manager = manager;
         initialPos = this.transform.position;
         this.compositeData = compositeData;
         image.sprite = compositeData.Item1.unitSprite;

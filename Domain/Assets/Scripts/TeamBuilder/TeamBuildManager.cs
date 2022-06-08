@@ -35,9 +35,8 @@ public class TeamBuildManager : MonoBehaviour
         for (int i = 0; i < newCollection.collection.Count; i++)
         {
             CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);
-            temp.SetInitial(temp.transform.localPosition + new Vector3(-450 + (300 * (i % 4)), ((int)i/4) * -300, 0),
-                (dataListSO.uDList[newCollection.collection[i].unitId], newCollection.collection[i]));
-            temp.manager = this;
+            temp.SetInitial(this, (dataListSO.uDList[newCollection.collection[i].unitId],
+                newCollection.collection[i]));
         }
 
         hexTileLocalPositions = new List<Vector3>();
