@@ -29,14 +29,14 @@ public class TeamBuildManager : MonoBehaviour
         DataSerialization serializer = new DataSerialization();
         markList = new List<CharGridMarker>();
         teamData = new TeamData();
-        UnitIndividualCollection newCollection = serializer.DeserializeCollection(
+        PlayerCollectionData newCollection = serializer.DeserializeCollection(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
 
-        for (int i = 0; i < newCollection.collection.Count; i++)
+        for (int i = 0; i < newCollection.individualDataList.Count; i++)
         {
             CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);
-            temp.SetInitial(this, (dataListSO.uDList[newCollection.collection[i].unitId],
-                newCollection.collection[i]));
+            temp.SetInitial(this, (dataListSO.uDList[newCollection.individualDataList[i].unitId],
+                newCollection.individualDataList[i]));
         }
 
         hexTileLocalPositions = new List<Vector3>();

@@ -25,9 +25,9 @@ public class CollectionManager : MonoBehaviour
     public void InitializeCollection()
     {
         DataSerialization serializer = new DataSerialization();
-        UnitIndividualCollection collection = serializer.DeserializeCollection(
+        PlayerCollectionData collection = serializer.DeserializeCollection(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
-        foreach (UnitIndividualData data in collection.collection)
+        foreach (UnitIndividualData data in collection.individualDataList)
         {
             OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
             //FIXME should be manager not homescreen

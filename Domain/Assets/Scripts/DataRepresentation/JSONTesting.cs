@@ -10,17 +10,17 @@ public class JSONTesting : MonoBehaviour
     public void GenerateJSON()
     {
         DataSerialization serializer = new DataSerialization();
-        UnitIndividualCollection collection = new UnitIndividualCollection();
-        collection.collection.Add(new UnitIndividualData(0, 0));
-        collection.collection.Add(new UnitIndividualData(1, 1));
-        collection.collection.Add(new UnitIndividualData(2, 2));
-        collection.collection.Add(new UnitIndividualData(1, 3));
-        collection.collection.Add(new UnitIndividualData(0, 0));
-        collection.collection.Add(new UnitIndividualData(2, 0));
-        collection.collection.Add(new UnitIndividualData(1, 100));
-        collection.collection.Add(new UnitIndividualData(3, 2));
-        collection.collection.Add(new UnitIndividualData(3, 20));
-        string jsonOutput = serializer.SerializeData(collection);
+        PlayerCollectionData playerCollectionData = new PlayerCollectionData();
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(0, 0));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(1, 1));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(2, 2));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(1, 3));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(0, 0));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(2, 0));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(1, 100));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(3, 2));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(3, 20));
+        string jsonOutput = serializer.SerializeData(playerCollectionData);
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerCollection.json", jsonOutput);
 

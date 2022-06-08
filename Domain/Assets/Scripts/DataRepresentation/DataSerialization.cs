@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class DataSerialization
         return json;
     }
 
-    public string SerializeData(UnitIndividualCollection collection)
+    public string SerializeData(PlayerCollectionData collection)
     {
         string json = JsonUtility.ToJson(collection, true);
         return json;
@@ -33,9 +34,9 @@ public class DataSerialization
         return json;
     }
 
-    public UnitIndividualCollection DeserializeCollection(string text)
+    public PlayerCollectionData DeserializeCollection(string text)
     {
-        return JsonUtility.FromJson<UnitIndividualCollection>(text);
+        return JsonUtility.FromJson<PlayerCollectionData>(text);
     }
 
     public StageDataCollection DeserializeStageData(string text)
