@@ -6916,6 +6916,7 @@ MonoBehaviour:
   homeScreen: {fileID: 616112163}
   gridParent: {fileID: 387566421}
   unitProfileButtonPrefab: {fileID: -8704409506350683005, guid: 6c8d9bb12744645128fd1e43fbb59744, type: 3}
+  UDListScriptableObject: {fileID: 11400000, guid: ec7c4ea85b9f844b0ae8deb136cccded, type: 2}
 --- !u!1 &2117294527
 GameObject:
   m_ObjectHideFlags: 0

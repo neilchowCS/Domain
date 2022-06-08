@@ -7,6 +7,7 @@ public class CollectionManager : MonoBehaviour
     public HomeScreen homeScreen;
     public GameObject gridParent;
     public OpenUnitProfile unitProfileButtonPrefab;
+    public UDListScriptableObject UDListScriptableObject;
 
     public PlayerData playerData;
 
@@ -31,7 +32,7 @@ public class CollectionManager : MonoBehaviour
         {
             OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
             //FIXME should be manager not homescreen
-            x.homeScreen = this.homeScreen;
+            x.InitButton(this.homeScreen, UDListScriptableObject.uDList[data.unitId].unitSprite);
         }
     }
 }
