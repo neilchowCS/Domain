@@ -10,7 +10,7 @@ public class HomeScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        collectionManager.InitializeCollection();
+        //QUESTION why does initializing player collection here not work?
     }
 
     // Update is called once per frame
