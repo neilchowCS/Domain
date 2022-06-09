@@ -26,8 +26,8 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene("JSONGenerator", LoadSceneMode.Single);
     }
 
-    public void LoadCollection()
+    public void LoadHome()
     {
-        SceneManager.LoadScene("CollectionManager", LoadSceneMode.Single);
+        SceneManager.LoadScene("HomeScreen", LoadSceneMode.Single);
     }
 }

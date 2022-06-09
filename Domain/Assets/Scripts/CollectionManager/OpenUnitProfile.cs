@@ -8,6 +8,7 @@ public class OpenUnitProfile : MonoBehaviour
 {
     public HomeScreen homeScreen;
     public Image image;
+    public Image elementCircle;
     public TextMeshProUGUI levelText;
 
     // Start is called before the first frame update
@@ -22,10 +23,11 @@ public class OpenUnitProfile : MonoBehaviour
         
     }
 
-    public void InitButton(Sprite sprite, int level)
+    public void InitButton(Sprite sprite, int level, Color color)
     {
         image.sprite = sprite;
         levelText.text = level + "";
+        elementCircle.color = color;
     }
 
     public void OpenProfile()

@@ -9,6 +9,8 @@ public class UnitDataScriptableObject : ScriptableObject
     public string unitName;
     public Sprite unitSprite;
 
+    public ElementEnum elementEnum;
+
     public int baseHealth;
     public int baseAttack;
     public int baseDefense;

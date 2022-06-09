@@ -42,8 +42,8 @@ public class CollectionManager : MonoBehaviour
                 OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
                 //FIXME should be manager not homescreen
                 x.homeScreen = this.homeScreen;
-                x.InitButton(UDListScriptableObject.uDList[data.unitId].unitSprite,
-                    data.level);
+                x.InitButton(UDListScriptableObject.uDList[data.unitId].unitSprite, data.level,
+                    ElementColor.GetColor(UDListScriptableObject.uDList[data.unitId].elementEnum));
                 unitButtonList.Add(x);
             }
         }
@@ -96,7 +96,8 @@ public class CollectionManager : MonoBehaviour
             for (int i = 0; i < unitButtonList.Count; i++)
             {
                 unitButtonList[i].InitButton(UDListScriptableObject.uDList[collection.individualDataList[i].unitId].unitSprite,
-                    collection.individualDataList[i].level);
+                    collection.individualDataList[i].level,
+                    ElementColor.GetColor(UDListScriptableObject.uDList[collection.individualDataList[i].unitId].elementEnum));
             }
         
     }

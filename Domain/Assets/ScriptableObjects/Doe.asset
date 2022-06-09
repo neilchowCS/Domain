@@ -15,6 +15,7 @@ MonoBehaviour:
   unitId: 3
   unitName: Doe
   unitSprite: {fileID: 21300000, guid: 6dfbc217768cd4415a450cc22205cfde, type: 3}
+  elementEnum: 2
   baseHealth: 450
   baseAttack: 60
   baseDefense: 22

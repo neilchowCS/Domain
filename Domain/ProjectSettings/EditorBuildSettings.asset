@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/CollectionManager.unity
+    path: Assets/Scenes/HomeScreen.unity
     guid: b07d48b2905434282ac47c827070dbee
   - enabled: 1
     path: Assets/Scenes/TeamBuilder.unity
