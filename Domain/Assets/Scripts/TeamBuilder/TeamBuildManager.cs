@@ -7,16 +7,21 @@ public class TeamBuildManager : MonoBehaviour
 {
     public UDListScriptableObject dataListSO;
 
-    public Image charIconBounds;
+    public GameObject UIBackground;
+    public GameObject charIconBounds;
+    public ScrollRect scrollRect;
     public CharSelectIcon charSelectIcon;
-    public GameObject charSelectParent;
+
+    public GameObject gridMarkerParent;
     public HexParent hexParent;
     private float yValPositionOffset = 235;
     public List<Vector3> hexTileLocalPositions;
+
     public CharGridMarker marker;
     public List<CharGridMarker> markList;
     public GameObject enemyTileGrid;
     public List<CharGridMarker> enemyMarkList;
+
     public TeamMessenger teamMessenger;
     public StageNumberTesting stageObject;
 
@@ -36,7 +41,7 @@ public class TeamBuildManager : MonoBehaviour
         {
             CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);
             temp.SetInitial(this, (dataListSO.uDList[newCollection.individualDataList[i].unitId],
-                newCollection.individualDataList[i]));
+                newCollection.individualDataList[i]), i);
         }
 
         hexTileLocalPositions = new List<Vector3>();
@@ -57,6 +62,8 @@ public class TeamBuildManager : MonoBehaviour
 
     public void IconReleased(CharSelectIcon icon)
     {
+        icon.transform.SetParent(charIconBounds.transform);
+        icon.transform.SetSiblingIndex(icon.heirarchyIndex);
         //FIXME dynamically generate, replace with foreach
         for (int i = 0; i < hexParent.hexColliders.Count; i++)
         {
@@ -74,7 +81,7 @@ public class TeamBuildManager : MonoBehaviour
         if (!collider.occupied && markList.Count < maxTeamSize)
         {
             icon.CharUsed();
-            CharGridMarker temp = Instantiate(marker, charSelectParent.transform);
+            CharGridMarker temp = Instantiate(marker, gridMarkerParent.transform);
             temp.SetInitial(collider.transform.position, icon.compositeData, i);
             collider.occupied = true;
             markList.Add(temp);
