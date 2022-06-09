@@ -57,13 +57,11 @@ public class TeamBuildManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void IconReleased(CharSelectIcon icon)
     {
-        icon.transform.SetParent(charIconBounds.transform);
-        icon.transform.SetSiblingIndex(icon.heirarchyIndex);
         //FIXME dynamically generate, replace with foreach
         for (int i = 0; i < hexParent.hexColliders.Count; i++)
         {
@@ -88,11 +86,12 @@ public class TeamBuildManager : MonoBehaviour
         }
     }
 
+    //CALL BEFORE SCENE LOAD!!!
     public void ExportTeam()
     {
         TeamMessenger dontDestroy = Instantiate(teamMessenger);
         GameObject.DontDestroyOnLoad(dontDestroy);
-        foreach(CharGridMarker mark in markList)
+        foreach (CharGridMarker mark in markList)
         {
             teamData.AddUnitData(new UnitRuntimeData(mark.compositeData), mark.positionId);
         }
@@ -124,21 +123,5 @@ public class TeamBuildManager : MonoBehaviour
             */
             enemyMarkList.Add(temp);
         }
-    }
-
-    public void ExitToBattle()
-    {
-        ExportTeam();
-        SceneLoader.LoadBattle();
-    }
-
-    public void GoToJSONScene()
-    {
-        SceneLoader.LoadJSON();
-    }
-
-    public void GoToCollectionScene()
-    {
-        SceneLoader.LoadCollection();
     }
 }

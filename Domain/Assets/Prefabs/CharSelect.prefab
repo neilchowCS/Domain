@@ -108,13 +108,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
   heirarchyIndex: 0
-  initialPos: {x: -150, y: 634.7777, z: 0}
+  initialPos: 0
   newPos: {x: 0, y: 0, z: 0}
   holdTimer: 0
   image: {fileID: 3913851241911178109}
   progressFill: {fileID: 6292182999802012011}
   levelText: {fileID: 5658649153064792651}
+  boxCollider: {fileID: 2236480555451626437}
   empty: {fileID: 3001649345376870138, guid: 218868f7a9833463b9a3a3b04174cfa6, type: 3}
+  instantiatedEmpty: {fileID: 0}
   used: 0
 --- !u!1 &3213378509344793821
 GameObject:
@@ -399,7 +401,7 @@ MonoBehaviour:
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 0
-  m_FillClockwise: 1
-  m_FillOrigin: 2
+  m_FillClockwise: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1

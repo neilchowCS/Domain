@@ -4,24 +4,29 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-static class SceneLoader
+public class SceneLoader : MonoBehaviour
 {
-    public static void LoadBattle()
+    public void LoadBattle()
     {
         SceneManager.LoadScene("BattleScene", LoadSceneMode.Single);
     }
 
-    public static void LoadTeamBuilder()
+    public static void StaticLoadBattle()
+    {
+        SceneManager.LoadScene("BattleScene", LoadSceneMode.Single);
+    }
+
+    public void LoadTeamBuilder()
     {
         SceneManager.LoadScene("TeamBuilder", LoadSceneMode.Single);
     }
 
-    public static void LoadJSON()
+    public void LoadJSON()
     {
         SceneManager.LoadScene("JSONGenerator", LoadSceneMode.Single);
     }
 
-    public static void LoadCollection()
+    public void LoadCollection()
     {
         SceneManager.LoadScene("CollectionManager", LoadSceneMode.Single);
     }

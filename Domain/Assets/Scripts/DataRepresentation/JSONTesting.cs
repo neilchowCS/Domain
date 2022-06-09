@@ -98,9 +98,4 @@ public class JSONTesting : MonoBehaviour
     {
         
     }
-
-    public void ToTeamBuilder()
-    {
-        SceneLoader.LoadTeamBuilder();
-    }
 }

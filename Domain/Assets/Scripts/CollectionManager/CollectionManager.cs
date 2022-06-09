@@ -32,6 +32,9 @@ public class CollectionManager : MonoBehaviour
         DataSerialization serializer = new DataSerialization();
         collection = serializer.DeserializeCollection(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
+
+        //Debug.Log(collection.individualDataList.Count);
+        //Debug.Log(unitButtonList.Count);
         if (unitButtonList.Count == 0)
         {
             foreach (UnitIndividualData data in collection.individualDataList)
@@ -46,7 +49,8 @@ public class CollectionManager : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < collection.individualDataList.Count - unitButtonList.Count; i++)
+            int difference = collection.individualDataList.Count - unitButtonList.Count;
+            for (int i = 0; i < difference; i++)
             {
                 OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
                 x.homeScreen = this.homeScreen;
