@@ -17,6 +17,7 @@ public class CharSelectIcon : MonoBehaviour
     public Image image;
     public Image progressFill;
     public TextMeshProUGUI levelText;
+    public Image elementCircle;
     public BoxCollider boxCollider;
     public GameObject empty;
     public GameObject instantiatedEmpty;
@@ -105,6 +106,8 @@ public class CharSelectIcon : MonoBehaviour
         this.compositeData = compositeData;
         image.sprite = compositeData.Item1.unitSprite;
         levelText.text = compositeData.Item2.level + "";
+        elementCircle.color = ElementColor.GetColor
+            (compositeData.Item1.elementEnum);
         this.heirarchyIndex = heirarchyIndex;
     }
 
@@ -116,6 +119,7 @@ public class CharSelectIcon : MonoBehaviour
 
     public void UpdateFill()
     {
+        //FIXME make last tick 100%
         progressFill.fillAmount = (holdTimer - 0.2f) * 4;
     }
 }
