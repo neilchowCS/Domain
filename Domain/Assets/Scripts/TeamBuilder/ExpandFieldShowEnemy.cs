@@ -15,8 +15,8 @@ public class ExpandFieldShowEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        minimizedPosition = new Vector3(0, 0, 0);
-        expandedPosition = new Vector3(-1600, 0, 0);
+        minimizedPosition = new Vector3(0, 125, 0);
+        expandedPosition = new Vector3(-1600, 125, 0);
         isMinimized = true;
         minimizeButton.SetActive(false);
         expandButton.SetActive(true);

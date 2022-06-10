@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ReplayManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class ReplayManager : MonoBehaviour
     public GameObject profileParent;
 
     public Canvas screenOverlayCanvas;
+    public Image leftContent;
+    public Image rightContent;
     public DamageNumber damageNumber;
 
     // Start is called before the first frame update

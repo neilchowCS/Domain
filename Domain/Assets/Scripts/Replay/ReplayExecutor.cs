@@ -127,6 +127,7 @@ public class ReplayExecutor : MonoBehaviour
         return count;
     }
 
+    /*
     public void SetProfilePosition(ReplayProfile replayProfile)
     {
         if (replayProfile.transform.localPosition.x < 0)
@@ -140,6 +141,7 @@ public class ReplayExecutor : MonoBehaviour
             replayProfile.transform.position = side1ProfilePositions[pos];
         }
     }
+    */
 
     public void SetBars(ReplayProfile replayProfile, int side0Sum, int side1Sum)
     {
@@ -161,21 +163,22 @@ public class ReplayExecutor : MonoBehaviour
         y.globalId = globalSpawnId;
         y.SetName(compositeData.Item1.unitName);
         y.SetImage(compositeData.Item1.unitSprite);
-        y.transform.SetParent(replayManager.profileParent.transform, false);
         if (side == 0)
         {
+            y.transform.SetParent(replayManager.leftContent.transform, false);
             side0Profiles.Add(y);
-            y.transform.localPosition = new Vector3(y.transform.localPosition.x,
+            /*y.transform.localPosition = new Vector3(y.transform.localPosition.x,
                 y.transform.localPosition.y - (side0ProfilePositions.Count) * 75,
-                y.transform.localPosition.z);
+                y.transform.localPosition.z);*/
             side0ProfilePositions.Add(y.transform.position);
         }
         else
         {
+            y.transform.SetParent(replayManager.rightContent.transform, false);
             side1Profiles.Add(y);
-            y.transform.localPosition = new Vector3(-y.transform.localPosition.x,
+            /*y.transform.localPosition = new Vector3(-y.transform.localPosition.x,
                 y.transform.localPosition.y - (side1ProfilePositions.Count) * 75,
-                y.transform.localPosition.z);
+                y.transform.localPosition.z);*/
             side1ProfilePositions.Add(y.transform.position);
         }
     }
@@ -186,11 +189,24 @@ public class ReplayExecutor : MonoBehaviour
         side1Profiles = side1Profiles.OrderByDescending(o => o.damageInt).ToList();
         int side0DamageSum = side0Profiles[0].damageInt;
         int side1DamageSum = side1Profiles[0].damageInt;
-
+        /*
         foreach (ReplayProfile i in profiles)
         {
             SetProfilePosition(i);
             SetBars(i, side0DamageSum, side1DamageSum);
+        }
+        */
+
+        for (int i = 0; i < side0Profiles.Count; i++)
+        {
+            side0Profiles[i].transform.SetSiblingIndex(i);
+            SetBars(side0Profiles[i], side0DamageSum, side1DamageSum);
+        }
+
+        for (int i = 0; i < side1Profiles.Count; i++)
+        {
+            side1Profiles[i].transform.SetSiblingIndex(i);
+            SetBars(side1Profiles[i], side0DamageSum, side1DamageSum);
         }
     }
 
