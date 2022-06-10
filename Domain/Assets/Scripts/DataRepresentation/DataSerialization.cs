@@ -10,6 +10,17 @@ public class DataSerialization
 
     }
 
+    public static PlayerCollectionData DeserializeStaticCollection(string s)
+    {
+        return JsonUtility.FromJson<PlayerCollectionData>(s);
+    }
+
+    public static string SerializeStaticCollection(PlayerCollectionData collection)
+    {
+        string json = JsonUtility.ToJson(collection, true);
+        return json;
+    }
+
     public string SerializeData(StageDataCollection stageData)
     {
         string json = JsonUtility.ToJson(stageData, true);

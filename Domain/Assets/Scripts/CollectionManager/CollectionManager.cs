@@ -12,9 +12,7 @@ public class CollectionManager : MonoBehaviour
     public UDListScriptableObject UDListScriptableObject;
 
     public PlayerData playerData;
-    public PlayerCollectionData collection;
-    public enum SortState { level, unitId }
-    public SortState sortState;
+    public CollectionHandler collectionHandler;
 
     private void Awake()
     {
@@ -29,15 +27,11 @@ public class CollectionManager : MonoBehaviour
 
     public void InitializeCollection()
     {
-        DataSerialization serializer = new DataSerialization();
-        collection = serializer.DeserializeCollection(
-            System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
-
         //Debug.Log(collection.individualDataList.Count);
         //Debug.Log(unitButtonList.Count);
         if (unitButtonList.Count == 0)
         {
-            foreach (UnitIndividualData data in collection.individualDataList)
+            foreach (UnitIndividualData data in collectionHandler.collection.individualDataList)
             {
                 OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
                 //FIXME should be manager not homescreen
@@ -49,7 +43,7 @@ public class CollectionManager : MonoBehaviour
         }
         else
         {
-            int difference = collection.individualDataList.Count - unitButtonList.Count;
+            int difference = collectionHandler.collection.individualDataList.Count - unitButtonList.Count;
             for (int i = 0; i < difference; i++)
             {
                 OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
@@ -58,47 +52,36 @@ public class CollectionManager : MonoBehaviour
             }
         }
 
-        SortCollection(SortState.level);
+        collectionHandler.SortCollection(CollectionHandler.SortState.level);
+        RefreshButton();
     }
 
     public void SortCollection()
     {
-        if (sortState == SortState.unitId)
+        if (collectionHandler.sortState == CollectionHandler.SortState.unitId)
         {
-            SortCollection(SortState.level);
-        }else if (sortState == SortState.level)
+            collectionHandler.SortCollection(CollectionHandler.SortState.level);
+        }else if (collectionHandler.sortState == CollectionHandler.SortState.level)
         {
-            SortCollection(SortState.unitId);
+            collectionHandler.SortCollection(CollectionHandler.SortState.unitId);
         }
+
+        RefreshButton();
     }
 
-    public void SortCollection(SortState state)
+    public void RefreshButton()
     {
-            switch (state)
-            {
-                case SortState.level:
-                    collection.individualDataList =
-                        collection.individualDataList.OrderByDescending(o => o.level).
-                            ThenBy(o => o.unitId).ToList();
-                    sortState = SortState.level;
-                    break;
-                case SortState.unitId:
-                    collection.individualDataList =
-                        collection.individualDataList.OrderBy(o => o.unitId).
-                            ThenByDescending(o => o.level).ToList();
-                    sortState = SortState.unitId;
-                    break;
-            }
 
-            DataSerialization serializer = new DataSerialization();
-            System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerCollection.json",
-                serializer.SerializeData(collection));
-            for (int i = 0; i < unitButtonList.Count; i++)
-            {
-                unitButtonList[i].InitButton(UDListScriptableObject.uDList[collection.individualDataList[i].unitId].unitSprite,
-                    collection.individualDataList[i].level,
-                    ElementColor.GetColor(UDListScriptableObject.uDList[collection.individualDataList[i].unitId].elementEnum));
-            }
-        
+        for (int i = 0; i < unitButtonList.Count; i++)
+        {
+            unitButtonList[i].InitButton(UDListScriptableObject.uDList
+                [collectionHandler.collection.individualDataList[i].unitId].unitSprite,
+
+                collectionHandler.collection.individualDataList[i].level,
+
+                ElementColor.GetColor(UDListScriptableObject.uDList
+                [collectionHandler.collection.individualDataList[i].unitId].elementEnum));
+        }
+
     }
 }

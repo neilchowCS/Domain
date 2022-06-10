@@ -33,6 +33,6 @@ public class OpenUnitProfile : MonoBehaviour
     public void OpenProfile()
     {
         homeScreen.DisplayUnit(homeScreen.collectionManager.
-            collection.individualDataList[transform.GetSiblingIndex()]);
+            collectionHandler.collection.individualDataList[transform.GetSiblingIndex()]);
     }
 }

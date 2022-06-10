@@ -7,6 +7,9 @@ public class HomeScreen : MonoBehaviour
     public CollectionManager collectionManager;
     public SummonManager summonManager;
     public UnitProfileDisplay unitDisplay;
+    public DismissUnit dismissUnit;
+
+
     public GameObject currentActive;
 
     // Start is called before the first frame update
@@ -57,5 +60,17 @@ public class HomeScreen : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         summonManager.gameObject.SetActive(false);
+    }
+
+    public void ShowAltar()
+    {
+        dismissUnit.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
+    }
+
+    public void HideAltar()
+    {
+        this.gameObject.SetActive(true);
+        dismissUnit.gameObject.SetActive(false);
     }
 }
