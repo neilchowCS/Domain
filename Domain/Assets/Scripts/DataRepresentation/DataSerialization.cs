@@ -34,6 +34,17 @@ public class DataSerialization
         return json;
     }
 
+    public string SerializeData(PlayerData playerData)
+    {
+        string json = JsonUtility.ToJson(playerData, true);
+        return json;
+    }
+
+    public PlayerData DeserializePlayerData(string text)
+    {
+        return JsonUtility.FromJson<PlayerData>(text);
+    }
+
     public PlayerCollectionData DeserializeCollection(string text)
     {
         return JsonUtility.FromJson<PlayerCollectionData>(text);

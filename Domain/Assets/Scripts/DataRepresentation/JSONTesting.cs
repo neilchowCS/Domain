@@ -91,6 +91,11 @@ public class JSONTesting : MonoBehaviour
         jsonOutput = serializer.SerializeData(stageData);
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/StageData.json", jsonOutput);
+
+        PlayerData playerData = new PlayerData(10, 10, 10);
+        jsonOutput = serializer.SerializeData(playerData);
+        Debug.Log(jsonOutput);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);
     }
 
     // Update is called once per frame
