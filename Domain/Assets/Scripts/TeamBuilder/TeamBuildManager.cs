@@ -7,6 +7,7 @@ public class TeamBuildManager : MonoBehaviour
 {
     public UDListScriptableObject dataListSO;
 
+    public Canvas canvas;
     public GameObject UIBackground;
     public GameObject charIconBounds;
     public ScrollRect scrollRect;

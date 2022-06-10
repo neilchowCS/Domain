@@ -39,6 +39,7 @@ public class CharSelectIcon : MonoBehaviour
 
     public void OnMouseDown()
     {
+        Debug.Log("here");
         initialPos = this.transform.parent.transform.localPosition.y;
         scrolling = false;
     }
@@ -49,7 +50,7 @@ public class CharSelectIcon : MonoBehaviour
 
         if (drag)
         {
-            newPos.z = 10;
+            newPos.z = manager.canvas.planeDistance;
             this.transform.position = Camera.main.ScreenToWorldPoint(newPos);
         }
         else if (!scrolling)
