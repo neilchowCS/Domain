@@ -21,25 +21,13 @@ public class DismissalManager : MonoBehaviour
 
     public TextMeshProUGUI dismissPreview;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void OnEnable()
+    void OnEnable()
     {
         iconPool.GenerateSortRefresh(homeScreen, collectionHandler, gridParent,
             BaseUnitIcon.IconSetting.dismissal);
     }
 
-    public void OnDisable()
+    void OnDisable()
     {
         foreach (BaseUnitIcon icon in selectedButtonList)
         {

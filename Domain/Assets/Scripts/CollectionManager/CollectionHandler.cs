@@ -64,7 +64,7 @@ public class CollectionHandler : MonoBehaviour
                 sortState = SortState.unitId;
                 break;
         }
-
+        //Debug.Log(collection.individualDataList.Count);
         WriteCollection();
     }
 }

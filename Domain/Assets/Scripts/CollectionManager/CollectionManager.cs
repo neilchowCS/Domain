@@ -14,7 +14,6 @@ public class CollectionManager : MonoBehaviour
 
     void OnEnable()
     {
-        Debug.Log("here");
         iconPool.GenerateSortRefresh(homeScreen, collectionHandler, gridParent,
             BaseUnitIcon.IconSetting.collection);
     }

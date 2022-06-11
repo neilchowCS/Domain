@@ -56,6 +56,7 @@ public class IconPool : MonoBehaviour
         {
             while (iconList.Count > collection.individualDataList.Count)
             {
+                //Debug.Log($"icon {iconList.Count}, data {collection.individualDataList.Count}");
                 BaseUnitIcon i = iconList[^1];
                 iconList.Remove(i);
                 Destroy(i.gameObject);
