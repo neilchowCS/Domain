@@ -805,7 +805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &171203371
 RectTransform:
   m_ObjectHideFlags: 0
@@ -892,6 +892,8 @@ MonoBehaviour:
   gridParent: {fileID: 1439198612}
   selectedParent: {fileID: 174781645}
   selectedButtonList: []
+  dismissalCap: 5
+  dismissPreview: {fileID: 1831753515}
 --- !u!1 &174781645
 GameObject:
   m_ObjectHideFlags: 0
@@ -7627,9 +7629,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SummonManager, Assembly-CSharp
-        m_MethodName: PerformSummon
+      - m_Target: {fileID: 171203375}
+        m_TargetAssemblyTypeName: DismissalManager, Assembly-CSharp
+        m_MethodName: ExecuteDismissal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7848,7 +7850,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1439198614
 MonoBehaviour:
@@ -9322,7 +9324,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Output: # essence'
+  m_text: ' '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

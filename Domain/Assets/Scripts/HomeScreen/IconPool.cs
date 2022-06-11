@@ -43,21 +43,22 @@ public class IconPool : MonoBehaviour
                 NewUnitIcon(parent);
             }
         }
+
+        int difference = collection.individualDataList.Count - iconList.Count;
+        if (difference > 0)
+        {
+            for (int i = 0; i < difference; i++)
+            {
+                NewUnitIcon(parent);
+            }
+        }
         else
         {
-            int difference = collection.individualDataList.Count - iconList.Count;
-            if (difference > 0)
+            while (iconList.Count > collection.individualDataList.Count)
             {
-                for (int i = 0; i < difference; i++)
-                {
-                    NewUnitIcon(parent);
-                }
-            }else
-            {
-                while (iconList.Count > collection.individualDataList.Count)
-                {
-                    Destroy(iconList[^1].gameObject);
-                }
+                BaseUnitIcon i = iconList[^1];
+                iconList.Remove(i);
+                Destroy(i.gameObject);
             }
         }
     }
@@ -67,27 +68,28 @@ public class IconPool : MonoBehaviour
     {
         for (int i = 0; i < iconList.Count; i++)
         {
-            iconList[i].InitButton(homeScreen, iconSetting,
-
-                collectionHandler.uDListSO.uDList[
-                    collectionHandler.collection.individualDataList[i].unitId].unitSprite,
-
-                collectionHandler.collection.individualDataList[i].level,
-
-                ElementColor.GetColor(collectionHandler.uDListSO.uDList[
-                    collectionHandler.collection.individualDataList[i].unitId].elementEnum));
+            iconList[i].InitButton(homeScreen, iconSetting, collectionHandler.uDListSO,
+                collectionHandler.collection.individualDataList[i]);
         }
     }
 
     public void GenerateSortRefresh(HomeScreen homeScreen, CollectionHandler collectionHandler,
         GameObject parent, BaseUnitIcon.IconSetting iconSetting)
     {
-        CreateIcons(collectionHandler.collection, parent);
-        collectionHandler.SortCollection(CollectionHandler.SortState.level);
         foreach (BaseUnitIcon icon in iconList)
         {
             icon.transform.SetParent(parent.transform);
         }
+
+        CreateIcons(collectionHandler.collection, parent);
+        collectionHandler.SortCollection(CollectionHandler.SortState.level);
+        RefreshIcons(homeScreen, collectionHandler, iconSetting);
+    }
+
+    public void GenerateRefresh(HomeScreen homeScreen, CollectionHandler collectionHandler,
+        GameObject parent, BaseUnitIcon.IconSetting iconSetting)
+    {
+        CreateIcons(collectionHandler.collection, parent);
         RefreshIcons(homeScreen, collectionHandler, iconSetting);
     }
 }

@@ -14,11 +14,10 @@ public class CollectionManager : MonoBehaviour
 
     void OnEnable()
     {
+        Debug.Log("here");
         iconPool.GenerateSortRefresh(homeScreen, collectionHandler, gridParent,
             BaseUnitIcon.IconSetting.collection);
     }
-
-    
 
     public void SortButton()
     {
@@ -30,7 +29,6 @@ public class CollectionManager : MonoBehaviour
             collectionHandler.SortCollection(CollectionHandler.SortState.unitId);
         }
 
-        iconPool.RefreshIcons(homeScreen, collectionHandler,
-            BaseUnitIcon.IconSetting.collection);
+        iconPool.RefreshIcons(homeScreen, collectionHandler, BaseUnitIcon.IconSetting.collection);
     }
 }

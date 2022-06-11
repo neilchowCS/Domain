@@ -36,27 +36,12 @@ public class BaseUnitIcon : MonoBehaviour
         InitButton(UDListSO, individual);
     }
 
-    public void InitButton(HomeScreen homeScreen, IconSetting setting,
-        Sprite sprite, int level, Color color)
-    {
-        this.homeScreen = homeScreen;
-        iconSetting = setting;
-        InitButton(sprite, level, color);
-    }
-
     public void InitButton(UDListScriptableObject UDListSO, UnitIndividualData individual)
     {
         individualData = individual;
         image.sprite = UDListSO.uDList[individual.unitId].unitSprite;
         levelText.text = individual.level + "";
         elementCircle.color = ElementColor.GetColor(UDListSO.uDList[individual.unitId].elementEnum);
-    }
-
-    public void InitButton(Sprite sprite, int level, Color color)
-    {
-        image.sprite = sprite;
-        levelText.text = level + "";
-        elementCircle.color = color;
     }
 
     public void SettingBasedClickEvent()
