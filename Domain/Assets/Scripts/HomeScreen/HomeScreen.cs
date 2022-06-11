@@ -7,7 +7,7 @@ public class HomeScreen : MonoBehaviour
     public CollectionManager collectionManager;
     public SummonManager summonManager;
     public UnitProfileDisplay unitDisplay;
-    public DismissUnit dismissUnit;
+    public DismissalManager dismissalManager;
 
 
     public GameObject currentActive;
@@ -64,13 +64,13 @@ public class HomeScreen : MonoBehaviour
 
     public void ShowAltar()
     {
-        dismissUnit.gameObject.SetActive(true);
+        dismissalManager.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
     }
 
     public void HideAltar()
     {
         this.gameObject.SetActive(true);
-        dismissUnit.gameObject.SetActive(false);
+        dismissalManager.gameObject.SetActive(false);
     }
 }

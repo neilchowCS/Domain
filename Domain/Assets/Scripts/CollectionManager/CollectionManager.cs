@@ -7,16 +7,15 @@ public class CollectionManager : MonoBehaviour
 {
     public HomeScreen homeScreen;
     public GameObject gridParent;
-    public List<OpenUnitProfile> unitButtonList;
-    public OpenUnitProfile unitProfileButtonPrefab;
+    public List<BaseUnitIcon> unitButtonList;
+    public BaseUnitIcon unitProfileButtonPrefab;
     public UDListScriptableObject UDListScriptableObject;
 
-    public PlayerData playerData;
     public CollectionHandler collectionHandler;
 
     private void Awake()
     {
-        unitButtonList = new List<OpenUnitProfile>();
+        unitButtonList = new List<BaseUnitIcon>();
     }
 
     // Start is called before the first frame update
@@ -27,16 +26,16 @@ public class CollectionManager : MonoBehaviour
 
     public void InitializeCollection()
     {
-        //Debug.Log(collection.individualDataList.Count);
-        //Debug.Log(unitButtonList.Count);
+        Debug.Log(collectionHandler.collection.individualDataList.Count);
+        Debug.Log(unitButtonList.Count);
         if (unitButtonList.Count == 0)
         {
             foreach (UnitIndividualData data in collectionHandler.collection.individualDataList)
             {
-                OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
+                BaseUnitIcon x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
                 //FIXME should be manager not homescreen
-                x.homeScreen = this.homeScreen;
-                x.InitButton(UDListScriptableObject.uDList[data.unitId].unitSprite, data.level,
+                x.InitButton(homeScreen, BaseUnitIcon.IconSetting.collection,
+                    UDListScriptableObject.uDList[data.unitId].unitSprite, data.level,
                     ElementColor.GetColor(UDListScriptableObject.uDList[data.unitId].elementEnum));
                 unitButtonList.Add(x);
             }
@@ -46,8 +45,7 @@ public class CollectionManager : MonoBehaviour
             int difference = collectionHandler.collection.individualDataList.Count - unitButtonList.Count;
             for (int i = 0; i < difference; i++)
             {
-                OpenUnitProfile x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
-                x.homeScreen = this.homeScreen;
+                BaseUnitIcon x = Instantiate(unitProfileButtonPrefab, gridParent.transform);
                 unitButtonList.Add(x);
             }
         }
@@ -56,7 +54,7 @@ public class CollectionManager : MonoBehaviour
         RefreshButton();
     }
 
-    public void SortCollection()
+    public void SortButton()
     {
         if (collectionHandler.sortState == CollectionHandler.SortState.unitId)
         {
@@ -74,7 +72,10 @@ public class CollectionManager : MonoBehaviour
 
         for (int i = 0; i < unitButtonList.Count; i++)
         {
-            unitButtonList[i].InitButton(UDListScriptableObject.uDList
+            unitButtonList[i].InitButton(
+                homeScreen, BaseUnitIcon.IconSetting.collection,
+
+                UDListScriptableObject.uDList
                 [collectionHandler.collection.individualDataList[i].unitId].unitSprite,
 
                 collectionHandler.collection.individualDataList[i].level,

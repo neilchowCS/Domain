@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
-//Banish unit?
-public class DismissUnit : MonoBehaviour
+public class DismissalIcon : BaseUnitIcon
 {
+    public DismissalManager dismissalManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,5 +16,10 @@ public class DismissUnit : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ChooseUnit()
+    {
+        dismissalManager.ChosenUnit(this);
     }
 }
