@@ -5045,6 +5045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfUnits: 4
   summonDisplay: {fileID: 277475945}
+  collectionHandler: {fileID: 255196522}
 --- !u!1 &785732860
 GameObject:
   m_ObjectHideFlags: 0

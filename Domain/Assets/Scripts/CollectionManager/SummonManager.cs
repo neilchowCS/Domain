@@ -8,6 +8,8 @@ public class SummonManager : MonoBehaviour
     public int numberOfUnits = 4;
     public TextMeshProUGUI summonDisplay;
 
+    public CollectionHandler collectionHandler;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,16 +24,11 @@ public class SummonManager : MonoBehaviour
 
     public void PerformSummon()
     {
-        DataSerialization serializer = new DataSerialization();
-        PlayerCollectionData collection = serializer.DeserializeCollection(
-            System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
         int output = Random.Range(0, numberOfUnits);
         DisplaySummon(output);
         UnitIndividualData individualData = new UnitIndividualData(output, 1);
-        collection.individualDataList.Add(individualData);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerCollection.json",
-            serializer.SerializeData(collection));
-
+        collectionHandler.collection.individualDataList.Add(individualData);
+        collectionHandler.WriteCollection();
     }
 
     public void DisplaySummon(int i)
