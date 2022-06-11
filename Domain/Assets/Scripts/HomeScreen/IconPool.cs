@@ -46,9 +46,18 @@ public class IconPool : MonoBehaviour
         else
         {
             int difference = collection.individualDataList.Count - iconList.Count;
-            for (int i = 0; i < difference; i++)
+            if (difference > 0)
             {
-                NewUnitIcon(parent);
+                for (int i = 0; i < difference; i++)
+                {
+                    NewUnitIcon(parent);
+                }
+            }else
+            {
+                while (iconList.Count > collection.individualDataList.Count)
+                {
+                    Destroy(iconList[^1].gameObject);
+                }
             }
         }
     }
@@ -75,6 +84,10 @@ public class IconPool : MonoBehaviour
     {
         CreateIcons(collectionHandler.collection, parent);
         collectionHandler.SortCollection(CollectionHandler.SortState.level);
+        foreach (BaseUnitIcon icon in iconList)
+        {
+            icon.transform.SetParent(parent.transform);
+        }
         RefreshIcons(homeScreen, collectionHandler, iconSetting);
     }
 }

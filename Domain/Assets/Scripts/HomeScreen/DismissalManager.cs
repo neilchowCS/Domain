@@ -6,7 +6,7 @@ using System.Linq;
 //Banish unit?
 public class DismissalManager : MonoBehaviour
 {
-    public UDListScriptableObject UDListScriptableObject;
+    public HomeScreen homeScreen;
 
     public PlayerData playerData;
     public CollectionHandler collectionHandler;
@@ -14,9 +14,6 @@ public class DismissalManager : MonoBehaviour
 
     public GameObject gridParent;
     public GameObject selectedParent;
-
-    public List<BaseUnitIcon> unitButtonList;
-    public BaseUnitIcon dismissButtonPrefab;
 
     public List<BaseUnitIcon> selectedButtonList;
 
@@ -34,12 +31,16 @@ public class DismissalManager : MonoBehaviour
 
     public void OnEnable()
     {
-        
+        iconPool.GenerateSortRefresh(homeScreen, collectionHandler, gridParent,
+            BaseUnitIcon.IconSetting.dismissal);
     }
 
     public void OnDisable()
     {
-        
+        foreach (BaseUnitIcon icon in selectedButtonList)
+        {
+            icon.transform.SetParent(gridParent.transform);
+        }
     }
 
     public void ChosenUnit(BaseUnitIcon dismissalIcon)
