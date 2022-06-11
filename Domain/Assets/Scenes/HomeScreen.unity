@@ -706,6 +706,11 @@ MonoBehaviour:
   - {fileID: 505716201}
   - {fileID: 1233987486}
   - {fileID: 1918776451}
+  nameText: {fileID: 1406849902}
+  levelDisplayText: {fileID: 1629768589}
+  individualData:
+    unitId: 0
+    level: 0
 --- !u!1 &137053236
 GameObject:
   m_ObjectHideFlags: 0
@@ -3683,7 +3688,7 @@ MonoBehaviour:
   summonManager: {fileID: 780509486}
   unitDisplay: {fileID: 93326851}
   dismissalManager: {fileID: 171203375}
-  currentActive: {fileID: 0}
+  uDListSO: {fileID: 11400000, guid: ec7c4ea85b9f844b0ae8deb136cccded, type: 2}
 --- !u!1 &624206340
 GameObject:
   m_ObjectHideFlags: 0
@@ -8610,8 +8615,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -290, y: 275}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -287.2, y: 275}
+  m_SizeDelta: {x: 320, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1629768589
 MonoBehaviour:

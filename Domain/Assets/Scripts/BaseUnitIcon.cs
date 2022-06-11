@@ -49,8 +49,7 @@ public class BaseUnitIcon : MonoBehaviour
         switch (iconSetting)
         {
             case IconSetting.collection:
-                homeScreen.DisplayUnit(homeScreen.collectionManager.
-                    collectionHandler.collection.individualDataList[transform.GetSiblingIndex()]);
+                homeScreen.DisplayUnit(individualData);
                 break;
             case IconSetting.dismissal:
                 homeScreen.dismissalManager.ChosenUnit(this);

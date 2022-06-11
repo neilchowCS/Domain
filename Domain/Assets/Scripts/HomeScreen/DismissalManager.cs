@@ -47,6 +47,13 @@ public class DismissalManager : MonoBehaviour
 
     public void ExecuteDismissal()
     {
+        DataSerialization serializer = new DataSerialization();
+        playerData = serializer.DeserializePlayerData(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
+        playerData.essence += selectedButtonList.Count * 10;
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json",
+            serializer.SerializeData(playerData));
+
         foreach (BaseUnitIcon selected in selectedButtonList)
         {
             collectionHandler.collection.individualDataList.Remove(selected.individualData);

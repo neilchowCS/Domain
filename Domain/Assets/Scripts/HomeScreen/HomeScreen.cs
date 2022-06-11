@@ -9,13 +9,12 @@ public class HomeScreen : MonoBehaviour
     public UnitProfileDisplay unitDisplay;
     public DismissalManager dismissalManager;
 
-    public GameObject currentActive;
+    public UDListScriptableObject uDListSO;
 
     // Start is called before the first frame update
     void Start()
     {
         //QUESTION why does initializing player collection here not work?
-        currentActive = this.gameObject;
     }
 
     // Update is called once per frame
@@ -38,8 +37,9 @@ public class HomeScreen : MonoBehaviour
 
     public void DisplayUnit(UnitIndividualData individualData)
     {
-        Debug.Log(individualData.unitId);
+        //Debug.Log(individualData.unitId);
         unitDisplay.gameObject.SetActive(true);
+        unitDisplay.SetUnit(uDListSO, individualData);
         collectionManager.gameObject.SetActive(false);
     }
 

@@ -7,6 +7,13 @@ public class UnitProfileDisplay : MonoBehaviour
 {
     public TextMeshProUGUI minimizeButtonText;
     public List<GameObject> minimizableObjects;
+
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI levelDisplayText;
+
+    //public UDListScriptableObject UDListSO;
+    public UnitIndividualData individualData;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +24,13 @@ public class UnitProfileDisplay : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetUnit(UDListScriptableObject uDListSO, UnitIndividualData data)
+    {
+        individualData = data;
+        nameText.text = uDListSO.uDList[data.unitId].unitName;
+        levelDisplayText.text = $"{data.level}/100";
     }
 
     public void ToggleFullShowImage()
