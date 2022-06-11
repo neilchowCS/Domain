@@ -9,7 +9,6 @@ public class HomeScreen : MonoBehaviour
     public UnitProfileDisplay unitDisplay;
     public DismissalManager dismissalManager;
 
-
     public GameObject currentActive;
 
     // Start is called before the first frame update

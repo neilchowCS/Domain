@@ -6,6 +6,7 @@ using System.Linq;
 public class CollectionHandler : MonoBehaviour
 {
     public PlayerCollectionData collection;
+    public UDListScriptableObject uDListSO;
 
     public enum SortState { level, unitId }
     public SortState sortState;

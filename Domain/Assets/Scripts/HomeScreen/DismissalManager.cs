@@ -10,6 +10,7 @@ public class DismissalManager : MonoBehaviour
 
     public PlayerData playerData;
     public CollectionHandler collectionHandler;
+    public IconPool iconPool;
 
     public GameObject gridParent;
     public GameObject selectedParent;
