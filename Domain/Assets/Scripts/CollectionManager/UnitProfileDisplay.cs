@@ -16,6 +16,9 @@ public class UnitProfileDisplay : MonoBehaviour
     //public UDListScriptableObject UDListSO;
     public UnitIndividualData individualData;
 
+    public CollectionHandler collectionHandler;
+    public ResourceHandler resourceHandler;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +41,13 @@ public class UnitProfileDisplay : MonoBehaviour
 
     }
 
+    public void RefreshUnit()
+    {
+        levelDisplayText.text = $"{individualData.level}/100";
+        goldCostText.text = $"{NumberFormatter.Format(LevelCost.GetCost(individualData.level))} <b>G";
+        essenceCostText.text = $"{NumberFormatter.Format((int)(LevelCost.GetCost(individualData.level) * 1.5f))} <b>E";
+    }
+
     public void ToggleFullShowImage()
     {
         if (minimizeButtonText.text == "+")
@@ -51,6 +61,21 @@ public class UnitProfileDisplay : MonoBehaviour
         foreach (GameObject x in minimizableObjects)
         {
             x.SetActive(!x.activeInHierarchy);
+        }
+    }
+
+    public void LevelUp()
+    {
+        int cost = LevelCost.GetCost(individualData.level);
+        if (cost <= resourceHandler.playerData.gold
+            && (int)(cost * 1.5f) <= resourceHandler.playerData.essence)
+        {
+            resourceHandler.playerData.gold -= cost;
+            resourceHandler.playerData.essence -= (int)(cost * 1.5f);
+            individualData.level += 1;
+            resourceHandler.WritePlayerData();
+            collectionHandler.WriteCollection();
+            RefreshUnit();
         }
     }
 }

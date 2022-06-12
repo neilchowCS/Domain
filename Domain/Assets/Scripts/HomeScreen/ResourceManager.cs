@@ -21,7 +21,7 @@ public class ResourceManager : MonoBehaviour
 
     public void ClaimReward()
     {
-        resourceHandler.playerData.lastClaim = System.DateTime.UtcNow;
+        resourceHandler.playerData.lastClaim = System.DateTime.UtcNow.ToString();
         resourceHandler.playerData.gold += 1000;
         resourceHandler.playerData.essence += 1000;
         resourceHandler.WritePlayerData();

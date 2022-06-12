@@ -22,6 +22,7 @@ public class WalletDisplay : MonoBehaviour
     public void OnEnable()
     {
         PlayerData data = resourceHandler.playerData;
-        text.text = "Gold: " + data.gold + " Essence: " + data.essence;
+        text.text = "Gold: " + NumberFormatter.Format(data.gold)
+            + " Essence: " + NumberFormatter.Format(data.essence);
     }
 }

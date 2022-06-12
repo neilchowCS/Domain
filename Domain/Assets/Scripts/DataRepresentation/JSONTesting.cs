@@ -11,12 +11,12 @@ public class JSONTesting : MonoBehaviour
     {
         DataSerialization serializer = new DataSerialization();
         PlayerCollectionData playerCollectionData = new PlayerCollectionData();
-        playerCollectionData.individualDataList.Add(new UnitIndividualData(0, 0));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(0, 1));
         playerCollectionData.individualDataList.Add(new UnitIndividualData(1, 1));
         playerCollectionData.individualDataList.Add(new UnitIndividualData(2, 2));
         playerCollectionData.individualDataList.Add(new UnitIndividualData(1, 3));
-        playerCollectionData.individualDataList.Add(new UnitIndividualData(0, 0));
-        playerCollectionData.individualDataList.Add(new UnitIndividualData(2, 0));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(0, 1));
+        playerCollectionData.individualDataList.Add(new UnitIndividualData(2, 1));
         playerCollectionData.individualDataList.Add(new UnitIndividualData(1, 100));
         playerCollectionData.individualDataList.Add(new UnitIndividualData(3, 2));
         playerCollectionData.individualDataList.Add(new UnitIndividualData(3, 20));
@@ -92,7 +92,7 @@ public class JSONTesting : MonoBehaviour
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/StageData.json", jsonOutput);
 
-        PlayerData playerData = new PlayerData(10, 10, 10, System.DateTime.UtcNow);
+        PlayerData playerData = new PlayerData(10, 10, 10, System.DateTime.UtcNow.ToString());
         jsonOutput = serializer.SerializeData(playerData);
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);

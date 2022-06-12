@@ -8,15 +8,14 @@ public class PlayerData
     public int gold;
     public int essence;
     public int promotionStones;
-
-    public System.DateTime lastClaim;
+    public string lastClaim;
 
     public PlayerData()
     {
 
     }
 
-    public PlayerData(int i, int j, int k, System.DateTime lastClaim)
+    public PlayerData(int i, int j, int k, string lastClaim)
     {
         gold = i;
         essence = j;

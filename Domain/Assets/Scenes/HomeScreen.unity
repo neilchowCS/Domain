@@ -848,6 +848,8 @@ MonoBehaviour:
   individualData:
     unitId: 0
     level: 0
+  collectionHandler: {fileID: 255196522}
+  resourceHandler: {fileID: 255196524}
 --- !u!1 &137053236
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,6 +1499,7 @@ MonoBehaviour:
     gold: 0
     essence: 0
     promotionStones: 0
+    lastClaim: 
 --- !u!1 &256012785
 GameObject:
   m_ObjectHideFlags: 0
@@ -6683,7 +6686,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 987372567}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 93326851}
+        m_TargetAssemblyTypeName: UnitProfileDisplay, Assembly-CSharp
+        m_MethodName: LevelUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &987372567
 MonoBehaviour:
   m_ObjectHideFlags: 0
