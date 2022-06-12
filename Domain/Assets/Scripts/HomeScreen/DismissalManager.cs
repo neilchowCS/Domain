@@ -8,10 +8,10 @@ using System.Linq;
 public class DismissalManager : MonoBehaviour
 {
     public HomeScreen homeScreen;
-
-    public PlayerData playerData;
+    
     public CollectionHandler collectionHandler;
     public IconPool iconPool;
+    public ResourceHandler resourceHandler;
 
     public GameObject gridParent;
     public GameObject selectedParent;
@@ -29,10 +29,7 @@ public class DismissalManager : MonoBehaviour
 
     void OnDisable()
     {
-        foreach (BaseUnitIcon icon in selectedButtonList)
-        {
-            icon.transform.SetParent(gridParent.transform);
-        }
+        ClearMenus();
     }
 
     public void ChosenUnit(BaseUnitIcon dismissalIcon)
@@ -47,12 +44,8 @@ public class DismissalManager : MonoBehaviour
 
     public void ExecuteDismissal()
     {
-        DataSerialization serializer = new DataSerialization();
-        playerData = serializer.DeserializePlayerData(
-            System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
-        playerData.essence += selectedButtonList.Count * 10;
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json",
-            serializer.SerializeData(playerData));
+        resourceHandler.playerData.essence += 100;
+        resourceHandler.WritePlayerData();
 
         foreach (BaseUnitIcon selected in selectedButtonList)
         {
@@ -63,6 +56,11 @@ public class DismissalManager : MonoBehaviour
         iconPool.GenerateRefresh(homeScreen, collectionHandler,
             gridParent, BaseUnitIcon.IconSetting.dismissal);
 
+        ClearMenus();
+    }
+
+    private void ClearMenus()
+    {
         dismissPreview.text = "";
         selectedButtonList = new List<BaseUnitIcon>();
     }

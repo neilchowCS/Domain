@@ -79,6 +79,7 @@ public class IconPool : MonoBehaviour
     {
         foreach (BaseUnitIcon icon in iconList)
         {
+            icon.transform.SetParent(null);
             icon.transform.SetParent(parent.transform);
         }
 

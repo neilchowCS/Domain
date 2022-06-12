@@ -8,6 +8,7 @@ public class HomeScreen : MonoBehaviour
     public SummonManager summonManager;
     public UnitProfileDisplay unitDisplay;
     public DismissalManager dismissalManager;
+    public ResourceManager resourceManager;
 
     public UDListScriptableObject uDListSO;
 
@@ -71,5 +72,17 @@ public class HomeScreen : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         dismissalManager.gameObject.SetActive(false);
+    }
+
+    public void ShowResources()
+    {
+        resourceManager.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
+    }
+
+    public void HideResources()
+    {
+        this.gameObject.SetActive(true);
+        resourceManager.gameObject.SetActive(false);
     }
 }

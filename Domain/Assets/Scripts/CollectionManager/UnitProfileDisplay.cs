@@ -10,6 +10,8 @@ public class UnitProfileDisplay : MonoBehaviour
 
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI levelDisplayText;
+    public TextMeshProUGUI goldCostText;
+    public TextMeshProUGUI essenceCostText;
 
     //public UDListScriptableObject UDListSO;
     public UnitIndividualData individualData;
@@ -31,6 +33,9 @@ public class UnitProfileDisplay : MonoBehaviour
         individualData = data;
         nameText.text = uDListSO.uDList[data.unitId].unitName;
         levelDisplayText.text = $"{data.level}/100";
+        goldCostText.text = $"{NumberFormatter.Format(LevelCost.GetCost(data.level))} <b>G";
+        essenceCostText.text = $"{NumberFormatter.Format((int)(LevelCost.GetCost(data.level) * 1.5f))} <b>E";
+
     }
 
     public void ToggleFullShowImage()

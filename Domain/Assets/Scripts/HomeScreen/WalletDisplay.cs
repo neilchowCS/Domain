@@ -5,6 +5,7 @@ using TMPro;
 
 public class WalletDisplay : MonoBehaviour
 {
+    public ResourceHandler resourceHandler;
     public TextMeshProUGUI text;
     // Start is called before the first frame update
     void Start()
@@ -20,9 +21,7 @@ public class WalletDisplay : MonoBehaviour
 
     public void OnEnable()
     {
-        DataSerialization serializer = new DataSerialization();
-        PlayerData data = serializer.DeserializePlayerData(
-            System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
+        PlayerData data = resourceHandler.playerData;
         text.text = "Gold: " + data.gold + " Essence: " + data.essence;
     }
 }
