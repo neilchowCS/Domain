@@ -92,7 +92,7 @@ public class JSONTesting : MonoBehaviour
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/StageData.json", jsonOutput);
 
-        PlayerData playerData = new PlayerData(10, 10, 10, System.DateTime.UtcNow.ToString());
+        PlayerData playerData = new PlayerData(10, 10, 10, System.DateTime.UtcNow.ToString(), 0, 0);
         jsonOutput = serializer.SerializeData(playerData);
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);
