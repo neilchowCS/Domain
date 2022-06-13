@@ -40,4 +40,14 @@ public static class LevelCost
         }
         return costAtEachLevel[unitLevel - 1];
     }
+
+    public static int GetSalePrice(int i)
+    {
+        int baseOutput = 10;
+        for (int j = 1; j < i; j++)
+        {
+            baseOutput += GetCost(i);
+        }
+        return (int)(baseOutput * 0.66f);
+    }
 }

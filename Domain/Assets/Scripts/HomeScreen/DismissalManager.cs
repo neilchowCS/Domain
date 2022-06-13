@@ -38,21 +38,28 @@ public class DismissalManager : MonoBehaviour
         {
             dismissalIcon.transform.SetParent(selectedParent.transform);
             selectedButtonList.Add(dismissalIcon);
-            dismissPreview.text = $"Output: {selectedButtonList.Count * 10} essence";
+            dismissalIcon.iconSetting = BaseUnitIcon.IconSetting.dismissalSelect;
+            int output = 0;
+            foreach (BaseUnitIcon selected in selectedButtonList)
+            {
+                output += LevelCost.GetSalePrice(selected.individualData.level);
+            }
+            dismissPreview.text = $"Output: {output} essence";
         }
     }
 
     public void ExecuteDismissal()
     {
-        resourceHandler.playerData.essence += 100;
-        resourceHandler.WritePlayerData();
 
         foreach (BaseUnitIcon selected in selectedButtonList)
         {
             collectionHandler.collection.individualDataList.Remove(selected.individualData);
-            //playerData.essence += 10;
+
+            resourceHandler.playerData.essence +=
+                LevelCost.GetSalePrice(selected.individualData.level);
         }
         collectionHandler.WriteCollection();
+        resourceHandler.WritePlayerData();
         iconPool.GenerateRefresh(homeScreen, collectionHandler,
             gridParent, BaseUnitIcon.IconSetting.dismissal);
 

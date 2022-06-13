@@ -25,7 +25,7 @@ public class ResourceManager : MonoBehaviour
         DisplayAvailableReward();
     }
 
-    // Update is called once per frame
+    // replace with coroutine
     void Update()
     {
         elapsed += Time.deltaTime;

@@ -11,7 +11,7 @@ public class BaseUnitIcon : MonoBehaviour
     public Image elementCircle;
     public TextMeshProUGUI levelText;
 
-    public enum IconSetting { nil, collection, dismissal }
+    public enum IconSetting { nil, collection, dismissal, dismissalSelect }
     public IconSetting iconSetting = IconSetting.nil;
 
     public HomeScreen homeScreen;
