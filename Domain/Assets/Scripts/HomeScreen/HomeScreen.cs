@@ -40,7 +40,7 @@ public class HomeScreen : MonoBehaviour
     {
         //Debug.Log(individualData.unitId);
         unitDisplay.gameObject.SetActive(true);
-        unitDisplay.SetUnit(uDListSO, individualData);
+        unitDisplay.SetUnit(individualData);
         collectionManager.gameObject.SetActive(false);
     }
 

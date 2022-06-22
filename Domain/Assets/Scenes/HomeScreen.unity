@@ -845,6 +845,14 @@ MonoBehaviour:
   levelDisplayText: {fileID: 1629768589}
   goldCostText: {fileID: 1766206828}
   essenceCostText: {fileID: 900879025}
+  healthText: {fileID: 576351963}
+  attackText: {fileID: 584061202}
+  defenseText: {fileID: 1040265946}
+  manaText: {fileID: 963283174}
+  atkSpdText: {fileID: 1161896928}
+  rangeText: {fileID: 969292586}
+  critText: {fileID: 38504240}
+  critDmgText: {fileID: 8730281}
   individualData:
     unitId: 0
     level: 0

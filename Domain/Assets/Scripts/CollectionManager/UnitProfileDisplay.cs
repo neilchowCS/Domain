@@ -13,6 +13,15 @@ public class UnitProfileDisplay : MonoBehaviour
     public TextMeshProUGUI goldCostText;
     public TextMeshProUGUI essenceCostText;
 
+    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI attackText;
+    public TextMeshProUGUI defenseText;
+    public TextMeshProUGUI manaText;
+    public TextMeshProUGUI atkSpdText;
+    public TextMeshProUGUI rangeText;
+    public TextMeshProUGUI critText;
+    public TextMeshProUGUI critDmgText;
+
     //public UDListScriptableObject UDListSO;
     public UnitIndividualData individualData;
 
@@ -31,13 +40,11 @@ public class UnitProfileDisplay : MonoBehaviour
         
     }
 
-    public void SetUnit(UDListScriptableObject uDListSO, UnitIndividualData data)
+    public void SetUnit(UnitIndividualData data)//(UDListScriptableObject uDListSO, UnitIndividualData data)
     {
         individualData = data;
-        nameText.text = uDListSO.uDList[data.unitId].unitName;
-        levelDisplayText.text = $"{data.level}/100";
-        goldCostText.text = $"{NumberFormatter.Format(LevelCost.GetCost(data.level))} <b>G";
-        essenceCostText.text = $"{NumberFormatter.Format((int)(LevelCost.GetCost(data.level) * 1.5f))} <b>E";
+        nameText.text = collectionHandler.uDListSO.uDList[data.unitId].unitName;
+        RefreshUnit();
 
     }
 
@@ -46,6 +53,19 @@ public class UnitProfileDisplay : MonoBehaviour
         levelDisplayText.text = $"{individualData.level}/100";
         goldCostText.text = $"{NumberFormatter.Format(LevelCost.GetCost(individualData.level))} <b>G";
         essenceCostText.text = $"{NumberFormatter.Format((int)(LevelCost.GetCost(individualData.level) * 1.5f))} <b>E";
+
+        healthText.text = StatCalculation.CalcStat(individualData.level,
+            collectionHandler.uDListSO.uDList[individualData.unitId].baseHealth) + "";
+        attackText.text = StatCalculation.CalcStat(individualData.level,
+            collectionHandler.uDListSO.uDList[individualData.unitId].baseAttack) + "";
+        defenseText.text = StatCalculation.CalcStat(individualData.level,
+            collectionHandler.uDListSO.uDList[individualData.unitId].baseDefense) + "";
+        manaText.text = $"{collectionHandler.uDListSO.uDList[individualData.unitId].baseStartingMana}" +
+            $"/{collectionHandler.uDListSO.uDList[individualData.unitId].baseMaxMana}";
+        atkSpdText.text = collectionHandler.uDListSO.uDList[individualData.unitId].baseAttackSpeed + "";
+        rangeText.text = collectionHandler.uDListSO.uDList[individualData.unitId].baseRange + "";
+        critText.text = collectionHandler.uDListSO.uDList[individualData.unitId].baseCritChance + "";
+        critDmgText.text = collectionHandler.uDListSO.uDList[individualData.unitId].baseCrit + "";
     }
 
     public void ToggleFullShowImage()
