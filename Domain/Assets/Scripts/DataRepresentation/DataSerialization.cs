@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class DataSerialization
 {
     public DataSerialization()
@@ -60,6 +61,17 @@ public class DataSerialization
     {
         string json = JsonUtility.ToJson(playerData, true);
         return json;
+    }
+
+    public static string SerializeData(UnityEngine.Random.State state)
+    {
+        string json = JsonUtility.ToJson(state, true);
+        return json;
+    }
+
+    public static UnityEngine.Random.State DeserializeState(string text)
+    {
+        return JsonUtility.FromJson<UnityEngine.Random.State>(text);
     }
 
     public PlayerData DeserializePlayerData(string text)

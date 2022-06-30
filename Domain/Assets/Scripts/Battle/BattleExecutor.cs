@@ -89,6 +89,9 @@ public class BattleExecutor : MonoBehaviour
 
     private void InitState()
     {
+        string jsonOutput = DataSerialization.SerializeData(UnityEngine.Random.state);
+        System.IO.File.AppendAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);
+
         eventHandler = new BattleEventHandler(this);
 
         globalTick = 0;
