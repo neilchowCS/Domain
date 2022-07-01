@@ -89,9 +89,6 @@ public class BattleExecutor : MonoBehaviour
 
     private void InitState()
     {
-        string jsonOutput = DataSerialization.SerializeData(UnityEngine.Random.state);
-        System.IO.File.AppendAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);
-
         eventHandler = new BattleEventHandler(this);
 
         globalTick = 0;
@@ -155,6 +152,34 @@ public class BattleExecutor : MonoBehaviour
                 player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1, team1.unitList[i]));
             }
         }
+
+        ReplayStorage storage = DataSerialization.DeserializeReplayStore(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/ReplayRecord.json"));
+        if (storage == null)
+        {
+            storage = new ReplayStorage();
+        }
+
+        PrimitiveTeamData temp = new PrimitiveTeamData();
+        foreach (UnitRuntimeData i in team0.unitList)
+        {
+            temp.dataList.Add(i.individualData);
+        }
+        temp.positionList = team0.positionList;
+        storage.team1List.Add(temp);
+
+        PrimitiveTeamData temp1 = new PrimitiveTeamData();
+        foreach (UnitRuntimeData i in team1.unitList)
+        {
+            temp1.dataList.Add(i.individualData);
+        }
+        temp1.positionList = team1.positionList;
+        storage.team2List.Add(temp1);
+
+        storage.seedList.Add(UnityEngine.Random.state);
+
+        string jsonOutput = DataSerialization.SerializeData(storage);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);
     }
 
     /// <summary>

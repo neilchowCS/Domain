@@ -63,10 +63,15 @@ public class DataSerialization
         return json;
     }
 
-    public static string SerializeData(UnityEngine.Random.State state)
+    public static string SerializeData(ReplayStorage replayStorage)
     {
-        string json = JsonUtility.ToJson(state, true);
+        string json = JsonUtility.ToJson(replayStorage, true);
         return json;
+    }
+
+    public static ReplayStorage DeserializeReplayStore(string text)
+    {
+        return JsonUtility.FromJson<ReplayStorage>(text);
     }
 
     public static UnityEngine.Random.State DeserializeState(string text)
