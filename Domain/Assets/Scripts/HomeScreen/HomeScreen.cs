@@ -9,6 +9,7 @@ public class HomeScreen : MonoBehaviour
     public UnitProfileDisplay unitDisplay;
     public DismissalManager dismissalManager;
     public ResourceManager resourceManager;
+    public ReplayHandler replayUI;
 
     public UDListScriptableObject uDListSO;
 
@@ -84,5 +85,15 @@ public class HomeScreen : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         resourceManager.gameObject.SetActive(false);
+    }
+
+    public void ShowReplay()
+    {
+        replayUI.gameObject.SetActive(true);
+    }
+
+    public void HideReplay()
+    {
+        replayUI.gameObject.SetActive(false);
     }
 }
