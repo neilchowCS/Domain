@@ -61,9 +61,6 @@ public class BattleUnit : BattleObject
         currentTile.occupied = true;
 
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
-
-        executor.timeline.AddInitialSpawn(new TimelineSpawn((unitData.baseData, unitData.individualData),
-            globalObjectId, side, tileId));
     }
 
     /// <summary>
@@ -86,8 +83,6 @@ public class BattleUnit : BattleObject
         if (manaCounter >= unitData.unitTickPerMana.Value)
         {
             unitData.mana++;
-            executor.timeline.AddTimelineEvent(
-                new TimelineManaChange(globalObjectId, unitData.mana));
             manaCounter = 0;
         }
     }
@@ -178,8 +173,6 @@ public class BattleUnit : BattleObject
     {
         SpawnProjectile(i);
         unitData.mana = 0;
-        executor.timeline.AddTimelineEvent(
-        new TimelineManaChange(globalObjectId, unitData.mana));
         attackState = AttackStates.inBackswing;
         attackTimer = unitData.baseData.attackDataList[i].backswing;
     }
@@ -217,7 +210,6 @@ public class BattleUnit : BattleObject
         if (unitData.health <= 0)
         {
             executor.eventHandler.OnUnitDeath(this);
-            executor.timeline.AddTimelineEvent(new TimelineDeath(globalObjectId));
         }
     }
 
@@ -292,8 +284,6 @@ public class BattleUnit : BattleObject
     public virtual void LookForward()
     {
         currentTarget = this.GetClosestEnemy();
-        currentTarget?.executor.timeline.AddTimelineEvent(
-            new TimelineTarget(globalObjectId, currentTarget.globalObjectId));
     }
 
     public float GetBattleUnitDistance(BattleUnit otherUnit)

@@ -26,12 +26,9 @@ public class AliceBU : BattleUnit
         if (i == 1)
         {
             statusList.Add(new BattleStatusAttackModify(this, .25f, true, true));
-            executor.timeline.AddTimelineEvent(new TimelineAddStatus(globalObjectId, 0));
         }
         SpawnProjectile(i);
         unitData.mana = 0;
-        executor.timeline.AddTimelineEvent(
-        new TimelineManaChange(globalObjectId, unitData.mana));
         attackState = AttackStates.inBackswing;
         attackTimer = unitData.baseData.attackDataList[i].backswing;
     }

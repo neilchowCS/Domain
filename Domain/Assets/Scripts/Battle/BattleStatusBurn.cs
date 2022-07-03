@@ -48,7 +48,6 @@ public class BattleStatusBurn : BattleStatus
         if (host != null)
         {
             host.statusList.Remove(this);
-            executor.timeline.AddTimelineEvent(new TimelineRemoveStatus(host.globalObjectId, 1));
         }
         executor.RemoveObject(this);
     }

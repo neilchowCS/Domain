@@ -9,7 +9,6 @@ public class ReplayExecutor : MonoBehaviour
     public Tiler tiler;
     public List<GameObject> tiles;
 
-    public Timeline timeline;
     public List<ReplayObject> replayObjects;
     public List<ReplayUnit> replayUnits;
     public List<ReplayProfile> profiles;
@@ -48,33 +47,28 @@ public class ReplayExecutor : MonoBehaviour
         }
     }
 
-    public void StartReplay(Timeline t)
+    public void StartReplay()//Timeline t)
     {
         ClearRemnants();
-        InitializeState(t);
+        InitializeState();//t);
 
         StartSpawn();
     }
 
     public void StartSpawn()
     {
+        /*
         foreach (TimelineSpawn spawnEvent in timeline.initialSpawnEvents)
         {
             spawnEvent.ExecuteEvent(this);
         }
+        */
         inSpawnAnim = true;
     }
 
     public void Advance()
     {
-        if (timeline.timeEvents.ContainsKey(index))
-        {
-            for (int i = 0; i < timeline.timeEvents[index].Count; i++)
-            {
-                timeline.timeEvents[index][i].ExecuteEvent(this);
-            }
-        }
-        index++;
+        //All tick up
     }
 
     public void ClearRemnants()
@@ -97,7 +91,7 @@ public class ReplayExecutor : MonoBehaviour
         }
     }
 
-    public void InitializeState(Timeline t)
+    public void InitializeState()//Timeline t)
     {
         this.enabled = true;
 
@@ -109,7 +103,6 @@ public class ReplayExecutor : MonoBehaviour
         side0ProfilePositions = new List<Vector3>();
         side1ProfilePositions = new List<Vector3>();
 
-        timeline = t;
         index = 0;
         timer = 0;
     }

@@ -7,7 +7,6 @@ public class BattleExecutor : MonoBehaviour
 {
     public ReplayExecutor replayExecutor;
 
-    public Timeline timeline;
     public UDListScriptableObject dataListSO;
 
     public TeamData team0;
@@ -58,8 +57,7 @@ public class BattleExecutor : MonoBehaviour
         }
         //timeline.Output();
         Debug.Log(player0.Count != 0 ? "Player won!" : "Player lost!");
-        timeline.AddTimelineEvent(new TimelineEnd());
-        replayExecutor.StartReplay(timeline);
+        replayExecutor.StartReplay();//timeline);
     }
 
     public void StepUp()
@@ -94,7 +92,7 @@ public class BattleExecutor : MonoBehaviour
         globalTick = 0;
         globalObjectId = 0;
 
-        timeline = new Timeline(this);
+        //timeline = new Timeline(this);
         battleSpace = new BattleSpace();
 
         player0 = new List<BattleUnit>();
@@ -288,9 +286,6 @@ public class BattleExecutor : MonoBehaviour
 
         //damage reduction calcs here
         eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
-        
-        timeline.AddTimelineEvent(new TimelineDamageDealt(damageSource.globalObjectId,
-            damageTarget.globalObjectId, amount, damageType));
     }
 
     public void ApplyHeal(BattleUnit healSource, BattleUnit healTarget, int amount)
@@ -308,10 +303,5 @@ public class BattleExecutor : MonoBehaviour
         }
 
         eventHandler.OnHealApplied(healSource, healTarget, amount);
-        if (amount > 0)
-        {
-            timeline.AddTimelineEvent(new TimelineHealApplied(healSource.globalObjectId,
-                healTarget.globalObjectId, amount));
-        }
     }
 }

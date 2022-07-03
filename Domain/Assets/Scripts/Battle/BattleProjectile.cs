@@ -26,8 +26,6 @@ public class BattleProjectile : BattleObject
 
 
         executor.GetAlliedObjects(this).Add(this);
-        executor.timeline.AddTimelineEvent(
-                new TimelineProjectile(sourceGlobalId, target.globalObjectId, index));
     }
 
     public BattleProjectile(BattleExecutor exec, int side, BattleUnit source,
@@ -41,8 +39,6 @@ public class BattleProjectile : BattleObject
         sourceGlobalId = source.globalObjectId;
 
         executor.GetAlliedObjects(this).Add(this);
-        executor.timeline.AddTimelineEvent(
-                new TimelineProjectile(sourceGlobalId, targetLocation, index));
     }
 
     public override void OnTickUp()

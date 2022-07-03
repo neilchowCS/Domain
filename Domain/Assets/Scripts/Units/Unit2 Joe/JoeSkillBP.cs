@@ -24,11 +24,7 @@ public class JoeSkillBP : BattleProjectile
         foreach (BattleUnit enemy in targets)
         {
             enemy.statusList.Add(new BattleStatusBurn(enemy, source, sourceAttack * 2, 3));
-            executor.timeline.AddTimelineEvent(new TimelineAddStatus(enemy.globalObjectId, 1));
         }
-
-        executor.timeline.AddTimelineEvent(new TimelineProjectile(source.globalObjectId,
-            targetLocation, targetLocation, 2));
 
     }
 }

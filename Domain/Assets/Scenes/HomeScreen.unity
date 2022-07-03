@@ -11335,7 +11335,7 @@ GameObject:
   - component: {fileID: 1852427571}
   - component: {fileID: 1852427570}
   m_Layer: 5
-  m_Name: Replay
+  m_Name: ReplayUIOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
