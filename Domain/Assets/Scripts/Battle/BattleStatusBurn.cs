@@ -11,7 +11,7 @@ public class BattleStatusBurn : BattleStatus
     private float timer = 0;
 
     public BattleStatusBurn(BattleUnit host, BattleUnit source, int damagePerTick, float seconds)
-        : base(host.executor, source.side, 1, "Burn", host)
+        : base(host.executor, source.side, "BurnStatus", host)
     {
         this.source = source;
         this.damagePerTick = damagePerTick;

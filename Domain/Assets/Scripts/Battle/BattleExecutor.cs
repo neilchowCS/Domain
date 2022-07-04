@@ -5,6 +5,8 @@ using System;
 
 public class BattleExecutor : MonoBehaviour
 {
+    public static bool isObserved;
+
     public ReplayExecutor replayExecutor;
 
     public UDListScriptableObject dataListSO;

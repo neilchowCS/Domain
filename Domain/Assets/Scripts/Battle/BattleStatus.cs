@@ -6,8 +6,9 @@ public class BattleStatus : BattleObject
 {
     public BattleUnit host;
 
-    public BattleStatus(BattleExecutor exec, int side, int id, string name, BattleUnit host)
-        :base(exec, side, id, name){
+    public BattleStatus(BattleExecutor exec, int side, string name, BattleUnit host)
+        :base(exec, side, name){
+
         this.host = host;
         executor.eventHandler.UnitDeath += this.OnUnitDeath;
     }

@@ -9,7 +9,7 @@ public class BattleStatusAttackModify : BattleStatus
     public float amount;
 
     public BattleStatusAttackModify(BattleUnit host, float amount, bool percent, bool permanence)
-        :base(host.executor, host.side, 0, "Attack modify", host)
+        :base(host.executor, host.side, "AttackModifyStatus", host)
     {
         this.host = host;
         isPercent = percent;
