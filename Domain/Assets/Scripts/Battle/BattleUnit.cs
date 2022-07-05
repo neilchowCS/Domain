@@ -11,7 +11,9 @@ using AoeTargetingExtension;
 public class BattleUnit : BattleObject
 {
     public UnitRuntimeData unitData;
+
     public BattleUnitBehavior behavior;
+    public BattleUnitActions actions;
 
     public Vector3 position;
 
@@ -53,7 +55,7 @@ public class BattleUnit : BattleObject
 
     private void InitBattleUnitValues(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId)
     {
-        ConstructBehavior();
+        ConstructLogic();
 
         this.unitData = unitData;
         objectName = unitData.baseData.unitName;
@@ -66,9 +68,10 @@ public class BattleUnit : BattleObject
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
     }
 
-    public virtual void ConstructBehavior()
+    public virtual void ConstructLogic()
     {
         behavior = new BattleUnitBehavior(this);
+        actions = new BattleUnitActions(this);
     }
 
     /// <summary>
