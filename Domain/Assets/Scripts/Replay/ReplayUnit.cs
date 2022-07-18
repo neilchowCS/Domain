@@ -7,7 +7,12 @@ public class ReplayUnit : ReplayObject
 {
     public ReplayExecutor executor;
     public int side = 0;
+
+    [Header(" ")]
     public UnitRuntimeData unitData;
+
+
+    [Header(" ")]
     public HealthBar healthBar;
 
     public ReplayObject target;

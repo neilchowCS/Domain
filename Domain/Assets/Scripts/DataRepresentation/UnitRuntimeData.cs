@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[System.Serializable]
 public class UnitRuntimeData
 {
     public UnitDataScriptableObject baseData;
@@ -10,6 +11,7 @@ public class UnitRuntimeData
 
     private float levelMultiplier;
 
+    [Header("Attributes")]
     public int health;
     public int mana;
     public AttributeInt unitMaxHealth;

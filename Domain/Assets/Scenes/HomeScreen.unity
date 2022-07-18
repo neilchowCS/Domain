@@ -4313,6 +4313,86 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &587086937
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 587086939}
+  - component: {fileID: 587086938}
+  m_Layer: 0
+  m_Name: replayobject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &587086938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587086937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdefc69a44af245bfb8eb6b6d03eedf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalId: 0
+  executor: {fileID: 0}
+  side: 0
+  unitData:
+    baseData: {fileID: 0}
+    individualData:
+      unitId: 0
+      level: 0
+    health: 0
+    mana: 0
+    unitMaxHealth:
+      value: 0
+    unitAttack:
+      value: 0
+    unitDefense:
+      value: 0
+    unitMDefense:
+      value: 0
+    unitAttackSpeed:
+      value: 0
+    unitRange:
+      value: 0
+    unitMoveSpeed:
+      value: 0
+    unitMaxMana:
+      value: 0
+    unitTickPerMana:
+      value: 0
+    unitCrit:
+      value: 0
+    unitCritChance:
+      value: 0
+  healthBar: {fileID: 0}
+  target: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
+  moving: 0
+--- !u!4 &587086939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587086937}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.148736, y: -21.552748, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &616112159
 GameObject:
   m_ObjectHideFlags: 0
