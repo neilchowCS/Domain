@@ -7,9 +7,9 @@ namespace BattleBehaviorExtension
 {
     public static class BattleDefaultBehavior
     {
-        public static BattleUnit GetClosestEnemy(this BattleUnit battleUnit)
+        public static IBattleUnit GetClosestEnemy(this BattleUnit battleUnit)
         {
-            List<BattleUnit> eligible = battleUnit.executor.GetEnemyUnits(battleUnit);
+            List<IBattleUnit> eligible = battleUnit.Executor.GetEnemyUnits(battleUnit);
             eligible = eligible.OrderBy(o => battleUnit.GetBattleUnitDistance(o)).ToList();
             if (eligible.Count > 0)
             {
@@ -23,10 +23,10 @@ namespace BattleBehaviorExtension
         /// </summary>
         public static BattleTile GetNextBattleTile(this BattleUnit battleUnit)
         {
-            Vector3 position1 = battleUnit.position;
-            Vector3 position2 = battleUnit.currentTarget.position;
-            List<BattleTile> total = battleUnit.executor.battleSpace.tiles;
-            BattleTile currTile = battleUnit.currentTile;
+            Vector3 position1 = battleUnit.Position;
+            Vector3 position2 = battleUnit.CurrentTarget.Position;
+            List<BattleTile> total = battleUnit.Executor.battleSpace.tiles;
+            BattleTile currTile = battleUnit.CurrentTile;
             List<BattleTile> eligible = new List<BattleTile>();
 
             float tileDist = 1.75f;
@@ -54,15 +54,15 @@ namespace BattleBehaviorExtension
         /// </summary>
         public static void PrepareMovement(this BattleUnit unit)
         {
-            unit.targetTile = unit.GetNextBattleTile();
-            if (unit.targetTile != unit.currentTile)
+            unit.TargetTile = unit.GetNextBattleTile();
+            if (unit.TargetTile != unit.CurrentTile)
             {
-                if (unit.targetTile.occupied)
+                if (unit.TargetTile.occupied)
                 {
                     Debug.Log("Uh oh!");
                 }
 
-                unit.targetTile.occupied = true;
+                unit.TargetTile.occupied = true;
             }
         }
 
@@ -71,19 +71,19 @@ namespace BattleBehaviorExtension
         /// </summary>
         public static void MoveTowardsNext(this BattleUnit unit)
         {
-            unit.position = Vector3.MoveTowards(unit.position, unit.targetTile.position,
-                unit.unitData.unitMoveSpeed.Value / TickSpeed.ticksPerSecond);
-            if (Vector3.Distance(unit.position, unit.currentTile.position)
-                < Vector3.Distance(unit.position, unit.targetTile.position))
+            unit.Position = Vector3.MoveTowards(unit.Position, unit.TargetTile.position,
+                unit.UnitData.unitMoveSpeed.Value / TickSpeed.ticksPerSecond);
+            if (Vector3.Distance(unit.Position, unit.CurrentTile.position)
+                < Vector3.Distance(unit.Position, unit.TargetTile.position))
             {
-                unit.currentTile.occupied = false;
-                unit.currentTile = unit.targetTile;
+                unit.CurrentTile.occupied = false;
+                unit.CurrentTile = unit.TargetTile;
             }
         }
 
         public static bool TileArrived(this BattleUnit unit)
         {
-            return (Vector3.Distance(unit.position, unit.targetTile.position) < 0.000001f);
+            return (Vector3.Distance(unit.Position, unit.TargetTile.position) < 0.000001f);
         }
     }
 }

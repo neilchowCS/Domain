@@ -34,7 +34,7 @@ public class BattleEventHandler
         executor.globalTick++;
     }
 
-    public delegate void DamageDealtEventHandler(BattleUnit damageSource, BattleUnit damageTarget, int amount);
+    public delegate void DamageDealtEventHandler(IBattleUnit damageSource, IBattleUnit damageTarget, int amount);
     /// <summary>
     /// EventHandler for OnDamageDealt().
     /// </summary>
@@ -45,14 +45,14 @@ public class BattleEventHandler
     /// <param name="damageSource"> Where is damage coming from </param>
     /// <param name="damageTarget"> What is taking damage </param>
     /// <param name="amount"> How much damage </param>
-    public virtual void OnDamageDealt(BattleUnit damageSource, BattleUnit damageTarget, int amount)
+    public virtual void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount)
     {
         DamageDealtEventHandler handler = DamageDealt;
         //raise event
         handler?.Invoke(damageSource, damageTarget, amount);
     }
 
-    public delegate void DamageTakenEventHandler(BattleUnit damageTarget, BattleUnit damageSource, int amount);
+    public delegate void DamageTakenEventHandler(IBattleUnit damageTarget, IBattleUnit damageSource, int amount);
     /// <summary>
     /// EventHandler for OnDamageTaken().
     /// </summary>
@@ -63,14 +63,14 @@ public class BattleEventHandler
     /// <param name="damageTarget"> What is taking damage </param>
     /// <param name="damageSource"> Where is damage coming from </param>
     /// <param name="amount"> How much damage </param>
-    public virtual void OnDamageTaken(BattleUnit damageTarget, BattleUnit damageSource, int amount)
+    public virtual void OnDamageTaken(IBattleUnit damageTarget, IBattleUnit damageSource, int amount)
     {
         DamageTakenEventHandler handler = DamageTaken;
         //raise event
         handler?.Invoke(damageTarget, damageSource, amount);
     }
 
-    public delegate void UnitDeathEventHandler(BattleUnit deadUnit);
+    public delegate void UnitDeathEventHandler(IBattleUnit deadUnit);
     /// <summary>
     /// Raises UnitDeath event.
     /// </summary>
@@ -79,13 +79,13 @@ public class BattleEventHandler
     /// Raises UnitDeath event.
     /// </summary>
     /// <param name="deadUnit"> What died </param>
-    public virtual void OnUnitDeath(BattleUnit deadUnit)
+    public virtual void OnUnitDeath(IBattleUnit deadUnit)
     {
         UnitDeathEventHandler handler = UnitDeath;
         handler?.Invoke(deadUnit);
     }
 
-    public delegate void HealAppliedEventHandler(BattleUnit healSource, BattleUnit healTarget, int amount);
+    public delegate void HealAppliedEventHandler(IBattleUnit healSource, IBattleUnit healTarget, int amount);
     /// <summary>
     /// Raises UnitDeath event.
     /// </summary>
@@ -94,7 +94,7 @@ public class BattleEventHandler
     /// Raises UnitDeath event.
     /// </summary>
     /// <param name="deadUnit"> What died </param>
-    public virtual void OnHealApplied(BattleUnit healSource, BattleUnit healTarget, int amount)
+    public virtual void OnHealApplied(IBattleUnit healSource, IBattleUnit healTarget, int amount)
     {
         HealAppliedEventHandler handler = HealApplied;
         handler?.Invoke(healSource, healTarget, amount);

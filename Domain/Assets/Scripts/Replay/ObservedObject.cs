@@ -1,14 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-/// <summary>
-/// Base object during battle.
-/// </summary>
-public class BattleObject : IBattleObject
+public class ObservedObject : MonoBehaviour, IBattleObject
 {
-    [field: SerializeField]
     public BattleExecutor Executor { get; set; }
 
     [field: SerializeField]
@@ -17,12 +12,12 @@ public class BattleObject : IBattleObject
     [field: SerializeField]
     public int GlobalObjectId { get; set; }
 
-    [field: SerializeField]
+    //[field: SerializeField]
     public string ObjectName { get; set; }
 
     public ObjectBehavior Behavior { get; set; }
 
-    public BattleObject(BattleExecutor exec, int side)
+    public virtual void Initialize(BattleExecutor exec, int side)
     {
         Executor = exec;
         Side = side;
@@ -32,7 +27,7 @@ public class BattleObject : IBattleObject
         Executor.eventHandler.TickUp += Behavior.OnTickUp;
     }
 
-    public BattleObject(BattleExecutor exec, int side, string name)
+    public virtual void Initialize(BattleExecutor exec, int side, string name)
     {
         Executor = exec;
         Side = side;
@@ -41,5 +36,17 @@ public class BattleObject : IBattleObject
         ObjectName = name;
 
         Executor.eventHandler.TickUp += Behavior.OnTickUp;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

@@ -4324,7 +4324,7 @@ GameObject:
   - component: {fileID: 587086939}
   - component: {fileID: 587086938}
   m_Layer: 0
-  m_Name: replayobject
+  m_Name: ReplayUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7980,6 +7980,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161896926}
   m_CullTransparentMesh: 1
+--- !u!1 &1219270241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219270243}
+  - component: {fileID: 1219270242}
+  m_Layer: 0
+  m_Name: ObservedUnit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1219270242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219270241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef89a9e84ae0d43ea956ee2d678bb694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Side>k__BackingField: 0
+  <GlobalObjectId>k__BackingField: 0
+  <UnitData>k__BackingField:
+    baseData: {fileID: 0}
+    individualData:
+      unitId: 0
+      level: 0
+    health: 0
+    mana: 0
+    unitMaxHealth:
+      value: 0
+    unitAttack:
+      value: 0
+    unitDefense:
+      value: 0
+    unitMDefense:
+      value: 0
+    unitAttackSpeed:
+      value: 0
+    unitRange:
+      value: 0
+    unitMoveSpeed:
+      value: 0
+    unitMaxMana:
+      value: 0
+    unitTickPerMana:
+      value: 0
+    unitCrit:
+      value: 0
+    unitCritChance:
+      value: 0
+--- !u!4 &1219270243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219270241}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.148736, y: -21.552748, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1221993815
 GameObject:
   m_ObjectHideFlags: 0

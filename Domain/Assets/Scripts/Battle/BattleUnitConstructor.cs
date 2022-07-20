@@ -4,28 +4,6 @@ using UnityEngine;
 
 static class BattleUnitConstructor
 {
-
-    public static BattleUnit GetBattleUnit(BattleExecutor exec, int side, UnitRuntimeData data)
-    {
-        BattleUnit output = null;
-        switch (data.baseData.unitId)
-        {
-            case 0:
-                output = new AliceBU(exec, side, data);
-                break;
-            case 1:
-                output = new BobBU(exec, side, data);
-                break;
-            case 2:
-                output = new JoeBU(exec, side, data);
-                break;
-            case 3:
-                output = new DoeBU(exec, side, data);
-                break;
-        }
-        return output;
-    }
-
     public static BattleUnit GetBattleUnit(BattleExecutor exec, int side, UnitRuntimeData data, int tileId)
     {
         BattleUnit output = null;
@@ -45,5 +23,10 @@ static class BattleUnitConstructor
                 break;
         }
         return output;
+    }
+
+    public static ObservedUnit GetObservedUnit()
+    {
+        return null;
     }
 }

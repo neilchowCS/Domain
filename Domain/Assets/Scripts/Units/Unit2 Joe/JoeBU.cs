@@ -5,12 +5,9 @@ using AoeTargetingExtension;
 
 public class JoeBU : BattleUnit
 {
-    public JoeBU(BattleExecutor exec, int side, UnitRuntimeData unitData)
-        : base(exec, side, unitData)
-    {
-
-    }
-
+    /// <summary>
+    /// Constructor for Joe BattleUnit (Unobserved).
+    /// </summary>
     public JoeBU(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId)
         : base(exec, side, unitData, tileId)
     {
@@ -19,16 +16,16 @@ public class JoeBU : BattleUnit
 
     public override void SpawnProjectile(int i)
     {
-        if (currentTarget != null)
+        if (CurrentTarget != null)
         {
             BattleProjectile x = null;
             switch (i)
             {
                 case 0:
-                    x = new BattleProjectile(executor, side, this, i, currentTarget);
+                    x = new BattleProjectile(Executor, Side, this, i, CurrentTarget);
                     break;
                 case 1:
-                    x = new JoeSkillBP(executor, side, this, i, this.GetAoeLocation(3, 0));
+                    x = new JoeSkillBP(Executor, Side, this, i, this.GetAoeLocation(3, 0));
                     break;
             }
         }

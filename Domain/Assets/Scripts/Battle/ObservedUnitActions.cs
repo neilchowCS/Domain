@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ObservedUnitActions : BattleUnitActions
 {
-    public ObservedUnitActions(BattleUnit unit): base(unit)
+    public ObservedUnitActions(IBattleUnit unit): base(unit)
     {
 
     }
 
     public override void SetPosition(Vector3 position)
     {
-        unit.position = position;
+        unit.Position = position;
     }
 }

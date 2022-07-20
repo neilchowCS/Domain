@@ -6,95 +6,72 @@ using BattleBehaviorExtension;
 using AoeTargetingExtension;
 
 /// <summary>
-/// A unit created during battle sim.
+/// Inherits from BattleObject, IBattleUnit. Unobserved (server side).
 /// </summary>
-public class BattleUnit : BattleObject
+public class BattleUnit : BattleObject, IBattleUnit
 {
-    public UnitRuntimeData unitData;
+    public UnitRuntimeData UnitData { get; set; }
 
-    public BattleUnitBehavior behavior;
-    public BattleUnitActions actions;
+    public BattleUnitActions Actions { get; set; }
 
-    public Vector3 position;
+    public Vector3 Position { get; set; }
 
-    public BattleTile currentTile;
-    public BattleTile targetTile;
+    public BattleTile CurrentTile { get; set; }
+    public BattleTile TargetTile { get; set; }
 
-    public BattleUnit currentTarget = null;
+    public IBattleUnit CurrentTarget { get; set; } = null;
 
-    public bool needsCleaning = false;
+    public bool NeedsCleaning { get; set; } = false;
 
-    public bool isMoving = false;
+    public bool IsMoving { get; set; } = false;
 
-    public enum AttackStates { idle, inForeswing, inAttack, inBackswing, inChannel };
-    public AttackStates attackState = AttackStates.idle;
-    public float tickOfLastAttack = 0;
-    public float attackTimer = 0;
+    public AttackStates AttackState { get; set; } = AttackStates.idle;
+    public float TickOfLastAttack { get; set; } = 0;
+    public float AttackTimer { get; set; } = 0;
 
-    public int manaCounter = 0;
+    public int ManaCounter { get; set; } = 0;
 
-    public List<BattleStatus> statusList;
+    public List<BattleStatus> StatusList { get; set; }
 
     /// <summary>
     /// BattleUnit constructor
     /// </summary>
-    public BattleUnit(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId)
+    public BattleUnit(BattleExecutor exec, int side,
+        UnitRuntimeData unitData, int tileId)
         : base(exec, side)
     {
         InitBattleUnitValues(exec, side, unitData, tileId);
-    }
-
-    /// <summary>
-    /// BattleUnit constructor for random location
-    /// </summary>
-    public BattleUnit(BattleExecutor exec, int side, UnitRuntimeData unitData)
-        : base(exec, side)
-    {
-        InitBattleUnitValues(exec, side, unitData, BUnitHelperFunc.GetSpawnLoc(this).id);
     }
 
     private void InitBattleUnitValues(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId)
     {
         ConstructLogic();
 
-        this.unitData = unitData;
-        objectName = unitData.baseData.unitName;
-        statusList = new List<BattleStatus>();
+        this.UnitData = unitData;
+        ObjectName = unitData.baseData.unitName;
+        StatusList = new List<BattleStatus>();
 
-        currentTile = exec.battleSpace.tiles[tileId];
-        position = currentTile.position;
-        currentTile.occupied = true;
+        CurrentTile = exec.battleSpace.tiles[tileId];
+        Position = CurrentTile.position;
+        CurrentTile.occupied = true;
 
         EventSubscriber.Subscribe(this, unitData.baseData.eventSubscriptions);
     }
 
     public virtual void ConstructLogic()
     {
-        behavior = new BattleUnitBehavior(this);
-        actions = new BattleUnitActions(this);
-    }
-
-    /// <summary>
-    /// Event subscriber.
-    /// Logic for every tick during battle while running.
-    /// </summary>
-    public override void OnTickUp()
-    {
-        //if (executor.IsRunning(side))
-        {
-            TickUpMana();
-            TickUpMove();
-            TickUpAttack();
-        }
+        Behavior = new ObjectBehavior();
+        //InitBehavior
+        Actions = new BattleUnitActions(this);
     }
 
     public virtual void TickUpMana()
     {
-        manaCounter++;
-        if (manaCounter >= unitData.unitTickPerMana.Value)
+        ManaCounter++;
+        if (ManaCounter >= UnitData.unitTickPerMana.Value)
         {
-            unitData.mana++;
-            manaCounter = 0;
+            UnitData.mana++;
+            ManaCounter = 0;
         }
     }
 
@@ -122,30 +99,30 @@ public class BattleUnit : BattleObject
 
     public virtual void TickUpMove()
     {
-        if (currentTarget == null)
+        if (CurrentTarget == null)
         {
             LookForward();
         }
         //if not moving, not attacking, and no target in range => initiate movement
-        if (!isMoving && attackState == AttackStates.idle)
+        if (!IsMoving && AttackState == AttackStates.idle)
         {
             //target can't be null because it is set at start of function
             if (!TargetInRange())
             {
                 LookForward();
                 this.PrepareMovement();
-                if (targetTile != currentTile)
+                if (TargetTile != CurrentTile)
                 {
-                    isMoving = true;
+                    IsMoving = true;
                 }
             }
         }
-        else if (isMoving)//move forward, set moving to false at arrival
+        else if (IsMoving)//move forward, set moving to false at arrival
         {
             this.MoveTowardsNext();
             if (this.TileArrived())
             {
-                isMoving = false;
+                IsMoving = false;
             }
         }
 
@@ -154,28 +131,28 @@ public class BattleUnit : BattleObject
     public virtual void TickUpAttack()
     {
         //Initiating attack should be in foreswing
-        if (attackState == AttackStates.idle)
+        if (AttackState == AttackStates.idle)
         {
-            if (unitData.mana >= unitData.unitMaxMana.Value)
+            if (UnitData.mana >= UnitData.unitMaxMana.Value)
             {
                 UseAbility(1);
             }
-            else if (!isMoving && executor.globalTick - tickOfLastAttack
-                >= unitData.ticksPerAttack && TargetInRange())
+            else if (!IsMoving && Executor.globalTick - TickOfLastAttack
+                >= UnitData.ticksPerAttack && TargetInRange())
             {
                 SpawnProjectile(0);
-                tickOfLastAttack += unitData.ticksPerAttack;
-                attackState = AttackStates.inBackswing;
-                attackTimer = unitData.baseData.attackDataList[0].backswing;
+                TickOfLastAttack += UnitData.ticksPerAttack;
+                AttackState = AttackStates.inBackswing;
+                AttackTimer = UnitData.baseData.attackDataList[0].backswing;
             }
-        }else if (attackState == AttackStates.inBackswing)
+        }else if (AttackState == AttackStates.inBackswing)
         {
             //FIXME check order
-            attackTimer--;
-            if (attackTimer <= 0)
+            AttackTimer--;
+            if (AttackTimer <= 0)
             {
-                attackTimer = 0;
-                attackState = AttackStates.idle;
+                AttackTimer = 0;
+                AttackState = AttackStates.idle;
             }
         }
     }
@@ -183,26 +160,26 @@ public class BattleUnit : BattleObject
     public virtual void UseAbility(int i)
     {
         SpawnProjectile(i);
-        unitData.mana = 0;
-        attackState = AttackStates.inBackswing;
-        attackTimer = unitData.baseData.attackDataList[i].backswing;
+        UnitData.mana = 0;
+        AttackState = AttackStates.inBackswing;
+        AttackTimer = UnitData.baseData.attackDataList[i].backswing;
     }
 
     public virtual void SpawnProjectile(int i)
     {
-        if (currentTarget != null)
+        if (CurrentTarget != null)
         {
             BattleProjectile x = null;
             switch (i)
             {
                 case 0:
-                    x = new BattleProjectile(executor, side, this, i, currentTarget);
+                    x = new BattleProjectile(Executor, Side, this, i, CurrentTarget);
                     break;
                 case 1:
-                    x = new AliceSkillBP(executor, side, this, i, currentTarget);
+                    x = new AliceSkillBP(Executor, Side, this, i, CurrentTarget);
                     break;
                 case 2:
-                    x = new JoeSkillBP(executor, side, this, i, this.GetAoeLocation(3, 0));
+                    x = new JoeSkillBP(Executor, Side, this, i, this.GetAoeLocation(3, 0));
                     break;
             }
         }
@@ -214,13 +191,13 @@ public class BattleUnit : BattleObject
     /// Checks if this is dead.
     /// If true, raises UnitDeath event.
     /// </summary>
-    public virtual void TakeDamage(BattleUnit damageSource, int amount)
+    public virtual void TakeDamage(IBattleUnit damageSource, int amount)
     {
-        unitData.health -= amount;
-        executor.eventHandler.OnDamageTaken(this, damageSource, amount);
-        if (unitData.health <= 0)
+        UnitData.health -= amount;
+        Executor.eventHandler.OnDamageTaken(this, damageSource, amount);
+        if (UnitData.health <= 0)
         {
-            executor.eventHandler.OnUnitDeath(this);
+            Executor.eventHandler.OnUnitDeath(this);
         }
     }
 
@@ -229,7 +206,7 @@ public class BattleUnit : BattleObject
     /// Checks if this is damageTarget.
     /// If true, raises modified TakeDamage event.
     /// </summary>
-    public virtual void OnDamageDealt(BattleUnit damageSource, BattleUnit damageTarget, int amount)
+    public virtual void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount)
     {
         if (damageTarget == this)
         {
@@ -237,13 +214,13 @@ public class BattleUnit : BattleObject
         }
     }
 
-    public virtual void ReceiveHeal(BattleUnit healSource, int amount)
+    public virtual void ReceiveHeal(IBattleUnit healSource, int amount)
     {
-        unitData.health += amount;
+        UnitData.health += amount;
 
     }
 
-    public virtual void OnHealApplied(BattleUnit healSource, BattleUnit healTarget, int amount)
+    public virtual void OnHealApplied(IBattleUnit healSource, IBattleUnit healTarget, int amount)
     {
         if (healTarget == this)
         {
@@ -256,35 +233,35 @@ public class BattleUnit : BattleObject
     /// Checks if this BattleUnit is dead.
     /// Checks if currentTarget is dead.
     /// </summary>
-    public virtual void OnUnitDeath(BattleUnit deadUnit)
+    public virtual void OnUnitDeath(IBattleUnit deadUnit)
     {
         if (deadUnit == this)
         {
-            currentTile.occupied = false;
-            if (targetTile != null)
+            CurrentTile.occupied = false;
+            if (TargetTile != null)
             {
-                targetTile.occupied = false;
+                TargetTile.occupied = false;
             }
-            if (side == 0)
+            if (Side == 0)
             {
-                executor.player0.Remove(this);
-                executor.player0Dead.Add(this);
+                Executor.player0Active.Remove(this);
+                Executor.player0Dead.Add(this);
             }
             else
             {
-                executor.player1.Remove(this);
-                executor.player1Dead.Add(this);
+                Executor.player1Active.Remove(this);
+                Executor.player1Dead.Add(this);
             }
-            needsCleaning = true;
+            NeedsCleaning = true;
         }
 
-        if (deadUnit == currentTarget)
+        if (deadUnit == CurrentTarget)
         {
-            currentTarget = null;
+            CurrentTarget = null;
         }
     }
 
-    public virtual void OnDamageTaken(BattleUnit damageTarget, BattleUnit damageSource, int amount)
+    public virtual void OnDamageTaken(IBattleUnit damageTarget, IBattleUnit damageSource, int amount)
     {
 
     }
@@ -294,21 +271,21 @@ public class BattleUnit : BattleObject
     /// </summary>
     public virtual void LookForward()
     {
-        currentTarget = this.GetClosestEnemy();
+        CurrentTarget = this.GetClosestEnemy();
     }
 
-    public float GetBattleUnitDistance(BattleUnit otherUnit)
+    public float GetBattleUnitDistance(IBattleUnit otherUnit)
     {
-        return Vector3.Distance(position, otherUnit.position);
+        return Vector3.Distance(Position, otherUnit.Position);
     }
 
     public float GetTargetDistance()
     {
-        return GetBattleUnitDistance(currentTarget);
+        return GetBattleUnitDistance(CurrentTarget);
     }
 
     public bool TargetInRange()
     {
-        return GetTargetDistance() < unitData.unitRange.Value;
+        return GetTargetDistance() < UnitData.unitRange.Value;
     }
 }

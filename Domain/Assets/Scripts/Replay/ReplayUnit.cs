@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ReplayUnit : ReplayObject
+public class ReplayUnit : ReplayObject 
 {
     public ReplayExecutor executor;
     public int side = 0;

@@ -9,22 +9,23 @@ public class JoeSkillBP : BattleProjectile
     {
 
     }
-
+    /*
     public override void ProjectileEffect()
     {
         float radius = 3;
         List<BattleUnit> targets = new List<BattleUnit>();
-        foreach (BattleUnit enemy in executor.GetEnemyUnits(source))
+        foreach (BattleUnit enemy in Executor.GetEnemyUnits(source))
         {
-            if (Vector3.Distance(enemy.position, targetLocation) <= radius)
+            if (Vector3.Distance(enemy.Position, targetLocation) <= radius)
             {
                 targets.Add(enemy);
             }
         }
         foreach (BattleUnit enemy in targets)
         {
-            enemy.statusList.Add(new BattleStatusBurn(enemy, source, sourceAttack * 2, 3));
+            enemy.StatusList.Add(new BattleStatusBurn(enemy, source, sourceAttack * 2, 3));
         }
 
     }
+    */
 }

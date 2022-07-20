@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BattleUnitActions
 {
-    protected BattleUnit unit;
+    protected IBattleUnit unit;
 
-    public BattleUnitActions(BattleUnit unit)
+    public BattleUnitActions(IBattleUnit unit)
     {
         this.unit = unit;
     }
 
     public virtual void SetPosition(Vector3 position)
     {
-        unit.position = position;
+        unit.Position = position;
     }
 }

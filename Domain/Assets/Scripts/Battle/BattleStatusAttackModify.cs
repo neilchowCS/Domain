@@ -9,7 +9,7 @@ public class BattleStatusAttackModify : BattleStatus
     public float amount;
 
     public BattleStatusAttackModify(BattleUnit host, float amount, bool percent, bool permanence)
-        :base(host.executor, host.side, "AttackModifyStatus", host)
+        :base(host.Executor, host.Side, "AttackModifyStatus", host)
     {
         this.host = host;
         isPercent = percent;
@@ -24,11 +24,11 @@ public class BattleStatusAttackModify : BattleStatus
         //Debug.Log(host.unitData.unitAttack.Value);
         if (isPercent)
         {
-            host.unitData.unitAttack.ModifyMultiplicative(amount);
+            host.UnitData.unitAttack.ModifyMultiplicative(amount);
         }
         else
         {
-            host.unitData.unitAttack.ModifyAdditive(amount);
+            host.UnitData.unitAttack.ModifyAdditive(amount);
         }
     }
 
@@ -36,13 +36,13 @@ public class BattleStatusAttackModify : BattleStatus
     {
         if (isPercent)
         {
-            host.unitData.unitAttack.ModifyMultiplicative(-amount);
+            host.UnitData.unitAttack.ModifyMultiplicative(-amount);
         }
         else
         {
-            host.unitData.unitAttack.ModifyAdditive(-amount);
+            host.UnitData.unitAttack.ModifyAdditive(-amount);
         }
 
-        host.statusList.Remove(this);
+        host.StatusList.Remove(this);
     }
 }

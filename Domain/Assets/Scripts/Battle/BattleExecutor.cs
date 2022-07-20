@@ -5,14 +5,12 @@ using System;
 
 public class BattleExecutor : MonoBehaviour
 {
-    public static bool isObserved;
-
-    public ReplayExecutor replayExecutor;
+    public bool isObserved = false;
 
     public UDListScriptableObject dataListSO;
 
     public TeamData team0;
-    public int stageId = -1;
+    public int stageId = 0;
     public TeamData team1;
 
     public int globalTick;
@@ -30,21 +28,20 @@ public class BattleExecutor : MonoBehaviour
     /// <returns></returns>
     public int SetGlobalObjectId()
     {
-        globalObjectId++;
-        return (globalObjectId - 1);
+        return globalObjectId++;
     }
 
-    public List<BattleUnit> player0;
-    public List<BattleUnit> player1;
-    public List<BattleUnit> player0Dead;
-    public List<BattleUnit> player1Dead;
-    public List<BattleObject> playerObjects0;
-    public List<BattleObject> playerObjects1;
+    public List<IBattleUnit> player0Active;
+    public List<IBattleUnit> player1Active;
+    public List<IBattleUnit> player0Dead;
+    public List<IBattleUnit> player1Dead;
+    public List<IBattleObject> playerObjects0;
+    public List<IBattleObject> playerObjects1;
 
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(AudioSingleton.PrefabAudio);
+        //Instantiate(AudioSingleton.PrefabAudio);
         ExecuteBattle();
     }
 
@@ -58,8 +55,7 @@ public class BattleExecutor : MonoBehaviour
             StepUp();
         }
         //timeline.Output();
-        Debug.Log(player0.Count != 0 ? "Player won!" : "Player lost!");
-        replayExecutor.StartReplay();//timeline);
+        Debug.Log(player0Active.Count != 0 ? "Player won!" : "Player lost!");
     }
 
     public void StepUp()
@@ -70,22 +66,8 @@ public class BattleExecutor : MonoBehaviour
 
     public bool ContinueRun()
     {
-        return (player0.Count > 0 && player1.Count > 0 && globalTick < 4000);
+        return (player0Active.Count > 0 && player1Active.Count > 0 && globalTick < 4000);
     }
-
-    /*
-    public bool IsRunning(int i)
-    {
-        if (i == 0)
-        {
-            return player1.Count > 0;
-        }else if (i == 1)
-        {
-            return player0.Count > 0;
-        }
-        return false;
-    }
-    */
 
     private void InitState()
     {
@@ -97,13 +79,13 @@ public class BattleExecutor : MonoBehaviour
         //timeline = new Timeline(this);
         battleSpace = new BattleSpace();
 
-        player0 = new List<BattleUnit>();
-        player0Dead = new List<BattleUnit>();
-        playerObjects0 = new List<BattleObject>();
+        player0Active = new List<IBattleUnit>();
+        player0Dead = new List<IBattleUnit>();
+        playerObjects0 = new List<IBattleObject>();
 
-        player1 = new List<BattleUnit>();
-        player1Dead = new List<BattleUnit>();
-        playerObjects1 = new List<BattleObject>();
+        player1Active = new List<IBattleUnit>();
+        player1Dead = new List<IBattleUnit>();
+        playerObjects1 = new List<IBattleObject>();
 
         //Create TeamData
         if (!ReadTeamMessenger())
@@ -122,14 +104,10 @@ public class BattleExecutor : MonoBehaviour
         //Generate player runtime data
         for (int i = 0; i < team0.unitList.Count; i++)
         {
-            if (team0.unitList.Count == team0.positionList.Count)
+            if (team0.unitList.Count <= team0.positionList.Count)
             {
-                player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0,
+                player0Active.Add(BattleUnitConstructor.GetBattleUnit(this, 0,
                     team0.unitList[i], team0.positionList[i]));
-            }
-            else
-            {
-                player0.Add(BattleUnitConstructor.GetBattleUnit(this, 0, team0.unitList[i]));
             }
         }
 
@@ -142,14 +120,10 @@ public class BattleExecutor : MonoBehaviour
 
         for (int i = 0; i < team1.unitList.Count; i++)
         {
-            if (team1.unitList.Count == team1.positionList.Count)
+            if (team1.unitList.Count <= team1.positionList.Count)
             {
-                player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1,
+                player1Active.Add(BattleUnitConstructor.GetBattleUnit(this, 1,
                     team1.unitList[i], team1.positionList[i]));
-            }
-            else
-            {
-                player1.Add(BattleUnitConstructor.GetBattleUnit(this, 1, team1.unitList[i]));
             }
         }
 
@@ -207,70 +181,71 @@ public class BattleExecutor : MonoBehaviour
     {
         foreach (BattleUnit unit in player0Dead)
         {
-            if (unit.needsCleaning)
+            if (unit.NeedsCleaning)
             {
-                eventHandler.TickUp -= unit.OnTickUp;
-                unit.needsCleaning = false;
+                eventHandler.TickUp -= unit.Behavior.OnTickUp;
+                //subscribe to onUnitDeadTick
+                unit.NeedsCleaning = false;
             }
         }
         foreach (BattleUnit unit in player1Dead)
         {
-            if (unit.needsCleaning)
+            if (unit.NeedsCleaning)
             {
-                eventHandler.TickUp -= unit.OnTickUp;
-                unit.needsCleaning = false;
+                eventHandler.TickUp -= unit.Behavior.OnTickUp;
+                unit.NeedsCleaning = false;
             }
         }
     }
 
-    public void RemoveObject(BattleObject obj)
+    public void RemoveObject(IBattleObject obj)
     {
-        eventHandler.TickUp -= obj.OnTickUp;
+        eventHandler.TickUp -= obj.Behavior.OnTickUp;
         playerObjects0.Remove(obj);
         playerObjects1.Remove(obj);
     }
 
-    public List<BattleObject> GetAlliedObjects(BattleObject obj)
+    public List<IBattleObject> GetAlliedObjects(IBattleObject obj)
     {
-        if (obj.side == 0)
+        if (obj.Side == 0)
         {
             return playerObjects0;
         }
         return playerObjects1;
     }
 
-    public List<BattleObject> GetEnemyObjects(BattleObject obj)
+    public List<IBattleObject> GetEnemyObjects(IBattleObject obj)
     {
-        if (obj.side == 0)
+        if (obj.Side == 0)
         {
             return playerObjects1;
         }
         return playerObjects0;
     }
 
-    public List<BattleUnit> GetAlliedUnits(BattleObject obj)
+    public List<IBattleUnit> GetAlliedUnits(IBattleObject obj)
     {
-        if (obj.side == 0)
+        if (obj.Side == 0)
         {
-            return player0;
+            return player0Active;
         }
-        return player1;
+        return player1Active;
     }
 
-    public List<BattleUnit> GetEnemyUnits(BattleObject obj)
+    public List<IBattleUnit> GetEnemyUnits(IBattleObject obj)
     {
-        if (obj.side == 0)
+        if (obj.Side == 0)
         {
-            return player1;
+            return player1Active;
         }
-        return player0;
+        return player0Active;
     }
 
     /// <summary>
     /// Raises DealDamage event.
     /// Deals damage equal to unit's attack to damageTarget.
     /// </summary>
-    public void DealDamage(BattleUnit damageSource, BattleUnit damageTarget,
+    public void DealDamage(IBattleUnit damageSource, IBattleUnit damageTarget,
         int amount, DamageType damageType)
     {
         if (damageSource == null)
@@ -280,9 +255,9 @@ public class BattleExecutor : MonoBehaviour
 
         if (damageType == DamageType.normal)
         {
-            if (damageTarget.unitData.armorReduction < 1)
+            if (damageTarget.UnitData.armorReduction < 1)
             {
-                amount = (int)(amount * damageTarget.unitData.armorReduction);
+                amount = (int)(amount * damageTarget.UnitData.armorReduction);
             }
         }
 
@@ -290,13 +265,13 @@ public class BattleExecutor : MonoBehaviour
         eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
     }
 
-    public void ApplyHeal(BattleUnit healSource, BattleUnit healTarget, int amount)
+    public void ApplyHeal(IBattleUnit healSource, IBattleUnit healTarget, int amount)
     {
         Debug.Log(amount);
         //apply healing reduction before
-        if (healTarget.unitData.health + amount > healTarget.unitData.unitMaxHealth.Value)
+        if (healTarget.UnitData.health + amount > healTarget.UnitData.unitMaxHealth.Value)
         {
-            amount = healTarget.unitData.unitMaxHealth.Value - healTarget.unitData.health;
+            amount = healTarget.UnitData.unitMaxHealth.Value - healTarget.UnitData.health;
         }
 
         if (healSource == null)

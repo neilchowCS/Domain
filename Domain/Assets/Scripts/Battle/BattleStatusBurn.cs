@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class BattleStatusBurn : BattleStatus
 {
-    public BattleUnit source;
+    public IBattleUnit source;
     public int damagePerTick;
     public float seconds;
     private float lifetime = 0;
     private float timer = 0;
 
-    public BattleStatusBurn(BattleUnit host, BattleUnit source, int damagePerTick, float seconds)
-        : base(host.executor, source.side, "BurnStatus", host)
+    public BattleStatusBurn(IBattleUnit host, IBattleUnit source, int damagePerTick, float seconds)
+        : base(host.Executor, source.Side, "BurnStatus", host)
     {
         this.source = source;
         this.damagePerTick = damagePerTick;
         this.seconds = seconds;
 
-        OnApply();
+        //OnApply();
     }
-
+    /*
     public override void OnTickUp()
     {
         timer++;
@@ -39,7 +39,7 @@ public class BattleStatusBurn : BattleStatus
     {
         if (host != null)
         {
-            executor.DealDamage(source, host, damagePerTick, DamageType.special);
+            Executor.DealDamage(source, host, damagePerTick, DamageType.special);
         }
     }
 
@@ -47,8 +47,9 @@ public class BattleStatusBurn : BattleStatus
     {
         if (host != null)
         {
-            host.statusList.Remove(this);
+            host.StatusList.Remove(this);
         }
-        executor.RemoveObject(this);
+        Executor.RemoveObject(this);
     }
+    */
 }

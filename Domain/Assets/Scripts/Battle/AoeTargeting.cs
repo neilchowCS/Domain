@@ -10,9 +10,12 @@ namespace AoeTargetingExtension
         static private float margin = 0.002f;
         static private float minSubdivisions = 0.01f;
 
+        static private List<Vector3> GetEnemyPositionList(IBattleUnit unit)
+            => unit.Executor.GetEnemyUnits(unit).Select(o => o.Position).ToList();
+
         static public Vector3 GetAoeLocation(this BattleUnit unit, float radius, float range)
         {
-            List<Vector3> enemyPositions = BUnitHelperFunc.GetEnemyPositionList(unit);
+            List<Vector3> enemyPositions = GetEnemyPositionList(unit);
 
             if (enemyPositions.Count == 1)
             {
@@ -34,7 +37,7 @@ namespace AoeTargetingExtension
                 //points in each circle
                 foreach (Circle circle in circleList)
                 {
-                    foreach (Vector3 point in BUnitHelperFunc.GetEnemyPositionList(unit))
+                    foreach (Vector3 point in GetEnemyPositionList(unit))
                     {
                         if (Vector3.Distance(point, circle.center) <= radius)
                         {
@@ -77,7 +80,7 @@ namespace AoeTargetingExtension
         {
             float diameter = radius * 2;
             List<Circle> output = new List<Circle>();
-            List<Vector3> pointList = BUnitHelperFunc.GetEnemyPositionList(battleUnit);
+            List<Vector3> pointList = GetEnemyPositionList(battleUnit);
 
             for (int i = 0; i < pointList.Count; i++)
             {
@@ -162,7 +165,7 @@ namespace AoeTargetingExtension
 
         static private Circle RecenterCircle(Circle circle, BattleUnit battleUnit)
         {
-            List<Vector3> points = GetPointsInCircle(circle, BUnitHelperFunc.GetEnemyPositionList(battleUnit));
+            List<Vector3> points = GetPointsInCircle(circle, GetEnemyPositionList(battleUnit));
             if (points.Count <= 2)
             {
                 //Debug.Log("insufficient");
