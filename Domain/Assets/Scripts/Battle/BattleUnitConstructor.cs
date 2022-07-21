@@ -4,29 +4,41 @@ using UnityEngine;
 
 static class BattleUnitConstructor
 {
-    public static BattleUnit GetBattleUnit(BattleExecutor exec, int side, UnitRuntimeData data, int tileId)
+    public static ObservedUnit GetObservedUnit()
     {
-        BattleUnit output = null;
-        switch (data.baseData.unitId)
+        return null;
+    }
+
+    public static UnitBehavior GetUnitBehavior(int unitId, IBattleUnit unit)
+    {
+        UnitBehavior output = null;
+        switch (unitId)
         {
             case 0:
-                output = new AliceBU(exec, side, data, tileId);
+                output = new AliceBehavior(unit);
                 break;
             case 1:
-                output = new BobBU(exec, side, data, tileId);
+                output = new UnitBehavior(unit);
                 break;
             case 2:
-                output = new JoeBU(exec, side, data, tileId);
+                output = new JoeBehavior(unit);
                 break;
             case 3:
-                output = new DoeBU(exec, side, data, tileId);
+                output = new DoeBehavior(unit);
                 break;
         }
         return output;
     }
 
-    public static ObservedUnit GetObservedUnit()
+    public static BattleUnitActions GetUnitActions(int unitId, IBattleUnit unit)
     {
-        return null;
+        BattleUnitActions output = null;
+        switch (unitId)
+        {
+            default:
+                output = new BattleUnitActions(unit);
+                break;
+        }
+        return output;
     }
 }

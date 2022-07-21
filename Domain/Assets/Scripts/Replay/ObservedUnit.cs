@@ -9,6 +9,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     [field: SerializeField]
     public UnitRuntimeData UnitData { get; set; }
 
+    public override ObjectBehavior Behavior { get; set; }
     public BattleUnitActions Actions { get; set; }
 
     public Vector3 Position { get => this.transform.position ;
@@ -30,7 +31,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public int ManaCounter { get; set; } = 0;
 
     [field: SerializeField]
-    public List<BattleStatus> StatusList { get; set; }
+    public List<IBattleStatus> StatusList { get; set; }
     //********************* IBattleUnit interface *************************
 
     //********************* Observed Specific *****************************

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JoeSkillBP : BattleProjectile
 {
-    public JoeSkillBP(BattleExecutor exec, int side, BattleUnit source,
+    public JoeSkillBP(BattleExecutor exec, int side, IBattleUnit source,
         int index, Vector3 targetLocation) : base(exec, side, source, index, targetLocation)
     {
 

@@ -7,7 +7,22 @@ namespace BattleBehaviorExtension
 {
     public static class BattleDefaultBehavior
     {
-        public static IBattleUnit GetClosestEnemy(this BattleUnit battleUnit)
+        public static float GetBattleUnitDistance(this IBattleUnit unit, IBattleUnit otherUnit)
+            => Vector3.Distance(unit.Position, otherUnit.Position);
+
+        public static float GetTargetDistance(this IBattleUnit unit)
+            => unit.GetBattleUnitDistance(unit.CurrentTarget);
+
+        public static bool TargetInRange(this IBattleUnit unit)
+            => unit.GetTargetDistance() < unit.UnitData.unitRange.Value;
+
+        /// <summary>
+        /// Sets currentTarget for this BattleUnit.
+        /// </summary>
+        public static void TargetClosestEnemy(this IBattleUnit unit)
+            => unit.CurrentTarget = unit.GetClosestEnemy();
+
+        public static IBattleUnit GetClosestEnemy(this IBattleUnit battleUnit)
         {
             List<IBattleUnit> eligible = battleUnit.Executor.GetEnemyUnits(battleUnit);
             eligible = eligible.OrderBy(o => battleUnit.GetBattleUnitDistance(o)).ToList();
@@ -21,7 +36,7 @@ namespace BattleBehaviorExtension
         /// <summary>
         /// Gets unoccupied BattleTile that is adjacent to unit and closest to current target.
         /// </summary>
-        public static BattleTile GetNextBattleTile(this BattleUnit battleUnit)
+        public static BattleTile GetNextBattleTile(this IBattleUnit battleUnit)
         {
             Vector3 position1 = battleUnit.Position;
             Vector3 position2 = battleUnit.CurrentTarget.Position;
@@ -52,7 +67,7 @@ namespace BattleBehaviorExtension
         /// sets target tile
         /// adds to timeline
         /// </summary>
-        public static void PrepareMovement(this BattleUnit unit)
+        public static void PrepareMovement(this IBattleUnit unit)
         {
             unit.TargetTile = unit.GetNextBattleTile();
             if (unit.TargetTile != unit.CurrentTile)
@@ -69,7 +84,7 @@ namespace BattleBehaviorExtension
         /// <summary>
         /// Movement loop
         /// </summary>
-        public static void MoveTowardsNext(this BattleUnit unit)
+        public static void MoveTowardsNext(this IBattleUnit unit)
         {
             unit.Position = Vector3.MoveTowards(unit.Position, unit.TargetTile.position,
                 unit.UnitData.unitMoveSpeed.Value / TickSpeed.ticksPerSecond);
@@ -81,7 +96,7 @@ namespace BattleBehaviorExtension
             }
         }
 
-        public static bool TileArrived(this BattleUnit unit)
+        public static bool TileArrived(this IBattleUnit unit)
         {
             return (Vector3.Distance(unit.Position, unit.TargetTile.position) < 0.000001f);
         }

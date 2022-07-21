@@ -106,7 +106,7 @@ public class BattleExecutor : MonoBehaviour
         {
             if (team0.unitList.Count <= team0.positionList.Count)
             {
-                player0Active.Add(BattleUnitConstructor.GetBattleUnit(this, 0,
+                player0Active.Add(new BattleUnit(this, 0,
                     team0.unitList[i], team0.positionList[i]));
             }
         }
@@ -122,7 +122,7 @@ public class BattleExecutor : MonoBehaviour
         {
             if (team1.unitList.Count <= team1.positionList.Count)
             {
-                player1Active.Add(BattleUnitConstructor.GetBattleUnit(this, 1,
+                player1Active.Add(new BattleUnit(this, 1,
                     team1.unitList[i], team1.positionList[i]));
             }
         }
@@ -179,7 +179,7 @@ public class BattleExecutor : MonoBehaviour
 
     private void CleanUp()
     {
-        foreach (BattleUnit unit in player0Dead)
+        foreach (IBattleUnit unit in player0Dead)
         {
             if (unit.NeedsCleaning)
             {
@@ -188,7 +188,7 @@ public class BattleExecutor : MonoBehaviour
                 unit.NeedsCleaning = false;
             }
         }
-        foreach (BattleUnit unit in player1Dead)
+        foreach (IBattleUnit unit in player1Dead)
         {
             if (unit.NeedsCleaning)
             {

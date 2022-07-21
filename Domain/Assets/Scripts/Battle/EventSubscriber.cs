@@ -4,25 +4,26 @@ using UnityEngine;
 
 static class EventSubscriber
 {
-    public static void Subscribe(BattleUnit unit, bool[] list)
+    public static void Subscribe(BattleExecutor executor,
+        ObjectBehavior behavior, EnabledEvents events)
     {
-        if (list[0])
+        if (events.OnDamageDealt)
         {
-            unit.Executor.eventHandler.DamageDealt += unit.OnDamageDealt;
+            executor.eventHandler.DamageDealt += behavior.OnDamageDealt;
         }
-        if (list[1])
+        if (events.OnDamageTaken)
         {
-            unit.Executor.eventHandler.DamageTaken += unit.OnDamageTaken;
+            executor.eventHandler.DamageTaken += behavior.OnDamageTaken;
         }
-        if (list[2])
+        if (events.OnUnitDeath)
         {
-            unit.Executor.eventHandler.UnitDeath += unit.OnUnitDeath;
+            executor.eventHandler.UnitDeath += behavior.OnUnitDeath;
         }
-        if (list[3])
+        if (events.OnHealApplied)
         {
-            unit.Executor.eventHandler.HealApplied += unit.OnHealApplied;
+            executor.eventHandler.HealApplied += behavior.OnHealApplied;
         }
-        if (list[4])
+        //if (list[4])
         {
             //unit.executor.eventHandler.UnitDeath += unit.OnUnitTarget;
         }

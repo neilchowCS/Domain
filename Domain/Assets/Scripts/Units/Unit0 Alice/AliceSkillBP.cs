@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AliceSkillBP : BattleProjectile
 {
-    public AliceSkillBP(BattleExecutor exec, int side, BattleUnit source,
+    public AliceSkillBP(BattleExecutor exec, int side, IBattleUnit source,
         int index, IBattleUnit target) : base(exec, side, source, index, target)
     {
 

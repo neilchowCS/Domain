@@ -15,22 +15,12 @@ public class BattleObject : IBattleObject
     public int Side { get; set; }
 
     [field: SerializeField]
-    public int GlobalObjectId { get; set; }
+    public int GlobalObjectId { get; }
 
     [field: SerializeField]
     public string ObjectName { get; set; }
 
-    public ObjectBehavior Behavior { get; set; }
-
-    public BattleObject(BattleExecutor exec, int side)
-    {
-        Executor = exec;
-        Side = side;
-
-        GlobalObjectId = Executor.SetGlobalObjectId();
-
-        Executor.eventHandler.TickUp += Behavior.OnTickUp;
-    }
+    public virtual ObjectBehavior Behavior { get; }
 
     public BattleObject(BattleExecutor exec, int side, string name)
     {

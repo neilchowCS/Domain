@@ -13,7 +13,7 @@ namespace AoeTargetingExtension
         static private List<Vector3> GetEnemyPositionList(IBattleUnit unit)
             => unit.Executor.GetEnemyUnits(unit).Select(o => o.Position).ToList();
 
-        static public Vector3 GetAoeLocation(this BattleUnit unit, float radius, float range)
+        static public Vector3 GetAoeLocation(this IBattleUnit unit, float radius, float range)
         {
             List<Vector3> enemyPositions = GetEnemyPositionList(unit);
 
@@ -76,7 +76,7 @@ namespace AoeTargetingExtension
             return enemyPositions[0];
         }
 
-        static private List<Circle> GetAllCircles(BattleUnit battleUnit, float radius)
+        static private List<Circle> GetAllCircles(IBattleUnit battleUnit, float radius)
         {
             float diameter = radius * 2;
             List<Circle> output = new List<Circle>();
@@ -163,7 +163,7 @@ namespace AoeTargetingExtension
             return output;
         }
 
-        static private Circle RecenterCircle(Circle circle, BattleUnit battleUnit)
+        static private Circle RecenterCircle(Circle circle, IBattleUnit battleUnit)
         {
             List<Vector3> points = GetPointsInCircle(circle, GetEnemyPositionList(battleUnit));
             if (points.Count <= 2)

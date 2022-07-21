@@ -8,9 +8,4 @@ public class ObservedUnitActions : BattleUnitActions
     {
 
     }
-
-    public override void SetPosition(Vector3 position)
-    {
-        unit.Position = position;
-    }
 }

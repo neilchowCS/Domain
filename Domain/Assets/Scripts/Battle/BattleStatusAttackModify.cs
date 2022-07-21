@@ -8,27 +8,28 @@ public class BattleStatusAttackModify : BattleStatus
     public bool isPermanent;
     public float amount;
 
-    public BattleStatusAttackModify(BattleUnit host, float amount, bool percent, bool permanence)
+    public BattleStatusAttackModify(IBattleUnit host, float amount, bool percent, bool permanence)
         :base(host.Executor, host.Side, "AttackModifyStatus", host)
     {
-        this.host = host;
+        this.Host = host;
         isPercent = percent;
         isPermanent = permanence;
         this.amount = amount;
 
-        OnApply();
+        //OnApply();
     }
 
+    /*
     public void OnApply()
     {
         //Debug.Log(host.unitData.unitAttack.Value);
         if (isPercent)
         {
-            host.UnitData.unitAttack.ModifyMultiplicative(amount);
+            Host.UnitData.unitAttack.ModifyMultiplicative(amount);
         }
         else
         {
-            host.UnitData.unitAttack.ModifyAdditive(amount);
+            Host.UnitData.unitAttack.ModifyAdditive(amount);
         }
     }
 
@@ -36,13 +37,14 @@ public class BattleStatusAttackModify : BattleStatus
     {
         if (isPercent)
         {
-            host.UnitData.unitAttack.ModifyMultiplicative(-amount);
+            Host.UnitData.unitAttack.ModifyMultiplicative(-amount);
         }
         else
         {
-            host.UnitData.unitAttack.ModifyAdditive(-amount);
+            Host.UnitData.unitAttack.ModifyAdditive(-amount);
         }
 
-        host.StatusList.Remove(this);
+        Host.StatusList.Remove(this);
     }
+    */
 }

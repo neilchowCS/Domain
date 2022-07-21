@@ -14,7 +14,7 @@ public class BattleProjectile : BattleObject
     public UnitAttackDataScriptableObject attackData;
 
     public BattleProjectile(BattleExecutor exec, int side, IBattleUnit source,
-        int index, IBattleUnit target) : base(exec, side)
+        int index, IBattleUnit target) : base(exec, side, "Default Projectile")
     {
         Executor.eventHandler.UnitDeath += Behavior.OnUnitDeath;
         this.source = source;
@@ -29,7 +29,7 @@ public class BattleProjectile : BattleObject
     }
 
     public BattleProjectile(BattleExecutor exec, int side, IBattleUnit source,
-        int index, Vector3 targetLocation) : base(exec, side)
+        int index, Vector3 targetLocation) : base(exec, side, "Default Projectile")
     {
         this.source = source;
         this.position = source.Position;

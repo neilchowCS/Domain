@@ -2,31 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleStatus : BattleObject
+public class BattleStatus : BattleObject, IBattleStatus
 {
-    public IBattleUnit host;
+    public IBattleUnit Host { get; set; }
+    public BattleStatusActions Actions { get; set; }
 
     public BattleStatus(BattleExecutor exec, int side, string name, IBattleUnit host)
         :base(exec, side, name){
 
-        this.host = host;
-        Executor.eventHandler.UnitDeath += this.OnUnitDeath;
-    }
+        this.Host = host;
+        Executor.eventHandler.UnitDeath += Behavior.OnUnitDeath;
 
-    public virtual void OnUnitDeath(IBattleUnit deadUnit)
-    {
-        if (deadUnit == host)
-        {
-            OnUnapply();
-            this.host = null;
-        }
-    }
-
-    public virtual void OnUnapply()
-    {
-        if (host != null)
-        {
-            host.StatusList.Remove(this);
-        }
+        Behavior.OnSpawn();
     }
 }

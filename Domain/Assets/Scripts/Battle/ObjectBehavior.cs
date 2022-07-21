@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class ObjectBehavior
 {
-    //OnTick etc
-
     public ObjectBehavior()
+    {
+
+    }
+
+    public virtual void OnSpawn()
     {
 
     }

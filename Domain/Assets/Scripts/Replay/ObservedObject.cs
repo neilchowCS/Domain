@@ -15,7 +15,7 @@ public class ObservedObject : MonoBehaviour, IBattleObject
     //[field: SerializeField]
     public string ObjectName { get; set; }
 
-    public ObjectBehavior Behavior { get; set; }
+    public virtual ObjectBehavior Behavior { get; set; }
 
     public virtual void Initialize(BattleExecutor exec, int side)
     {

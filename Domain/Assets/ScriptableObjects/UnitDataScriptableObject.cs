@@ -24,7 +24,7 @@ public class UnitDataScriptableObject : ScriptableObject
     public float baseCrit;
     public float baseCritChance;
 
-    public bool[] eventSubscriptions;
+    public EnabledEvents eventSubscriptions;
 
     public List<UnitAttackDataScriptableObject> attackDataList;
 

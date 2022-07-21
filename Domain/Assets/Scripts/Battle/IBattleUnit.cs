@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BattleBehaviorExtension;
 
 public interface IBattleUnit : IBattleObject
 {
     public UnitRuntimeData UnitData { get; set; }
-    public BattleUnitActions Actions { get; set; }
+    public BattleUnitActions Actions { get; }
 
     public Vector3 Position { get; set; }
 
@@ -23,7 +24,6 @@ public interface IBattleUnit : IBattleObject
 
     public int ManaCounter { get; set; }
 
-    public List<BattleStatus> StatusList { get; set; }
-
+    public List<IBattleStatus> StatusList { get; set; }
 
 }
