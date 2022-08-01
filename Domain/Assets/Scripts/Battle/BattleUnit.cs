@@ -12,8 +12,7 @@ public class BattleUnit : BattleObject, IBattleUnit
 {
     public UnitRuntimeData UnitData { get; set; }
 
-    public override ObjectBehavior Behavior { get; }
-    public BattleUnitActions Actions { get; }
+    public BattleUnitActions Actions { get; set; }
 
     public Vector3 Position { get; set; }
 
@@ -42,15 +41,10 @@ public class BattleUnit : BattleObject, IBattleUnit
         : base(exec, side, unitData.baseData.unitName)
     {
         this.UnitData = unitData;
-        StatusList = new List<IBattleStatus>();
+        StatusList = new();
 
         CurrentTile = exec.battleSpace.tiles[tileId];
         Position = CurrentTile.position;
         CurrentTile.occupied = true;
-
-        Behavior = BattleUnitConstructor.GetUnitBehavior(unitData.baseData.unitId, this);
-        Actions = BattleUnitConstructor.GetUnitActions(unitData.baseData.unitId, this);
-
-        EventSubscriber.Subscribe(Executor, Behavior, unitData.baseData.eventSubscriptions);
     }
 }

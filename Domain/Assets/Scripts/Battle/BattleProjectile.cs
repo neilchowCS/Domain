@@ -2,89 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleProjectile : BattleObject
+public class BattleProjectile : BattleObject, IBattleProjectile
 {
-    public IBattleUnit source;
-    protected int sourceAttack;
-    //FIXME ???
-    protected int sourceGlobalId = -1;
-    public IBattleUnit target;
-    public Vector3 position;
-    public Vector3 targetLocation;
-    public UnitAttackDataScriptableObject attackData;
+    public BattleProjectileActions Actions { get; }
+
+    public IBattleUnit Source { get; set; }
+    public int SourceGlobalId { get; set; } = -1;
+
+    public FixedUnitState UnitState { get; set; }
+
+    public Vector3 Position { get; set; }
+
+    public IBattleUnit TargetUnit { get; set; }
+    public Vector3 TargetLocation { get; set; }
+    public UnitAttackDataScriptableObject AttackData { get; set; }
 
     public BattleProjectile(BattleExecutor exec, int side, IBattleUnit source,
         int index, IBattleUnit target) : base(exec, side, "Default Projectile")
     {
         Executor.eventHandler.UnitDeath += Behavior.OnUnitDeath;
-        this.source = source;
-        this.position = source.Position;
-        attackData = source.UnitData.baseData.attackDataList[index];
-        this.target = target;
-        sourceAttack = source.UnitData.unitAttack.Value;
-        sourceGlobalId = source.GlobalObjectId;
-
-
-        Executor.GetAlliedObjects(this).Add(this);
+        this.Source = source;
+        this.Position = source.Position;
+        AttackData = source.UnitData.baseData.attackDataList[index];
+        this.TargetUnit = target;
+        UnitState = new FixedUnitState(source);
+        SourceGlobalId = source.GlobalObjectId;
     }
 
     public BattleProjectile(BattleExecutor exec, int side, IBattleUnit source,
         int index, Vector3 targetLocation) : base(exec, side, "Default Projectile")
     {
-        this.source = source;
-        this.position = source.Position;
-        attackData = source.UnitData.baseData.attackDataList[index];
-        this.targetLocation = targetLocation;
-        sourceAttack = source.UnitData.unitAttack.Value;
-        sourceGlobalId = source.GlobalObjectId;
-
-        Executor.GetAlliedObjects(this).Add(this);
+        this.Source = source;
+        this.Position = source.Position;
+        AttackData = source.UnitData.baseData.attackDataList[index];
+        this.TargetLocation = targetLocation;
+        UnitState = new FixedUnitState(source);
+        SourceGlobalId = source.GlobalObjectId;
     }
-
-    /*
-    public override void OnTickUp()
-    {
-        if (attackData.followTarget && target != null)
-        {
-            position = Vector3.MoveTowards(position, target.Position,
-                attackData.speed / TickSpeed.ticksPerSecond);
-            if (Vector3.Distance(position, target.Position) < 0.0001f)
-            {
-                ProjectileEffect();
-                Unassign();
-            }
-        }
-        else if (attackData.projectile && !attackData.followTarget && targetLocation != null)
-        {
-            position = Vector3.MoveTowards(position, targetLocation,
-                attackData.speed / TickSpeed.ticksPerSecond);
-            if (Vector3.Distance(position, targetLocation) < 0.0001f)
-            {
-                ProjectileEffect();
-                Unassign();
-            }
-        }
-    }
-
-    public virtual void OnUnitDeath(IBattleUnit deadUnit)
-    {
-        if (deadUnit == target)
-        {
-            Unassign();
-        }
-    }
-    
-    public virtual void ProjectileEffect()
-    {
-        Executor.DealDamage(source, target, sourceAttack, DamageType.normal);
-    }
-
-    public virtual void Unassign()
-    {
-        target = null;
-        source.Executor.eventHandler.TickUp -= OnTickUp;
-        source.Executor.eventHandler.UnitDeath -= OnUnitDeath;
-        Executor.GetAlliedObjects(this).Remove(this);
-    }
-    */
 }

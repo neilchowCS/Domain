@@ -8040,6 +8040,11 @@ MonoBehaviour:
       value: 0
     unitCritChance:
       value: 0
+  <StatusList>k__BackingField: []
+  healthBar: {fileID: 0}
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &1219270243
 Transform:
   m_ObjectHideFlags: 0

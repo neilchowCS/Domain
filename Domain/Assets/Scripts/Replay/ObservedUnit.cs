@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObservedUnit : ObservedObject, IBattleUnit
 {
     //********************* IBattleUnit interface *************************
-    [field: Header(" ")]
+    //[field: Header(" ")]
     [field: SerializeField]
     public UnitRuntimeData UnitData { get; set; }
 
@@ -30,12 +30,12 @@ public class ObservedUnit : ObservedObject, IBattleUnit
 
     public int ManaCounter { get; set; } = 0;
 
-    [field: SerializeField]
+    [field: SerializeField, SerializeReference, Header("")]
     public List<IBattleStatus> StatusList { get; set; }
+
     //********************* IBattleUnit interface *************************
 
     //********************* Observed Specific *****************************
-    [Header(" ")]
     public HealthBar healthBar;
     //********************* Observed Specific *****************************
 

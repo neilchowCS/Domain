@@ -18,6 +18,7 @@ public class BattleExecutor : MonoBehaviour
     /// Holds delegates and events
     /// </summary>
     public BattleEventHandler eventHandler;
+    public Factory factory;
 
     public BattleSpace battleSpace;
 
@@ -72,6 +73,7 @@ public class BattleExecutor : MonoBehaviour
     private void InitState()
     {
         eventHandler = new BattleEventHandler(this);
+        factory = new Factory(this);
 
         globalTick = 0;
         globalObjectId = 0;
@@ -106,7 +108,7 @@ public class BattleExecutor : MonoBehaviour
         {
             if (team0.unitList.Count <= team0.positionList.Count)
             {
-                player0Active.Add(new BattleUnit(this, 0,
+                player0Active.Add(factory.NewUnit(0,
                     team0.unitList[i], team0.positionList[i]));
             }
         }
@@ -122,7 +124,7 @@ public class BattleExecutor : MonoBehaviour
         {
             if (team1.unitList.Count <= team1.positionList.Count)
             {
-                player1Active.Add(new BattleUnit(this, 1,
+                player1Active.Add(factory.NewUnit(1,
                     team1.unitList[i], team1.positionList[i]));
             }
         }

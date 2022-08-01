@@ -6,7 +6,7 @@ using BattleBehaviorExtension;
 public interface IBattleUnit : IBattleObject
 {
     public UnitRuntimeData UnitData { get; set; }
-    public BattleUnitActions Actions { get; }
+    public BattleUnitActions Actions { get; set; }
 
     public Vector3 Position { get; set; }
 

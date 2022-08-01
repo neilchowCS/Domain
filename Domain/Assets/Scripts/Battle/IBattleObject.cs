@@ -10,5 +10,5 @@ public interface IBattleObject
     public int GlobalObjectId { get; }
     public string ObjectName { get; set; }
 
-    public ObjectBehavior Behavior { get; }
+    public ObjectBehavior Behavior { get; set; }
 }

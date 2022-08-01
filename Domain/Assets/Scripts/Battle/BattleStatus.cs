@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class BattleStatus : BattleObject, IBattleStatus
 {
+    public SimpleStatusData StatusData { get; set; }
     public IBattleUnit Host { get; set; }
+    public IBattleUnit Source { get; set; }
+
     public BattleStatusActions Actions { get; set; }
 
-    public BattleStatus(BattleExecutor exec, int side, string name, IBattleUnit host)
-        :base(exec, side, name){
+    public BattleStatus(BattleExecutor exec, string name,
+        IBattleUnit host, IBattleUnit source, SimpleStatusData data)
+        :base(exec, source.Side, name){
 
         this.Host = host;
-        Executor.eventHandler.UnitDeath += Behavior.OnUnitDeath;
+        this.Source = source;
+        this.StatusData = data;
 
-        Behavior.OnSpawn();
     }
 }

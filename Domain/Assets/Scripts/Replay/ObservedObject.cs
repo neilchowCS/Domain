@@ -7,13 +7,13 @@ public class ObservedObject : MonoBehaviour, IBattleObject
     public BattleExecutor Executor { get; set; }
 
     [field: SerializeField]
-    public int Side { get; set; }
+    public string ObjectName { get; set; }
 
     [field: SerializeField]
     public int GlobalObjectId { get; set; }
 
-    //[field: SerializeField]
-    public string ObjectName { get; set; }
+    [field: SerializeField]
+    public int Side { get; set; }
 
     public virtual ObjectBehavior Behavior { get; set; }
 

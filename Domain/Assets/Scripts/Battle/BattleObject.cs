@@ -20,7 +20,7 @@ public class BattleObject : IBattleObject
     [field: SerializeField]
     public string ObjectName { get; set; }
 
-    public virtual ObjectBehavior Behavior { get; }
+    public ObjectBehavior Behavior { get; set; }
 
     public BattleObject(BattleExecutor exec, int side, string name)
     {
@@ -30,6 +30,6 @@ public class BattleObject : IBattleObject
         GlobalObjectId = Executor.SetGlobalObjectId();
         ObjectName = name;
 
-        Executor.eventHandler.TickUp += Behavior.OnTickUp;
+        Executor.GetAlliedObjects(this).Add(this);
     }
 }
