@@ -13,7 +13,7 @@ public class AliceBehavior : UnitBehavior
     {
         if (i == 1)
         {
-            unit.Executor.factory.NewStatus("Attack Modify Status", unit, unit,
+            unit.Executor.factory.NewStatus(StatusType.AttackMod, unit, unit,
                 new SimpleStatusData(-1f, true, .25f));
         }
         SpawnProjectile(i);

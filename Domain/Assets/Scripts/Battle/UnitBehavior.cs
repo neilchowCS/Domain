@@ -127,16 +127,7 @@ public class UnitBehavior : ObjectBehavior
     {
         if (unit.CurrentTarget != null)
         {
-            BattleProjectile x = null;
-            switch (i)
-            {
-                case 0:
-                    x = new BattleProjectile(unit.Executor, unit.Side, unit, i, unit.CurrentTarget);
-                    break;
-                case 1:
-                    x = new AliceSkillBP(unit.Executor, unit.Side, unit, i, unit.CurrentTarget);
-                    break;
-            }
+            unit.Executor.factory.NewProjectile(unit, i, unit.CurrentTarget);
         }
     }
 

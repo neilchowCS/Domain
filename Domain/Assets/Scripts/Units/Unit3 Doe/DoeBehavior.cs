@@ -13,14 +13,15 @@ public class DoeBehavior : UnitBehavior
     {
         if (unit.CurrentTarget != null)
         {
-            BattleProjectile x = null;
             switch (i)
             {
                 case 0:
-                    x = new BattleProjectile(unit.Executor, unit.Side, unit, i, unit.CurrentTarget);
+                    unit.Executor.factory.NewProjectile(unit, i, unit.CurrentTarget);
+                    //x = new BattleProjectile(unit.Executor, unit.Side, unit, i, unit.CurrentTarget);
                     break;
                 case 1:
-                    x = new DoeSkillBP(unit.Executor, unit.Side, unit, i, unit.Position);
+                    unit.Executor.factory.NewProjectile(unit, i, unit.Position);
+                    //x = new DoeSkillBP(unit.Executor, unit.Side, unit, i, unit.Position);
                     break;
             }
         }

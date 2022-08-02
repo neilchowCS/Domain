@@ -17,16 +17,6 @@ public class ObservedObject : MonoBehaviour, IBattleObject
 
     public virtual ObjectBehavior Behavior { get; set; }
 
-    public virtual void Initialize(BattleExecutor exec, int side)
-    {
-        Executor = exec;
-        Side = side;
-
-        GlobalObjectId = Executor.SetGlobalObjectId();
-
-        Executor.eventHandler.TickUp += Behavior.OnTickUp;
-    }
-
     public virtual void Initialize(BattleExecutor exec, int side, string name)
     {
         Executor = exec;
@@ -35,7 +25,7 @@ public class ObservedObject : MonoBehaviour, IBattleObject
         GlobalObjectId = Executor.SetGlobalObjectId();
         ObjectName = name;
 
-        Executor.eventHandler.TickUp += Behavior.OnTickUp;
+        Executor.GetAlliedObjects(this).Add(this);
     }
 
     // Start is called before the first frame update

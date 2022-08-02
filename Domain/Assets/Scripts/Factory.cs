@@ -27,6 +27,7 @@ public class Factory
         IBattleUnit output = new BattleUnit(executor, side, data, tileId);
         output.Behavior = GetUnitBehavior(output);
         output.Actions = GetUnitActions(output);
+        executor.eventHandler.TickUp += output.Behavior.OnTickUp;
         EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
         return output;
     }
@@ -57,11 +58,11 @@ public class Factory
     }
 
     //***************** Status Constructor *******************
-    public virtual IBattleStatus NewStatus(string name, IBattleUnit host,
+    public virtual IBattleStatus NewStatus(StatusType type, IBattleUnit host,
         IBattleUnit source, SimpleStatusData data)
     {
-        IBattleStatus output = new BattleStatus(executor, name, host, source, data);
-        output.Behavior = GetStatusBehavior(output);
+        IBattleStatus output = new BattleStatus(executor, type.ToString(), host, source, data);
+        output.Behavior = GetStatusBehavior(type, output);
         output.Actions = GetStatusActions(output);
 
         host.StatusList.Add(output);
@@ -73,19 +74,19 @@ public class Factory
         return output;
     }
 
-    public static StatusBehavior GetStatusBehavior(IBattleStatus status)
+    public StatusBehavior GetStatusBehavior(StatusType type, IBattleStatus status)
     {
-        switch (status.ObjectName)
+        switch (type)
         {
-            case "Burn Status":
+            case StatusType.Burn:
                 return new StatusBurnBehavior(status);
-            case "Attack Modify Status":
+            case StatusType.AttackMod:
                 return new StatusAttackModifyBehavior(status);
         }
         return null;
     }
 
-    public static BattleStatusActions GetStatusActions(IBattleStatus status)
+    public BattleStatusActions GetStatusActions(IBattleStatus status)
     {
         /*
         switch (status.ObjectName)
@@ -97,10 +98,43 @@ public class Factory
     }
 
     //***************** Projectile Constructor *******************
-    public virtual IBattleProjectile NewProjectile()
+    public virtual IBattleProjectile NewProjectile(IBattleUnit source,
+        int index, IBattleUnit target)
     {
-        //IBattleProjectile output = new BattleProjectile();
+        IBattleProjectile output = new BattleProjectile(executor, source, index, target);
+        ProjectileInit(output);
+        return output;
+    }
 
+    public virtual IBattleProjectile NewProjectile(IBattleUnit source,
+        int index, Vector3 target)
+    {
+        IBattleProjectile output = new BattleProjectile(executor, source, index, target);
+        ProjectileInit(output);
+        return output;
+    }
+
+    public virtual void ProjectileInit(IBattleProjectile output)
+    {
+        executor.eventHandler.UnitDeath += output.Behavior.OnUnitDeath;
+        output.Behavior = GetProjectileBehavior(output);
+        output.Actions = GetProjectileActions(output);
+    }
+
+    public BasicProjectileBehavior GetProjectileBehavior(IBattleProjectile projectile)
+    {
+        switch (projectile.ObjectName)
+        {
+            case "JoeSkill":
+                return new JoeFireAOEBehavior(projectile);
+            case "DoeSkill":
+                return new DoeHealAOEBehavior(projectile);
+        }
+        return null;
+    }
+
+    public BattleProjectileActions GetProjectileActions(IBattleProjectile projectile)
+    {
         return null;
     }
 }

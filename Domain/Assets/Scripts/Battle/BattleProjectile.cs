@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleProjectile : BattleObject, IBattleProjectile
 {
-    public BattleProjectileActions Actions { get; }
+    public BattleProjectileActions Actions { get; set; }
 
     public IBattleUnit Source { get; set; }
     public int SourceGlobalId { get; set; } = -1;
@@ -17,10 +17,10 @@ public class BattleProjectile : BattleObject, IBattleProjectile
     public Vector3 TargetLocation { get; set; }
     public UnitAttackDataScriptableObject AttackData { get; set; }
 
-    public BattleProjectile(BattleExecutor exec, int side, IBattleUnit source,
-        int index, IBattleUnit target) : base(exec, side, "Default Projectile")
+    public BattleProjectile(BattleExecutor exec, IBattleUnit source,
+        int index, IBattleUnit target) : base(exec, source.Side,
+            source.UnitData.baseData.attackDataList[index].Name)
     {
-        Executor.eventHandler.UnitDeath += Behavior.OnUnitDeath;
         this.Source = source;
         this.Position = source.Position;
         AttackData = source.UnitData.baseData.attackDataList[index];
@@ -29,8 +29,9 @@ public class BattleProjectile : BattleObject, IBattleProjectile
         SourceGlobalId = source.GlobalObjectId;
     }
 
-    public BattleProjectile(BattleExecutor exec, int side, IBattleUnit source,
-        int index, Vector3 targetLocation) : base(exec, side, "Default Projectile")
+    public BattleProjectile(BattleExecutor exec, IBattleUnit source,
+        int index, Vector3 targetLocation) : base(exec, source.Side,
+        source.UnitData.baseData.attackDataList[index].Name)
     {
         this.Source = source;
         this.Position = source.Position;

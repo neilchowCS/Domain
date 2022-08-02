@@ -16,6 +16,7 @@ public class BattleStatusActions
 
     public virtual void RemoveFromHost()
     {
+        status.Executor.GetAlliedObjects(status).Remove(status);
         status.Host.StatusList.Remove(status);
     }
 }

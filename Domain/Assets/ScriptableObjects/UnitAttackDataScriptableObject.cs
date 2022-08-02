@@ -5,14 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/UnitAttackDataSO", order = 1)]
 public class UnitAttackDataScriptableObject : ScriptableObject
 {
-    public string attackType;
+    public string Name;
 
-    public ReplayProjectile projectile;
-    public bool travel;
-    public bool followTarget;
-
+    public float radius;
     public float speed;
 
     public float leadup;
     public float backswing;
+
+    public float value0;
+    public float value1;
+    public float value2;
+    public float value3;
 }

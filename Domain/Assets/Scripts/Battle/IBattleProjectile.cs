@@ -12,7 +12,7 @@ public interface IBattleProjectile : IBattleObject
 
     public UnitAttackDataScriptableObject AttackData { get; set; }
 
-    public BattleProjectileActions Actions { get; }
+    public BattleProjectileActions Actions { get; set; }
 
     public Vector3 Position { get; set; }
 
