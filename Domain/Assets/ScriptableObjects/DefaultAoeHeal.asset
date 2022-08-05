@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ffa8ebff9974463bfd75722c659aed, type: 3}
   m_Name: DefaultAoeHeal
   m_EditorClassIdentifier: 
-  attackType: Visual
-  projectile: {fileID: 1162324502102066404, guid: 2c8ac04bad13a40b18a55bc5b16e7b19, type: 3}
-  travel: 0
-  followTarget: 0
+  Name: DoeSkill
+  radius: 3
   speed: 0
   leadup: 0
   backswing: 0
+  value0: 1.5
+  value1: 0
+  value2: 0
+  value3: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3353137218743962877}
   - component: {fileID: 3353137218743962878}
   - component: {fileID: 3353137218743962879}
-  - component: {fileID: -2661869272620363572}
+  - component: {fileID: 4673473148478872616}
   m_Layer: 0
   m_Name: Succubus
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-2661869272620363572
+--- !u!114 &4673473148478872616
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,16 +94,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 3353137218743962816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9dc3677d2ed445938de2bfe41f32b3c, type: 3}
+  m_Script: {fileID: 11500000, guid: ef89a9e84ae0d43ea956ee2d678bb694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalId: 0
-  executor: {fileID: 0}
-  side: 0
+  <ObjectName>k__BackingField: 
+  <GlobalObjectId>k__BackingField: 0
+  <Side>k__BackingField: 0
+  <UnitData>k__BackingField:
+    baseData: {fileID: 0}
+    individualData:
+      unitId: 0
+      level: 0
+    health: 0
+    mana: 0
+    unitMaxHealth:
+      value: 0
+    unitAttack:
+      value: 0
+    unitDefense:
+      value: 0
+    unitMDefense:
+      value: 0
+    unitAttackSpeed:
+      value: 0
+    unitRange:
+      value: 0
+    unitMoveSpeed:
+      value: 0
+    unitMaxMana:
+      value: 0
+    unitTickPerMana:
+      value: 0
+    unitCrit:
+      value: 0
+    unitCritChance:
+      value: 0
+  <StatusList>k__BackingField: []
   healthBar: {fileID: 0}
-  target: {fileID: 0}
-  destination: {x: 0, y: 0, z: 0}
-  moving: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &5721193674909401851
 GameObject:
   m_ObjectHideFlags: 0

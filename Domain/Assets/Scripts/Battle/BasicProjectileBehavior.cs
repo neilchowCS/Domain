@@ -36,8 +36,10 @@ public class BasicProjectileBehavior : ObjectBehavior
 
     public virtual void ProjectileEffect()
     {
+        Debug.Log(projectile.Source.ObjectName);
+        Debug.Log((int)(projectile.UnitState.attack * projectile.AttackData.value0));
         projectile.Executor.DealDamage(projectile.Source, projectile.TargetUnit,
-            projectile.UnitState.attack, DamageType.normal);
+            (int)(projectile.UnitState.attack * projectile.AttackData.value0), DamageType.normal);
     }
 
     public virtual void Unassign()

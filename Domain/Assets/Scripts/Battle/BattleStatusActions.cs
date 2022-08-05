@@ -16,6 +16,8 @@ public class BattleStatusActions
 
     public virtual void RemoveFromHost()
     {
+        status.Executor.eventHandler.TickUp -= status.Behavior.OnTickUp;
+        status.Executor.eventHandler.UnitDeath -= status.Behavior.OnUnitDeath;
         status.Executor.GetAlliedObjects(status).Remove(status);
         status.Host.StatusList.Remove(status);
     }

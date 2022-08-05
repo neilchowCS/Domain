@@ -17,6 +17,10 @@ public class BattleStatus : BattleObject, IBattleStatus
         this.Host = host;
         this.Source = source;
         this.StatusData = data;
+    }
 
+    ~BattleStatus()
+    {
+        Debug.Log($"{ObjectName} garbage collected");
     }
 }

@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ffa8ebff9974463bfd75722c659aed, type: 3}
   m_Name: DefaultAoe
   m_EditorClassIdentifier: 
-  attackType: Skill
-  projectile: {fileID: 1453357229963348063, guid: ee8245094bcd141eca0664d1bc3594f7, type: 3}
-  travel: 0
-  followTarget: 0
+  Name: JoeSkill
+  radius: 3
   speed: 7
+  leadup: 0
   backswing: 7
+  value0: 2
+  value1: 3
+  value2: 0
+  value3: 0

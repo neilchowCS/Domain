@@ -23,6 +23,7 @@ public class StatusBurnBehavior : StatusBehavior
         }
         if (lifetime >= TickSpeed.ticksPerSecond * status.StatusData.duration)
         {
+            Debug.Log($"Burn expired {lifetime} ticks");
             OnUnapply();
         }
     }
@@ -37,6 +38,7 @@ public class StatusBurnBehavior : StatusBehavior
     {
         if (status.Source != null)
         {
+            Debug.Log((int)status.StatusData.value0);
             status.Executor.DealDamage(status.Source, status.Host,
                 (int)status.StatusData.value0, DamageType.special);
         }

@@ -36,7 +36,9 @@ public class BattleExecutor : MonoBehaviour
     public List<IBattleUnit> player1Active;
     public List<IBattleUnit> player0Dead;
     public List<IBattleUnit> player1Dead;
+    [SerializeReference]
     public List<IBattleObject> playerObjects0;
+    [SerializeReference]
     public List<IBattleObject> playerObjects1;
 
     // Start is called before the first frame update
@@ -49,14 +51,15 @@ public class BattleExecutor : MonoBehaviour
     public void ExecuteBattle()
     {
         InitState();
-
+        Debug.Log($"P0: {player0Active.Count}");
+        Debug.Log($"P1: {player1Active.Count}");
         globalTick++;
         while (ContinueRun())
         {
             StepUp();
         }
         //timeline.Output();
-        Debug.Log(player0Active.Count != 0 ? "Player won!" : "Player lost!");
+        Debug.Log(player1Active.Count == 0 ? "Player won!" : "Player lost!");
     }
 
     public void StepUp()

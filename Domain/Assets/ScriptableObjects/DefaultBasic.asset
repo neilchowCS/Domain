@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ffa8ebff9974463bfd75722c659aed, type: 3}
   m_Name: DefaultBasic
   m_EditorClassIdentifier: 
-  attackType: Basic
-  projectile: {fileID: 6901632286107021206, guid: a27c45c2ecb8046d9a5aa66b47efb8c6, type: 3}
-  travel: 1
-  followTarget: 1
+  Name: Basic
+  radius: 0
   speed: 12
+  leadup: 0
   backswing: 7
+  value0: 1
+  value1: 0
+  value2: 0
+  value3: 0

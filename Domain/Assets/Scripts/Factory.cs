@@ -67,6 +67,7 @@ public class Factory
 
         host.StatusList.Add(output);
 
+        executor.eventHandler.TickUp += output.Behavior.OnTickUp;
         executor.eventHandler.UnitDeath += output.Behavior.OnUnitDeath;
 
         output.Behavior.OnSpawn();
@@ -116,9 +117,10 @@ public class Factory
 
     public virtual void ProjectileInit(IBattleProjectile output)
     {
-        executor.eventHandler.UnitDeath += output.Behavior.OnUnitDeath;
         output.Behavior = GetProjectileBehavior(output);
         output.Actions = GetProjectileActions(output);
+        executor.eventHandler.TickUp += output.Behavior.OnTickUp;
+        executor.eventHandler.UnitDeath += output.Behavior.OnUnitDeath;
     }
 
     public BasicProjectileBehavior GetProjectileBehavior(IBattleProjectile projectile)
@@ -129,8 +131,10 @@ public class Factory
                 return new JoeFireAOEBehavior(projectile);
             case "DoeSkill":
                 return new DoeHealAOEBehavior(projectile);
+            default:
+                return new BasicProjectileBehavior(projectile);
         }
-        return null;
+        //return null;
     }
 
     public BattleProjectileActions GetProjectileActions(IBattleProjectile projectile)
