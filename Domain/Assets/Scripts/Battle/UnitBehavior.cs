@@ -185,6 +185,7 @@ public class UnitBehavior : ObjectBehavior
                 unit.Executor.player1Active.Remove(unit);
                 unit.Executor.player1Dead.Add(unit);
             }
+            unit.Actions.SelfDeath();
             unit.NeedsCleaning = true;
         }
 

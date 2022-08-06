@@ -15,6 +15,7 @@ public class BattleUnit : BattleObject, IBattleUnit
     public BattleUnitActions Actions { get; set; }
 
     public Vector3 Position { get; set; }
+    public GameObject GetGameObject() => null;
 
     public BattleTile CurrentTile { get; set; }
     public BattleTile TargetTile { get; set; }
@@ -44,7 +45,7 @@ public class BattleUnit : BattleObject, IBattleUnit
         StatusList = new();
 
         CurrentTile = exec.battleSpace.tiles[tileId];
-        Position = CurrentTile.position;
+        Position = CurrentTile.Position;
         CurrentTile.occupied = true;
     }
 }

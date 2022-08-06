@@ -28,7 +28,12 @@ MonoBehaviour:
   baseTickPerMana: 20
   baseCrit: 2
   baseCritChance: 0.1
-  eventSubscriptions: 0100010100
+  eventSubscriptions:
+    OnTick: 1
+    OnDamageDealt: 1
+    OnDamageTaken: 0
+    OnUnitDeath: 1
+    OnHealApplied: 0
   attackDataList:
   - {fileID: 11400000, guid: 6ec212f13add44fbe97c73d48aaf0273, type: 2}
   - {fileID: 11400000, guid: f041db16175804cc1870a1a6c305e110, type: 2}

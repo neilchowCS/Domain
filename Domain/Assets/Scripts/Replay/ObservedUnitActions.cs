@@ -8,4 +8,10 @@ public class ObservedUnitActions : BattleUnitActions
     {
 
     }
+
+    public override void SelfDeath()
+    {
+        unit.GetGameObject().SetActive(false);
+        //GameObject.Destroy(unit.GetGameObject());
+    }
 }

@@ -45,4 +45,9 @@ public class BattleUnitActions
     {
         unit.UnitData.mana += amount;
     }
+
+    public virtual void SelfDeath()
+    {
+        
+    }
 }

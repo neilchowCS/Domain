@@ -27,14 +27,12 @@ public class TeamBuildManager : MonoBehaviour
     public StageNumberTesting stageObject;
 
     public int maxTeamSize = 4;
-    public TeamData teamData;
 
     // Start is called before the first frame update
     void Start()
     {
         DataSerialization serializer = new DataSerialization();
         markList = new List<CharGridMarker>();
-        teamData = new TeamData();
         PlayerCollectionData newCollection = serializer.DeserializeCollection(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
 
@@ -92,13 +90,17 @@ public class TeamBuildManager : MonoBehaviour
     {
         TeamMessenger dontDestroy = Instantiate(teamMessenger);
         GameObject.DontDestroyOnLoad(dontDestroy);
+
+        DataSerialization serializer = new DataSerialization();
+        StageDataCollection stageData = serializer.DeserializeStageData(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/StageData.json"));
+
+        dontDestroy.teamRecord = new BattleRecord(stageData.stageDataList[stageObject.stage]);
+
         foreach (CharGridMarker mark in markList)
         {
-            teamData.AddUnitData(new UnitRuntimeData(mark.compositeData), mark.positionId);
+            dontDestroy.teamRecord.AddItem(true, mark.compositeData.Item2, mark.positionId);
         }
-        //FIXME
-        dontDestroy.stageId = stageObject.stage;
-        dontDestroy.teamData = teamData;
     }
 
     public void SetEnemyIcons()

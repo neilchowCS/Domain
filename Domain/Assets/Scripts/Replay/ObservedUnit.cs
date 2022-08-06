@@ -12,8 +12,9 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public override ObjectBehavior Behavior { get; set; }
     public BattleUnitActions Actions { get; set; }
 
-    public Vector3 Position { get => this.transform.position ;
+    public Vector3 Position { get => this.transform.position;
         set => this.transform.position = value; }
+    public GameObject GetGameObject() => this.gameObject;
 
     public BattleTile CurrentTile { get; set; }
     public BattleTile TargetTile { get; set; }

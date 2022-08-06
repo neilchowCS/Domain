@@ -26,4 +26,5 @@ public interface IBattleUnit : IBattleObject
 
     public List<IBattleStatus> StatusList { get; set; }
 
+    public GameObject GetGameObject();
 }

@@ -5712,6 +5712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1969906528}
   - component: {fileID: 1969906527}
+  - component: {fileID: 1969906533}
   - component: {fileID: 1969906530}
   - component: {fileID: 1969906532}
   - component: {fileID: 1969906531}
@@ -5734,10 +5735,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfcc60a2b9ad64c4ca4dc8d6002e1db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  replayExecutor: {fileID: 1969906530}
+  isObserved: 0
   dataListSO: {fileID: 11400000, guid: ec7c4ea85b9f844b0ae8deb136cccded, type: 2}
-  stageId: -1
+  record:
+    team0Data: []
+    team0Position: 
+    team1Data: []
+    team1Position: 
   globalTick: 0
+  replayManager: {fileID: 1969906531}
+  playerObjects0: []
+  playerObjects1: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &1969906528
 Transform:
   m_ObjectHideFlags: 0
@@ -5760,7 +5771,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969906526}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19fef32577394fd9b59690a68853a9c, type: 3}
   m_Name: 
@@ -5790,10 +5801,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   replayUnitPrefabs:
-  - {fileID: -2661869272620363572, guid: 07351470ecdd948548fc81bcb59d507f, type: 3}
-  - {fileID: 2498509289051091395, guid: 8991db7d39f864861a1e985cd8d8de84, type: 3}
-  - {fileID: 9098883056825244983, guid: 00927272abfe848e59430a46b712a060, type: 3}
-  - {fileID: 7274307091669848397, guid: 2a61f8d76b7654731b509d8894e8cd6b, type: 3}
+  - {fileID: 4673473148478872616, guid: 07351470ecdd948548fc81bcb59d507f, type: 3}
+  - {fileID: 7612397362225123836, guid: 8991db7d39f864861a1e985cd8d8de84, type: 3}
+  - {fileID: 4137090966687862823, guid: 00927272abfe848e59430a46b712a060, type: 3}
+  - {fileID: 971708675236375616, guid: 2a61f8d76b7654731b509d8894e8cd6b, type: 3}
   profile: {fileID: 7807559541628803033, guid: ae331ec6ea6b046fc839f3a7b45bc180, type: 3}
   profileParent: {fileID: 609977584}
   screenOverlayCanvas: {fileID: 662525037}
@@ -5813,6 +5824,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 980275557042319023, guid: 76e9648493d0e491b97a72c6d3083737, type: 3}
+--- !u!114 &1969906533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969906526}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a78139eb7d200442e9885418445b2547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isObserved: 1
+  dataListSO: {fileID: 11400000, guid: ec7c4ea85b9f844b0ae8deb136cccded, type: 2}
+  record:
+    team0Data: []
+    team0Position: 
+    team1Data: []
+    team1Position: 
+  globalTick: 0
+  replayManager: {fileID: 1969906531}
+  playerObjects0: []
+  playerObjects1: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1974490959
 GameObject:
   m_ObjectHideFlags: 0

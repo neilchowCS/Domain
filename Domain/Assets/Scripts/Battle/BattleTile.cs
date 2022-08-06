@@ -5,7 +5,9 @@ using UnityEngine;
 public class BattleTile
 {
     public int id;
-    public Vector3 position;
+    private Vector3 position;
+    public Vector3 Position { get { return position + new Vector3(0,0.5f,0); }
+        set { position = value; } }
     /// <summary>
     /// Changed in BattleUnit TickUpMove.
     /// </summary>
@@ -18,7 +20,7 @@ public class BattleTile
     {
         Vector3 pos = new Vector3(x, y, z);
         this.id = id;
-        position = pos;
+        Position = pos;
         occupied = false;
     }
 }

@@ -21,12 +21,35 @@ public class Factory
         return output;
     }
 
+    public void ObservedObjectConstructor(IBattleObject obj, int side, string name)
+    {
+        obj.Executor = executor;
+        obj.Side = side;
+        obj.ObjectName = name;
+        executor.GetAlliedObjects(obj).Add(obj);
+    }
+
     //***************** Unit Constructor *******************
     public virtual IBattleUnit NewUnit(int side, UnitRuntimeData data, int tileId)
     {
         IBattleUnit output = new BattleUnit(executor, side, data, tileId);
         output.Behavior = GetUnitBehavior(output);
         output.Actions = GetUnitActions(output);
+        executor.eventHandler.TickUp += output.Behavior.OnTickUp;
+        EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
+        return output;
+    }
+
+    public virtual IBattleUnit NewObservedUnit(int side, UnitRuntimeData data, int tileId)
+    {
+        Debug.Log(tileId);
+        IBattleUnit output =
+            GameObject.Instantiate(executor.replayManager.replayUnitPrefabs[data.baseData.unitId],
+            executor.battleSpace.tiles[tileId].Position,
+            (side == 0 ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0)));
+        ObservedUnitConstructor(output, side, data, tileId);
+        output.Behavior = GetUnitBehavior(output);
+        output.Actions = GetObservedUnitActions(output);
         executor.eventHandler.TickUp += output.Behavior.OnTickUp;
         EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
         return output;
@@ -54,6 +77,26 @@ public class Factory
         {
             default:
                 return new BattleUnitActions(unit);
+        }
+    }
+
+    public void ObservedUnitConstructor(IBattleUnit unit, int side,
+        UnitRuntimeData unitData, int tileId)
+    {
+        ObservedObjectConstructor(unit, side, unitData.baseData.name);
+        unit.UnitData = unitData;
+        unit.StatusList = new();
+
+        unit.CurrentTile = executor.battleSpace.tiles[tileId];
+        unit.CurrentTile.occupied = true;
+    }
+
+    public ObservedUnitActions GetObservedUnitActions(IBattleUnit unit)
+    {
+        switch (unit.UnitData.baseData.unitId)
+        {
+            default:
+                return new ObservedUnitActions(unit);
         }
     }
 

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class TeamMessenger : MonoBehaviour
 {
-    public TeamData teamData;
-    public int stageId;
+    public BattleRecord teamRecord;
+    //public int stageId;
 }

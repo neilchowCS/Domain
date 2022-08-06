@@ -9,9 +9,7 @@ public class BattleExecutor : MonoBehaviour
 
     public UDListScriptableObject dataListSO;
 
-    public TeamData team0;
-    public int stageId = 0;
-    public TeamData team1;
+    public BattleRecord record;
 
     public int globalTick;
     /// <summary>
@@ -19,10 +17,11 @@ public class BattleExecutor : MonoBehaviour
     /// </summary>
     public BattleEventHandler eventHandler;
     public Factory factory;
+    public ReplayManager replayManager;
 
     public BattleSpace battleSpace;
 
-    private int globalObjectId;
+    protected int globalObjectId;
     /// <summary>
     /// Sets global object ID and increments it.
     /// </summary>
@@ -40,15 +39,15 @@ public class BattleExecutor : MonoBehaviour
     public List<IBattleObject> playerObjects0;
     [SerializeReference]
     public List<IBattleObject> playerObjects1;
-
+    
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         //Instantiate(AudioSingleton.PrefabAudio);
         ExecuteBattle();
     }
 
-    public void ExecuteBattle()
+    private void ExecuteBattle()
     {
         InitState();
         Debug.Log($"P0: {player0Active.Count}");
@@ -73,7 +72,7 @@ public class BattleExecutor : MonoBehaviour
         return (player0Active.Count > 0 && player1Active.Count > 0 && globalTick < 4000);
     }
 
-    private void InitState()
+    protected void InitState()
     {
         eventHandler = new BattleEventHandler(this);
         factory = new Factory(this);
@@ -93,44 +92,12 @@ public class BattleExecutor : MonoBehaviour
         playerObjects1 = new List<IBattleObject>();
 
         //Create TeamData
-        if (!ReadTeamMessenger())
+        if (!ReadTeamMessenger() && record != null)
         {
-            if (team0 != null)
-            {
-                team0.RefreshRuntimeData();
-            }
-            else
-            {
-                team0 = new TeamData();
-            }
-        }
-        team1 = new TeamData();
-
-        //Generate player runtime data
-        for (int i = 0; i < team0.unitList.Count; i++)
-        {
-            if (team0.unitList.Count <= team0.positionList.Count)
-            {
-                player0Active.Add(factory.NewUnit(0,
-                    team0.unitList[i], team0.positionList[i]));
-            }
+            record = new BattleRecord();
         }
 
-        //Read stage data, generate enemy runtime data
-        //FIXME
-        DataSerialization serializer = new DataSerialization();
-        StageDataCollection stageData = serializer.DeserializeStageData(
-            System.IO.File.ReadAllText(Application.persistentDataPath + "/StageData.json"));
-        team1 = new TeamData(stageData.stageDataList[stageId], dataListSO);
-
-        for (int i = 0; i < team1.unitList.Count; i++)
-        {
-            if (team1.unitList.Count <= team1.positionList.Count)
-            {
-                player1Active.Add(factory.NewUnit(1,
-                    team1.unitList[i], team1.positionList[i]));
-            }
-        }
+        InstantiateUnits();
 
         ReplayStorage storage = DataSerialization.DeserializeReplayStore(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/ReplayRecord.json"));
@@ -139,40 +106,46 @@ public class BattleExecutor : MonoBehaviour
             storage = new ReplayStorage();
         }
 
-        PrimitiveTeamData temp = new PrimitiveTeamData();
-        foreach (UnitRuntimeData i in team0.unitList)
-        {
-            temp.dataList.Add(i.individualData);
-        }
-        temp.positionList = team0.positionList;
-        storage.team1List.Add(temp);
-
-        PrimitiveTeamData temp1 = new PrimitiveTeamData();
-        foreach (UnitRuntimeData i in team1.unitList)
-        {
-            temp1.dataList.Add(i.individualData);
-        }
-        temp1.positionList = team1.positionList;
-        storage.team2List.Add(temp1);
-
-        storage.seedList.Add(UnityEngine.Random.state);
+        storage.replayRecords.Add(new ReplayRecord(record, UnityEngine.Random.state));
 
         string jsonOutput = DataSerialization.SerializeData(storage);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);
+    }
+
+    protected virtual void InstantiateUnits()
+    {
+        for (int i = 0; i < record.team0Data.Count; i++)
+        {
+            if (record.team0Data.Count <= record.team0Position.Count)
+            {
+                player0Active.Add(factory.NewUnit(0,
+                    new UnitRuntimeData((dataListSO.uDList[record.team0Data[i].unitId], record.team0Data[i])),
+                    record.team0Position[i]));
+            }
+        }
+
+        for (int i = 0; i < record.team1Data.Count; i++)
+        {
+            if (record.team1Data.Count <= record.team1Position.Count)
+            {
+                player1Active.Add(factory.NewUnit(1,
+                    new UnitRuntimeData((dataListSO.uDList[record.team1Data[i].unitId], record.team1Data[i])),
+                    record.team1Position[i]));
+            }
+        }
     }
 
     /// <summary>
     /// Reads team messenger and sets team0, stage id. 
     /// Returns false if no messenger found
     /// </summary>
-    private bool ReadTeamMessenger()
+    protected bool ReadTeamMessenger()
     {
         TeamMessenger m;
         m = FindObjectOfType<TeamMessenger>();
         if (m != null)
         {
-            team0 = m.teamData;
-            stageId = m.stageId;
+            record = m.teamRecord;
             foreach (TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
             {
                 Destroy(messenger.gameObject);
@@ -182,7 +155,7 @@ public class BattleExecutor : MonoBehaviour
         return false;
     }
 
-    private void CleanUp()
+    protected void CleanUp()
     {
         foreach (IBattleUnit unit in player0Dead)
         {

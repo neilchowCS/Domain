@@ -48,13 +48,13 @@ namespace BattleBehaviorExtension
 
             foreach (BattleTile x in total)
             {
-                if (!x.occupied && Vector3.Distance(x.position, currTile.position) < tileDist)
+                if (!x.occupied && Vector3.Distance(x.Position, currTile.Position) < tileDist)
                 {
                     eligible.Add(x);
                 }
             }
             //get adjacent tile with least distance between it and the target
-            eligible = eligible.OrderBy(o => Vector3.Distance(o.position, position2)).ToList();
+            eligible = eligible.OrderBy(o => Vector3.Distance(o.Position, position2)).ToList();
             if (eligible.Count > 0) //&& Vector3.Distance(eligible[0].position, position2) < Vector3.Distance(currTile.position, position2))
             {
                 return eligible[0];
@@ -86,10 +86,10 @@ namespace BattleBehaviorExtension
         /// </summary>
         public static void MoveTowardsNext(this IBattleUnit unit)
         {
-            unit.Position = Vector3.MoveTowards(unit.Position, unit.TargetTile.position,
+            unit.Position = Vector3.MoveTowards(unit.Position, unit.TargetTile.Position,
                 unit.UnitData.unitMoveSpeed.Value / TickSpeed.ticksPerSecond);
-            if (Vector3.Distance(unit.Position, unit.CurrentTile.position)
-                < Vector3.Distance(unit.Position, unit.TargetTile.position))
+            if (Vector3.Distance(unit.Position, unit.CurrentTile.Position)
+                < Vector3.Distance(unit.Position, unit.TargetTile.Position))
             {
                 unit.CurrentTile.occupied = false;
                 unit.CurrentTile = unit.TargetTile;
@@ -98,7 +98,7 @@ namespace BattleBehaviorExtension
 
         public static bool TileArrived(this IBattleUnit unit)
         {
-            return (Vector3.Distance(unit.Position, unit.TargetTile.position) < 0.000001f);
+            return (Vector3.Distance(unit.Position, unit.TargetTile.Position) < 0.000001f);
         }
     }
 }

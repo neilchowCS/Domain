@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ReplayManager : MonoBehaviour
 {
-    public List<ReplayUnit> replayUnitPrefabs;
+    public List<ObservedUnit> replayUnitPrefabs;
     public GameObject profile;
     public GameObject profileParent;
 
