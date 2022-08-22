@@ -14,6 +14,18 @@ public class ObservedBattleExecutor : BattleExecutor
         globalTick++;
     }
 
+    public override void ExecuteBattle()
+    {
+        if (this.enabled == false)
+        {
+            InitState();
+            Debug.Log($"P0: {player0Active.Count}");
+            Debug.Log($"P1: {player1Active.Count}");
+            globalTick++;
+            this.enabled = true;
+        }
+    }
+
     private void FixedUpdate()
     {
         if (ContinueRun())

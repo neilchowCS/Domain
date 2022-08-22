@@ -127,7 +127,7 @@ public class UnitBehavior : ObjectBehavior
     {
         if (unit.CurrentTarget != null)
         {
-            unit.Executor.factory.NewProjectile(unit, i, unit.CurrentTarget);
+            unit.Actions.NewProjectile(unit, i, unit.CurrentTarget);
         }
     }
 

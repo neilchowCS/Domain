@@ -16,7 +16,7 @@ public class LocationProjectileBehavior : BasicProjectileBehavior
         if (Vector3.Distance(projectile.Position, projectile.TargetLocation) < 0.0001f)
         {
             Aoe();
-            Unassign();
+            projectile.Actions.Unassign();
         }
     }
 

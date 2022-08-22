@@ -21,7 +21,7 @@ public class BasicProjectileBehavior : ObjectBehavior
             if (Vector3.Distance(projectile.Position, projectile.TargetUnit.Position) < 0.0001f)
             {
                 ProjectileEffect();
-                Unassign();
+                projectile.Actions.Unassign();
             }
         }
     }
@@ -30,7 +30,7 @@ public class BasicProjectileBehavior : ObjectBehavior
     {
         if (deadUnit == projectile.TargetUnit)
         {
-            Unassign();
+            projectile.Actions.Unassign();
         }
     }
 
@@ -42,11 +42,4 @@ public class BasicProjectileBehavior : ObjectBehavior
             (int)(projectile.UnitState.attack * projectile.AttackData.value0), DamageType.normal);
     }
 
-    public virtual void Unassign()
-    {
-        projectile.TargetUnit = null;
-        projectile.Source.Executor.eventHandler.TickUp -= OnTickUp;
-        projectile.Source.Executor.eventHandler.UnitDeath -= OnUnitDeath;
-        projectile.Executor.GetAlliedObjects(projectile).Remove(projectile);
-    }
 }

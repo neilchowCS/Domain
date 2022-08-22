@@ -21,3 +21,4 @@ MonoBehaviour:
   value1: 0
   value2: 0
   value3: 0
+  projectilePrefab: {fileID: -21495156722214342, guid: a27c45c2ecb8046d9a5aa66b47efb8c6, type: 3}

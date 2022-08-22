@@ -12,6 +12,7 @@ public class BattleProjectile : BattleObject, IBattleProjectile
     public FixedUnitState UnitState { get; set; }
 
     public Vector3 Position { get; set; }
+    public GameObject GetGameObject() => null;
 
     public IBattleUnit TargetUnit { get; set; }
     public Vector3 TargetLocation { get; set; }

@@ -35,9 +35,9 @@ public class BattleExecutor : MonoBehaviour
     public List<IBattleUnit> player1Active;
     public List<IBattleUnit> player0Dead;
     public List<IBattleUnit> player1Dead;
-    [SerializeReference]
+    //[SerializeReference]
     public List<IBattleObject> playerObjects0;
-    [SerializeReference]
+    //[SerializeReference]
     public List<IBattleObject> playerObjects1;
     
     // Start is called before the first frame update
@@ -47,7 +47,7 @@ public class BattleExecutor : MonoBehaviour
         ExecuteBattle();
     }
 
-    private void ExecuteBattle()
+    public virtual void ExecuteBattle()
     {
         InitState();
         Debug.Log($"P0: {player0Active.Count}");
@@ -57,6 +57,7 @@ public class BattleExecutor : MonoBehaviour
         {
             StepUp();
         }
+        Debug.Log(globalTick + " ticks");
         //timeline.Output();
         Debug.Log(player1Active.Count == 0 ? "Player won!" : "Player lost!");
     }
@@ -90,9 +91,8 @@ public class BattleExecutor : MonoBehaviour
         player1Active = new List<IBattleUnit>();
         player1Dead = new List<IBattleUnit>();
         playerObjects1 = new List<IBattleObject>();
-
-        //Create TeamData
-        if (!ReadTeamMessenger() && record != null)
+        
+        if (!ReadTeamMessenger() && record == null)
         {
             record = new BattleRecord();
         }
@@ -104,6 +104,9 @@ public class BattleExecutor : MonoBehaviour
         if (storage == null)
         {
             storage = new ReplayStorage();
+        }else if (storage.replayRecords.Count >= 20)
+        {
+            storage.replayRecords.RemoveAt(0);
         }
 
         storage.replayRecords.Add(new ReplayRecord(record, UnityEngine.Random.state));

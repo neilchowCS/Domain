@@ -9813,6 +9813,7 @@ GameObject:
   m_Component:
   - component: {fileID: 788798764013863466}
   - component: {fileID: 1162324502102066404}
+  - component: {fileID: -864569164004053210}
   m_Layer: 0
   m_Name: HealSphere
   m_TagString: Untagged
@@ -9844,7 +9845,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8988604927291774691}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3112377b9347414c811c0dbbcca37b1, type: 3}
   m_Name: 
@@ -9854,3 +9855,18 @@ MonoBehaviour:
   speed: 0
   duration: 1
   timer: 0
+--- !u!114 &-864569164004053210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988604927291774691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf892f06e434a456788ac86cc8cec2e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ObjectName>k__BackingField: 
+  <GlobalObjectId>k__BackingField: 0
+  <Side>k__BackingField: 0

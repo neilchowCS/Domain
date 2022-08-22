@@ -11,8 +11,8 @@ public class JoeFireAOEBehavior : LocationProjectileBehavior
     
     public override void ProjectileEffect(IBattleUnit enemy)
     {
-        projectile.Executor.factory.NewStatus(StatusType.Burn, projectile.Source,
-                enemy, new SimpleStatusData(projectile.AttackData.value1, false,
-                projectile.UnitState.attack * projectile.AttackData.value0));
+        projectile.Executor.factory.NewStatus(StatusType.Burn, enemy, projectile.Source,
+            new SimpleStatusData(projectile.AttackData.value1, false,
+            projectile.UnitState.attack * projectile.AttackData.value0));
     }
 }

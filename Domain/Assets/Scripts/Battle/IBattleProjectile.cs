@@ -18,4 +18,6 @@ public interface IBattleProjectile : IBattleObject
 
     public IBattleUnit TargetUnit { get; set; }
     public Vector3 TargetLocation { get; set; }
+
+    public GameObject GetGameObject();
 }

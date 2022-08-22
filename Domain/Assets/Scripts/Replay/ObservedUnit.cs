@@ -9,7 +9,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     [field: SerializeField]
     public UnitRuntimeData UnitData { get; set; }
 
-    public override ObjectBehavior Behavior { get; set; }
+    //public override ObjectBehavior Behavior { get; set; }
     public BattleUnitActions Actions { get; set; }
 
     public Vector3 Position { get => this.transform.position;

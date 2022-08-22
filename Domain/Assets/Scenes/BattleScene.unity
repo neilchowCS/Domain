@@ -1492,6 +1492,7 @@ GameObject:
   - component: {fileID: 583428613}
   - component: {fileID: 583428612}
   - component: {fileID: 583428611}
+  - component: {fileID: 583428614}
   m_Layer: 5
   m_Name: New Battle
   m_TagString: Untagged
@@ -1564,9 +1565,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1969906527}
-        m_TargetAssemblyTypeName: BattleExecutor, Assembly-CSharp
-        m_MethodName: ExecuteBattle
+      - m_Target: {fileID: 583428614}
+        m_TargetAssemblyTypeName: RepeatBattle, Assembly-CSharp
+        m_MethodName: Repeat
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1614,6 +1615,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583428609}
   m_CullTransparentMesh: 1
+--- !u!114 &583428614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583428609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6e0817868b642b0a373dae4bd3a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executor: {fileID: 0}
 --- !u!1 &609977584
 GameObject:
   m_ObjectHideFlags: 0
@@ -5730,7 +5744,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969906526}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cfcc60a2b9ad64c4ca4dc8d6002e1db8, type: 3}
   m_Name: 
@@ -5744,11 +5758,6 @@ MonoBehaviour:
     team1Position: 
   globalTick: 0
   replayManager: {fileID: 1969906531}
-  playerObjects0: []
-  playerObjects1: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!4 &1969906528
 Transform:
   m_ObjectHideFlags: 0
@@ -5831,7 +5840,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969906526}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a78139eb7d200442e9885418445b2547, type: 3}
   m_Name: 
@@ -5845,11 +5854,6 @@ MonoBehaviour:
     team1Position: 
   globalTick: 0
   replayManager: {fileID: 1969906531}
-  playerObjects0: []
-  playerObjects1: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!1 &1974490959
 GameObject:
   m_ObjectHideFlags: 0
