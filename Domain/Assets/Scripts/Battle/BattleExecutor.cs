@@ -10,6 +10,7 @@ public class BattleExecutor : MonoBehaviour
     public UDListScriptableObject dataListSO;
 
     public BattleRecord record;
+    private bool replayFlag = false;
 
     public int globalTick;
     /// <summary>
@@ -39,7 +40,7 @@ public class BattleExecutor : MonoBehaviour
     public List<IBattleObject> playerObjects0;
     //[SerializeReference]
     public List<IBattleObject> playerObjects1;
-    
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -59,7 +60,7 @@ public class BattleExecutor : MonoBehaviour
         }
         Debug.Log(globalTick + " ticks");
         //timeline.Output();
-        Debug.Log(player1Active.Count == 0 ? "Player won!" : "Player lost!");
+        Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
     }
 
     public void StepUp()
@@ -91,28 +92,34 @@ public class BattleExecutor : MonoBehaviour
         player1Active = new List<IBattleUnit>();
         player1Dead = new List<IBattleUnit>();
         playerObjects1 = new List<IBattleObject>();
-        
-        if (!ReadTeamMessenger() && record == null)
+
+        if (!ReadTeamMessenger())
         {
-            record = new BattleRecord();
+            if (record == null)
+            {
+                record = new BattleRecord();
+            }
+        }
+        else if (replayFlag == false)
+        {
+            ReplayStorage storage = DataSerialization.DeserializeReplayStore(
+                System.IO.File.ReadAllText(Application.persistentDataPath + "/ReplayRecord.json"));
+            if (storage == null)
+            {
+                storage = new ReplayStorage();
+            }
+            else if (storage.replayRecords.Count >= 20)
+            {
+                storage.replayRecords.RemoveAt(0);
+            }
+
+            storage.replayRecords.Add(new ReplayRecord(record, UnityEngine.Random.state));
+
+            string jsonOutput = DataSerialization.SerializeData(storage);
+            System.IO.File.WriteAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);
         }
 
         InstantiateUnits();
-
-        ReplayStorage storage = DataSerialization.DeserializeReplayStore(
-            System.IO.File.ReadAllText(Application.persistentDataPath + "/ReplayRecord.json"));
-        if (storage == null)
-        {
-            storage = new ReplayStorage();
-        }else if (storage.replayRecords.Count >= 20)
-        {
-            storage.replayRecords.RemoveAt(0);
-        }
-
-        storage.replayRecords.Add(new ReplayRecord(record, UnityEngine.Random.state));
-
-        string jsonOutput = DataSerialization.SerializeData(storage);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);
     }
 
     protected virtual void InstantiateUnits()
@@ -144,10 +151,10 @@ public class BattleExecutor : MonoBehaviour
     /// </summary>
     protected bool ReadTeamMessenger()
     {
-        TeamMessenger m;
-        m = FindObjectOfType<TeamMessenger>();
-        if (m != null)
+        TeamMessenger m = FindObjectOfType<TeamMessenger>();
+        if (m)
         {
+            Debug.Log("battle");
             record = m.teamRecord;
             foreach (TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
             {
@@ -155,6 +162,17 @@ public class BattleExecutor : MonoBehaviour
             }
             return true;
         }
+
+        ReplayMessenger r = FindObjectOfType<ReplayMessenger>();
+        if (r)
+        {
+            Debug.Log("replay");
+            replayFlag = true;
+            record = new BattleRecord(r.record);
+            UnityEngine.Random.state = r.record.seed;
+            return true;
+        }
+
         return false;
     }
 

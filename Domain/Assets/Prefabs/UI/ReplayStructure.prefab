@@ -95,8 +95,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786055aa2fb294159ab3383fd95b12b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  replayMessenger: {fileID: 5156963123493736870, guid: b58c23cab7d8b41c6ac4d1a69cb0a983, type: 3}
   p1GridLayout: {fileID: 2801154028651258189}
   p2GridLayout: {fileID: 2801154027865563558}
+  replayRecord:
+    team0Data: []
+    team0Position: 
+    team1Data: []
+    team1Position: 
+    seed:
+      s0: 0
+      s1: 0
+      s2: 0
+      s3: 0
 --- !u!1 &2801154027279836623
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.6084906, b: 0.6084906, a: 1}
+  m_Color: {r: 0.91372555, g: 0.91372555, b: 0.91372555, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -316,7 +327,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2801154027865563544}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
@@ -716,6 +727,7 @@ GameObject:
   - component: {fileID: 8768864354408830547}
   - component: {fileID: 9151281787108807382}
   - component: {fileID: 5648095849829950455}
+  - component: {fileID: 7057503960709780674}
   m_Layer: 5
   m_Name: Replay
   m_TagString: Untagged
@@ -825,7 +837,43 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9151281787108807382}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4087432027325564734}
+        m_TargetAssemblyTypeName: ReplayInstanceUI, Assembly-CSharp
+        m_MethodName: OnClickReplay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7057503960709780674}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadBattle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7057503960709780674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5275143219376127654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec78586dd633e4d9481186d31ecd1204, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6824752593853373591
 GameObject:
   m_ObjectHideFlags: 0

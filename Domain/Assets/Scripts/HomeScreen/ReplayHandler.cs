@@ -13,6 +13,9 @@ public class ReplayHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ReplayStorage storage = DataSerialization.DeserializeReplayStore(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/ReplayRecord.json"));
+
         /*
          * Top left: -114.5, 65
             lower: negative y
@@ -22,20 +25,40 @@ public class ReplayHandler : MonoBehaviour
         */
         float deltaX = 115;
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < storage.replayRecords.Count; i++)
         {
-            Vector3 position = new Vector3(-114.5f, 65, 0);
             ReplayInstanceUI ui = Instantiate(prefabReplayInstance, scrollContents.transform);
-            for (int j = 0; j < 6; j++)
+            ui.replayRecord = storage.replayRecords[i];
+
+            Vector3 position = new Vector3(-114.5f, 65, 0);
+            for (int j = 0; j < storage.replayRecords[i].team0Data.Count; j++)
             {
                 BaseUnitIcon icon = Instantiate(prefabIcon, ui.p1GridLayout.transform);
                 icon.transform.localPosition = position;
                 icon.transform.localScale = new Vector3(0.527f, 0.527f, 0.527f);
 
+                icon.InitButton(collectionHandler.uDListSO, storage.replayRecords[i].team0Data[j]);
+
                 position += new Vector3(deltaX, 0, 0);
                 if (j == 2)
                 {
                     position = new Vector3(position.x - deltaX*3, -position.y, 0);
+                }
+            }
+
+            position = new Vector3(114.5f - deltaX * 2, 65, 0);
+            for (int j = 0; j < storage.replayRecords[i].team1Data.Count; j++)
+            {
+                BaseUnitIcon icon = Instantiate(prefabIcon, ui.p2GridLayout.transform);
+                icon.transform.localPosition = position;
+                icon.transform.localScale = new Vector3(0.527f, 0.527f, 0.527f);
+
+                icon.InitButton(collectionHandler.uDListSO, storage.replayRecords[i].team1Data[j]);
+
+                position += new Vector3(deltaX, 0, 0);
+                if (j == 2)
+                {
+                    position = new Vector3(position.x - deltaX * 3, -position.y, 0);
                 }
             }
         }

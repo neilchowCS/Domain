@@ -34,7 +34,7 @@ public class ObservedBattleExecutor : BattleExecutor
         }
         else
         {
-            Debug.Log(player1Active.Count == 0 ? "Player won!" : "Player lost!");
+            Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
             this.enabled = false;
         }
     }
