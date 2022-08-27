@@ -4,14 +4,29 @@ using UnityEngine;
 
 public class ObservedUnitActions : BattleUnitActions
 {
-    public ObservedUnitActions(IBattleUnit unit): base(unit)
-    {
+    private readonly ObservedUnit unit;
 
+    public ObservedUnitActions(ObservedUnit unit): base(unit)
+    {
+        this.unit = unit;
+    }
+
+    public override void SetMana(int amount)
+    {
+        base.SetMana(amount);
+        unit.healthBar.manaFill.fillAmount = unit.UnitData.mana / (float)unit.UnitData.unitMaxMana.Value;
+    }
+
+    public override void TakeDamage(IBattleUnit damageSource, int amount)
+    {
+        base.TakeDamage(damageSource, amount);
+        unit.healthBar.healthFill.fillAmount = unit.UnitData.health / (float)unit.UnitData.unitMaxHealth.Value;
     }
 
     public override void SelfDeath()
     {
-        unit.GetGameObject().SetActive(false);
+        unit.gameObject.SetActive(false);
+        GameObject.Destroy(unit.healthBar.gameObject);
         //GameObject.Destroy(unit.GetGameObject());
     }
 

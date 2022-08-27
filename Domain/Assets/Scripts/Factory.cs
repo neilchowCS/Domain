@@ -32,7 +32,7 @@ public class Factory
     //***************** Unit Constructor *******************
     public virtual IBattleUnit NewUnit(int side, UnitRuntimeData data, int tileId)
     {
-        IBattleUnit output = new BattleUnit(executor, side, data, tileId);
+        BattleUnit output = new BattleUnit(executor, side, data, tileId);
         output.Behavior = GetUnitBehavior(output);
         output.Actions = GetUnitActions(output);
         executor.eventHandler.TickUp += output.Behavior.OnTickUp;
@@ -43,7 +43,7 @@ public class Factory
     public virtual IBattleUnit NewObservedUnit(int side, UnitRuntimeData data, int tileId)
     {
         Debug.Log(tileId);
-        IBattleUnit output =
+        ObservedUnit output =
             GameObject.Instantiate(executor.replayManager.replayUnitPrefabs[data.baseData.unitId],
             executor.battleSpace.tiles[tileId].Position,
             (side == 0 ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0)));
@@ -52,6 +52,16 @@ public class Factory
         output.Actions = GetObservedUnitActions(output);
         executor.eventHandler.TickUp += output.Behavior.OnTickUp;
         EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
+
+        output.healthBar = GameObject.Instantiate(output.UnitData.baseData.commonRef.healthBarPrefab,
+            executor.replayManager.screenOverlayCanvas.transform, false);
+        if (output.Side == 1)
+        {
+            output.healthBar.healthFill.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+        }
+        output.healthBar.parent = output;
+        output.healthBar.ChangePosition();
+
         return output;
     }
 
@@ -71,7 +81,7 @@ public class Factory
         return null;
     }
 
-    public BattleUnitActions GetUnitActions(IBattleUnit unit)
+    public BattleUnitActions GetUnitActions(BattleUnit unit)
     {
         switch (unit.UnitData.baseData.unitId)
         {
@@ -91,7 +101,7 @@ public class Factory
         unit.CurrentTile.occupied = true;
     }
 
-    public ObservedUnitActions GetObservedUnitActions(IBattleUnit unit)
+    public ObservedUnitActions GetObservedUnitActions(ObservedUnit unit)
     {
         switch (unit.UnitData.baseData.unitId)
         {

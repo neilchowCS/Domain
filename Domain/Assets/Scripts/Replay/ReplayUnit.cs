@@ -29,7 +29,7 @@ public class ReplayUnit : ReplayObject
         {
             healthBar.healthFill.GetComponent<Image>().color = Color.red;
         }
-        healthBar.parent = this;
+        //healthBar.parent = this;
         Instantiate(unitData.baseData.commonRef.warpParticle, this.transform.position,
             unitData.baseData.commonRef.warpParticle.transform.rotation);
     }

@@ -12,9 +12,15 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     //public override ObjectBehavior Behavior { get; set; }
     public BattleUnitActions Actions { get; set; }
 
-    public Vector3 Position { get => this.transform.position;
-        set => this.transform.position = value; }
-    public GameObject GetGameObject() => this.gameObject;
+    public Vector3 Position
+    {
+        get => this.transform.position;
+        set
+        {
+            this.transform.position = value;
+            healthBar.ChangePosition();
+        }
+    }
 
     public BattleTile CurrentTile { get; set; }
     public BattleTile TargetTile { get; set; }
@@ -43,12 +49,12 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

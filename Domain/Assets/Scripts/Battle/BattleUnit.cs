@@ -15,7 +15,6 @@ public class BattleUnit : BattleObject, IBattleUnit
     public BattleUnitActions Actions { get; set; }
 
     public Vector3 Position { get; set; }
-    public GameObject GetGameObject() => null;
 
     public BattleTile CurrentTile { get; set; }
     public BattleTile TargetTile { get; set; }

@@ -25,6 +25,4 @@ public interface IBattleUnit : IBattleObject
     public int ManaCounter { get; set; }
 
     public List<IBattleStatus> StatusList { get; set; }
-
-    public GameObject GetGameObject();
 }

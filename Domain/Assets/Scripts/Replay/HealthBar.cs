@@ -6,7 +6,7 @@ using System.Linq;
 
 public class HealthBar : MonoBehaviour
 {
-    public ReplayUnit parent;
+    public ObservedUnit parent;
     public Image healthFill;
     public Image manaFill;
 
@@ -23,21 +23,10 @@ public class HealthBar : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void LateUpdate()
+    public void ChangePosition()
     {
-        if (parent == null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            healthFill.fillAmount = parent.unitData.health / (float)parent.unitData.unitMaxHealth.Value;
-            manaFill.fillAmount = parent.unitData.mana / (float)parent.unitData.unitMaxMana.Value;
-            this.transform.position =
-                Camera.main.WorldToScreenPoint(parent.transform.position + new Vector3(0, 3, 0));//3.15f,0));
-        }
-        
+        this.transform.position =
+                   Camera.main.WorldToScreenPoint(parent.Position + new Vector3(0, 2.8f, 0));
     }
 
     public void AddStatus(StatusIcon i, Sprite statusSprite, int statusId)
@@ -45,7 +34,7 @@ public class HealthBar : MonoBehaviour
         List<int> listId = new List<int>();
         int iconIndex = 0;
         bool exist = false;
-        foreach(StatusIcon j in icons)
+        foreach (StatusIcon j in icons)
         {
             if (!listId.Contains(j.id))
             {

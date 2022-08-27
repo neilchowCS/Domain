@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public class BattleUnitActions
 {
-    protected readonly IBattleUnit unit;
+    public IBattleUnit iUnit;
 
     public BattleUnitActions(IBattleUnit unit)
     {
-        this.unit = unit;
+        iUnit = unit;
     }
 
     /// <summary>
@@ -22,28 +22,28 @@ public class BattleUnitActions
     /// </summary>
     public virtual void TakeDamage(IBattleUnit damageSource, int amount)
     {
-        unit.UnitData.health -= amount;
-        unit.Executor.eventHandler.OnDamageTaken(unit, damageSource, amount);
-        if (unit.UnitData.health <= 0)
+        iUnit.UnitData.health -= amount;
+        iUnit.Executor.eventHandler.OnDamageTaken(iUnit, damageSource, amount);
+        if (iUnit.UnitData.health <= 0)
         {
-            unit.Executor.eventHandler.OnUnitDeath(unit);
+            iUnit.Executor.eventHandler.OnUnitDeath(iUnit);
         }
     }
 
     public virtual void ReceiveHeal(IBattleUnit healSource, int amount)
     {
-        unit.UnitData.health += amount;
+        iUnit.UnitData.health += amount;
 
     }
 
     public virtual void SetMana(int amount)
     {
-        unit.UnitData.mana = amount;
+        iUnit.UnitData.mana = amount;
     }
 
     public virtual void ModifyMana(int amount)
     {
-        unit.UnitData.mana += amount;
+        SetMana(iUnit.UnitData.mana + amount);
     }
 
     public virtual void SelfDeath()
@@ -54,12 +54,12 @@ public class BattleUnitActions
     public virtual void NewProjectile(IBattleUnit source,
         int index, IBattleUnit target)
     {
-        unit.Executor.factory.NewProjectile(source, index, target);
+        iUnit.Executor.factory.NewProjectile(source, index, target);
     }
 
     public virtual void NewProjectile(IBattleUnit source,
         int index, Vector3 target)
     {
-        unit.Executor.factory.NewProjectile(source, index, target);
+        iUnit.Executor.factory.NewProjectile(source, index, target);
     }
 }
