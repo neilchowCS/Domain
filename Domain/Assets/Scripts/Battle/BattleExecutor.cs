@@ -9,8 +9,7 @@ public class BattleExecutor : MonoBehaviour
 
     public UDListScriptableObject dataListSO;
 
-    public BattleRecord record;
-    private bool replayFlag = false;
+    public MessengerReader reader;
 
     public int globalTick;
     /// <summary>
@@ -93,30 +92,9 @@ public class BattleExecutor : MonoBehaviour
         player1Dead = new List<IBattleUnit>();
         playerObjects1 = new List<IBattleObject>();
 
-        if (!ReadTeamMessenger())
+        if (!reader.hasRead)
         {
-            if (record == null)
-            {
-                record = new BattleRecord();
-            }
-        }
-        else if (replayFlag == false)
-        {
-            ReplayStorage storage = DataSerialization.DeserializeReplayStore(
-                System.IO.File.ReadAllText(Application.persistentDataPath + "/ReplayRecord.json"));
-            if (storage == null)
-            {
-                storage = new ReplayStorage();
-            }
-            else if (storage.replayRecords.Count >= 20)
-            {
-                storage.replayRecords.RemoveAt(0);
-            }
-
-            storage.replayRecords.Add(new ReplayRecord(record, UnityEngine.Random.state));
-
-            string jsonOutput = DataSerialization.SerializeData(storage);
-            System.IO.File.WriteAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);
+            reader.ReadTeamMessenger();
         }
 
         InstantiateUnits();
@@ -124,57 +102,28 @@ public class BattleExecutor : MonoBehaviour
 
     protected virtual void InstantiateUnits()
     {
-        for (int i = 0; i < record.team0Data.Count; i++)
+        for (int i = 0; i < reader.record.team0Data.Count; i++)
         {
-            if (record.team0Data.Count <= record.team0Position.Count)
+            if (reader.record.team0Data.Count <= reader.record.team0Position.Count)
             {
                 player0Active.Add(factory.NewUnit(0,
-                    new UnitRuntimeData((dataListSO.uDList[record.team0Data[i].unitId], record.team0Data[i])),
-                    record.team0Position[i]));
+                    new UnitRuntimeData((dataListSO.uDList[reader.record.team0Data[i].unitId], reader.record.team0Data[i])),
+                    reader.record.team0Position[i]));
             }
         }
 
-        for (int i = 0; i < record.team1Data.Count; i++)
+        for (int i = 0; i < reader.record.team1Data.Count; i++)
         {
-            if (record.team1Data.Count <= record.team1Position.Count)
+            if (reader.record.team1Data.Count <= reader.record.team1Position.Count)
             {
                 player1Active.Add(factory.NewUnit(1,
-                    new UnitRuntimeData((dataListSO.uDList[record.team1Data[i].unitId], record.team1Data[i])),
-                    record.team1Position[i]));
+                    new UnitRuntimeData((dataListSO.uDList[reader.record.team1Data[i].unitId], reader.record.team1Data[i])),
+                    reader.record.team1Position[i]));
             }
         }
     }
 
-    /// <summary>
-    /// Reads team messenger and sets team0, stage id. 
-    /// Returns false if no messenger found
-    /// </summary>
-    protected bool ReadTeamMessenger()
-    {
-        TeamMessenger m = FindObjectOfType<TeamMessenger>();
-        if (m)
-        {
-            Debug.Log("battle");
-            record = m.teamRecord;
-            foreach (TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
-            {
-                Destroy(messenger.gameObject);
-            }
-            return true;
-        }
-
-        ReplayMessenger r = FindObjectOfType<ReplayMessenger>();
-        if (r)
-        {
-            Debug.Log("replay");
-            replayFlag = true;
-            record = new BattleRecord(r.record);
-            UnityEngine.Random.state = r.record.seed;
-            return true;
-        }
-
-        return false;
-    }
+    
 
     protected void CleanUp()
     {

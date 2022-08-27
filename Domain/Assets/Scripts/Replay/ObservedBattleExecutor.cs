@@ -34,6 +34,7 @@ public class ObservedBattleExecutor : BattleExecutor
         }
         else
         {
+            Debug.Log(globalTick + " ticks");
             Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
             this.enabled = false;
         }
@@ -41,23 +42,23 @@ public class ObservedBattleExecutor : BattleExecutor
 
     protected override void InstantiateUnits()
     {
-        for (int i = 0; i < record.team0Data.Count; i++)
+        for (int i = 0; i < reader.record.team0Data.Count; i++)
         {
-            if (record.team0Data.Count <= record.team0Position.Count)
+            if (reader.record.team0Data.Count <= reader.record.team0Position.Count)
             {
                 player0Active.Add(factory.NewObservedUnit(0,
-                    new UnitRuntimeData((dataListSO.uDList[record.team0Data[i].unitId], record.team0Data[i])),
-                    record.team0Position[i]));
+                    new UnitRuntimeData((dataListSO.uDList[reader.record.team0Data[i].unitId], reader.record.team0Data[i])),
+                    reader.record.team0Position[i]));
             }
         }
 
-        for (int i = 0; i < record.team1Data.Count; i++)
+        for (int i = 0; i < reader.record.team1Data.Count; i++)
         {
-            if (record.team1Data.Count <= record.team1Position.Count)
+            if (reader.record.team1Data.Count <= reader.record.team1Position.Count)
             {
                 player1Active.Add(factory.NewObservedUnit(1,
-                    new UnitRuntimeData((dataListSO.uDList[record.team1Data[i].unitId], record.team1Data[i])),
-                    record.team1Position[i]));
+                    new UnitRuntimeData((dataListSO.uDList[reader.record.team1Data[i].unitId], reader.record.team1Data[i])),
+                    reader.record.team1Position[i]));
             }
         }
     }

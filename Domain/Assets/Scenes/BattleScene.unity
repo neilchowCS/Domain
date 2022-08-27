@@ -5730,6 +5730,7 @@ GameObject:
   - component: {fileID: 1969906530}
   - component: {fileID: 1969906532}
   - component: {fileID: 1969906531}
+  - component: {fileID: 1969906534}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -5744,18 +5745,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969906526}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cfcc60a2b9ad64c4ca4dc8d6002e1db8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isObserved: 0
   dataListSO: {fileID: 11400000, guid: ec7c4ea85b9f844b0ae8deb136cccded, type: 2}
-  record:
-    team0Data: []
-    team0Position: 
-    team1Data: []
-    team1Position: 
+  reader: {fileID: 1969906534}
   globalTick: 0
   replayManager: {fileID: 1969906531}
 --- !u!4 &1969906528
@@ -5847,13 +5844,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isObserved: 1
   dataListSO: {fileID: 11400000, guid: ec7c4ea85b9f844b0ae8deb136cccded, type: 2}
+  reader: {fileID: 1969906534}
+  globalTick: 0
+  replayManager: {fileID: 1969906531}
+--- !u!114 &1969906534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969906526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b11fede298d6418c821df5d803de7a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   record:
     team0Data: []
     team0Position: 
     team1Data: []
     team1Position: 
-  globalTick: 0
-  replayManager: {fileID: 1969906531}
+  hasRead: 0
+  replayFlag: 0
 --- !u!1 &1974490959
 GameObject:
   m_ObjectHideFlags: 0
