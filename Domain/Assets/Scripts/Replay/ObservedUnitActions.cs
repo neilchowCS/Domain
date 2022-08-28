@@ -23,6 +23,11 @@ public class ObservedUnitActions : BattleUnitActions
         unit.healthBar.healthFill.fillAmount = unit.UnitData.health / (float)unit.UnitData.unitMaxHealth.Value;
     }
 
+    public override void DealtDamage(int amount)
+    {
+        ((ObservedBattleExecutor)unit.Executor).UpdateProfileDamage(unit.GlobalObjectId, amount);
+    }
+
     public override void SelfDeath()
     {
         unit.gameObject.SetActive(false);

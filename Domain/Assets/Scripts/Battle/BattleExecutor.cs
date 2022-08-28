@@ -73,7 +73,7 @@ public class BattleExecutor : MonoBehaviour
         return (player0Active.Count > 0 && player1Active.Count > 0 && globalTick < 4000);
     }
 
-    protected void InitState()
+    protected virtual void InitState()
     {
         eventHandler = new BattleEventHandler(this);
         factory = new Factory(this);

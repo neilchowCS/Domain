@@ -145,6 +145,9 @@ public class UnitBehavior : ObjectBehavior
         if (damageTarget == unit)
         {
             unit.Actions.TakeDamage(damageSource, amount);
+        }else if (damageSource == unit)
+        {
+            unit.Actions.DealtDamage(amount);
         }
     }
 

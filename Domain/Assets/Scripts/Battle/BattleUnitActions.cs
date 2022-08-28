@@ -36,6 +36,11 @@ public class BattleUnitActions
 
     }
 
+    public virtual void DealtDamage(int amount)
+    {
+
+    }
+
     public virtual void SetMana(int amount)
     {
         iUnit.UnitData.mana = amount;
