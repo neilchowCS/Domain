@@ -95,6 +95,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         ReplayProfile y = Instantiate(replayManager.profile).GetComponent<ReplayProfile>();
         profiles.Add(y);
+        Debug.Log(unit.GlobalObjectId);
         y.globalId = unit.GlobalObjectId;
         y.SetName(unit.ObjectName);
         y.SetImage(unit.UnitData.baseData.unitSprite);

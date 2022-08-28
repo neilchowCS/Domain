@@ -26,6 +26,7 @@ public class Factory
         obj.Executor = executor;
         obj.Side = side;
         obj.ObjectName = name;
+        obj.GlobalObjectId = executor.SetGlobalObjectId();
         executor.GetAlliedObjects(obj).Add(obj);
     }
 

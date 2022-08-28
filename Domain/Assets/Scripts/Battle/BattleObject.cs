@@ -15,7 +15,7 @@ public class BattleObject : IBattleObject
     public int Side { get; set; }
 
     [field: SerializeField]
-    public int GlobalObjectId { get; }
+    public int GlobalObjectId { get; set; }
 
     [field: SerializeField]
     public string ObjectName { get; set; }
