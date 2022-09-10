@@ -11,7 +11,7 @@ public class ReplayRecord
     public List<UnitIndividualData> team1Data;
     public List<int> team1Position;
 
-    public UnityEngine.Random.State seed;
+    public Random.State seed;
 
     public ReplayRecord(BattleRecord record, Random.State state)
     {

@@ -18,10 +18,11 @@ public class TeamBuildManager : MonoBehaviour
     private float yValPositionOffset = 235;
     public List<Vector3> hexTileLocalPositions;
 
-    public CharGridMarker marker;
-    public List<CharGridMarker> markList;
+    public BaseUnitIcon marker;
+    public List<BaseUnitIcon> markList;
+    public List<int> positionList;
     public GameObject enemyTileGrid;
-    public List<CharGridMarker> enemyMarkList;
+    public List<BaseUnitIcon> enemyMarkList;
 
     public TeamMessenger teamMessenger;
     public StageNumberTesting stageObject;
@@ -32,7 +33,8 @@ public class TeamBuildManager : MonoBehaviour
     void Start()
     {
         DataSerialization serializer = new DataSerialization();
-        markList = new List<CharGridMarker>();
+        markList = new();
+        positionList = new();
         PlayerCollectionData newCollection = serializer.DeserializeCollection(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
 
@@ -78,10 +80,17 @@ public class TeamBuildManager : MonoBehaviour
         if (!collider.occupied && markList.Count < maxTeamSize)
         {
             icon.CharUsed();
-            CharGridMarker temp = Instantiate(marker, gridMarkerParent.transform);
-            temp.SetInitial(collider.transform.position, icon.compositeData, i);
+            BaseUnitIcon temp = Instantiate(marker, gridMarkerParent.transform);
+            temp.transform.position = collider.transform.position;
+            temp.transform.localScale = new Vector3(.6f, .6f, .6f);
+            temp.InitButton(dataListSO, icon.compositeData.Item2);
+
+            //temp.SetInitial(collider.transform.position, icon.compositeData, i);
             collider.occupied = true;
+
+            //team messenger
             markList.Add(temp);
+            positionList.Add(i);
         }
     }
 
@@ -97,28 +106,34 @@ public class TeamBuildManager : MonoBehaviour
 
         dontDestroy.teamRecord = new BattleRecord(stageData.stageDataList[stageObject.stage]);
 
-        foreach (CharGridMarker mark in markList)
+        for (int i = 0; i < markList.Count; i++)
         {
-            dontDestroy.teamRecord.AddItem(true, mark.compositeData.Item2, mark.positionId);
+            dontDestroy.teamRecord.AddItem(true, markList[i].individualData, positionList[i]);
         }
     }
 
     public void SetEnemyIcons()
     {
-        foreach (CharGridMarker gridMarker in enemyMarkList)
+        foreach (BaseUnitIcon gridMarker in enemyMarkList)
         {
             Destroy(gridMarker.gameObject);
         }
-        enemyMarkList = new List<CharGridMarker>();
+        enemyMarkList = new();
         DataSerialization serializer = new DataSerialization();
         StageDataCollection stageList = serializer.DeserializeStageData(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/StageData.json"));
         PrimitiveTeamData currentStageData = stageList.stageDataList[stageObject.stage];
         for (int i = 0; i < currentStageData.dataList.Count; i++)
         {
-            CharGridMarker temp = Instantiate(marker, enemyTileGrid.transform);
+            BaseUnitIcon temp = Instantiate(marker, enemyTileGrid.transform);
+            /*
             temp.SetEnemyInitial(hexTileLocalPositions[currentStageData.positionList[i] - 24] - new Vector3(0, yValPositionOffset, 0),
                 dataListSO.uDList[currentStageData.dataList[i].unitId].unitSprite);
+            */
+            temp.transform.localPosition = hexTileLocalPositions[currentStageData.positionList[i] - 24]
+                - new Vector3(0, yValPositionOffset, 0);
+            temp.transform.localScale = new Vector3(.6f, .6f, .6f);
+            temp.InitButton(dataListSO, currentStageData.dataList[i]);
             /*
             temp.SetEnemyInitial(hexTileLocalPositions[currentStageData.positionList[i] - 24] -
                 new Vector3(0,(enemyTileGrid.transform.localPosition.y - hexParent.transform.localPosition.y), 0),

@@ -12,18 +12,25 @@ public class PlayerData
     public int promotionStones;
     public string lastClaim;
 
+    public int currentStage;
+
     public PlayerData()
     {
 
     }
 
-    public PlayerData(int i, int j, int k, string lastClaim, float ovfG, float ovfE)
+    public PlayerData(int gold, int essence, int promoStones, string lastClaim,
+        float ovfG, float ovfE, int cStage)
     {
-        gold = i;
-        essence = j;
+        this.gold = gold;
+        this.essence = essence;
+        promotionStones = promoStones;
+
+        this.lastClaim = lastClaim;
+
         overflowGold = ovfE;
         overflowEssence = ovfG;
-        promotionStones = k;
-        this.lastClaim = lastClaim;
+
+        currentStage = cStage;
     }
 }

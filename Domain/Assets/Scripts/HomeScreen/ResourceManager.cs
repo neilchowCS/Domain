@@ -31,7 +31,7 @@ public class ResourceManager : MonoBehaviour
         elapsed += Time.deltaTime;
         if (elapsed >= .25f)
         {
-            elapsed -= .25f;
+            elapsed = 0f;
             DisplayAvailableReward();
         }
     }

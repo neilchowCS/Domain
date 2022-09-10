@@ -6587,8 +6587,9 @@ MonoBehaviour:
   gridMarkerParent: {fileID: 617352993}
   hexParent: {fileID: 280955996}
   hexTileLocalPositions: []
-  marker: {fileID: -6848569798024810456, guid: 0515cd64819774f99af9d9eaf5f4cc2c, type: 3}
+  marker: {fileID: 352102801119856016, guid: 8f812054edf4a47e58b97274a3e9ab99, type: 3}
   markList: []
+  positionList: 
   enemyTileGrid: {fileID: 503706264}
   enemyMarkList: []
   teamMessenger: {fileID: 6270839139888991475, guid: 7b476ec8a28824966ab2b8bccd859d1a, type: 3}
