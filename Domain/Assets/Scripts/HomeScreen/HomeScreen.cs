@@ -13,10 +13,13 @@ public class HomeScreen : MonoBehaviour
 
     public UDListScriptableObject uDListSO;
 
+    public string currentPage;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        //QUESTION why does initializing player collection here not work?
+        //QUESTION why does initializing player collection here (start not awake) not work?
+        currentPage = "Home";
     }
 
     // Update is called once per frame
@@ -25,16 +28,49 @@ public class HomeScreen : MonoBehaviour
         
     }
 
-    public void ShowCollection()
+    public GameObject GetUI(string page)
     {
-        collectionManager.gameObject.SetActive(true);
-        this.gameObject.SetActive(false);
+        switch (page)
+        {
+            case "Home":
+                return this.gameObject;
+            case "Campaign":
+                return null;
+            case "Altar":
+                return dismissalManager.gameObject;
+            case "Claim":
+                return resourceManager.gameObject;
+            case "Summon":
+                return summonManager.gameObject;
+            case "Collection":
+                return collectionManager.gameObject;
+            case "Unit":
+                return unitDisplay.gameObject;
+            case "Replay":
+                return replayUI.gameObject;
+            default:
+                return null;
+        }
     }
 
-    public void HideCollection()
+    public void ChangePage(string toOpen)
     {
-        this.gameObject.SetActive(true);
-        collectionManager.gameObject.SetActive(false);
+        if (GetUI(currentPage) != null && GetUI(toOpen) != null)
+        {
+            GetUI(currentPage).SetActive(false);
+            currentPage = toOpen;
+            GetUI(toOpen).SetActive(true);
+        }
+    }
+
+    public void OpenOverlay(string toOpen)
+    {
+        GetUI(toOpen)?.SetActive(true);
+    }
+
+    public void CloseOverlay(string toClose)
+    {
+        GetUI(toClose)?.SetActive(false);
     }
 
     public void DisplayUnit(UnitIndividualData individualData)
@@ -43,57 +79,5 @@ public class HomeScreen : MonoBehaviour
         unitDisplay.gameObject.SetActive(true);
         unitDisplay.SetUnit(individualData);
         collectionManager.gameObject.SetActive(false);
-    }
-
-    public void HideUnit()
-    {
-        collectionManager.gameObject.SetActive(true);
-        unitDisplay.gameObject.SetActive(false);
-    }
-
-    public void ShowSummon()
-    {
-        summonManager.gameObject.SetActive(true);
-        this.gameObject.SetActive(false);
-    }
-
-    public void HideSummon()
-    {
-        this.gameObject.SetActive(true);
-        summonManager.gameObject.SetActive(false);
-    }
-
-    public void ShowAltar()
-    {
-        dismissalManager.gameObject.SetActive(true);
-        this.gameObject.SetActive(false);
-    }
-
-    public void HideAltar()
-    {
-        this.gameObject.SetActive(true);
-        dismissalManager.gameObject.SetActive(false);
-    }
-
-    public void ShowResources()
-    {
-        resourceManager.gameObject.SetActive(true);
-        this.gameObject.SetActive(false);
-    }
-
-    public void HideResources()
-    {
-        this.gameObject.SetActive(true);
-        resourceManager.gameObject.SetActive(false);
-    }
-
-    public void ShowReplay()
-    {
-        replayUI.gameObject.SetActive(true);
-    }
-
-    public void HideReplay()
-    {
-        replayUI.gameObject.SetActive(false);
     }
 }
