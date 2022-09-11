@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CampaignManager : MonoBehaviour
 {
+    public ResourceHandler resourceHandler;
+    public TeamBuildManager teamBuildManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +17,10 @@ public class CampaignManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetStage()
+    {
+        teamBuildManager.stageId = resourceHandler.playerData.currentStage + 1;
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class MessengerReader : MonoBehaviour
 {
     public BattleRecord record;
+    public int stageId;
     public bool hasRead = false;
     public bool replayFlag;
 
@@ -34,6 +35,7 @@ public class MessengerReader : MonoBehaviour
             {
                 replayFlag = false;
                 record = m.teamRecord;
+                this.stageId = m.stageId;
 
                 StoreReplay();
 

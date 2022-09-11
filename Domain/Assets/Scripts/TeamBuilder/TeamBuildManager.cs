@@ -8,6 +8,7 @@ public class TeamBuildManager : MonoBehaviour
     public UDListScriptableObject dataListSO;
 
     public Canvas canvas;
+
     public GameObject UIBackground;
     public GameObject charIconBounds;
     public ScrollRect scrollRect;
@@ -25,12 +26,13 @@ public class TeamBuildManager : MonoBehaviour
     public List<BaseUnitIcon> enemyMarkList;
 
     public TeamMessenger teamMessenger;
-    public StageNumberTesting stageObject;
+
+    public int stageId;
 
     public int maxTeamSize = 4;
 
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         DataSerialization serializer = new DataSerialization();
         markList = new();
@@ -104,7 +106,8 @@ public class TeamBuildManager : MonoBehaviour
         StageDataCollection stageData = serializer.DeserializeStageData(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/StageData.json"));
 
-        dontDestroy.teamRecord = new BattleRecord(stageData.stageDataList[stageObject.stage]);
+        dontDestroy.teamRecord = new BattleRecord(stageData.stageDataList[stageId]);
+        dontDestroy.stageId = stageId;
 
         for (int i = 0; i < markList.Count; i++)
         {
@@ -122,7 +125,7 @@ public class TeamBuildManager : MonoBehaviour
         DataSerialization serializer = new DataSerialization();
         StageDataCollection stageList = serializer.DeserializeStageData(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/StageData.json"));
-        PrimitiveTeamData currentStageData = stageList.stageDataList[stageObject.stage];
+        PrimitiveTeamData currentStageData = stageList.stageDataList[stageId];
         for (int i = 0; i < currentStageData.dataList.Count; i++)
         {
             BaseUnitIcon temp = Instantiate(marker, enemyTileGrid.transform);

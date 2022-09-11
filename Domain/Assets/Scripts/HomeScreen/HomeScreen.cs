@@ -13,6 +13,7 @@ public class HomeScreen : MonoBehaviour
     public TowerManager towerManager;
     //Overlays
     public ReplayHandler replayUI;
+    public TeamBuildManager teamBuildManager;
 
     public UDListScriptableObject uDListSO;
 
@@ -51,6 +52,8 @@ public class HomeScreen : MonoBehaviour
                 return towerManager.gameObject;
             case "Replay":
                 return replayUI.gameObject;
+            case "Teambuilder":
+                return teamBuildManager.gameObject;
             default:
                 return null;
         }

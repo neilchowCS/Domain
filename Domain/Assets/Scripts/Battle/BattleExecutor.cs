@@ -59,7 +59,24 @@ public class BattleExecutor : MonoBehaviour
         }
         Debug.Log(globalTick + " ticks");
         //timeline.Output();
-        Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
+        //Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
+        if (player1Active.Count == 0 && player0Active.Count >= 1)
+        {
+            Debug.Log("Player won!");
+            PlayerData data = DataSerialization.DeserializeStaticPlayerData(
+                System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
+            if (reader.stageId > data.currentStage)
+            {
+                Debug.Log("Level Cleared! Campaign progressed!");
+                data.currentStage = reader.stageId;
+                string jsonOutput = DataSerialization.SerializeStaticPlayerData(data);
+                System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);
+            }
+        }
+        else
+        {
+            Debug.Log("Player lost!");
+        }
     }
 
     public void StepUp()
