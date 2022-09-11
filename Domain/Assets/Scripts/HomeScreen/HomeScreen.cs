@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class HomeScreen : MonoBehaviour
 {
+    //Pages
+    public CampaignManager campaignHandler;
     public CollectionManager collectionManager;
     public SummonManager summonManager;
     public UnitProfileDisplay unitDisplay;
     public DismissalManager dismissalManager;
-    public ResourceManager resourceManager;
+    public TowerManager towerManager;
+    //Overlays
     public ReplayHandler replayUI;
 
     public UDListScriptableObject uDListSO;
@@ -35,17 +38,17 @@ public class HomeScreen : MonoBehaviour
             case "Home":
                 return this.gameObject;
             case "Campaign":
-                return null;
+                return campaignHandler.gameObject;
             case "Altar":
                 return dismissalManager.gameObject;
-            case "Claim":
-                return resourceManager.gameObject;
             case "Summon":
                 return summonManager.gameObject;
             case "Collection":
                 return collectionManager.gameObject;
             case "Unit":
                 return unitDisplay.gameObject;
+            case "Tower":
+                return towerManager.gameObject;
             case "Replay":
                 return replayUI.gameObject;
             default:
@@ -76,8 +79,9 @@ public class HomeScreen : MonoBehaviour
     public void DisplayUnit(UnitIndividualData individualData)
     {
         //Debug.Log(individualData.unitId);
-        unitDisplay.gameObject.SetActive(true);
+        
         unitDisplay.SetUnit(individualData);
-        collectionManager.gameObject.SetActive(false);
+
+        ChangePage("Unit");
     }
 }

@@ -6,11 +6,24 @@ using TMPro;
 public class ResourceManager : MonoBehaviour
 {
     public ResourceHandler resourceHandler;
+    public TextMeshProUGUI stageRewardText;
     public TextMeshProUGUI availableText;
 
     public System.DateTime dateTime;
-    private float goldPerMin = 12.5f;
-    private float essencePerMin = 19;
+
+    private const float baseGPM = 12.5f;
+    private const float baseEPM = 19;
+
+    private float goldPerMin;
+    public float GoldPerMin { get { return goldPerMin; }
+        set { goldPerMin = value; DisplayStageReward(); } }
+
+    public float essencePerMin;
+    public float EssencePerMin
+    {
+        get { return essencePerMin; }
+        set { essencePerMin = value; DisplayStageReward(); }
+    }
 
     float elapsed = 0;
     
@@ -22,6 +35,9 @@ public class ResourceManager : MonoBehaviour
 
     private void OnEnable()
     {
+        //FIXME
+        //DEPENDENT ON HANDLER RUNNING BEFORE
+        SetStageReward();
         DisplayAvailableReward();
     }
 
@@ -40,8 +56,8 @@ public class ResourceManager : MonoBehaviour
     {
         (int, int, int, float, float) reward = CalcReward();
 
-        resourceHandler.playerData.gold += reward.Item1;
-        resourceHandler.playerData.essence += reward.Item2;
+        resourceHandler.ChangeGoldAmount(reward.Item1);
+        resourceHandler.ChangeEssenceAmount(reward.Item2);
         resourceHandler.playerData.lastClaim = (System.DateTime.UtcNow.AddSeconds(-reward.Item3)).ToString();
         resourceHandler.playerData.overflowGold = reward.Item4;
         resourceHandler.playerData.overflowEssence = reward.Item5;
@@ -70,6 +86,23 @@ public class ResourceManager : MonoBehaviour
         //Debug.Log(overflowGold);
 
         return ((int)(outputGold), (int)(outputEssence), overflow, overflowGold, overflowEssence);
+    }
+
+    public void SetStageReward()
+    {
+        float coefficient = .5f;
+        GoldPerMin = baseGPM + baseGPM * (resourceHandler.playerData.currentStage + 1) * coefficient;
+        EssencePerMin = baseEPM + baseEPM * (resourceHandler.playerData.currentStage + 1) * coefficient;
+    }
+
+    public void DisplayStageReward()
+    {
+        /*
+        Gold/Min: 12.5
+        Essence/Min: 19
+        */
+
+        stageRewardText.text = $"Gold/Min: {GoldPerMin}\nEssence/Min: {EssencePerMin}\nCurrent Stage {resourceHandler.playerData.currentStage}";
     }
 
     public void DisplayAvailableReward()

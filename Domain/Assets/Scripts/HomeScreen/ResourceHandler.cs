@@ -5,6 +5,8 @@ using UnityEngine;
 public class ResourceHandler : MonoBehaviour
 {
     public PlayerData playerData;
+    public WalletDisplay wallet;
+
     // Start is called before the first frame update
 
     private void Awake()
@@ -33,5 +35,17 @@ public class ResourceHandler : MonoBehaviour
     {
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json",
                 DataSerialization.SerializeStaticPlayerData(playerData));
+    }
+
+    public void ChangeGoldAmount(int deltaG)
+    {
+        playerData.gold += deltaG;
+        wallet?.UpdateWalletDisplay();
+    }
+
+    public void ChangeEssenceAmount(int deltaE)
+    {
+        playerData.essence += deltaE;
+        wallet?.UpdateWalletDisplay();
     }
 }

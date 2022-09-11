@@ -80,10 +80,10 @@ public class MessengerReader : MonoBehaviour
         }
         else if (storage.replayRecords.Count >= 20)
         {
-            storage.replayRecords.RemoveAt(0);
+            storage.replayRecords.RemoveAt(storage.replayRecords.Count - 1);
         }
 
-        storage.replayRecords.Add(new ReplayRecord(record, UnityEngine.Random.state));
+        storage.replayRecords.Insert(0, new ReplayRecord(record, UnityEngine.Random.state));
 
         string jsonOutput = DataSerialization.SerializeData(storage);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);
