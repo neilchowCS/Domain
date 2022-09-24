@@ -28,10 +28,12 @@ public class Tiler : MonoBehaviour
 
             float initX = -5.249f;
             float distX = -5.249f - (-3.749f);
+            //1.5
 
             float initZ1 = -4.763f;
             float initZ2 = -3.897f;
             float distZ = -4.763f - (-3.031f);
+            //1.732
 
             for (int i = 0; i < column; i++)
             {
@@ -52,6 +54,32 @@ public class Tiler : MonoBehaviour
             }
             
         }
+
+        string s = "";
+        for (int i = 0; i < output.Count; i++)
+        {
+            s += $"map[{i}].connections = new() {{ ";
+            List<int> list = new();
+            for (int j = 0; j < output.Count; j++)
+            {
+                if (j != i && Vector3.Distance(output[i].transform.position, output[j].transform.position) < 2)
+                {
+                    list.Add(j);
+                }
+            }
+
+            while (list.Count > 1)
+            {
+                s += $" {list[0]},";
+                list.RemoveAt(0);
+            }
+            s += $" {list[0]} }}; \n";
+        }
+
+        Debug.Log(s);
+
+
+
         return output;
     }
 

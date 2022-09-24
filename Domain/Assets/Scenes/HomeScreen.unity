@@ -2073,8 +2073,6 @@ GameObject:
   - component: {fileID: 255196522}
   - component: {fileID: 255196523}
   - component: {fileID: 255196524}
-  - component: {fileID: 255196525}
-  - component: {fileID: 255196526}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -2149,30 +2147,6 @@ MonoBehaviour:
     lastClaim: 
     currentStage: 0
   wallet: {fileID: 763817537}
---- !u!114 &255196525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255196520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74bf5c6abf07f42e3b040647c59e594a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &255196526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 255196520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4780ce59a8a049bbb9a5e6b86e2d384, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &256012785
 GameObject:
   m_ObjectHideFlags: 0
