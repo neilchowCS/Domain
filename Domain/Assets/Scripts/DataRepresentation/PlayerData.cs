@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
+    public int playerId;
     public int gold;
     public int essence;
     public float overflowGold;
@@ -19,9 +20,10 @@ public class PlayerData
 
     }
 
-    public PlayerData(int gold, int essence, int promoStones, string lastClaim,
+    public PlayerData(int playerId, int gold, int essence, int promoStones, string lastClaim,
         float ovfG, float ovfE, int cStage)
     {
+        this.playerId = playerId;
         this.gold = gold;
         this.essence = essence;
         promotionStones = promoStones;
