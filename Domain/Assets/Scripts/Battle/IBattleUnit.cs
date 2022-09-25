@@ -8,6 +8,7 @@ public interface IBattleUnit : IBattleObject
     public UnitRuntimeData UnitData { get; set; }
     public BattleUnitActions Actions { get; set; }
 
+    public float Timeline { get; set; }
     public Vector3 Position { get; set; }
 
     public int CurrentTile { get; set; }

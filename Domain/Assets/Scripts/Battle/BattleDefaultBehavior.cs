@@ -86,7 +86,7 @@ namespace BattleBehaviorExtension
         public static void MoveTowardsNext(this IBattleUnit unit)
         {
             unit.Position = Vector3.MoveTowards(unit.Position, unit.Executor.mapGraph[unit.TargetTile].Position,
-                unit.UnitData.unitMoveSpeed.Value / TickSpeed.ticksPerSecond);
+                TickSpeed.defaultActionSpeed / TickSpeed.ticksPerSecond);
             if (Vector3.Distance(unit.Position, unit.Executor.mapGraph[unit.CurrentTile].Position)
                 < Vector3.Distance(unit.Position, unit.Executor.mapGraph[unit.TargetTile].Position))
             {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class BattleExecutor : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class BattleExecutor : MonoBehaviour
 
     public List<MapVertex> mapGraph;
 
+    public int maxTimeline = 100;
+    //public float threshhold = 40;
+
     protected int globalObjectId;
     /// <summary>
     /// Sets global object ID and increments it.
@@ -31,6 +35,7 @@ public class BattleExecutor : MonoBehaviour
         return globalObjectId++;
     }
 
+    public List<IBattleUnit> activeUnits;
     public List<IBattleUnit> player0Active;
     public List<IBattleUnit> player1Active;
     public List<IBattleUnit> player0Dead;
@@ -82,6 +87,10 @@ public class BattleExecutor : MonoBehaviour
     public void StepUp()
     {
         eventHandler.OnTickUp();
+
+
+
+
         CleanUp();
     }
 
@@ -138,9 +147,31 @@ public class BattleExecutor : MonoBehaviour
                     reader.record.team1Position[i]));
             }
         }
+
+        activeUnits = Enumerable.Concat(player0Active, player1Active).ToList();
+        activeUnits.OrderByDescending(o => o.UnitData.unitSpeed);
+        InitializeTimeline();
     }
 
-    
+    public void InitializeTimeline()
+    {
+        if (activeUnits == null)
+        {
+            Debug.Log("ERROR: INSTANTIATE UNITS BEFORE TIMELINE");
+            return;
+        }
+
+        float max = activeUnits[0].UnitData.unitSpeed.Value;
+
+        foreach (IBattleUnit unit in activeUnits)
+        {
+            if (max != 0)
+            {
+                unit.Timeline = maxTimeline -
+                    (unit.UnitData.unitSpeed.Value / max * maxTimeline);
+            }
+        }
+    }
 
     protected void CleanUp()
     {

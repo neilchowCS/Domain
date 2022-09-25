@@ -22,11 +22,13 @@ public class UnitRuntimeData
     public AttributeFloat unitAttackSpeed;
     public float ticksPerAttack { get; private set; }
     public AttributeFloat unitRange;
-    public AttributeFloat unitMoveSpeed;
+    public AttributeInt unitSpeed;
     public AttributeInt unitMaxMana;
     public AttributeInt unitTickPerMana;
     public AttributeFloat unitCrit;
     public AttributeFloat unitCritChance;
+
+    public AttributeFloat unitRecovery;
 
     public UnitRuntimeData((UnitDataScriptableObject, UnitIndividualData) compositeData)
     {
@@ -42,11 +44,13 @@ public class UnitRuntimeData
         unitMDefense = new AttributeInt((int)(baseData.baseMDefense * levelMultiplier));
         unitAttackSpeed = new AttributeFloat(baseData.baseAttackSpeed);
         unitRange = new AttributeFloat(baseData.baseRange);
-        unitMoveSpeed = new AttributeFloat(baseData.baseMoveSpeed);
+        unitSpeed = new AttributeInt((int)(baseData.baseSpeed * levelMultiplier));
         unitMaxMana = new AttributeInt(baseData.baseMaxMana);
         unitTickPerMana = new AttributeInt(baseData.baseTickPerMana);
         unitCrit = new AttributeFloat(baseData.baseCrit);
         unitCritChance = new AttributeFloat(baseData.baseCritChance);
+
+        unitRecovery = new AttributeFloat(baseData.baseMovementRecovery);
 
         ticksPerAttack = TickSpeed.ticksPerSecond / unitAttackSpeed.Value;
         armorReduction = Mathf.Pow(0.25f, unitDefense.Value / (levelMultiplier * 100));

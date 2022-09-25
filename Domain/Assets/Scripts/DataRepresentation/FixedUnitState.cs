@@ -10,7 +10,7 @@ public class FixedUnitState
     public readonly int mDefense;
     public readonly float attackSpeed;
     public readonly float range;
-    public readonly float moveSpeed;
+    public readonly float speed;
     public readonly int maxMana;
     public readonly int tickPerMana;
     public readonly float crit;
@@ -24,7 +24,7 @@ public class FixedUnitState
         mDefense = unit.UnitData.unitMDefense.Value;
         attackSpeed = unit.UnitData.unitAttackSpeed.Value;
         range = unit.UnitData.unitRange.Value;
-        moveSpeed = unit.UnitData.unitMoveSpeed.Value;
+        speed = unit.UnitData.unitSpeed.Value;
         maxMana = unit.UnitData.unitMaxMana.Value;
         tickPerMana = unit.UnitData.unitTickPerMana.Value;
         crit = unit.UnitData.unitCrit.Value;

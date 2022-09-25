@@ -14,6 +14,7 @@ public class BattleUnit : BattleObject, IBattleUnit
 
     public BattleUnitActions Actions { get; set; }
 
+    public float Timeline { get; set; }
     public Vector3 Position { get; set; }
 
     public int CurrentTile { get; set; }
@@ -44,6 +45,7 @@ public class BattleUnit : BattleObject, IBattleUnit
         StatusList = new();
 
         CurrentTile = tileId;
+        Timeline = 0;
         Position = Executor.mapGraph[CurrentTile].Position;
         Executor.mapGraph[CurrentTile].occupied = true;
     }

@@ -89,6 +89,10 @@ public class ObservedBattleExecutor : BattleExecutor
                     reader.record.team1Position[i]));
             }
         }
+
+        activeUnits = Enumerable.Concat(player0Active, player1Active).ToList();
+        activeUnits.OrderByDescending(o => o.UnitData.unitSpeed);
+        InitializeTimeline();
     }
 
     public void InitProfile(IBattleUnit unit)

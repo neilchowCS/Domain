@@ -17,12 +17,14 @@ public class UnitDataScriptableObject : ScriptableObject
     public int baseMDefense;
     public float baseAttackSpeed;
     public float baseRange;
-    public float baseMoveSpeed;
+    public int baseSpeed;
     public int baseStartingMana;
     public int baseMaxMana;
     public int baseTickPerMana;
     public float baseCrit;
     public float baseCritChance;
+
+    public float baseMovementRecovery;
 
     public EnabledEvents eventSubscriptions;
 

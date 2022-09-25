@@ -12,6 +12,8 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     //public override ObjectBehavior Behavior { get; set; }
     public BattleUnitActions Actions { get; set; }
 
+    [field: SerializeField]
+    public float Timeline { get; set; }
     public Vector3 Position
     {
         get => this.transform.position;

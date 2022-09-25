@@ -52,7 +52,7 @@ public class ReplayUnit : ReplayObject
         }
         if (moving)
         {
-            float MoveSpeed = unitData.unitMoveSpeed.Value;
+            float MoveSpeed = 0;//unitData.unitMoveSpeed.Value;
             this.transform.position = Vector3.MoveTowards(this.transform.position,
                 destination, Time.deltaTime * MoveSpeed);
         }
