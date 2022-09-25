@@ -173,10 +173,10 @@ public class UnitBehavior : ObjectBehavior
     {
         if (deadUnit == unit)
         {
-            unit.CurrentTile.occupied = false;
-            if (unit.TargetTile != null)
+            unit.Executor.mapGraph[unit.CurrentTile].occupied = false;
+            if (unit.TargetTile != -1)
             {
-                unit.TargetTile.occupied = false;
+                unit.Executor.mapGraph[unit.TargetTile].occupied = false;
             }
             if (unit.Side == 0)
             {

@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713373207}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53b4a7e02ee894638b482225180e3333, type: 3}
   m_Name: 
@@ -5847,6 +5847,11 @@ MonoBehaviour:
   reader: {fileID: 1969906534}
   globalTick: 0
   replayManager: {fileID: 1969906531}
+  profiles: []
+  side0Profiles: []
+  side1Profiles: []
+  side0ProfilePositions: []
+  side1ProfilePositions: []
 --- !u!114 &1969906534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5864,6 +5869,7 @@ MonoBehaviour:
     team0Position: 
     team1Data: []
     team1Position: 
+  stageId: 0
   hasRead: 0
   replayFlag: 0
 --- !u!1 &1974490959

@@ -19,7 +19,7 @@ public class BattleExecutor : MonoBehaviour
     public Factory factory;
     public ReplayManager replayManager;
 
-    public BattleSpace battleSpace;
+    public List<MapVertex> mapGraph;
 
     protected int globalObjectId;
     /// <summary>
@@ -99,7 +99,7 @@ public class BattleExecutor : MonoBehaviour
         globalObjectId = 0;
 
         //timeline = new Timeline(this);
-        battleSpace = new BattleSpace();
+        mapGraph = MapGraph.GetMap();
 
         player0Active = new List<IBattleUnit>();
         player0Dead = new List<IBattleUnit>();

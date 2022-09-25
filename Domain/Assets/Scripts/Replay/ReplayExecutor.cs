@@ -22,11 +22,13 @@ public class ReplayExecutor : MonoBehaviour
     private float spawnAnimDuration = 1.5f;
     //public bool replayRun = false;
 
+    /*
     void Awake()
     {
         tiles = tiler.CreateTiles();
         this.enabled = false;
     }
+    */
 
     // Update is called once per frame
 

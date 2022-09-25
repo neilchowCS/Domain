@@ -16,8 +16,8 @@ public class BattleUnit : BattleObject, IBattleUnit
 
     public Vector3 Position { get; set; }
 
-    public BattleTile CurrentTile { get; set; }
-    public BattleTile TargetTile { get; set; }
+    public int CurrentTile { get; set; }
+    public int TargetTile { get; set; }
 
     public IBattleUnit CurrentTarget { get; set; } = null;
 
@@ -43,8 +43,8 @@ public class BattleUnit : BattleObject, IBattleUnit
         this.UnitData = unitData;
         StatusList = new();
 
-        CurrentTile = exec.battleSpace.tiles[tileId];
-        Position = CurrentTile.Position;
-        CurrentTile.occupied = true;
+        CurrentTile = tileId;
+        Position = Executor.mapGraph[CurrentTile].Position;
+        Executor.mapGraph[CurrentTile].occupied = true;
     }
 }

@@ -46,7 +46,7 @@ public class Factory
         Debug.Log(tileId);
         ObservedUnit output =
             GameObject.Instantiate(executor.replayManager.replayUnitPrefabs[data.baseData.unitId],
-            executor.battleSpace.tiles[tileId].Position,
+            executor.mapGraph[tileId].Position,
             (side == 0 ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0)));
         ObservedUnitConstructor(output, side, data, tileId);
         output.Behavior = GetUnitBehavior(output);
@@ -98,8 +98,8 @@ public class Factory
         unit.UnitData = unitData;
         unit.StatusList = new();
 
-        unit.CurrentTile = executor.battleSpace.tiles[tileId];
-        unit.CurrentTile.occupied = true;
+        unit.CurrentTile = tileId;
+        executor.mapGraph[unit.CurrentTile].occupied = true;
     }
 
     public ObservedUnitActions GetObservedUnitActions(ObservedUnit unit)

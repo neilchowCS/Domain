@@ -10,8 +10,8 @@ public interface IBattleUnit : IBattleObject
 
     public Vector3 Position { get; set; }
 
-    public BattleTile CurrentTile { get; set; }
-    public BattleTile TargetTile { get; set; }
+    public int CurrentTile { get; set; }
+    public int TargetTile { get; set; }
 
     public IBattleUnit CurrentTarget { get; set; }
 
