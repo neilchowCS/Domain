@@ -98,8 +98,8 @@ public class Factory
         unit.UnitData = unitData;
         unit.StatusList = new();
 
-        unit.CurrentTile = tileId;
-        executor.mapGraph[unit.CurrentTile].occupied = true;
+        unit.Tile = tileId;
+        executor.mapGraph[unit.Tile].occupied = true;
     }
 
     public ObservedUnitActions GetObservedUnitActions(ObservedUnit unit)

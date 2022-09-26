@@ -38,29 +38,15 @@ public class UnitBehavior : ObjectBehavior
         {
             unit.TargetClosestEnemy();
         }
-        //if not moving, not attacking, and no target in range => initiate movement
-        if (!unit.IsMoving && unit.AttackState == AttackStates.idle)
+        //target can't be null because it is set at start of function
+        if (!unit.TargetInRange())
         {
-            //target can't be null because it is set at start of function
-            if (!unit.TargetInRange())
-            {
-                unit.TargetClosestEnemy();
-                unit.PrepareMovement();
-                if (unit.TargetTile != unit.CurrentTile)
-                {
-                    unit.IsMoving = true;
-                }
-            }
-        }
-        else if (unit.IsMoving)//move forward, set moving to false at arrival
-        {
+            unit.TargetClosestEnemy();
             unit.MoveTowardsNext();
-            if (unit.TileArrived())
-            {
-                unit.IsMoving = false;
-            }
+            unit.Timeline = unit.Executor.maxTimeline - (unit.Executor.maxTimeline * unit.UnitData.unitRecovery.Value);
         }
     }
+
 
     /// <summary>
     /// Handles movement during OnTickUp().
@@ -87,30 +73,15 @@ public class UnitBehavior : ObjectBehavior
     public virtual void TickUpAttack()
     {
         //Initiating attack should be in foreswing
-        if (unit.AttackState == AttackStates.idle)
+        if (unit.UnitData.mana >= unit.UnitData.unitMaxMana.Value)
         {
-            if (unit.UnitData.mana >= unit.UnitData.unitMaxMana.Value)
-            {
-                UseAbility(1);
-            }
-            else if (!unit.IsMoving && unit.Executor.globalTick - unit.TickOfLastAttack
-                >= unit.UnitData.ticksPerAttack && unit.TargetInRange())
-            {
-                SpawnProjectile(0);
-                unit.TickOfLastAttack += unit.UnitData.ticksPerAttack;
-                unit.AttackState = AttackStates.inBackswing;
-                unit.AttackTimer = unit.UnitData.baseData.attackDataList[0].backswing;
-            }
+            UseAbility(1);
+            unit.Timeline = unit.Executor.maxTimeline;
         }
-        else if (unit.AttackState == AttackStates.inBackswing)
+        else if (unit.TargetInRange())
         {
-            //FIXME check order
-            unit.AttackTimer--;
-            if (unit.AttackTimer <= 0)
-            {
-                unit.AttackTimer = 0;
-                unit.AttackState = AttackStates.idle;
-            }
+            SpawnProjectile(0);
+            unit.Timeline = unit.Executor.maxTimeline;
         }
     }
 
@@ -119,8 +90,6 @@ public class UnitBehavior : ObjectBehavior
         SpawnProjectile(i);
         //unit.UnitData.mana = 0;
         unit.Actions.SetMana(0);
-        unit.AttackState = AttackStates.inBackswing;
-        unit.AttackTimer = unit.UnitData.baseData.attackDataList[i].backswing;
     }
 
     public virtual void SpawnProjectile(int i)
@@ -145,7 +114,8 @@ public class UnitBehavior : ObjectBehavior
         if (damageTarget == unit)
         {
             unit.Actions.TakeDamage(damageSource, amount);
-        }else if (damageSource == unit)
+        }
+        else if (damageSource == unit)
         {
             unit.Actions.DealtDamage(amount);
         }
@@ -173,11 +143,8 @@ public class UnitBehavior : ObjectBehavior
     {
         if (deadUnit == unit)
         {
-            unit.Executor.mapGraph[unit.CurrentTile].occupied = false;
-            if (unit.TargetTile != -1)
-            {
-                unit.Executor.mapGraph[unit.TargetTile].occupied = false;
-            }
+            unit.Executor.mapGraph[unit.Tile].occupied = false;
+            unit.Executor.activeUnits.Remove(unit);
             if (unit.Side == 0)
             {
                 unit.Executor.player0Active.Remove(unit);

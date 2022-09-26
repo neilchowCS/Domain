@@ -41,7 +41,7 @@ namespace BattleBehaviorExtension
             Vector3 position1 = battleUnit.Position;
             Vector3 position2 = battleUnit.CurrentTarget.Position;
 
-            int currTile = battleUnit.CurrentTile;
+            int currTile = battleUnit.Tile;
 
             List<int> eligible = new();
 
@@ -63,41 +63,17 @@ namespace BattleBehaviorExtension
         }
 
         /// <summary>
-        /// sets target tile
-        /// adds to timeline
-        /// </summary>
-        public static void PrepareMovement(this IBattleUnit unit)
-        {
-            unit.TargetTile = unit.GetNextBattleTile();
-            if (unit.TargetTile != unit.CurrentTile)
-            {
-                if (unit.Executor.mapGraph[unit.TargetTile].occupied)
-                {
-                    Debug.Log("Uh oh!");
-                }
-
-                unit.Executor.mapGraph[unit.TargetTile].occupied = true;
-            }
-        }
-
-        /// <summary>
         /// Movement loop
         /// </summary>
         public static void MoveTowardsNext(this IBattleUnit unit)
         {
-            unit.Position = Vector3.MoveTowards(unit.Position, unit.Executor.mapGraph[unit.TargetTile].Position,
-                TickSpeed.defaultActionSpeed / TickSpeed.ticksPerSecond);
-            if (Vector3.Distance(unit.Position, unit.Executor.mapGraph[unit.CurrentTile].Position)
-                < Vector3.Distance(unit.Position, unit.Executor.mapGraph[unit.TargetTile].Position))
-            {
-                unit.Executor.mapGraph[unit.CurrentTile].occupied = false;
-                unit.CurrentTile = unit.TargetTile;
-            }
-        }
+            int i = unit.Tile;
+            unit.Executor.mapGraph[unit.Tile].occupied = false;
 
-        public static bool TileArrived(this IBattleUnit unit)
-        {
-            return (Vector3.Distance(unit.Position, unit.Executor.mapGraph[unit.TargetTile].Position) < 0.000001f);
+            unit.Tile = unit.GetNextBattleTile();
+            unit.Executor.mapGraph[unit.Tile].occupied = true;
+
+            unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
         }
     }
 }

@@ -17,18 +17,11 @@ public class BattleUnit : BattleObject, IBattleUnit
     public float Timeline { get; set; }
     public Vector3 Position { get; set; }
 
-    public int CurrentTile { get; set; }
-    public int TargetTile { get; set; }
+    public int Tile { get; set; }
 
     public IBattleUnit CurrentTarget { get; set; } = null;
 
     public bool NeedsCleaning { get; set; } = false;
-
-    public bool IsMoving { get; set; } = false;
-
-    public AttackStates AttackState { get; set; } = AttackStates.idle;
-    public float TickOfLastAttack { get; set; } = 0;
-    public float AttackTimer { get; set; } = 0;
 
     public int ManaCounter { get; set; } = 0;
 
@@ -44,9 +37,9 @@ public class BattleUnit : BattleObject, IBattleUnit
         this.UnitData = unitData;
         StatusList = new();
 
-        CurrentTile = tileId;
+        Tile = tileId;
         Timeline = 0;
-        Position = Executor.mapGraph[CurrentTile].Position;
-        Executor.mapGraph[CurrentTile].occupied = true;
+        Position = Executor.mapGraph[Tile].Position;
+        Executor.mapGraph[Tile].occupied = true;
     }
 }

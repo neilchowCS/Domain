@@ -24,18 +24,11 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         }
     }
 
-    public int CurrentTile { get; set; }
-    public int TargetTile { get; set; }
+    public int Tile { get; set; }
 
     public IBattleUnit CurrentTarget { get; set; } = null;
 
     public bool NeedsCleaning { get; set; } = false;
-
-    public bool IsMoving { get; set; } = false;
-
-    public AttackStates AttackState { get; set; } = AttackStates.idle;
-    public float TickOfLastAttack { get; set; } = 0;
-    public float AttackTimer { get; set; } = 0;
 
     public int ManaCounter { get; set; } = 0;
 

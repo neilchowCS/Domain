@@ -11,17 +11,11 @@ public interface IBattleUnit : IBattleObject
     public float Timeline { get; set; }
     public Vector3 Position { get; set; }
 
-    public int CurrentTile { get; set; }
-    public int TargetTile { get; set; }
+    public int Tile { get; set; }
 
     public IBattleUnit CurrentTarget { get; set; }
 
     public bool NeedsCleaning { get; set; }
-    public bool IsMoving { get; set; }
-
-    public AttackStates AttackState { get; set; }
-    public float TickOfLastAttack { get; set; }
-    public float AttackTimer { get; set; }
 
     public int ManaCounter { get; set; }
 

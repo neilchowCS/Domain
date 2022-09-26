@@ -18,7 +18,5 @@ public class AliceBehavior : UnitBehavior
         }
         SpawnProjectile(i);
         unit.Actions.SetMana(0);
-        unit.AttackState = AttackStates.inBackswing;
-        unit.AttackTimer = unit.UnitData.baseData.attackDataList[i].backswing;
     }
 }
