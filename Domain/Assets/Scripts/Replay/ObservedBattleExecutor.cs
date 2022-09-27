@@ -11,6 +11,9 @@ public class ObservedBattleExecutor : BattleExecutor
     public List<Vector3> side0ProfilePositions;
     public List<Vector3> side1ProfilePositions;
 
+    private float timer = 0;
+    private const float framerate = .5f;
+
     public override void Start()
     {
         //Instantiate(AudioSingleton.PrefabAudio);
@@ -54,17 +57,22 @@ public class ObservedBattleExecutor : BattleExecutor
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (ContinueRun())
+        timer += Time.deltaTime;
+        if (timer >= framerate)
         {
-            StepUp();
-        }
-        else
-        {
-            Debug.Log(globalTick + " ticks");
-            Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
-            this.enabled = false;
+            if (ContinueRun())
+            {
+                StepUp();
+            }
+            else
+            {
+                Debug.Log(globalTick + " ticks");
+                Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
+                this.enabled = false;
+            }
+            timer = 0;
         }
     }
 

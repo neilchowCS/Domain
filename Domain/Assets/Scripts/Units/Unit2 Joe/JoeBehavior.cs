@@ -17,11 +17,11 @@ public class JoeBehavior : UnitBehavior
             switch (i)
             {
                 case 0:
-                    unit.Executor.factory.NewProjectile(unit, i, unit.CurrentTarget);
+                    //unit.Executor.factory.NewProjectile(unit, i, unit.CurrentTarget);
                     //x = new BattleProjectile(unit.Executor, unit.Side, unit, i, unit.CurrentTarget);
                     break;
                 case 1:
-                    unit.Executor.factory.NewProjectile(unit, i, unit.GetAoeLocation(3, 0));
+                    //unit.Executor.factory.NewProjectile(unit, i, unit.GetAoeLocation(3, 0));
                     //x = new JoeSkillBP(unit.Executor, unit.Side, unit, i, unit.GetAoeLocation(3, 0));
                     break;
             }

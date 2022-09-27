@@ -59,12 +59,12 @@ public class BattleUnitActions
     public virtual void NewProjectile(IBattleUnit source,
         int index, IBattleUnit target)
     {
-        iUnit.Executor.factory.NewProjectile(source, index, target);
+        
     }
 
     public virtual void NewProjectile(IBattleUnit source,
         int index, Vector3 target)
     {
-        iUnit.Executor.factory.NewProjectile(source, index, target);
+        
     }
 }

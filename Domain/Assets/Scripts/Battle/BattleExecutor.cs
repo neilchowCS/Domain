@@ -25,6 +25,8 @@ public class BattleExecutor : MonoBehaviour
     public int maxTimeline = 100;
     //public float threshhold = 40;
 
+    public Queue<List<ISubcommand>> commandQueue;
+
     protected int globalObjectId;
     /// <summary>
     /// Sets global object ID and increments it.

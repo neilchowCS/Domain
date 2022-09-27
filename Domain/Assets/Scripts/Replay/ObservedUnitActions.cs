@@ -38,12 +38,12 @@ public class ObservedUnitActions : BattleUnitActions
     public override void NewProjectile(IBattleUnit source,
         int index, IBattleUnit target)
     {
-        unit.Executor.factory.NewObservedProjectile(source, index, target);
+        //unit.Executor.factory.NewObservedProjectile(source, index, target);
     }
 
     public override void NewProjectile(IBattleUnit source,
         int index, Vector3 target)
     {
-        unit.Executor.factory.NewObservedProjectile(source, index, target);
+        //unit.Executor.factory.NewObservedProjectile(source, index, target);
     }
 }
