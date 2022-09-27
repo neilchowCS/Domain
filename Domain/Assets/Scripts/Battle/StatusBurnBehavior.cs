@@ -39,8 +39,10 @@ public class StatusBurnBehavior : StatusBehavior
         if (status.Source != null)
         {
             Debug.Log((int)status.StatusData.value0);
-            status.Executor.DealDamage(status.Source, status.Host,
-                (int)status.StatusData.value0, DamageType.special);
+            status.Executor.commandQueue.Enqueue(new() {
+                new DamageCommand(status.Source, status.Host,
+                (int)status.StatusData.value0, DamageType.special)
+            });
         }
     }
 }

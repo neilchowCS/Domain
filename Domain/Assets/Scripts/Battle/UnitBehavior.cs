@@ -96,6 +96,10 @@ public class UnitBehavior : ObjectBehavior
     {
         if (unit.CurrentTarget != null)
         {
+            unit.Executor.commandQueue.Enqueue(new() {
+                new DamageCommand(unit, unit.CurrentTarget,
+                (int)(unit.UnitData.unitAttack.Value * unit.UnitData.baseData.attackDataList[i].value0),
+                DamageType.normal) });
             unit.Actions.NewProjectile(unit, i, unit.CurrentTarget);
         }
     }

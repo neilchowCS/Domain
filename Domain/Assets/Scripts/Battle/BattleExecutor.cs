@@ -112,8 +112,16 @@ public class BattleExecutor : MonoBehaviour
 
         activeUnits = activeUnits.OrderBy(o => o.Timeline).ToList();
 
-        CleanUp();
+        while (commandQueue.Count > 0)
+        {
+            foreach (ISubcommand subcommand in commandQueue.Peek())
+            {
+                subcommand.Execute();
+            }
+            commandQueue.Dequeue();
+        }
 
+        CleanUp();
 
         globalTick++;
     }
@@ -133,6 +141,8 @@ public class BattleExecutor : MonoBehaviour
 
         //timeline = new Timeline(this);
         mapGraph = MapGraph.GetMap();
+
+        commandQueue = new();
 
         player0Active = new List<IBattleUnit>();
         player0Dead = new List<IBattleUnit>();
@@ -259,30 +269,6 @@ public class BattleExecutor : MonoBehaviour
             return player1Active;
         }
         return player0Active;
-    }
-
-    /// <summary>
-    /// Raises DealDamage event.
-    /// Deals damage equal to unit's attack to damageTarget.
-    /// </summary>
-    public void DealDamage(IBattleUnit damageSource, IBattleUnit damageTarget,
-        int amount, DamageType damageType)
-    {
-        if (damageSource == null)
-        {
-            Debug.Log("damage error!");
-        }
-
-        if (damageType == DamageType.normal)
-        {
-            if (damageTarget.UnitData.armorReduction < 1)
-            {
-                amount = (int)(amount * damageTarget.UnitData.armorReduction);
-            }
-        }
-
-        //damage reduction calcs here
-        eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
     }
 
     public void ApplyHeal(IBattleUnit healSource, IBattleUnit healTarget, int amount)
