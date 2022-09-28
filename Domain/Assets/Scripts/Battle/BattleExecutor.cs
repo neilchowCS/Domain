@@ -292,4 +292,9 @@ public class BattleExecutor : MonoBehaviour
 
         eventHandler.OnHealApplied(healSource, healTarget, amount);
     }
+
+    public virtual void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType)
+    {
+
+    }
 }

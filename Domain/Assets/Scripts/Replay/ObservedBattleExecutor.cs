@@ -172,4 +172,27 @@ public class ObservedBattleExecutor : BattleExecutor
             side1Profiles[i].bar.fillAmount = side1Profiles[i].damageInt / (float)side1DamageSum;
         }
     }
+
+    public override void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType)
+    {
+        DamageNumber x = Instantiate(replayManager.damageNumber,
+                replayManager.screenOverlayCanvas.transform, false);
+        x.transform.position = Camera.main.WorldToScreenPoint(unitPosition) + new Vector3(0, 50, 0);
+
+
+        if (damageType == DamageType.normal)
+        {
+            x.textMesh.text = "-" + value;
+        }
+        else if (damageType == DamageType.special)
+        {
+            x.textMesh.text = "-" + value;
+            x.textMesh.color = new Color32(143, 0, 254, 255);
+        }
+        else if (damageType == DamageType.healing)
+        {
+            x.textMesh.text = "+" + value;
+            x.textMesh.color = Color.green;
+        }
+    }
 }

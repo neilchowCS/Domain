@@ -60,19 +60,21 @@ public class UnitBehavior : ObjectBehavior
 
     public virtual void TickUpAttack()
     {
-        unit.Executor.commandQueue.Enqueue(new()
-        {
-            new ManaCommand(unit, 1, false)
-        });
-
         if (unit.TargetInRange())
         {
+            unit.Executor.commandQueue.Enqueue(new()
+            {
+                new ManaCommand(unit, 1, false)
+            });
+
             if (unit.UnitData.mana >= unit.UnitData.unitMaxMana.Value)
             {
+                unit.Actions.NewProjectile(1);
                 QueueSkillCommand();
             }
             else
             {
+                unit.Actions.NewProjectile(0);
                 QueueAttackCommand();
             }
             unit.Timeline = unit.Executor.maxTimeline;
@@ -98,14 +100,6 @@ public class UnitBehavior : ObjectBehavior
         } );
     }
 
-    public virtual void SpawnProjectile(int i)
-    {
-        if (unit.CurrentTarget != null)
-        {
-            unit.Actions.NewProjectile(unit, i, unit.CurrentTarget);
-        }
-    }
-
     //********************* End OnTickUp ************************
 
     //********************* OnDamageDealt ************************
@@ -115,11 +109,11 @@ public class UnitBehavior : ObjectBehavior
     /// Checks if this is damageTarget.
     /// If true, raises modified TakeDamage event.
     /// </summary>
-    public override void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount)
+    public override void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType)
     {
         if (damageTarget == unit)
         {
-            unit.Actions.TakeDamage(damageSource, amount);
+            unit.Actions.TakeDamage(damageSource, amount, damageType);
         }
         else if (damageSource == unit)
         {

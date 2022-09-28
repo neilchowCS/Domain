@@ -18,5 +18,5 @@ public class UnitAttackDataScriptableObject : ScriptableObject
     public float value2;
     public float value3;
 
-    //public ObservedProjectile projectilePrefab;
+    public ObservedProjectile projectilePrefab;
 }

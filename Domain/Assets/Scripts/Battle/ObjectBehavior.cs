@@ -19,7 +19,7 @@ public class ObjectBehavior
 
     }
 
-    public virtual void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount)
+    public virtual void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType)
     {
         
     }

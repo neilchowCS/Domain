@@ -20,7 +20,7 @@ public class BattleUnitActions
     /// Checks if this is dead.
     /// If true, raises UnitDeath event.
     /// </summary>
-    public virtual void TakeDamage(IBattleUnit damageSource, int amount)
+    public virtual void TakeDamage(IBattleUnit damageSource, int amount, DamageType damageType)
     {
         iUnit.UnitData.health -= amount;
         iUnit.Executor.eventHandler.OnDamageTaken(iUnit, damageSource, amount);
@@ -51,8 +51,7 @@ public class BattleUnitActions
         
     }
 
-    public virtual void NewProjectile(IBattleUnit source,
-        int index, IBattleUnit target)
+    public virtual void NewProjectile(int index)
     {
         
     }

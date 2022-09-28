@@ -6,7 +6,7 @@ public class ObservedUnitActions : BattleUnitActions
 {
     private readonly ObservedUnit unit;
 
-    public ObservedUnitActions(ObservedUnit unit): base(unit)
+    public ObservedUnitActions(ObservedUnit unit) : base(unit)
     {
         this.unit = unit;
     }
@@ -17,15 +17,17 @@ public class ObservedUnitActions : BattleUnitActions
         unit.healthBar.RefreshFill();
     }
 
-    public override void TakeDamage(IBattleUnit damageSource, int amount)
+    public override void TakeDamage(IBattleUnit damageSource, int amount, DamageType damageType)
     {
-        base.TakeDamage(damageSource, amount);
+        base.TakeDamage(damageSource, amount, damageType);
         unit.healthBar.RefreshFill();
+        unit.Executor.CreateDamageNumber(unit.Position, amount, damageType);
     }
 
     public override void DealtDamage(int amount)
     {
         ((ObservedBattleExecutor)unit.Executor).UpdateProfileDamage(unit.GlobalObjectId, amount);
+
     }
 
     public override void SelfDeath()
@@ -35,10 +37,12 @@ public class ObservedUnitActions : BattleUnitActions
         //GameObject.Destroy(unit.GetGameObject());
     }
 
-    public override void NewProjectile(IBattleUnit source,
-        int index, IBattleUnit target)
+    public override void NewProjectile(int index)
     {
-        //unit.Executor.factory.NewObservedProjectile(source, index, target);
+        unit.Executor.factory.GetObservedProjectile(
+            unit.UnitData.baseData.attackDataList[index].projectilePrefab,
+            unit.Position, unit.CurrentTarget,
+            unit.UnitData.baseData.attackDataList[index].speed);
     }
 
     public override void NewProjectile(IBattleUnit source,

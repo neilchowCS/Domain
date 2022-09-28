@@ -151,5 +151,23 @@ public class Factory
         */
         return new BattleStatusActions(status);
     }
+    //***************** Observed Projectile *******************
 
+    public ObservedProjectile GetObservedProjectile(ObservedProjectile reference, Vector3 spawnPosition, IBattleUnit target, float speed)
+    {
+        ObservedProjectile output = GameObject.Instantiate(reference, spawnPosition, Quaternion.identity);
+        output.target = target;
+        output.unitTarget = true;
+        output.speed = speed;
+        return output;
+    }
+
+    public ObservedProjectile GetObservedProjectile(ObservedProjectile reference, Vector3 spawnPosition, Vector3 targetLocation, float speed)
+    {
+        ObservedProjectile output = GameObject.Instantiate(reference, spawnPosition, Quaternion.identity);
+        output.targetLocation = targetLocation;
+        output.unitTarget = false;
+        output.speed = speed;
+        return output;
+    }
 }

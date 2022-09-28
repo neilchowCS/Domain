@@ -9,7 +9,7 @@ public class JoeBehavior : UnitBehavior
     {
 
     }
-
+    /*
     public override void SpawnProjectile(int i)
     {
         if (unit.CurrentTarget != null)
@@ -27,4 +27,5 @@ public class JoeBehavior : UnitBehavior
             }
         }
     }
+    */
 }

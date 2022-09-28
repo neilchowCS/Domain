@@ -8,7 +8,7 @@ public class DoeBehavior : UnitBehavior
     {
 
     }
-
+    /*
     public override void SpawnProjectile(int i)
     {
         if (unit.CurrentTarget != null)
@@ -26,4 +26,5 @@ public class DoeBehavior : UnitBehavior
             }
         }
     }
+    */
 }

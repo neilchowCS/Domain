@@ -35,7 +35,7 @@ public class DamageCommand : ISubcommand
             }
 
             //damage reduction calcs here
-            damageSource.Executor.eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
+            damageSource.Executor.eventHandler.OnDamageDealt(damageSource, damageTarget, amount, damageType);
         }
     }
 }

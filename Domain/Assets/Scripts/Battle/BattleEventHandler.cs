@@ -34,7 +34,7 @@ public class BattleEventHandler
         executor.globalTick++;
     }
 
-    public delegate void DamageDealtEventHandler(IBattleUnit damageSource, IBattleUnit damageTarget, int amount);
+    public delegate void DamageDealtEventHandler(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType);
     /// <summary>
     /// EventHandler for OnDamageDealt().
     /// </summary>
@@ -45,11 +45,11 @@ public class BattleEventHandler
     /// <param name="damageSource"> Where is damage coming from </param>
     /// <param name="damageTarget"> What is taking damage </param>
     /// <param name="amount"> How much damage </param>
-    public virtual void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount)
+    public virtual void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType)
     {
         DamageDealtEventHandler handler = DamageDealt;
         //raise event
-        handler?.Invoke(damageSource, damageTarget, amount);
+        handler?.Invoke(damageSource, damageTarget, amount, damageType);
     }
 
     public delegate void DamageTakenEventHandler(IBattleUnit damageTarget, IBattleUnit damageSource, int amount);
