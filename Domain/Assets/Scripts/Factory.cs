@@ -43,7 +43,6 @@ public class Factory
 
     public virtual IBattleUnit NewObservedUnit(int side, UnitRuntimeData data, int tileId)
     {
-        Debug.Log(tileId);
         ObservedUnit output =
             GameObject.Instantiate(executor.replayManager.replayUnitPrefabs[data.baseData.unitId],
             executor.mapGraph[tileId].Position,
@@ -62,6 +61,7 @@ public class Factory
         }
         output.healthBar.parent = output;
         output.healthBar.ChangePosition();
+        output.healthBar.RefreshFill();
 
         return output;
     }

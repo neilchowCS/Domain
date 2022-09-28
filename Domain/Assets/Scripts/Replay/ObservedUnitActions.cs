@@ -14,13 +14,13 @@ public class ObservedUnitActions : BattleUnitActions
     public override void SetMana(int amount)
     {
         base.SetMana(amount);
-        unit.healthBar.manaFill.fillAmount = unit.UnitData.mana / (float)unit.UnitData.unitMaxMana.Value;
+        unit.healthBar.RefreshFill();
     }
 
     public override void TakeDamage(IBattleUnit damageSource, int amount)
     {
         base.TakeDamage(damageSource, amount);
-        unit.healthBar.healthFill.fillAmount = unit.UnitData.health / (float)unit.UnitData.unitMaxHealth.Value;
+        unit.healthBar.RefreshFill();
     }
 
     public override void DealtDamage(int amount)

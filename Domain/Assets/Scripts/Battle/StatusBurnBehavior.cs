@@ -40,7 +40,7 @@ public class StatusBurnBehavior : StatusBehavior
         {
             Debug.Log((int)status.StatusData.value0);
             status.Executor.commandQueue.Enqueue(new() {
-                new DamageCommand(status.Source, status.Host,
+                new DamageCommand(status.Source, new() { status.Host },
                 (int)status.StatusData.value0, DamageType.special)
             });
         }

@@ -16,20 +16,8 @@ public class UnitBehavior : ObjectBehavior
     //********************* OnTickUp ************************
     public override void OnTickUp()
     {
-        TickUpMana();
         TickUpMove();
         TickUpAttack();
-    }
-
-    public virtual void TickUpMana()
-    {
-        unit.ManaCounter++;
-        if (unit.ManaCounter >= unit.UnitData.unitTickPerMana.Value)
-        {
-            //unit.UnitData.mana++;
-            unit.Actions.ModifyMana(1);
-            unit.ManaCounter = 0;
-        }
     }
 
     public virtual void TickUpMove()
@@ -72,34 +60,48 @@ public class UnitBehavior : ObjectBehavior
 
     public virtual void TickUpAttack()
     {
-        //Initiating attack should be in foreswing
-        if (unit.UnitData.mana >= unit.UnitData.unitMaxMana.Value)
+        unit.Executor.commandQueue.Enqueue(new()
         {
-            UseAbility(1);
-            unit.Timeline = unit.Executor.maxTimeline;
-        }
-        else if (unit.TargetInRange())
+            new ManaCommand(unit, 1, false)
+        });
+
+        if (unit.TargetInRange())
         {
-            SpawnProjectile(0);
+            if (unit.UnitData.mana >= unit.UnitData.unitMaxMana.Value)
+            {
+                QueueSkillCommand();
+            }
+            else
+            {
+                QueueAttackCommand();
+            }
             unit.Timeline = unit.Executor.maxTimeline;
         }
     }
 
-    public virtual void UseAbility(int i)
+    public virtual void QueueAttackCommand()
     {
-        SpawnProjectile(i);
-        //unit.UnitData.mana = 0;
-        unit.Actions.SetMana(0);
+        unit.Executor.commandQueue.Enqueue(new() {
+            new DamageCommand(unit, new() { unit.CurrentTarget },
+            (int)(unit.UnitData.unitAttack.Value * unit.UnitData.baseData.attackDataList[0].value0),
+            DamageType.normal)
+        } );
+    }
+
+    public virtual void QueueSkillCommand()
+    {
+        unit.Executor.commandQueue.Enqueue(new() {
+            new DamageCommand(unit, new() { unit.CurrentTarget },
+            (int)(unit.UnitData.unitAttack.Value * unit.UnitData.baseData.attackDataList[1].value0),
+            DamageType.normal),
+            new ManaCommand(unit, -1, true)
+        } );
     }
 
     public virtual void SpawnProjectile(int i)
     {
         if (unit.CurrentTarget != null)
         {
-            unit.Executor.commandQueue.Enqueue(new() {
-                new DamageCommand(unit, unit.CurrentTarget,
-                (int)(unit.UnitData.unitAttack.Value * unit.UnitData.baseData.attackDataList[i].value0),
-                DamageType.normal) });
             unit.Actions.NewProjectile(unit, i, unit.CurrentTarget);
         }
     }

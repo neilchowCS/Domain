@@ -12,7 +12,6 @@ public class FixedUnitState
     public readonly float range;
     public readonly float speed;
     public readonly int maxMana;
-    public readonly int tickPerMana;
     public readonly float crit;
     public readonly float critChance;
 
@@ -26,7 +25,6 @@ public class FixedUnitState
         range = unit.UnitData.unitRange.Value;
         speed = unit.UnitData.unitSpeed.Value;
         maxMana = unit.UnitData.unitMaxMana.Value;
-        tickPerMana = unit.UnitData.unitTickPerMana.Value;
         crit = unit.UnitData.unitCrit.Value;
         critChance = unit.UnitData.unitCritChance.Value;
     }

@@ -46,11 +46,6 @@ public class BattleUnitActions
         iUnit.UnitData.mana = amount;
     }
 
-    public virtual void ModifyMana(int amount)
-    {
-        SetMana(iUnit.UnitData.mana + amount);
-    }
-
     public virtual void SelfDeath()
     {
         

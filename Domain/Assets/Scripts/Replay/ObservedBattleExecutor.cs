@@ -19,8 +19,8 @@ public class ObservedBattleExecutor : BattleExecutor
         //Instantiate(AudioSingleton.PrefabAudio);
         //ExecuteBattle();
         InitState();
-        Debug.Log($"P0: {player0Active.Count}");
-        Debug.Log($"P1: {player1Active.Count}");
+        //Debug.Log($"P0: {player0Active.Count}");
+        //Debug.Log($"P1: {player1Active.Count}");
         globalTick++;
     }
 
@@ -107,7 +107,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         ReplayProfile y = Instantiate(replayManager.profile).GetComponent<ReplayProfile>();
         profiles.Add(y);
-        Debug.Log(unit.GlobalObjectId);
+        //Debug.Log(unit.GlobalObjectId);
         y.globalId = unit.GlobalObjectId;
         y.SetName(unit.ObjectName);
         y.SetImage(unit.UnitData.baseData.unitSprite);
@@ -163,25 +163,13 @@ public class ObservedBattleExecutor : BattleExecutor
         for (int i = 0; i < side0Profiles.Count; i++)
         {
             side0Profiles[i].transform.SetSiblingIndex(i);
-            SetBars(side0Profiles[i], side0DamageSum, side1DamageSum);
+            side0Profiles[i].bar.fillAmount = side0Profiles[i].damageInt / (float)side0DamageSum;
         }
 
         for (int i = 0; i < side1Profiles.Count; i++)
         {
             side1Profiles[i].transform.SetSiblingIndex(i);
-            SetBars(side1Profiles[i], side0DamageSum, side1DamageSum);
-        }
-    }
-
-    public void SetBars(ReplayProfile replayProfile, int side0Sum, int side1Sum)
-    {
-        if (replayProfile.transform.localPosition.x < 0)
-        {
-            replayProfile.bar.fillAmount = replayProfile.damageInt / (float)side0Sum;
-        }
-        else
-        {
-            replayProfile.bar.fillAmount = replayProfile.damageInt / (float)side1Sum;
+            side1Profiles[i].bar.fillAmount = side1Profiles[i].damageInt / (float)side1DamageSum;
         }
     }
 }

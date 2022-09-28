@@ -24,7 +24,6 @@ public class UnitRuntimeData
     public AttributeFloat unitRange;
     public AttributeInt unitSpeed;
     public AttributeInt unitMaxMana;
-    public AttributeInt unitTickPerMana;
     public AttributeFloat unitCrit;
     public AttributeFloat unitCritChance;
 
@@ -46,7 +45,6 @@ public class UnitRuntimeData
         unitRange = new AttributeFloat(baseData.baseRange);
         unitSpeed = new AttributeInt((int)(baseData.baseSpeed * levelMultiplier));
         unitMaxMana = new AttributeInt(baseData.baseMaxMana);
-        unitTickPerMana = new AttributeInt(baseData.baseTickPerMana);
         unitCrit = new AttributeFloat(baseData.baseCrit);
         unitCritChance = new AttributeFloat(baseData.baseCritChance);
 

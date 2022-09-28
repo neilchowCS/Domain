@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class AliceBehavior : UnitBehavior
 {
-    public AliceBehavior(IBattleUnit host): base(host)
+    public AliceBehavior(IBattleUnit host) : base(host)
     {
 
     }
 
-    public override void UseAbility(int i)
+    public override void QueueSkillCommand()
     {
-        if (i == 1)
-        {
-            unit.Executor.factory.NewStatus(StatusType.AttackMod, unit, unit,
-                new SimpleStatusData(-1f, true, .25f));
-        }
-        SpawnProjectile(i);
-        unit.Actions.SetMana(0);
+        base.QueueSkillCommand();
+        unit.Executor.factory.NewStatus(StatusType.AttackMod, unit, unit,
+            new SimpleStatusData(-1f, true, .25f));
+
     }
 }

@@ -29,6 +29,12 @@ public class HealthBar : MonoBehaviour
                    Camera.main.WorldToScreenPoint(parent.Position + new Vector3(0, 2.8f, 0));
     }
 
+    public void RefreshFill()
+    {
+        healthFill.fillAmount = parent.UnitData.health / (float)parent.UnitData.unitMaxHealth.Value;
+        manaFill.fillAmount = parent.UnitData.mana / (float)parent.UnitData.unitMaxMana.Value;
+    }
+
     public void AddStatus(StatusIcon i, Sprite statusSprite, int statusId)
     {
         List<int> listId = new List<int>();

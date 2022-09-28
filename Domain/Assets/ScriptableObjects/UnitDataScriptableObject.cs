@@ -20,7 +20,6 @@ public class UnitDataScriptableObject : ScriptableObject
     public int baseSpeed;
     public int baseStartingMana;
     public int baseMaxMana;
-    public int baseTickPerMana;
     public float baseCrit;
     public float baseCritChance;
 

@@ -5,15 +5,15 @@ using UnityEngine;
 public class DamageCommand : ISubcommand
 {
     private IBattleUnit damageSource;
-    private IBattleUnit damageTarget;
+    private List<IBattleUnit> damageTargets;
     private int amount;
     private DamageType damageType;
 
-    public DamageCommand(IBattleUnit damageSource, IBattleUnit damageTarget,
+    public DamageCommand(IBattleUnit damageSource, List<IBattleUnit> damageTargets,
         int amount, DamageType damageType)
     {
         this.damageSource = damageSource;
-        this.damageTarget = damageTarget;
+        this.damageTargets = damageTargets;
         this.amount = amount;
         this.damageType = damageType;
     }
@@ -24,15 +24,18 @@ public class DamageCommand : ISubcommand
     /// </summary>
     public void Execute()
     {
-        if (damageType == DamageType.normal)
+        foreach (IBattleUnit damageTarget in damageTargets)
         {
-            if (damageTarget.UnitData.armorReduction < 1)
+            if (damageType == DamageType.normal)
             {
-                amount = (int)(amount * damageTarget.UnitData.armorReduction);
+                if (damageTarget.UnitData.armorReduction < 1)
+                {
+                    amount = (int)(amount * damageTarget.UnitData.armorReduction);
+                }
             }
-        }
 
-        //damage reduction calcs here
-        damageSource.Executor.eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
+            //damage reduction calcs here
+            damageSource.Executor.eventHandler.OnDamageDealt(damageSource, damageTarget, amount);
+        }
     }
 }

@@ -57,8 +57,8 @@ public class BattleExecutor : MonoBehaviour
     public virtual void ExecuteBattle()
     {
         InitState();
-        Debug.Log($"P0: {player0Active.Count}");
-        Debug.Log($"P1: {player1Active.Count}");
+        //Debug.Log($"P0: {player0Active.Count}");
+        //Debug.Log($"P1: {player1Active.Count}");
         globalTick++;
         while (ContinueRun())
         {
@@ -112,6 +112,15 @@ public class BattleExecutor : MonoBehaviour
 
         activeUnits = activeUnits.OrderBy(o => o.Timeline).ToList();
 
+        ExecuteQueue();
+
+        CleanUp();
+
+        globalTick++;
+    }
+
+    public void ExecuteQueue()
+    {
         while (commandQueue.Count > 0)
         {
             foreach (ISubcommand subcommand in commandQueue.Peek())
@@ -120,10 +129,6 @@ public class BattleExecutor : MonoBehaviour
             }
             commandQueue.Dequeue();
         }
-
-        CleanUp();
-
-        globalTick++;
     }
 
     public bool ContinueRun()
