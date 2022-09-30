@@ -11,6 +11,8 @@ public class ObservedBattleExecutor : BattleExecutor
     public List<Vector3> side0ProfilePositions;
     public List<Vector3> side1ProfilePositions;
 
+    public TimelineUI timelineUI;
+
     private float timer = 0;
     private const float framerate = .5f;
 
@@ -55,6 +57,8 @@ public class ObservedBattleExecutor : BattleExecutor
         {
             InitProfile(unit);
         }
+
+        timelineUI.InitTimeline(activeUnits);
     }
 
     private void Update()
@@ -65,6 +69,7 @@ public class ObservedBattleExecutor : BattleExecutor
             if (ContinueRun())
             {
                 StepUp();
+                timelineUI.RefreshTimeline();
             }
             else
             {

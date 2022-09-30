@@ -17,17 +17,17 @@ MonoBehaviour:
   unitSprite: {fileID: 21300000, guid: 71f426974b35744609ff85e3a98f518b, type: 3}
   elementEnum: 2
   baseHealth: 500
-  baseAttack: 40
+  baseAttack: 28
   baseDefense: 55
   baseMDefense: 0
   baseAttackSpeed: 1.25
   baseRange: 1.75
-  baseMoveSpeed: 1.7
+  baseSpeed: 50
   baseStartingMana: 0
-  baseMaxMana: 20
-  baseTickPerMana: 20
+  baseMaxMana: 1
   baseCrit: 2
   baseCritChance: 0.1
+  baseMovementRecovery: 0.4
   eventSubscriptions:
     OnTick: 1
     OnDamageDealt: 1

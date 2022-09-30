@@ -22,12 +22,12 @@ MonoBehaviour:
   baseMDefense: 0
   baseAttackSpeed: 1
   baseRange: 5.25
-  baseMoveSpeed: 1.5
+  baseSpeed: 75
   baseStartingMana: 0
-  baseMaxMana: 7
-  baseTickPerMana: 12
+  baseMaxMana: 1
   baseCrit: 2
   baseCritChance: 0.1
+  baseMovementRecovery: 0
   eventSubscriptions:
     OnTick: 1
     OnDamageDealt: 1
