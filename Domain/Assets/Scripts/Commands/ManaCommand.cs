@@ -7,12 +7,14 @@ public class ManaCommand : ISubcommand
     private IBattleUnit host;
     private int amount;
     private bool isRatio;
+    public float Yield { get; set; }
 
     public ManaCommand(IBattleUnit host, int amount, bool isRatio)
     {
         this.host = host;
         this.amount = amount;
         this.isRatio = isRatio;
+        Yield = 0;
     }
 
     public void Execute()

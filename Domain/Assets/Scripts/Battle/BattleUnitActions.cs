@@ -14,6 +14,11 @@ public class BattleUnitActions
         iUnit = unit;
     }
 
+    public virtual void StartMoving(Vector3 moveLocation)
+    {
+        iUnit.Position = moveLocation;
+    }
+
     /// <summary>
     /// Decreases this unit's health.
     /// Raises TakeDamage event.

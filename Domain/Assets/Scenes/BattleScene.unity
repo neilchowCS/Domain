@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timelineIcons: []
-  prefabIcon: {fileID: 352102801119856016, guid: 8f812054edf4a47e58b97274a3e9ab99, type: 3}
+  prefabIcon: {fileID: 988045386373108205, guid: a0e5f7266143d49e89f07ce024965a2a, type: 3}
   executor: {fileID: 1969906533}
 --- !u!1 &13385330
 GameObject:
@@ -5824,6 +5824,7 @@ GameObject:
   - component: {fileID: 1969906532}
   - component: {fileID: 1969906531}
   - component: {fileID: 1969906534}
+  - component: {fileID: 1969906535}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -5968,6 +5969,20 @@ MonoBehaviour:
   stageId: 0
   hasRead: 0
   replayFlag: 0
+--- !u!114 &1969906535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969906526}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6cf2d43fcc546a28c930fd660af684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  bottleneckTime: 0
 --- !u!1 &1974490959
 GameObject:
   m_ObjectHideFlags: 0

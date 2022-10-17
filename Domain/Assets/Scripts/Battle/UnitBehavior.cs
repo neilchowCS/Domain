@@ -86,7 +86,7 @@ public class UnitBehavior : ObjectBehavior
         unit.Executor.commandQueue.Enqueue(new() {
             new DamageCommand(unit, new() { unit.CurrentTarget },
             (int)(unit.UnitData.unitAttack.Value * unit.UnitData.baseData.attackDataList[0].value0),
-            DamageType.normal)
+            DamageType.normal, CalculateProjectileTime(0))
         } );
     }
 
@@ -95,9 +95,16 @@ public class UnitBehavior : ObjectBehavior
         unit.Executor.commandQueue.Enqueue(new() {
             new DamageCommand(unit, new() { unit.CurrentTarget },
             (int)(unit.UnitData.unitAttack.Value * unit.UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal),
+            DamageType.normal, CalculateProjectileTime(1)),
             new ManaCommand(unit, -1, true)
         } );
+    }
+
+    public float CalculateProjectileTime(int index)
+    {
+        float projectileSpeed = unit.UnitData.baseData.attackDataList[index].speed;
+        float distance = Vector3.Distance(unit.CurrentTarget.Position, unit.Position);
+        return distance / projectileSpeed;
     }
 
     //********************* End OnTickUp ************************

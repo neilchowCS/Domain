@@ -8,14 +8,16 @@ public class DamageCommand : ISubcommand
     private List<IBattleUnit> damageTargets;
     private int amount;
     private DamageType damageType;
+    public float Yield { get; set; }
 
     public DamageCommand(IBattleUnit damageSource, List<IBattleUnit> damageTargets,
-        int amount, DamageType damageType)
+        int amount, DamageType damageType, float yield)
     {
         this.damageSource = damageSource;
         this.damageTargets = damageTargets;
         this.amount = amount;
         this.damageType = damageType;
+        Yield = yield;
     }
 
     /// <summary>

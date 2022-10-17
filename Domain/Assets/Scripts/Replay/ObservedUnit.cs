@@ -39,17 +39,18 @@ public class ObservedUnit : ObservedObject, IBattleUnit
 
     //********************* Observed Specific *****************************
     public HealthBar healthBar;
+    public UnitMovementController movementController;
     //********************* Observed Specific *****************************
 
     // Start is called before the first frame update
     void Start()
     {
-
+        this.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 }

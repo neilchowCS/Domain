@@ -73,7 +73,8 @@ namespace BattleBehaviorExtension
             unit.Tile = unit.GetNextBattleTile();
             unit.Executor.mapGraph[unit.Tile].occupied = true;
 
-            unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
+            //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
+            unit.Actions.StartMoving(unit.Executor.mapGraph[unit.Tile].Position);
         }
     }
 }

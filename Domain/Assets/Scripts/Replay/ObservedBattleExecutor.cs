@@ -14,7 +14,6 @@ public class ObservedBattleExecutor : BattleExecutor
     public TimelineUI timelineUI;
 
     private float timer = 0;
-    private const float framerate = .5f;
 
     public override void Start()
     {
@@ -63,13 +62,15 @@ public class ObservedBattleExecutor : BattleExecutor
 
     private void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= framerate)
+        timer -= Time.deltaTime;
+        if (timer <= 0)
         {
+            timer = 0;
             if (ContinueRun())
             {
                 StepUp();
                 timelineUI.RefreshTimeline();
+                timer += 1;
             }
             else
             {
@@ -77,7 +78,6 @@ public class ObservedBattleExecutor : BattleExecutor
                 Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
                 this.enabled = false;
             }
-            timer = 0;
         }
     }
 

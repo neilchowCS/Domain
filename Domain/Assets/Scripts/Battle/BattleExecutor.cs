@@ -89,21 +89,32 @@ public class BattleExecutor : MonoBehaviour
     public void StepUp()
     {
         //eventHandler.OnTickUp();
-
+        
         activeUnits[0].Behavior.OnTickUp();
-        //activeUnits[0].Timeline = maxTimeline;
+
+        AdvanceTimeline();
+
+        ExecuteQueue();
+
+        CleanUp();
+
+        globalTick++;
+    }
+
+    public void AdvanceTimeline()
+    {
         IBattleUnit next = null;
 
         foreach (IBattleUnit unit in activeUnits)
         {
-            if (next == null || unit.Timeline/unit.UnitData.unitAttackSpeed.Value <
-                next.Timeline/next.UnitData.unitAttackSpeed.Value)
+            if (next == null || unit.Timeline / unit.UnitData.unitAttackSpeed.Value <
+                next.Timeline / next.UnitData.unitAttackSpeed.Value)
             {
                 next = unit;
             }
         }
 
-        float dist = next.Timeline/next.UnitData.unitAttackSpeed.Value;
+        float dist = next.Timeline / next.UnitData.unitAttackSpeed.Value;
 
         foreach (IBattleUnit unit in activeUnits)
         {
@@ -111,12 +122,6 @@ public class BattleExecutor : MonoBehaviour
         }
 
         activeUnits = activeUnits.OrderBy(o => o.Timeline).ToList();
-
-        ExecuteQueue();
-
-        CleanUp();
-
-        globalTick++;
     }
 
     public void ExecuteQueue()

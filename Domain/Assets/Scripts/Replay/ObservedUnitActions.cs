@@ -11,6 +11,13 @@ public class ObservedUnitActions : BattleUnitActions
         this.unit = unit;
     }
 
+    public override void StartMoving(Vector3 moveLocation)
+    {
+        float time = .7f;
+        unit.movementController.StartMovement(moveLocation,
+            Vector3.Distance(moveLocation, unit.transform.position) / time);
+    }
+
     public override void SetMana(int amount)
     {
         base.SetMana(amount);
