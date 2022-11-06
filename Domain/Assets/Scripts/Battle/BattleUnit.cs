@@ -45,8 +45,6 @@ public class BattleUnit : BattleObject, IBattleUnit
         UnitData.mana += amount;
     }
 
-    public virtual void SelfDeath() { }
-
     public virtual void PerformAction()
     {
         bool hasMoved = false;
@@ -121,5 +119,18 @@ public class BattleUnit : BattleObject, IBattleUnit
         ActionExtension.DealDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.normal);
+    }
+
+    public override void OnUnitDeath(IBattleUnit deadUnit)
+    {
+        if (deadUnit == this)
+        {
+            Executor.mapGraph[Tile].occupied = false;
+        }
+
+        if (deadUnit == CurrentTarget)
+        {
+            CurrentTarget = null;
+        }
     }
 }

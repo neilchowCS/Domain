@@ -48,8 +48,6 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         healthBar.RefreshFill();
     }
 
-    public virtual void SelfDeath() { this.gameObject.SetActive(false); }
-
     public virtual void PerformAction()
     {
         bool hasMoved = false;
@@ -126,5 +124,20 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         ActionExtension.DealDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.normal);
+    }
+
+    public override void OnUnitDeath(IBattleUnit deadUnit)
+    {
+        if (deadUnit == this)
+        {
+            Executor.mapGraph[Tile].occupied = false;
+            this.gameObject.SetActive(false);
+            GameObject.Destroy(healthBar.gameObject);
+        }
+
+        if (deadUnit == CurrentTarget)
+        {
+            CurrentTarget = null;
+        }
     }
 }

@@ -21,5 +21,4 @@ public interface IBattleUnit : IBattleObject
 
     public void ModifyHealth(int amount, DamageType damageType, IBattleUnit source);
     public void ModifyMana(int amount);
-    public void SelfDeath();
 }

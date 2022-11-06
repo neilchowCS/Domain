@@ -33,6 +33,7 @@ public class EventManagement
             }
             //ordered object[i] = ith speed tier, get event array
             //ordered object[^1] = last event array, get list
+            orderedObjects[i][3].Add(units[i]);
             orderedObjects[i][^1].Add(units[i]);
             Debug.Log(units[i].UnitData.unitSpeed.Value);
         }
@@ -73,7 +74,16 @@ public class EventManagement
                 Debug.Log(deadUnit.ObjectName + " ded");
                 i--;
                 executor.activeUnits.Remove(deadUnit);
-                deadUnit.SelfDeath();
+                if (deadUnit.Side == 0)
+                {
+                    deadUnit.Executor.player0Active.Remove(deadUnit);
+                    deadUnit.Executor.player0Dead.Add(deadUnit);
+                }
+                else
+                {
+                    deadUnit.Executor.player1Active.Remove(deadUnit);
+                    deadUnit.Executor.player1Dead.Add(deadUnit);
+                }
                 InvokeUnitDeath(deadUnit);
                 ExecuteQueue();
             }
