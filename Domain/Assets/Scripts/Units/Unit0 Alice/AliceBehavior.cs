@@ -8,7 +8,7 @@ public class AliceBehavior : UnitBehavior
     {
 
     }
-
+    /*
     public override void QueueSkillCommand()
     {
         base.QueueSkillCommand();
@@ -16,4 +16,5 @@ public class AliceBehavior : UnitBehavior
             new SimpleStatusData(-1f, true, .25f));
 
     }
+    */
 }

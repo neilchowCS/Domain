@@ -10,5 +10,13 @@ public interface IBattleObject
     public int GlobalObjectId { get; set; }
     public string ObjectName { get; set; }
 
-    public ObjectBehavior Behavior { get; set; }
+    public EnabledEvents eventSubscriptions { get; set; }
+
+    public void OnStartTurn();
+    public void OnEndTurn();
+
+    public void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType);
+    public void OnUnitDeath(IBattleUnit deadUnit);
+    public void OnHealApplied(IBattleUnit healSource, IBattleUnit healTarget, int amount);
+    public void OnSpawn(IBattleObject source);
 }

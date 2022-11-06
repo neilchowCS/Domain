@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace BattleBehaviorExtension
+namespace BehaviorExtension
 {
-    public static class BattleDefaultBehavior
+    public static class MovementExtension
     {
         public static float GetBattleUnitDistance(this IBattleUnit unit, IBattleUnit otherUnit)
             => Vector3.Distance(unit.Position, otherUnit.Position);
@@ -60,21 +60,6 @@ namespace BattleBehaviorExtension
             }
             //default
             return currTile;
-        }
-
-        /// <summary>
-        /// Movement loop
-        /// </summary>
-        public static void MoveTowardsNext(this IBattleUnit unit)
-        {
-            int i = unit.Tile;
-            unit.Executor.mapGraph[unit.Tile].occupied = false;
-
-            unit.Tile = unit.GetNextBattleTile();
-            unit.Executor.mapGraph[unit.Tile].occupied = true;
-
-            //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
-            unit.Actions.StartMoving(unit.Executor.mapGraph[unit.Tile].Position);
         }
     }
 }

@@ -16,7 +16,7 @@ public class Factory
     {
         IBattleObject output = new BattleObject(executor, side, name);
 
-        executor.eventHandler.TickUp += output.Behavior.OnTickUp;
+        //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
 
         return output;
     }
@@ -34,10 +34,10 @@ public class Factory
     public virtual IBattleUnit NewUnit(int side, UnitRuntimeData data, int tileId)
     {
         BattleUnit output = new BattleUnit(executor, side, data, tileId);
-        output.Behavior = GetUnitBehavior(output);
-        output.Actions = GetUnitActions(output);
-        executor.eventHandler.TickUp += output.Behavior.OnTickUp;
-        EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
+        //output.Behavior = GetUnitBehavior(output);
+        //output.Actions = GetUnitActions(output);
+        //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
+        //EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
         return output;
     }
 
@@ -48,10 +48,10 @@ public class Factory
             executor.mapGraph[tileId].Position,
             (side == 0 ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0)));
         ObservedUnitConstructor(output, side, data, tileId);
-        output.Behavior = GetUnitBehavior(output);
-        output.Actions = GetObservedUnitActions(output);
-        executor.eventHandler.TickUp += output.Behavior.OnTickUp;
-        EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
+        //output.Behavior = GetUnitBehavior(output);
+        //output.Actions = GetObservedUnitActions(output);
+        //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
+        //EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
 
         output.healthBar = GameObject.Instantiate(output.UnitData.baseData.commonRef.healthBarPrefab,
             executor.replayManager.screenOverlayCanvas.transform, false);
@@ -116,15 +116,15 @@ public class Factory
         IBattleUnit source, SimpleStatusData data)
     {
         IBattleStatus output = new BattleStatus(executor, type.ToString(), host, source, data);
-        output.Behavior = GetStatusBehavior(type, output);
+        //output.Behavior = GetStatusBehavior(type, output);
         output.Actions = GetStatusActions(output);
 
         host.StatusList.Add(output);
 
-        executor.eventHandler.TickUp += output.Behavior.OnTickUp;
-        executor.eventHandler.UnitDeath += output.Behavior.OnUnitDeath;
+        //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
+        //executor.eventHandler.UnitDeath += output.Behavior.OnUnitDeath;
 
-        output.Behavior.OnSpawn();
+        //output.Behavior.OnSpawn();
 
         return output;
     }

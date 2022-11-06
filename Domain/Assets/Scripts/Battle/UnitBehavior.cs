@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BattleBehaviorExtension;
+using BehaviorExtension;
 using AoeTargetingExtension;
 
 public class UnitBehavior : ObjectBehavior
@@ -30,7 +30,7 @@ public class UnitBehavior : ObjectBehavior
         if (!unit.TargetInRange())
         {
             unit.TargetClosestEnemy();
-            unit.MoveTowardsNext();
+            //unit.MoveTowardsNext();
             unit.Timeline = unit.Executor.maxTimeline - (unit.Executor.maxTimeline * unit.UnitData.unitRecovery.Value);
         }
     }
@@ -62,25 +62,25 @@ public class UnitBehavior : ObjectBehavior
     {
         if (unit.TargetInRange())
         {
-            unit.Executor.commandQueue.Enqueue(new()
+            //unit.Executor.commandQueue.Enqueue(new()
             {
-                new ManaCommand(unit, 1, false)
-            });
+                //new ManaCommand(unit, 1, false)
+            }//);
 
             if (unit.UnitData.mana >= unit.UnitData.unitMaxMana.Value)
             {
-                unit.Actions.NewProjectile(1);
-                QueueSkillCommand();
+                //unit.Actions.NewProjectile(1);
+                //QueueSkillCommand();
             }
             else
             {
-                unit.Actions.NewProjectile(0);
-                QueueAttackCommand();
+                //unit.Actions.NewProjectile(0);
+                //QueueAttackCommand();
             }
             unit.Timeline = unit.Executor.maxTimeline;
         }
     }
-
+    /*
     public virtual void QueueAttackCommand()
     {
         unit.Executor.commandQueue.Enqueue(new() {
@@ -99,6 +99,7 @@ public class UnitBehavior : ObjectBehavior
             new ManaCommand(unit, -1, true)
         } );
     }
+    */
 
     public float CalculateProjectileTime(int index)
     {
@@ -120,11 +121,11 @@ public class UnitBehavior : ObjectBehavior
     {
         if (damageTarget == unit)
         {
-            unit.Actions.TakeDamage(damageSource, amount, damageType);
+            //unit.Actions.TakeDamage(damageSource, amount, damageType);
         }
         else if (damageSource == unit)
         {
-            unit.Actions.DealtDamage(amount);
+            //unit.Actions.DealtDamage(amount);
         }
     }
 
@@ -162,8 +163,8 @@ public class UnitBehavior : ObjectBehavior
                 unit.Executor.player1Active.Remove(unit);
                 unit.Executor.player1Dead.Add(unit);
             }
-            unit.Actions.SelfDeath();
-            unit.NeedsCleaning = true;
+            //unit.Actions.SelfDeath();
+            //unit.NeedsCleaning = true;
         }
 
         if (deadUnit == unit.CurrentTarget)
@@ -180,7 +181,7 @@ public class UnitBehavior : ObjectBehavior
     {
         if (healTarget == unit)
         {
-            unit.Actions.ReceiveHeal(healSource, amount);
+            //unit.Actions.ReceiveHeal(healSource, amount);
         }
     }
 

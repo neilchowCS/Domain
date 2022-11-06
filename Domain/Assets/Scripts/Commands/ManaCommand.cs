@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManaCommand : ISubcommand
+public class ManaCommand //: IEventCommand
 {
     private IBattleUnit host;
     private int amount;
@@ -34,6 +34,6 @@ public class ManaCommand : ISubcommand
             value = 0;
         }
 
-        host.Actions.SetMana(value);
+        //host.Actions.SetMana(value);
     }
 }

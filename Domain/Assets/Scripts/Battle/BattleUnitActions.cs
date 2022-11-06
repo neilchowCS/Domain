@@ -28,10 +28,10 @@ public class BattleUnitActions
     public virtual void TakeDamage(IBattleUnit damageSource, int amount, DamageType damageType)
     {
         iUnit.UnitData.health -= amount;
-        iUnit.Executor.eventHandler.OnDamageTaken(iUnit, damageSource, amount);
+        //iUnit.Executor.eventHandler.OnDamageTaken(iUnit, damageSource, amount);
         if (iUnit.UnitData.health <= 0)
         {
-            iUnit.Executor.eventHandler.OnUnitDeath(iUnit);
+            //iUnit.Executor.eventHandler.OnUnitDeath(iUnit);
         }
     }
 

@@ -5,19 +5,27 @@ using UnityEngine;
 [System.Serializable]
 public class EnabledEvents
 {
-    public bool OnTick;
-    public bool OnDamageDealt;
-    public bool OnDamageTaken;
-    public bool OnUnitDeath;
-    public bool OnHealApplied;
+    /*
+    public List<bool> events;
 
-    public EnabledEvents(bool onTick, bool onDamageDealt, bool onDamageTaken,
-        bool onUnitDeath, bool onHealApplied)
+    public bool StartTurn;
+    public bool EndTurn;
+    public bool DamageDealt;
+    public bool UnitDeath;
+    public bool HealApplied;
+    public bool OnSpawn;
+
+    public EnabledEvents(bool startTurn, bool endTurn, bool damageDealt,
+        bool unitDeath, bool healApplied, bool onSpawn)
     {
-        OnTick = onTick;
-        OnDamageDealt = onDamageDealt;
-        OnDamageTaken = onDamageTaken;
-        OnUnitDeath = onUnitDeath;
-        OnHealApplied = onHealApplied;
+        StartTurn = startTurn;
+        EndTurn = endTurn;
+        DamageDealt = damageDealt;
+        UnitDeath = unitDeath;
+        HealApplied = healApplied;
+        OnSpawn = onSpawn;
+
+        events = new() { startTurn, endTurn, damageDealt, unitDeath, healApplied, onSpawn };
     }
+    */
 }

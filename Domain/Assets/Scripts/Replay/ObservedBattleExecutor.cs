@@ -68,9 +68,7 @@ public class ObservedBattleExecutor : BattleExecutor
             timer = 0;
             if (ContinueRun())
             {
-                StepUp();
-                timelineUI.RefreshTimeline();
-                timer += 1;
+                Logic();
             }
             else
             {
@@ -79,6 +77,13 @@ public class ObservedBattleExecutor : BattleExecutor
                 this.enabled = false;
             }
         }
+    }
+
+    public void Logic()
+    {
+        StepUp();
+        timelineUI.RefreshTimeline();
+        timer += 1;
     }
 
     protected override void InstantiateUnits()

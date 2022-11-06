@@ -16,7 +16,8 @@ public class BattleExecutor : MonoBehaviour
     /// <summary>
     /// Holds delegates and events
     /// </summary>
-    public BattleEventHandler eventHandler;
+    //public BattleEventHandler eventHandler;
+    public EventManagement events;
     public Factory factory;
     public ReplayManager replayManager;
 
@@ -25,7 +26,7 @@ public class BattleExecutor : MonoBehaviour
     public int maxTimeline = 100;
     //public float threshhold = 40;
 
-    public Queue<List<ISubcommand>> commandQueue;
+    public IBattleUnit actingUnit;
 
     protected int globalObjectId;
     /// <summary>
@@ -88,15 +89,15 @@ public class BattleExecutor : MonoBehaviour
 
     public void StepUp()
     {
-        //eventHandler.OnTickUp();
+        actingUnit = activeUnits[0];
+
+        events.InvokeStartTurn();
         
-        activeUnits[0].Behavior.OnTickUp();
+        actingUnit.PerformAction();
+
+        events.InvokeEndTurn();
 
         AdvanceTimeline();
-
-        ExecuteQueue();
-
-        CleanUp();
 
         globalTick++;
     }
@@ -114,26 +115,14 @@ public class BattleExecutor : MonoBehaviour
             }
         }
 
-        float dist = next.Timeline / next.UnitData.unitAttackSpeed.Value;
+        float distTime = next.Timeline / next.UnitData.unitAttackSpeed.Value;
 
         foreach (IBattleUnit unit in activeUnits)
         {
-            unit.Timeline -= unit.UnitData.unitAttackSpeed.Value * dist;
+            unit.Timeline -= unit.UnitData.unitAttackSpeed.Value * distTime;
         }
 
         activeUnits = activeUnits.OrderBy(o => o.Timeline).ToList();
-    }
-
-    public void ExecuteQueue()
-    {
-        while (commandQueue.Count > 0)
-        {
-            foreach (ISubcommand subcommand in commandQueue.Peek())
-            {
-                subcommand.Execute();
-            }
-            commandQueue.Dequeue();
-        }
     }
 
     public bool ContinueRun()
@@ -143,7 +132,8 @@ public class BattleExecutor : MonoBehaviour
 
     protected virtual void InitState()
     {
-        eventHandler = new BattleEventHandler(this);
+        //eventHandler = new BattleEventHandler(this);
+        events = new(this);
         factory = new Factory(this);
 
         globalTick = 0;
@@ -151,8 +141,6 @@ public class BattleExecutor : MonoBehaviour
 
         //timeline = new Timeline(this);
         mapGraph = MapGraph.GetMap();
-
-        commandQueue = new();
 
         player0Active = new List<IBattleUnit>();
         player0Dead = new List<IBattleUnit>();
@@ -168,6 +156,7 @@ public class BattleExecutor : MonoBehaviour
         }
 
         InstantiateUnits();
+        events.Initialize(activeUnits);
     }
 
     protected virtual void InstantiateUnits()
@@ -217,13 +206,14 @@ public class BattleExecutor : MonoBehaviour
         }
     }
 
+    /*
     protected void CleanUp()
     {
         foreach (IBattleUnit unit in player0Dead)
         {
             if (unit.NeedsCleaning)
             {
-                eventHandler.TickUp -= unit.Behavior.OnTickUp;
+                //eventHandler.TickUp -= unit.Behavior.OnTickUp;
                 //subscribe to onUnitDeadTick
                 unit.NeedsCleaning = false;
             }
@@ -232,15 +222,16 @@ public class BattleExecutor : MonoBehaviour
         {
             if (unit.NeedsCleaning)
             {
-                eventHandler.TickUp -= unit.Behavior.OnTickUp;
+                //eventHandler.TickUp -= unit.Behavior.OnTickUp;
                 unit.NeedsCleaning = false;
             }
         }
     }
+    */
 
     public void RemoveObject(IBattleObject obj)
     {
-        eventHandler.TickUp -= obj.Behavior.OnTickUp;
+        //eventHandler.TickUp -= obj.Behavior.OnTickUp;
         playerObjects0.Remove(obj);
         playerObjects1.Remove(obj);
     }
@@ -281,21 +272,13 @@ public class BattleExecutor : MonoBehaviour
         return player0Active;
     }
 
-    public void ApplyHeal(IBattleUnit healSource, IBattleUnit healTarget, int amount)
+    public void EnqueueEvent(IEventCommand command)
     {
-        Debug.Log(amount);
-        //apply healing reduction before
-        if (healTarget.UnitData.health + amount > healTarget.UnitData.unitMaxHealth.Value)
+        events.commandQueue.Enqueue(command);
+        if (events.commandQueue.Count <= 1)
         {
-            amount = healTarget.UnitData.unitMaxHealth.Value - healTarget.UnitData.health;
+            events.ExecuteQueue();
         }
-
-        if (healSource == null)
-        {
-            Debug.Log("healing error!");
-        }
-
-        eventHandler.OnHealApplied(healSource, healTarget, amount);
     }
 
     public virtual void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType)

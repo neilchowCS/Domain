@@ -18,7 +18,7 @@ public class StatusBurnBehavior : StatusBehavior
         lifetime++;
         if (timer >= TickSpeed.ticksPerSecond)
         {
-            Burn();
+            //Burn();
             timer -= TickSpeed.ticksPerSecond;
         }
         if (lifetime >= TickSpeed.ticksPerSecond * status.StatusData.duration)
@@ -28,6 +28,7 @@ public class StatusBurnBehavior : StatusBehavior
         }
     }
 
+    /*
     public override void OnSpawn()
     {
         base.OnSpawn();
@@ -45,4 +46,5 @@ public class StatusBurnBehavior : StatusBehavior
             });
         }
     }
+    */
 }

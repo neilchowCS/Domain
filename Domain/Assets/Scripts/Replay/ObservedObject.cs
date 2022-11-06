@@ -15,7 +15,7 @@ public class ObservedObject : MonoBehaviour, IBattleObject
     [field: SerializeField]
     public int Side { get; set; }
 
-    public virtual ObjectBehavior Behavior { get; set; }
+    public EnabledEvents eventSubscriptions { get; set; }
 
     public virtual void Initialize(BattleExecutor exec, int side, string name)
     {
@@ -28,15 +28,11 @@ public class ObservedObject : MonoBehaviour, IBattleObject
         Executor.GetAlliedObjects(this).Add(this);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public virtual void OnStartTurn() { }
+    public virtual void OnEndTurn() { }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public virtual void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType) { }
+    public virtual void OnUnitDeath(IBattleUnit deadUnit) { }
+    public virtual void OnHealApplied(IBattleUnit healSource, IBattleUnit healTarget, int amount) { }
+    public virtual void OnSpawn(IBattleObject source) { }
 }

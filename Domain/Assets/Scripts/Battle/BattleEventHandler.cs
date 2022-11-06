@@ -26,7 +26,6 @@ public class BattleEventHandler
     /// </summary>
     public virtual void OnTickUp()
     {
-
         TickUpEventHandler handler = TickUp;
         //raise event
         handler?.Invoke();
