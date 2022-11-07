@@ -22,11 +22,12 @@ public class EventManagement
 
     public void Initialize(List<IBattleUnit> units)
     {
+        //FIXME
         int count = 6;//units[0].UnitData.baseData.eventSubscriptions.events.Count;
         for (int i = 0; i < units.Count; i++)
         {
             orderedObjects.Add(new List<IBattleObject>[count + 1]);
-            Debug.Log(orderedObjects[^1].Length);
+            Debug.Log(orderedObjects[^1].Length + " events");
             for (int j = 0; j < orderedObjects[i].Length; j++)
             {
                 orderedObjects[i][j] = new List<IBattleObject>();
@@ -35,7 +36,6 @@ public class EventManagement
             //ordered object[^1] = last event array, get list
             orderedObjects[i][3].Add(units[i]);
             orderedObjects[i][^1].Add(units[i]);
-            Debug.Log(units[i].UnitData.unitSpeed.Value);
         }
 
         //for (int i = 0; i < orderedObjects.Count; i++)

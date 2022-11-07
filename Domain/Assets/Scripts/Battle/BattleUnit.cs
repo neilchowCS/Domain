@@ -105,6 +105,7 @@ public class BattleUnit : BattleObject, IBattleUnit
                 ModifyMana(1);
             }
         }
+        hasAttacked = true;
     }
 
     public virtual void PerformBasic()

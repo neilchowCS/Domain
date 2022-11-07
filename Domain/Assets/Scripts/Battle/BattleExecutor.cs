@@ -87,7 +87,8 @@ public class BattleExecutor : MonoBehaviour
         }
     }
 
-    public void StepUp()
+    //Completely different fuction from observed
+    public virtual void StepUp()
     {
         actingUnit = activeUnits[0];
 
@@ -204,6 +205,14 @@ public class BattleExecutor : MonoBehaviour
                     (unit.UnitData.unitSpeed.Value / max * maxTimeline);
             }
         }
+
+        //DEBUG
+        for (int i = 0; i < activeUnits.Count; i++)
+        {
+            Debug.Log($"#{i} {activeUnits[i].ObjectName}: {activeUnits[i].UnitData.unitSpeed.Value} speed");
+            Debug.Log($"timeline: {activeUnits[i].Timeline}");
+        }
+        Debug.Log("");
     }
 
     /*

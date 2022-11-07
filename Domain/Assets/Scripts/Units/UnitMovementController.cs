@@ -21,7 +21,8 @@ public class UnitMovementController : MonoBehaviour
         {
             unit.Position = destination;
             this.enabled = false;
-            //SEND MESSAGE
+            Debug.Log("perform attack after move");
+            unit.PerformAttack();
         }
         else
         {

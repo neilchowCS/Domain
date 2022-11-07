@@ -29,7 +29,7 @@ public class TimelineUI : MonoBehaviour
 
     public void RefreshTimeline()
     {
-        Debug.Log("refresh timeline");
+        //Debug.Log("refresh timeline");
         /*
         //float constant = 63f / 5f;
         for (int i = 0; i < executor.activeUnits.Count; i++)

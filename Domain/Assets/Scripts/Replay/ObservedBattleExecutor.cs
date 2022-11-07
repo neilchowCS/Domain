@@ -68,7 +68,7 @@ public class ObservedBattleExecutor : BattleExecutor
             timer = 0;
             if (ContinueRun())
             {
-                Logic();
+                BeginTurnCycle();
             }
             else
             {
@@ -79,11 +79,26 @@ public class ObservedBattleExecutor : BattleExecutor
         }
     }
 
-    public void Logic()
+    public void BeginTurnCycle()
     {
-        StepUp();
-        timelineUI.RefreshTimeline();
+        actingUnit = activeUnits[0];
+
+        events.InvokeStartTurn();
+
+        actingUnit.PerformAction();
+
         timer += 1;
+    }
+
+    public override void StepUp()
+    {
+        events.InvokeEndTurn();
+
+        AdvanceTimeline();
+
+        timelineUI.RefreshTimeline();
+
+        globalTick++;
     }
 
     protected override void InstantiateUnits()

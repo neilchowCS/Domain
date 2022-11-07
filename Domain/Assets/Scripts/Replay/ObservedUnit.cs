@@ -34,6 +34,8 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     //********************* Observed Specific *****************************
     public HealthBar healthBar;
     public UnitMovementController movementController;
+    private bool hasMoved;
+    private bool hasAttacked;
     //********************* Observed Specific *****************************
 
     public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source)
@@ -50,21 +52,12 @@ public class ObservedUnit : ObservedObject, IBattleUnit
 
     public virtual void PerformAction()
     {
-        bool hasMoved = false;
-        bool hasAttacked = false;
-        PerformMovement(ref hasMoved);
-        PerformAttack(ref hasAttacked);
-        if (hasMoved && !hasAttacked)
-        {
-            Timeline = Executor.maxTimeline - (Executor.maxTimeline * UnitData.unitRecovery.Value);
-        }
-        else
-        {
-            Timeline = Executor.maxTimeline;
-        }
+        hasMoved = false;
+        hasAttacked = false;
+        PerformMovement();
     }
 
-    public virtual void PerformMovement(ref bool hasMoved)
+    public virtual void PerformMovement()
     {
         if (CurrentTarget == null)
         {
@@ -76,6 +69,11 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             this.TargetClosestEnemy();
             MoveTowardsNext();
             hasMoved = true;
+        }
+        else
+        {
+            Debug.Log("perform attack in range");
+            PerformAttack();
         }
     }
 
@@ -95,7 +93,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             Vector3.Distance(Executor.mapGraph[Tile].Position, Position) / time);
     }
 
-    public virtual void PerformAttack(ref bool hasAttacked)
+    public virtual void PerformAttack()
     {
         if (this.TargetInRange())
         {
@@ -109,7 +107,19 @@ public class ObservedUnit : ObservedObject, IBattleUnit
                 PerformBasic();
                 ModifyMana(1);
             }
+            hasAttacked = true;
         }
+
+        if (hasMoved && !hasAttacked)
+        {
+            Debug.Log("recovery");
+            Timeline = Executor.maxTimeline - (Executor.maxTimeline * UnitData.unitRecovery.Value);
+        }
+        else
+        {
+            Timeline = Executor.maxTimeline;
+        }
+        Executor.StepUp();
     }
 
     public virtual void PerformBasic()
