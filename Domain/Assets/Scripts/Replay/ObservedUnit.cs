@@ -34,9 +34,9 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     //********************* Observed Specific *****************************
     public HealthBar healthBar;
     public UnitMovementController movementController;
-    private bool hasMoved;
-    private bool hasAttacked;
-    private bool waitProjectile;
+    protected bool hasMoved;
+    protected bool hasAttacked;
+    protected bool waitProjectile;
     //********************* Observed Specific *****************************
 
     public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source)
@@ -146,19 +146,29 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         switch (id)
         {
             case 0:
-                Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
-                ActionExtension.DealDamage(this, new() { CurrentTarget },
-            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-            DamageType.normal);
+                BasicProjectileEffect();
                 break;
             case 1:
-                Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
-                ActionExtension.DealDamage(this, new() { CurrentTarget },
-            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal);
+                SkillProjectileEffect();
                 break;
         }
         EndActionCycle();
+    }
+
+    public virtual void BasicProjectileEffect()
+    {
+        Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
+        ActionExtension.DealDamage(this, new() { CurrentTarget },
+    (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
+    DamageType.normal);
+    }
+
+    public virtual void SkillProjectileEffect()
+    {
+        Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
+        ActionExtension.DealDamage(this, new() { CurrentTarget },
+    (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
+    DamageType.normal);
     }
 
     public override void OnUnitDeath(IBattleUnit deadUnit)

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 517728491744709579}
   - component: {fileID: 517728491744709576}
   - component: {fileID: 517728491744709577}
-  - component: {fileID: 7612397362225123836}
   - component: {fileID: 7789168063538880448}
+  - component: {fileID: -3859087664398333015}
   m_Layer: 0
   m_Name: SuccubusRock
   m_TagString: Untagged
@@ -86,7 +86,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7612397362225123836
+--- !u!114 &7789168063538880448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517728491744709622}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985f49138915d40fbb5c1b98493e9973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: -3859087664398333015}
+  destination: {x: 0, y: 0, z: 0}
+  speed: 0
+--- !u!114 &-3859087664398333015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,7 +110,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 517728491744709622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef89a9e84ae0d43ea956ee2d678bb694, type: 3}
+  m_Script: {fileID: 11500000, guid: ba6238599c89b4bd9b6c9377d77581be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <ObjectName>k__BackingField: 
@@ -132,26 +147,11 @@ MonoBehaviour:
       value: 0
   <Timeline>k__BackingField: 0
   <StatusList>k__BackingField: []
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 7255787935485818497, guid: 7096843a4585447068bb7ba2af9345c2, type: 3}
   movementController: {fileID: 7789168063538880448}
   references:
     version: 2
     RefIds: []
---- !u!114 &7789168063538880448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517728491744709622}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 985f49138915d40fbb5c1b98493e9973, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit: {fileID: 7612397362225123836}
-  destination: {x: 0, y: 0, z: 0}
-  speed: 0
 --- !u!1 &8932241472686913913
 GameObject:
   m_ObjectHideFlags: 0
