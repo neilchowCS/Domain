@@ -22,6 +22,7 @@ public class BattleExecutor : MonoBehaviour
     public ReplayManager replayManager;
 
     public List<MapVertex> mapGraph;
+    public List<MapTile> mapTilesObj;
 
     public int maxTimeline = 100;
     //public float threshhold = 40;

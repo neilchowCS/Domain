@@ -15,6 +15,8 @@ public class ObservedBattleExecutor : BattleExecutor
 
     private float timer = 0;
 
+    private bool bottlenecked = false;
+
     public override void Start()
     {
         //Instantiate(AudioSingleton.PrefabAudio);
@@ -63,7 +65,7 @@ public class ObservedBattleExecutor : BattleExecutor
     private void Update()
     {
         timer -= Time.deltaTime;
-        if (timer <= 0)
+        if (timer <= 0 && !bottlenecked)
         {
             timer = 0;
             if (ContinueRun())
@@ -88,10 +90,14 @@ public class ObservedBattleExecutor : BattleExecutor
         actingUnit.PerformAction();
 
         timer += 1;
+
+        bottlenecked = true;
     }
 
     public override void StepUp()
     {
+        bottlenecked = false;
+
         events.InvokeEndTurn();
 
         AdvanceTimeline();

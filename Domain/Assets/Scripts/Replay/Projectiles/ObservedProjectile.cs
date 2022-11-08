@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ObservedProjectile : MonoBehaviour
 {
+    public ObservedUnit source;
+    public int projectileId;
     public IBattleUnit target;
     public Vector3 targetLocation;
     public float speed;
@@ -34,6 +36,7 @@ public class ObservedProjectile : MonoBehaviour
         if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z),
             new Vector2(targetLocation.x, targetLocation.z)) < 0.0001f)
         {
+            source.ProjectileHit(projectileId);
             Destroy(this.gameObject);
         }
     }

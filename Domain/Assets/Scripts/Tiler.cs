@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public class Tiler : MonoBehaviour
 {
-    public GameObject tile;
+    public MapTile tile;
     // Start is called before the first frame update
-    public List<GameObject> CreateTiles()
+    public List<MapTile> CreateTiles()
     {
-        List<GameObject> output = new List<GameObject>();
+        List<MapTile> output = new();
         if (tile != null)
         {
             int column = 8;
@@ -39,7 +39,7 @@ public class Tiler : MonoBehaviour
             {
                 for (int j = 0; j < row; j++)
                 {
-                    GameObject x = Instantiate(tile);
+                    MapTile x = Instantiate(tile);
                     if (i%2 == 0)
                     {
                         x.transform.position = new Vector3(initX - (distX * i), 0f, initZ1 - (distZ * j));

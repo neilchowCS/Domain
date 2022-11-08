@@ -162,6 +162,20 @@ public class Factory
         return output;
     }
 
+    public ObservedProjectile GetObservedProjectile(ObservedUnit source, int id)
+    {
+        ObservedProjectile output = GameObject.Instantiate(
+            source.UnitData.baseData.attackDataList[id].projectilePrefab,
+            source.Position, Quaternion.identity);
+        output.source = source;
+        output.projectileId = id;
+        output.target = source.CurrentTarget;
+        output.unitTarget = true;
+        output.speed = source.UnitData.baseData.attackDataList[id].speed;
+        
+        return output;
+    }
+
     public ObservedProjectile GetObservedProjectile(ObservedProjectile reference, Vector3 spawnPosition, Vector3 targetLocation, float speed)
     {
         ObservedProjectile output = GameObject.Instantiate(reference, spawnPosition, Quaternion.identity);

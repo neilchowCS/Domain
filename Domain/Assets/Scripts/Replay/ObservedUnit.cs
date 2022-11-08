@@ -36,6 +36,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public UnitMovementController movementController;
     private bool hasMoved;
     private bool hasAttacked;
+    private bool waitProjectile;
     //********************* Observed Specific *****************************
 
     public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source)
@@ -54,6 +55,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     {
         hasMoved = false;
         hasAttacked = false;
+        waitProjectile = false;
         PerformMovement();
     }
 
@@ -99,17 +101,29 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         {
             if (UnitData.mana >= UnitData.unitMaxMana.Value)
             {
-                PerformSkill();
+                waitProjectile = true;
+                //SKILL
+                NewProjectile(1);
                 ModifyMana(-UnitData.mana);
             }
             else
             {
-                PerformBasic();
+                waitProjectile = true;
+                //BASIC
+                NewProjectile(0);
                 ModifyMana(1);
             }
             hasAttacked = true;
         }
 
+        if (!waitProjectile)
+        {
+            EndActionCycle();
+        }
+    }
+
+    public virtual void EndActionCycle()
+    {
         if (hasMoved && !hasAttacked)
         {
             Debug.Log("recovery");
@@ -122,18 +136,29 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         Executor.StepUp();
     }
 
-    public virtual void PerformBasic()
+    public virtual void NewProjectile(int index)
     {
-        ActionExtension.DealDamage(this, new() { CurrentTarget },
-            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-            DamageType.normal);
+        Executor.factory.GetObservedProjectile(this, index);
     }
 
-    public virtual void PerformSkill()
+    public virtual void ProjectileHit(int id)
     {
-        ActionExtension.DealDamage(this, new() { CurrentTarget },
+        switch (id)
+        {
+            case 0:
+                Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
+                ActionExtension.DealDamage(this, new() { CurrentTarget },
+            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
+            DamageType.normal);
+                break;
+            case 1:
+                Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
+                ActionExtension.DealDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.normal);
+                break;
+        }
+        EndActionCycle();
     }
 
     public override void OnUnitDeath(IBattleUnit deadUnit)
