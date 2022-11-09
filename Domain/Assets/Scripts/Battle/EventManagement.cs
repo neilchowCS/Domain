@@ -24,10 +24,10 @@ public class EventManagement
     {
         //FIXME
         int count = 6;//units[0].UnitData.baseData.eventSubscriptions.events.Count;
+        //Debug.Log(orderedObjects[^1].Length + " events");
         for (int i = 0; i < units.Count; i++)
         {
             orderedObjects.Add(new List<IBattleObject>[count + 1]);
-            Debug.Log(orderedObjects[^1].Length + " events");
             for (int j = 0; j < orderedObjects[i].Length; j++)
             {
                 orderedObjects[i][j] = new List<IBattleObject>();

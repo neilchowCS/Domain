@@ -18,6 +18,8 @@ public class BattleExecutor : MonoBehaviour
     /// </summary>
     //public BattleEventHandler eventHandler;
     public EventManagement events;
+    public EventLogger logger;
+
     public Factory factory;
     public ReplayManager replayManager;
 
@@ -58,7 +60,7 @@ public class BattleExecutor : MonoBehaviour
 
     public virtual void ExecuteBattle()
     {
-        InitState();
+        InitState(0);
         //Debug.Log($"P0: {player0Active.Count}");
         //Debug.Log($"P1: {player1Active.Count}");
         globalTick++;
@@ -71,6 +73,7 @@ public class BattleExecutor : MonoBehaviour
         //Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
         if (player1Active.Count == 0 && player0Active.Count >= 1)
         {
+            logger.AddVictory(0);
             Debug.Log("Player won!");
             PlayerData data = DataSerialization.DeserializeStaticPlayerData(
                 System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
@@ -84,6 +87,7 @@ public class BattleExecutor : MonoBehaviour
         }
         else
         {
+            logger.AddVictory(1);
             Debug.Log("Player lost!");
         }
     }
@@ -118,7 +122,7 @@ public class BattleExecutor : MonoBehaviour
         }
 
         float distTime = next.Timeline / next.UnitData.unitAttackSpeed.Value;
-
+        Debug.Log($"");
         foreach (IBattleUnit unit in activeUnits)
         {
             unit.Timeline -= unit.UnitData.unitAttackSpeed.Value * distTime;
@@ -132,10 +136,11 @@ public class BattleExecutor : MonoBehaviour
         return (player0Active.Count > 0 && player1Active.Count > 0 && globalTick < 4000);
     }
 
-    protected virtual void InitState()
+    protected virtual void InitState(int i)
     {
         //eventHandler = new BattleEventHandler(this);
         events = new(this);
+        logger = new(i);
         factory = new Factory(this);
 
         globalTick = 0;
@@ -210,10 +215,8 @@ public class BattleExecutor : MonoBehaviour
         //DEBUG
         for (int i = 0; i < activeUnits.Count; i++)
         {
-            Debug.Log($"#{i} {activeUnits[i].ObjectName}: {activeUnits[i].UnitData.unitSpeed.Value} speed");
-            Debug.Log($"timeline: {activeUnits[i].Timeline}");
+            logger.AddInitialize(activeUnits[i]);
         }
-        Debug.Log("");
     }
 
     /*

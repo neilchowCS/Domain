@@ -33,7 +33,22 @@ public class Factory
     //***************** Unit Constructor *******************
     public virtual IBattleUnit NewUnit(int side, UnitRuntimeData data, int tileId)
     {
-        BattleUnit output = new BattleUnit(executor, side, data, tileId);
+        BattleUnit output = null;
+
+        switch (data.baseData.unitId)
+        {
+            case 1:
+                output = new BattleBob(executor, side, data, tileId);
+                break;
+            case 2:
+                output = new BattleJoe(executor, side, data, tileId);
+                break;
+            default:
+                Debug.Log("warning: default battle unit created");
+                output = new BattleUnit(executor, side, data, tileId);
+                break;
+        }
+        //output = new BattleUnit(executor, side, data, tileId);
         //output.Behavior = GetUnitBehavior(output);
         //output.Actions = GetUnitActions(output);
         //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
@@ -66,6 +81,7 @@ public class Factory
         return output;
     }
 
+    /*
     public UnitBehavior GetUnitBehavior(IBattleUnit unit)
     {
         switch (unit.UnitData.baseData.unitId)
@@ -81,7 +97,9 @@ public class Factory
         }
         return null;
     }
+    */
 
+    /*
     public BattleUnitActions GetUnitActions(BattleUnit unit)
     {
         switch (unit.UnitData.baseData.unitId)
@@ -90,6 +108,7 @@ public class Factory
                 return new BattleUnitActions(unit);
         }
     }
+    */
 
     public void ObservedUnitConstructor(IBattleUnit unit, int side,
         UnitRuntimeData unitData, int tileId)

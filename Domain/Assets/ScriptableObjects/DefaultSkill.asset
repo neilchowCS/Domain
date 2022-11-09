@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: DefaultSkill
   radius: 0
-  speed: 7
+  speed: 10
   leadup: 0
   backswing: 7
   value0: 2.5

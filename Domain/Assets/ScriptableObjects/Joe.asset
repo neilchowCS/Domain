@@ -17,25 +17,19 @@ MonoBehaviour:
   unitSprite: {fileID: 21300000, guid: c2f82fc6bdb4a4064a9419eb13c40df6, type: 3}
   elementEnum: 0
   baseHealth: 300
-  baseAttack: 25
+  baseAttack: 45
   baseDefense: 12
   baseMDefense: 0
-  baseAttackSpeed: 0.5
+  baseAttackSpeed: 0.7
   baseRange: 20
   baseSpeed: 60
-  baseStartingMana: 1
-  baseMaxMana: 2
+  baseStartingMana: 0
+  baseMaxMana: 0
   baseCrit: 0
   baseCritChance: 0
   baseMovementRecovery: 0
-  eventSubscriptions:
-    OnTick: 1
-    OnDamageDealt: 1
-    OnDamageTaken: 0
-    OnUnitDeath: 1
-    OnHealApplied: 0
   attackDataList:
   - {fileID: 11400000, guid: 6ec212f13add44fbe97c73d48aaf0273, type: 2}
-  - {fileID: 11400000, guid: 81782060ac8cc4a3cb278c52fa9b7a97, type: 2}
+  - {fileID: 11400000, guid: f041db16175804cc1870a1a6c305e110, type: 2}
   - {fileID: 11400000, guid: 98fc35a1457174010a5ad29bd1f11440, type: 2}
   commonRef: {fileID: 11400000, guid: 536a12f5993b7409f84ff73f293d44f6, type: 2}

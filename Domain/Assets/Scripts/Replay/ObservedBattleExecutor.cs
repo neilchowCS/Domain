@@ -21,7 +21,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         //Instantiate(AudioSingleton.PrefabAudio);
         //ExecuteBattle();
-        InitState();
+        InitState(1);
         //Debug.Log($"P0: {player0Active.Count}");
         //Debug.Log($"P1: {player1Active.Count}");
         globalTick++;
@@ -31,7 +31,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         if (this.enabled == false)
         {
-            InitState();
+            InitState(1);
             
             Debug.Log($"P0: {player0Active.Count}");
             Debug.Log($"P1: {player1Active.Count}");
@@ -40,9 +40,9 @@ public class ObservedBattleExecutor : BattleExecutor
         }
     }
 
-    protected override void InitState()
+    protected override void InitState(int i)
     {
-        base.InitState();
+        base.InitState(i);
 
         profiles = new();
         side0Profiles = new();
