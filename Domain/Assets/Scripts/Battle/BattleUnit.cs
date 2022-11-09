@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BehaviorExtension;
+using ActionExtension;
 using AoeTargetingExtension;
 
 /// <summary>
@@ -110,14 +110,14 @@ public class BattleUnit : BattleObject, IBattleUnit
 
     public virtual void PerformBasic()
     {
-        ActionExtension.DealDamage(this, new() { CurrentTarget },
+        ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
             DamageType.normal);
     }
 
     public virtual void PerformSkill()
     {
-        ActionExtension.DealDamage(this, new() { CurrentTarget },
+        ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.normal);
     }

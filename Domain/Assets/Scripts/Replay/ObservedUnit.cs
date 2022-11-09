@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BehaviorExtension;
+using ActionExtension;
 
 public class ObservedUnit : ObservedObject, IBattleUnit
 {
@@ -90,7 +90,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         Executor.mapGraph[Tile].occupied = true;
 
         //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
-        float time = .7f;
+        float time = .3f;
         movementController.StartMovement(Executor.mapGraph[Tile].Position,
             Vector3.Distance(Executor.mapGraph[Tile].Position, Position) / time);
     }
@@ -158,7 +158,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public virtual void BasicProjectileEffect()
     {
         Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
-        ActionExtension.DealDamage(this, new() { CurrentTarget },
+        ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
     (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
     DamageType.normal);
     }
@@ -166,7 +166,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public virtual void SkillProjectileEffect()
     {
         Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
-        ActionExtension.DealDamage(this, new() { CurrentTarget },
+        ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
     (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
     DamageType.normal);
     }

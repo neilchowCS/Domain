@@ -89,7 +89,7 @@ public class ObservedBattleExecutor : BattleExecutor
 
         actingUnit.PerformAction();
 
-        timer += 1;
+        timer += .7f;
 
         bottlenecked = true;
     }
@@ -162,7 +162,7 @@ public class ObservedBattleExecutor : BattleExecutor
         }
     }
 
-    public void UpdateProfileDamage(int id, int amount)
+    public override void UpdateProfileDamage(int id, int amount)
     {
         foreach (ReplayProfile i in profiles)
         {
@@ -177,7 +177,7 @@ public class ObservedBattleExecutor : BattleExecutor
         ReorderProfile();
     }
 
-    public void ReorderProfile()
+    protected void ReorderProfile()
     {
         side0Profiles = side0Profiles.OrderByDescending(o => o.damageInt).ToList();
         side1Profiles = side1Profiles.OrderByDescending(o => o.damageInt).ToList();

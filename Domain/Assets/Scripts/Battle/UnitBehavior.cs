@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BehaviorExtension;
+using ActionExtension;
 using AoeTargetingExtension;
 
 public class UnitBehavior : ObjectBehavior

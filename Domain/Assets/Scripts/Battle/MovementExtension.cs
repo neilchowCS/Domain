@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace BehaviorExtension
+namespace ActionExtension
 {
     public static class MovementExtension
     {

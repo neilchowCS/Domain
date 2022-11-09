@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BehaviorExtension;
+using ActionExtension;
 
 public class BattleJoe : BattleUnit
 {
@@ -23,7 +23,7 @@ public class BattleJoe : BattleUnit
 
         foreach(IBattleUnit target in targets)
         {
-            ActionExtension.DealDamage(this, new() { target },
+            ActionExtension.ActionExtension.DealDamage(this, new() { target },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.special);
         }

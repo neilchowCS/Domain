@@ -147,7 +147,7 @@ MonoBehaviour:
       value: 0
   <Timeline>k__BackingField: 0
   <StatusList>k__BackingField: []
-  healthBar: {fileID: 7255787935485818497, guid: 7096843a4585447068bb7ba2af9345c2, type: 3}
+  healthBar: {fileID: 0}
   movementController: {fileID: 7789168063538880448}
   references:
     version: 2

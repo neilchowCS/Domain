@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BehaviorExtension;
+using ActionExtension;
 
 public interface IBattleUnit : IBattleObject
 {

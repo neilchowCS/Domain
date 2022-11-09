@@ -13,7 +13,7 @@ public class ObservedUnitActions : BattleUnitActions
 
     public override void StartMoving(Vector3 moveLocation)
     {
-        float time = .7f;
+        float time = .3f;
         unit.movementController.StartMovement(moveLocation,
             Vector3.Distance(moveLocation, unit.transform.position) / time);
     }

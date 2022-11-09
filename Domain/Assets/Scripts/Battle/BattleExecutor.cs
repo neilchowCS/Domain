@@ -295,4 +295,9 @@ public class BattleExecutor : MonoBehaviour
     {
 
     }
+
+    public virtual void UpdateProfileDamage(int id, int amount)
+    {
+
+    }
 }
