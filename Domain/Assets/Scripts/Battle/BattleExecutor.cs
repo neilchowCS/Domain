@@ -98,7 +98,7 @@ public class BattleExecutor : MonoBehaviour
         actingUnit = activeUnits[0];
 
         events.InvokeStartTurn();
-        
+
         actingUnit.PerformAction();
 
         events.InvokeEndTurn();
@@ -122,7 +122,12 @@ public class BattleExecutor : MonoBehaviour
         }
 
         float distTime = next.Timeline / next.UnitData.unitAttackSpeed.Value;
-        Debug.Log($"");
+
+        foreach (IBattleUnit unit in activeUnits)
+        {
+            logger.AddTimeline(unit, unit.Timeline, next.Timeline / next.UnitData.unitAttackSpeed.Value, unit.UnitData.unitAttackSpeed.Value * (next.Timeline / next.UnitData.unitAttackSpeed.Value), unit.Timeline - unit.UnitData.unitAttackSpeed.Value * (next.Timeline / next.UnitData.unitAttackSpeed.Value), (unit == next));
+        }
+
         foreach (IBattleUnit unit in activeUnits)
         {
             unit.Timeline -= unit.UnitData.unitAttackSpeed.Value * distTime;

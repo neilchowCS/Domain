@@ -23,9 +23,11 @@ namespace ActionExtension
                 }
 
                 //damage reduction calcs here
+                damageSource.Executor.logger.DealDamage(damageSource, postmitigationDamage, damageTarget, damageTarget.UnitData.health, damageTarget.UnitData.health - postmitigationDamage);
 
                 damageTarget.ModifyHealth(-postmitigationDamage, damageType, damageSource);
                 damageTarget.Executor.CreateDamageNumber(damageTarget.Position, postmitigationDamage, damageType);
+
                 damageSource.Executor.UpdateProfileDamage(damageSource.GlobalObjectId, postmitigationDamage);
                 damageSource.Executor.EnqueueEvent(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType));
             }

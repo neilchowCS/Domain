@@ -13,7 +13,8 @@ public class BattleJoe : BattleUnit
     public override void PerformSkill()
     {
         List<IBattleUnit> targets = new();
-        foreach(IBattleUnit enemy in Executor.GetEnemyUnits(this))
+        targets.Add(CurrentTarget);
+        foreach (IBattleUnit enemy in Executor.GetEnemyUnits(this))
         {
             if (Executor.mapGraph[CurrentTarget.Tile].connections.Contains(enemy.Tile))
             {

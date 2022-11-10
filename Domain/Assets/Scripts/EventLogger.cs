@@ -21,7 +21,7 @@ public class EventLogger
 
     public string FormatLine(List<string> line)
     {
-        int length = 7;
+        int length = 8;
         string output = "";
         while(line.Count < length)
         {
@@ -59,17 +59,18 @@ public class EventLogger
     }
 
     public void AddInitialize(IBattleUnit unit) {
-        log.Add(new() {"INITIALIZE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", $"timeline {unit.Timeline}", $"speed {unit.UnitData.unitSpeed.Value}"});
+        log.Add(new() {"INITIALIZE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", $"timeline {unit.Timeline}", $"speed {unit.UnitData.unitSpeed.Value}", "tile " + unit.Tile});
     }
 
-    public void AddTimeline(IBattleUnit unit, int initialTimeline, int timespan, int distance, int finalTimeline)
+    public void AddTimeline(IBattleUnit unit, float initialTimeline, float timespan, float distance, float finalTimeline, bool isLeader)
     {
-        log.Add(new() { "ADVANCE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", "timeline "+initialTimeline, $"atkspd {unit.UnitData.unitAttackSpeed.Value}", "timespan " + timespan, "distance " + distance, "final " + finalTimeline });
+        string x = (isLeader)?"*":"";
+        log.Add(new() { "ADVANCE", $"{x}{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", "timeline "+initialTimeline, $"atkspd {unit.UnitData.unitAttackSpeed.Value}", "timespan " + timespan, "distance " + distance, "final " + finalTimeline });
     }
 
-    public void AddMovement(IBattleUnit unit)
+    public void AddMovement(IBattleUnit unit, int prevTile)
     {
-        log.Add(new() { "UNIT MOVE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", "tile " + unit.Tile });
+        log.Add(new() { "UNIT MOVE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", prevTile + " to " + unit.Tile});
     }
 
     public void AddAttack(IBattleUnit unit, int id, IBattleUnit target)

@@ -51,6 +51,7 @@ public class BattleUnit : BattleObject, IBattleUnit
         bool hasAttacked = false;
         PerformMovement(ref hasMoved);
         PerformAttack(ref hasAttacked);
+
         if (hasMoved && !hasAttacked)
         {
             Timeline = Executor.maxTimeline - (Executor.maxTimeline * UnitData.unitRecovery.Value);
@@ -81,6 +82,8 @@ public class BattleUnit : BattleObject, IBattleUnit
     /// </summary>
     public void MoveTowardsNext()
     {
+        int temp = Tile;
+
         Executor.mapGraph[Tile].occupied = false;
 
         Tile = this.GetNextBattleTile();
@@ -88,6 +91,8 @@ public class BattleUnit : BattleObject, IBattleUnit
 
         //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
         Position = Executor.mapGraph[Tile].Position;
+
+        Executor.logger.AddMovement(this, temp);
     }
 
     public virtual void PerformAttack(ref bool hasAttacked)
@@ -96,16 +101,18 @@ public class BattleUnit : BattleObject, IBattleUnit
         {
             if (UnitData.mana >= UnitData.unitMaxMana.Value)
             {
+                Executor.logger.AddAttack(this, 1, CurrentTarget);
                 PerformSkill();
                 ModifyMana(-UnitData.mana);
             }
             else
             {
+                Executor.logger.AddAttack(this, 0, CurrentTarget);
                 PerformBasic();
                 ModifyMana(1);
             }
+            hasAttacked = true;
         }
-        hasAttacked = true;
     }
 
     public virtual void PerformBasic()

@@ -74,7 +74,6 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         }
         else
         {
-            Debug.Log("perform attack in range");
             PerformAttack();
         }
     }
@@ -84,6 +83,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     /// </summary>
     public void MoveTowardsNext()
     {
+        int temp = Tile;
         Executor.mapGraph[Tile].occupied = false;
 
         Tile = this.GetNextBattleTile();
@@ -93,6 +93,8 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         float time = .3f;
         movementController.StartMovement(Executor.mapGraph[Tile].Position,
             Vector3.Distance(Executor.mapGraph[Tile].Position, Position) / time);
+
+        Executor.logger.AddMovement(this, temp);
     }
 
     public virtual void PerformAttack()
@@ -103,6 +105,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             {
                 waitProjectile = true;
                 //SKILL
+                Executor.logger.AddAttack(this, 1, CurrentTarget);
                 NewProjectile(1);
                 ModifyMana(-UnitData.mana);
             }
@@ -110,6 +113,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             {
                 waitProjectile = true;
                 //BASIC
+                Executor.logger.AddAttack(this, 0, CurrentTarget);
                 NewProjectile(0);
                 ModifyMana(1);
             }

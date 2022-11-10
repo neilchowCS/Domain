@@ -118,7 +118,19 @@ public class Factory
         unit.StatusList = new();
 
         unit.Tile = tileId;
+        unit.Timeline = 0;
+
         executor.mapGraph[unit.Tile].occupied = true;
+
+        /*
+        this.UnitData = unitData;
+        StatusList = new();
+
+        Tile = tileId;
+        Timeline = 0;
+        Position = Executor.mapGraph[Tile].Position;
+        Executor.mapGraph[Tile].occupied = true;
+        */
     }
 
     public ObservedUnitActions GetObservedUnitActions(ObservedUnit unit)

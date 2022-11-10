@@ -71,7 +71,8 @@ public class EventManagement
             {
                 //FIXME
                 IBattleUnit deadUnit = executor.activeUnits[i];
-                Debug.Log(deadUnit.ObjectName + " ded");
+                executor.logger.UnitDeath(deadUnit);
+
                 i--;
                 executor.activeUnits.Remove(deadUnit);
                 if (deadUnit.Side == 0)

@@ -75,7 +75,17 @@ public class ObservedBattleExecutor : BattleExecutor
             else
             {
                 Debug.Log(globalTick + " ticks");
-                Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
+                //Debug.Log(player1Active.Count == 0 && player0Active.Count >= 1 ? "Player won!" : "Player lost!");
+                if (player1Active.Count == 0 && player0Active.Count >= 1)
+                {
+                    logger.AddVictory(0);
+                    Debug.Log("Player won!");
+                }
+                else
+                {
+                    logger.AddVictory(1);
+                    Debug.Log("Player lost!");
+                }
                 this.enabled = false;
             }
         }
@@ -130,7 +140,7 @@ public class ObservedBattleExecutor : BattleExecutor
         }
 
         activeUnits = Enumerable.Concat(player0Active, player1Active).ToList();
-        activeUnits.OrderByDescending(o => o.UnitData.unitSpeed);
+        activeUnits = activeUnits.OrderByDescending(o => o.UnitData.unitSpeed.Value).ToList();
         InitializeTimeline();
     }
 

@@ -39,7 +39,7 @@ public class CharSelectIcon : MonoBehaviour
 
     public void OnMouseDown()
     {
-        Debug.Log("here");
+        //Debug.Log("here");
         initialPos = this.transform.parent.transform.localPosition.y;
         scrolling = false;
     }
