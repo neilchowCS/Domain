@@ -151,7 +151,7 @@ public class UnitBehavior : ObjectBehavior
     {
         if (deadUnit == unit)
         {
-            unit.Executor.mapGraph[unit.Tile].occupied = false;
+            //unit.Executor.hexMap[unit.Tile].occupied = false;
             unit.Executor.activeUnits.Remove(unit);
             if (unit.Side == 0)
             {

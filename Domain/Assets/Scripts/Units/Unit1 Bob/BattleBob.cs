@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleBob : BattleUnit
 {
-    public BattleBob(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId):base(exec, side, unitData, tileId)
+    public BattleBob(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileX, int tileY):base(exec, side, unitData, tileX, tileY)
     {
 
     }

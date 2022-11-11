@@ -22,7 +22,8 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         }
     }
 
-    public int Tile { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
 
     public IBattleUnit CurrentTarget { get; set; } = null;
 
@@ -83,18 +84,20 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     /// </summary>
     public void MoveTowardsNext()
     {
-        int temp = Tile;
-        Executor.mapGraph[Tile].occupied = false;
+        (int, int) temp = (X,Y);
+        Executor.hexMap[X, Y].occupied = false;
 
-        Tile = this.GetNextBattleTile();
-        Executor.mapGraph[Tile].occupied = true;
+        (int, int) newTile = this.GetNextBattleTile();
+        X = newTile.Item1;
+        Y = newTile.Item2;
+        Executor.hexMap[newTile.Item1, newTile.Item2].occupied = true;
 
         //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
         float time = .3f;
-        movementController.StartMovement(Executor.mapGraph[Tile].Position,
-            Vector3.Distance(Executor.mapGraph[Tile].Position, Position) / time);
+        movementController.StartMovement(Executor.hexMap[X, Y].Position,
+            Vector3.Distance(Executor.hexMap[X, Y].Position, Position) / time);
 
-        Executor.logger.AddMovement(this, temp);
+        Executor.logger.AddMovement(this, X, Y);
     }
 
     public virtual void PerformAttack()
@@ -130,7 +133,6 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     {
         if (hasMoved && !hasAttacked)
         {
-            Debug.Log("recovery");
             Timeline = Executor.maxTimeline - (Executor.maxTimeline * UnitData.unitRecovery.Value);
         }
         else
@@ -161,7 +163,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
 
     public virtual void BasicProjectileEffect()
     {
-        Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
+        Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
         ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
     (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
     DamageType.normal);
@@ -169,7 +171,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
 
     public virtual void SkillProjectileEffect()
     {
-        Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
+        Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
         ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
     (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
     DamageType.normal);
@@ -179,7 +181,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     {
         if (deadUnit == this)
         {
-            Executor.mapGraph[Tile].occupied = false;
+            Executor.hexMap[X, Y].occupied = false;
             this.gameObject.SetActive(false);
             GameObject.Destroy(healthBar.gameObject);
         }

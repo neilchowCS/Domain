@@ -15,7 +15,8 @@ public class BattleUnit : BattleObject, IBattleUnit
     public float Timeline { get; set; }
     public Vector3 Position { get; set; }
 
-    public int Tile { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
 
     public IBattleUnit CurrentTarget { get; set; } = null;
 
@@ -25,16 +26,18 @@ public class BattleUnit : BattleObject, IBattleUnit
     /// BattleUnit constructor
     /// </summary>
     public BattleUnit(BattleExecutor exec, int side,
-        UnitRuntimeData unitData, int tileId)
+        UnitRuntimeData unitData, int tileX, int tileY)
         : base(exec, side, unitData.baseData.unitName)
     {
         this.UnitData = unitData;
         StatusList = new();
 
-        Tile = tileId;
+        X = tileX;
+        Y = tileY;
         Timeline = 0;
-        Position = Executor.mapGraph[Tile].Position;
-        Executor.mapGraph[Tile].occupied = true;
+        Debug.Log(X + " " + Y);
+        Position = Executor.hexMap[X, Y].Position;
+        Executor.hexMap[X, Y].occupied = true;
     }
 
     public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source) {
@@ -82,17 +85,20 @@ public class BattleUnit : BattleObject, IBattleUnit
     /// </summary>
     public void MoveTowardsNext()
     {
-        int temp = Tile;
+        (int, int) temp = (X,Y);
 
-        Executor.mapGraph[Tile].occupied = false;
+        Executor.hexMap[X, Y].occupied = false;
 
-        Tile = this.GetNextBattleTile();
-        Executor.mapGraph[Tile].occupied = true;
+        (int, int) newTile = this.GetNextBattleTile();
+        //FIXME
+        X = newTile.Item1;
+        Y = newTile.Item2;
+        Executor.hexMap[newTile.Item1, newTile.Item2].occupied = true;
 
         //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
-        Position = Executor.mapGraph[Tile].Position;
+        Position = Executor.hexMap[X, Y].Position;
 
-        Executor.logger.AddMovement(this, temp);
+        Executor.logger.AddMovement(this, temp.Item1, temp.Item2);
     }
 
     public virtual void PerformAttack(ref bool hasAttacked)
@@ -133,7 +139,7 @@ public class BattleUnit : BattleObject, IBattleUnit
     {
         if (deadUnit == this)
         {
-            Executor.mapGraph[Tile].occupied = false;
+            Executor.hexMap[X,Y].occupied = false;
         }
 
         if (deadUnit == CurrentTarget)

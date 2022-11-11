@@ -5,7 +5,7 @@ using ActionExtension;
 
 public class BattleJoe : BattleUnit
 {
-    public BattleJoe(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileId) : base(exec, side, unitData, tileId)
+    public BattleJoe(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileX, int tileY) : base(exec, side, unitData, tileX, tileY)
     {
 
     }
@@ -14,9 +14,10 @@ public class BattleJoe : BattleUnit
     {
         List<IBattleUnit> targets = new();
         targets.Add(CurrentTarget);
+        List<(int, int)> neighbors = Executor.hexagonFunctions.GetNeighbors(CurrentTarget.X, CurrentTarget.Y);
         foreach (IBattleUnit enemy in Executor.GetEnemyUnits(this))
         {
-            if (Executor.mapGraph[CurrentTarget.Tile].connections.Contains(enemy.Tile))
+            if (neighbors.Contains((enemy.X, enemy.Y)))
             {
                 targets.Add(enemy);
             }

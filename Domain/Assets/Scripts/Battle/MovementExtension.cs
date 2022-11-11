@@ -36,30 +36,29 @@ namespace ActionExtension
         /// <summary>
         /// Gets unoccupied BattleTile that is adjacent to unit and closest to current target.
         /// </summary>
-        public static int GetNextBattleTile(this IBattleUnit battleUnit)
+        public static (int,int) GetNextBattleTile(this IBattleUnit battleUnit)
         {
             Vector3 position1 = battleUnit.Position;
             Vector3 position2 = battleUnit.CurrentTarget.Position;
 
-            int currTile = battleUnit.Tile;
+            List<(int,int)> eligible = new();
 
-            List<int> eligible = new();
-
-            foreach (int x in battleUnit.Executor.mapGraph[currTile].connections)
+            List<(int, int)> neighbors = battleUnit.Executor.hexagonFunctions.GetNeighbors(battleUnit.X, battleUnit.Y);
+            foreach ((int,int) x in neighbors)
             {
-                if (!battleUnit.Executor.mapGraph[x].occupied)
+                if (!battleUnit.Executor.hexMap[x.Item1, x.Item2].occupied)
                 {
                     eligible.Add(x);
                 }
             }
             //get adjacent tile with least distance between it and the target
-            eligible = eligible.OrderBy(o => Vector3.Distance(battleUnit.Executor.mapGraph[o].Position, position2)).ToList();
+            eligible = eligible.OrderBy(o => Vector3.Distance(battleUnit.Executor.hexMap[o.Item1,o.Item2].Position, position2)).ToList();
             if (eligible.Count > 0) //&& Vector3.Distance(eligible[0].position, position2) < Vector3.Distance(currTile.position, position2))
             {
                 return eligible[0];
             }
             //default
-            return currTile;
+            return (battleUnit.X, battleUnit.Y);
         }
     }
 }

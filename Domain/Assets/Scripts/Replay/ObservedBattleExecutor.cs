@@ -125,7 +125,7 @@ public class ObservedBattleExecutor : BattleExecutor
             {
                 player0Active.Add(factory.NewObservedUnit(0,
                     new UnitRuntimeData((dataListSO.uDList[reader.record.team0Data[i].unitId], reader.record.team0Data[i])),
-                    reader.record.team0Position[i]));
+                    hexagonFunctions.IndexToDimensional(reader.record.team0Position[i])));
             }
         }
 
@@ -135,7 +135,7 @@ public class ObservedBattleExecutor : BattleExecutor
             {
                 player1Active.Add(factory.NewObservedUnit(1,
                     new UnitRuntimeData((dataListSO.uDList[reader.record.team1Data[i].unitId], reader.record.team1Data[i])),
-                    reader.record.team1Position[i]));
+                    hexagonFunctions.IndexToDimensional(reader.record.team1Position[i])));
             }
         }
 

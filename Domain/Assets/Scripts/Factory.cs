@@ -31,21 +31,22 @@ public class Factory
     }
 
     //***************** Unit Constructor *******************
-    public virtual IBattleUnit NewUnit(int side, UnitRuntimeData data, int tileId)
+    public virtual IBattleUnit NewUnit(int side, UnitRuntimeData data, (int,int) tile)
     {
         BattleUnit output = null;
-
+        int tileX = tile.Item1;
+        int tileY = tile.Item2;
         switch (data.baseData.unitId)
         {
             case 1:
-                output = new BattleBob(executor, side, data, tileId);
+                output = new BattleBob(executor, side, data, tileX, tileY);
                 break;
             case 2:
-                output = new BattleJoe(executor, side, data, tileId);
+                output = new BattleJoe(executor, side, data, tileX, tileY);
                 break;
             default:
                 Debug.Log("warning: default battle unit created");
-                output = new BattleUnit(executor, side, data, tileId);
+                output = new BattleUnit(executor, side, data, tileX, tileY);
                 break;
         }
         //output = new BattleUnit(executor, side, data, tileId);
@@ -56,13 +57,13 @@ public class Factory
         return output;
     }
 
-    public virtual IBattleUnit NewObservedUnit(int side, UnitRuntimeData data, int tileId)
+    public virtual IBattleUnit NewObservedUnit(int side, UnitRuntimeData data, (int, int) tile)
     {
         ObservedUnit output =
             GameObject.Instantiate(executor.replayManager.replayUnitPrefabs[data.baseData.unitId],
-            executor.mapGraph[tileId].Position,
+            executor.hexMap[tile.Item1, tile.Item2].Position,
             (side == 0 ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0)));
-        ObservedUnitConstructor(output, side, data, tileId);
+        ObservedUnitConstructor(output, side, data, tile.Item1, tile.Item2);
         //output.Behavior = GetUnitBehavior(output);
         //output.Actions = GetObservedUnitActions(output);
         //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
@@ -111,16 +112,17 @@ public class Factory
     */
 
     public void ObservedUnitConstructor(IBattleUnit unit, int side,
-        UnitRuntimeData unitData, int tileId)
+        UnitRuntimeData unitData, int x, int y)
     {
         ObservedObjectConstructor(unit, side, unitData.baseData.name);
         unit.UnitData = unitData;
         unit.StatusList = new();
 
-        unit.Tile = tileId;
+        unit.X = x;
+        unit.Y = y;
         unit.Timeline = 0;
 
-        executor.mapGraph[unit.Tile].occupied = true;
+        executor.hexMap[unit.X, unit.Y].occupied = true;
 
         /*
         this.UnitData = unitData;

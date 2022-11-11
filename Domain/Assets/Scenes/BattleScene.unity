@@ -14046,7 +14046,62 @@ MonoBehaviour:
   reader: {fileID: 1969906534}
   globalTick: 0
   replayManager: {fileID: 1969906531}
-  mapTilesObj: []
+  mapTilesX0:
+  - {fileID: 901955160}
+  - {fileID: 581730024}
+  - {fileID: 1982740601}
+  - {fileID: 459229551}
+  - {fileID: 592921656}
+  - {fileID: 1112593499}
+  mapTilesX1:
+  - {fileID: 274461011}
+  - {fileID: 1289905230}
+  - {fileID: 1215201189}
+  - {fileID: 820098273}
+  - {fileID: 364789108}
+  - {fileID: 1224937445}
+  mapTilesX2:
+  - {fileID: 1373907661}
+  - {fileID: 317369861}
+  - {fileID: 1931994880}
+  - {fileID: 1101264158}
+  - {fileID: 1774940137}
+  - {fileID: 541890769}
+  mapTilesX3:
+  - {fileID: 586027455}
+  - {fileID: 112975537}
+  - {fileID: 942021340}
+  - {fileID: 389259779}
+  - {fileID: 1293913805}
+  - {fileID: 912506614}
+  mapTilesX4:
+  - {fileID: 264493214}
+  - {fileID: 1809880491}
+  - {fileID: 867771653}
+  - {fileID: 567413458}
+  - {fileID: 1870650823}
+  - {fileID: 1640799165}
+  mapTilesX5:
+  - {fileID: 1774546784}
+  - {fileID: 1771976180}
+  - {fileID: 655327302}
+  - {fileID: 1340149603}
+  - {fileID: 1839879224}
+  - {fileID: 217348493}
+  mapTilesX6:
+  - {fileID: 1876879126}
+  - {fileID: 1581791843}
+  - {fileID: 878703972}
+  - {fileID: 1719197800}
+  - {fileID: 308145076}
+  - {fileID: 2124169813}
+  mapTilesX7:
+  - {fileID: 808380352}
+  - {fileID: 1066975606}
+  - {fileID: 1617970816}
+  - {fileID: 2124772284}
+  - {fileID: 166562315}
+  - {fileID: 825271267}
   maxTimeline: 100
 --- !u!4 &1969906528
 Transform:
@@ -14140,49 +14195,56 @@ MonoBehaviour:
   reader: {fileID: 1969906534}
   globalTick: 0
   replayManager: {fileID: 1969906531}
-  mapTilesObj:
+  mapTilesX0:
   - {fileID: 901955160}
   - {fileID: 581730024}
   - {fileID: 1982740601}
   - {fileID: 459229551}
   - {fileID: 592921656}
   - {fileID: 1112593499}
+  mapTilesX1:
   - {fileID: 274461011}
   - {fileID: 1289905230}
   - {fileID: 1215201189}
   - {fileID: 820098273}
   - {fileID: 364789108}
   - {fileID: 1224937445}
+  mapTilesX2:
   - {fileID: 1373907661}
   - {fileID: 317369861}
   - {fileID: 1931994880}
   - {fileID: 1101264158}
   - {fileID: 1774940137}
   - {fileID: 541890769}
+  mapTilesX3:
   - {fileID: 586027455}
   - {fileID: 112975537}
   - {fileID: 942021340}
   - {fileID: 389259779}
   - {fileID: 1293913805}
   - {fileID: 912506614}
+  mapTilesX4:
   - {fileID: 264493214}
   - {fileID: 1809880491}
   - {fileID: 867771653}
   - {fileID: 567413458}
   - {fileID: 1870650823}
   - {fileID: 1640799165}
+  mapTilesX5:
   - {fileID: 1774546784}
   - {fileID: 1771976180}
   - {fileID: 655327302}
   - {fileID: 1340149603}
   - {fileID: 1839879224}
   - {fileID: 217348493}
+  mapTilesX6:
   - {fileID: 1876879126}
   - {fileID: 1581791843}
   - {fileID: 878703972}
   - {fileID: 1719197800}
   - {fileID: 308145076}
   - {fileID: 2124169813}
+  mapTilesX7:
   - {fileID: 808380352}
   - {fileID: 1066975606}
   - {fileID: 1617970816}

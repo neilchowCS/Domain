@@ -7,17 +7,18 @@ public class ObservedJoe : ObservedUnit
 {
     public override void SkillProjectileEffect()
     {
-        Executor.mapTilesObj[CurrentTarget.Tile].SetRed();
-        foreach (int i in Executor.mapGraph[CurrentTarget.Tile].connections)
+        Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
+        List<(int, int)> neighbors = Executor.hexagonFunctions.GetNeighbors(CurrentTarget.X, CurrentTarget.Y);
+        foreach ((int,int) i in neighbors)
         {
-            Executor.mapTilesObj[i].SetRed();
+            Executor.mapTilesObj[i.Item1][i.Item2].SetRed();
         }
 
         List<IBattleUnit> targets = new();
         targets.Add(CurrentTarget);
         foreach (IBattleUnit enemy in Executor.GetEnemyUnits(this))
         {
-            if (Executor.mapGraph[CurrentTarget.Tile].connections.Contains(enemy.Tile))
+            if (neighbors.Contains((enemy.X, enemy.Y)))
             {
                 targets.Add(enemy);
             }

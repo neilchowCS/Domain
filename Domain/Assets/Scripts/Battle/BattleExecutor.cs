@@ -23,8 +23,17 @@ public class BattleExecutor : MonoBehaviour
     public Factory factory;
     public ReplayManager replayManager;
 
-    public List<MapVertex> mapGraph;
-    public List<MapTile> mapTilesObj;
+    public Hexagon[,] hexMap;
+    public List<List<MapTile>> mapTilesObj;
+    public List<MapTile> mapTilesX0;
+    public List<MapTile> mapTilesX1;
+    public List<MapTile> mapTilesX2;
+    public List<MapTile> mapTilesX3;
+    public List<MapTile> mapTilesX4;
+    public List<MapTile> mapTilesX5;
+    public List<MapTile> mapTilesX6;
+    public List<MapTile> mapTilesX7;
+    public HexagonFunctions hexagonFunctions;
 
     public int maxTimeline = 100;
     //public float threshhold = 40;
@@ -152,7 +161,9 @@ public class BattleExecutor : MonoBehaviour
         globalObjectId = 0;
 
         //timeline = new Timeline(this);
-        mapGraph = MapGraph.GetMap();
+        hexMap = HexMapGenerator.GenerateHexMap();
+        hexagonFunctions = new HexagonFunctions(hexMap.GetLength(0) - 1, hexMap.GetLength(1) - 1);
+        mapTilesObj = new List<List<MapTile>> { mapTilesX0, mapTilesX1, mapTilesX2, mapTilesX3, mapTilesX4, mapTilesX5, mapTilesX6, mapTilesX7 };
 
         player0Active = new List<IBattleUnit>();
         player0Dead = new List<IBattleUnit>();
@@ -179,7 +190,7 @@ public class BattleExecutor : MonoBehaviour
             {
                 player0Active.Add(factory.NewUnit(0,
                     new UnitRuntimeData((dataListSO.uDList[reader.record.team0Data[i].unitId], reader.record.team0Data[i])),
-                    reader.record.team0Position[i]));
+                    hexagonFunctions.IndexToDimensional(reader.record.team0Position[i])));
             }
         }
 
@@ -189,7 +200,7 @@ public class BattleExecutor : MonoBehaviour
             {
                 player1Active.Add(factory.NewUnit(1,
                     new UnitRuntimeData((dataListSO.uDList[reader.record.team1Data[i].unitId], reader.record.team1Data[i])),
-                    reader.record.team1Position[i]));
+                    hexagonFunctions.IndexToDimensional(reader.record.team1Position[i])));
             }
         }
 
