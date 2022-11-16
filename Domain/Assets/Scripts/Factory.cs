@@ -44,6 +44,9 @@ public class Factory
             case 2:
                 output = new BattleJoe(executor, side, data, tileX, tileY);
                 break;
+            case 3:
+                output = new BattleDoe(executor, side, data, tileX, tileY);
+                break;
             default:
                 Debug.Log("warning: default battle unit created");
                 output = new BattleUnit(executor, side, data, tileX, tileY);

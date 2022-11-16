@@ -15,7 +15,7 @@ namespace ActionExtension
             => unit.GetBattleUnitDistance(unit.CurrentTarget);
         
         public static bool TargetInRange(this IBattleUnit unit)
-            => unit.GetTargetDistance() < unit.UnitData.unitRange.Value;
+            => unit.GetTargetDistance() <= unit.UnitData.unitRange.Value;
         
 
         public static int GetBattleUnitDistance(this IBattleUnit unit, IBattleUnit otherUnit)
@@ -66,6 +66,20 @@ namespace ActionExtension
             }
             //default
             return (battleUnit.X, battleUnit.Y);
+        }
+
+        public static List<IBattleUnit> GetEnemiesInTiles(IBattleObject obj, List<(int, int)> tiles)
+        {
+            List<IBattleUnit> output = new();
+            foreach ((int, int) tile in tiles)
+            {
+                if (obj.Executor.hexMap[tile.Item1, tile.Item2].occupant != null &&
+                    obj.Executor.hexMap[tile.Item1, tile.Item2].occupant.Side != obj.Side)
+                {
+                    output.Add(obj.Executor.hexMap[tile.Item1, tile.Item2].occupant);
+                }
+            }
+            return output;
         }
     }
 }

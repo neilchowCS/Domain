@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using ActionExtension;
 
-public class ObservedJoe : ObservedUnit
+public class ObservedDoe : ObservedUnit
 {
     public override void SkillProjectileEffect()
     {
-        Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
-        List<(int, int)> neighbors = Executor.hexagonFunctions.GetNeighbors(CurrentTarget.X, CurrentTarget.Y);
-        foreach ((int,int) i in neighbors)
+        List<(int, int)> line = Executor.hexagonFunctions.GetLine(X, Y, CurrentTarget.X, CurrentTarget.Y, 3);
+        foreach ((int, int) i in line)
         {
             Executor.mapTilesObj[i.Item1][i.Item2].SetRed();
         }
 
-        List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, neighbors);
-        targets.Add(CurrentTarget);
+        List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, line);
 
         foreach (IBattleUnit target in targets)
         {

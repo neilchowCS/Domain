@@ -96,11 +96,12 @@ public class HexagonFunctions
         }
 
         List<(int, int)> output = new();
-        Axial a = new Axial(x1, y1);
-        Axial b = new Axial(x2, y2);
+        output.Add((x2,y2));
+        Axial a = RectangularToAxial(x1, y1);
+        Axial b = RectangularToAxial(x2, y2);
         for (int i = 0; i < count; i++)
         {
-            Axial d = new Axial(a.q - b.q, a.r - b.r);
+            Axial d = new Axial(b.q - a.q, b.r - a.r);
             Axial o = new Axial(b.q + d.q, b.r + d.r);
             (int, int) rect = AxialToRectangular(o);
             if (isValid(rect))

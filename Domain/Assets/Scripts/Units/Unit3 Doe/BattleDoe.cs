@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using ActionExtension;
 
-public class BattleJoe : BattleUnit
+public class BattleDoe : BattleUnit
 {
-    public BattleJoe(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileX, int tileY) : base(exec, side, unitData, tileX, tileY)
+    public BattleDoe(BattleExecutor exec, int side, UnitRuntimeData unitData, int tileX, int tileY) : base(exec, side, unitData, tileX, tileY)
     {
 
     }
 
     public override void PerformSkill()
     {
-        List<(int, int)> neighbors = Executor.hexagonFunctions.GetNeighbors(CurrentTarget.X, CurrentTarget.Y);
-        List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, neighbors);
-        targets.Add(CurrentTarget);
+        List<(int, int)> line = Executor.hexagonFunctions.GetLine(X,Y,CurrentTarget.X,CurrentTarget.Y,3);
+        List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, line);
 
         foreach (IBattleUnit target in targets)
         {
