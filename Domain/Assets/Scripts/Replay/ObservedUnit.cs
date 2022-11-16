@@ -85,12 +85,12 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public void MoveTowardsNext()
     {
         (int, int) temp = (X,Y);
-        Executor.hexMap[X, Y].occupied = false;
+        Executor.hexMap[X, Y].occupant = null;
 
         (int, int) newTile = this.GetNextBattleTile();
         X = newTile.Item1;
         Y = newTile.Item2;
-        Executor.hexMap[newTile.Item1, newTile.Item2].occupied = true;
+        Executor.hexMap[newTile.Item1, newTile.Item2].occupant = this;
 
         //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
         float time = .3f;
@@ -181,7 +181,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     {
         if (deadUnit == this)
         {
-            Executor.hexMap[X, Y].occupied = false;
+            Executor.hexMap[X, Y].occupant = null;
             this.gameObject.SetActive(false);
             GameObject.Destroy(healthBar.gameObject);
         }

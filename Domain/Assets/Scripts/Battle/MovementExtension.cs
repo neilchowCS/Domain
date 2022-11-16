@@ -7,14 +7,21 @@ namespace ActionExtension
 {
     public static class MovementExtension
     {
+        /*
         public static float GetBattleUnitDistance(this IBattleUnit unit, IBattleUnit otherUnit)
             => Vector3.Distance(unit.Position, otherUnit.Position);
-
+        */
         public static float GetTargetDistance(this IBattleUnit unit)
             => unit.GetBattleUnitDistance(unit.CurrentTarget);
-
+        
         public static bool TargetInRange(this IBattleUnit unit)
             => unit.GetTargetDistance() < unit.UnitData.unitRange.Value;
+        
+
+        public static int GetBattleUnitDistance(this IBattleUnit unit, IBattleUnit otherUnit)
+        {
+            return unit.Executor.hexagonFunctions.GetDistance(unit.X, unit.Y, otherUnit.X, otherUnit.Y);
+        }
 
         /// <summary>
         /// Sets currentTarget for this BattleUnit.
@@ -46,7 +53,7 @@ namespace ActionExtension
             List<(int, int)> neighbors = battleUnit.Executor.hexagonFunctions.GetNeighbors(battleUnit.X, battleUnit.Y);
             foreach ((int,int) x in neighbors)
             {
-                if (!battleUnit.Executor.hexMap[x.Item1, x.Item2].occupied)
+                if (battleUnit.Executor.hexMap[x.Item1, x.Item2].occupant == null)
                 {
                     eligible.Add(x);
                 }

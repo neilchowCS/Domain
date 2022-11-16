@@ -37,7 +37,7 @@ public class BattleUnit : BattleObject, IBattleUnit
         Timeline = 0;
         Debug.Log(X + " " + Y);
         Position = Executor.hexMap[X, Y].Position;
-        Executor.hexMap[X, Y].occupied = true;
+        Executor.hexMap[X, Y].occupant = this;
     }
 
     public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source) {
@@ -87,13 +87,13 @@ public class BattleUnit : BattleObject, IBattleUnit
     {
         (int, int) temp = (X,Y);
 
-        Executor.hexMap[X, Y].occupied = false;
+        Executor.hexMap[X, Y].occupant = null;
 
         (int, int) newTile = this.GetNextBattleTile();
         //FIXME
         X = newTile.Item1;
         Y = newTile.Item2;
-        Executor.hexMap[newTile.Item1, newTile.Item2].occupied = true;
+        Executor.hexMap[newTile.Item1, newTile.Item2].occupant = this;
 
         //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
         Position = Executor.hexMap[X, Y].Position;
@@ -139,7 +139,7 @@ public class BattleUnit : BattleObject, IBattleUnit
     {
         if (deadUnit == this)
         {
-            Executor.hexMap[X,Y].occupied = false;
+            Executor.hexMap[X,Y].occupant = this;
         }
 
         if (deadUnit == CurrentTarget)

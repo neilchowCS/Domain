@@ -122,7 +122,7 @@ public class Factory
         unit.Y = y;
         unit.Timeline = 0;
 
-        executor.hexMap[unit.X, unit.Y].occupied = true;
+        executor.hexMap[unit.X, unit.Y].occupant = unit;
 
         /*
         this.UnitData = unitData;

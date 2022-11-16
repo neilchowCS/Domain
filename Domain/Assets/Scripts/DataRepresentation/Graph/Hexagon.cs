@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Hexagon
 {
-    public bool occupied = false;
+    public IBattleUnit occupant = null;
 
     private Vector3 position;
     public Vector3 Position

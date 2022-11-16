@@ -15,11 +15,12 @@ public class BattleJoe : BattleUnit
         List<IBattleUnit> targets = new();
         targets.Add(CurrentTarget);
         List<(int, int)> neighbors = Executor.hexagonFunctions.GetNeighbors(CurrentTarget.X, CurrentTarget.Y);
-        foreach (IBattleUnit enemy in Executor.GetEnemyUnits(this))
+        foreach ((int, int) tile in neighbors)
         {
-            if (neighbors.Contains((enemy.X, enemy.Y)))
+            if (Executor.hexMap[tile.Item1, tile.Item2].occupant != null &&
+                Executor.hexMap[tile.Item1, tile.Item2].occupant.Side != this.Side)
             {
-                targets.Add(enemy);
+                targets.Add(Executor.hexMap[tile.Item1, tile.Item2].occupant);
             }
         }
 

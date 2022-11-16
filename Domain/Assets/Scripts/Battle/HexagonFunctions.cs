@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class HexagonFunctions
 {
@@ -31,6 +32,7 @@ public class HexagonFunctions
     public (int, int) AxialToRectangular(Axial hex) => (hex.q, hex.r + (hex.q - (hex.q & 1)) / 2);
 
     public bool isValid(int x, int y) => (x >= 0 && x <= maxX && y >= 0 && y <= maxY);
+    public bool isValid((int, int) x) => isValid(x.Item1, x.Item2);
 
     public List<(int, int)> GetNeighbors(int x, int y)
     {
@@ -44,6 +46,75 @@ public class HexagonFunctions
                 output.Add(temp);
             }
         }
+        return output;
+    }
+
+    public int GetDistance(int x1, int y1, int x2, int y2)
+    {
+        /*
+        function axial_distance(a, b):
+    return (abs(a.q - b.q)
+          + abs(a.q + a.r - b.q - b.r)
+          + abs(a.r - b.r)) / 2
+        */
+        Axial a = RectangularToAxial(x1, y1);
+        Axial b = RectangularToAxial(x2, y2);
+        Debug.Log((Math.Abs(a.q - b.q)
+          + Math.Abs(a.q + a.r - b.q - b.r)
+          + Math.Abs(a.r - b.r)) / 2f);
+        return (Math.Abs(a.q - b.q)
+          + Math.Abs(a.q + a.r - b.q - b.r)
+          + Math.Abs(a.r - b.r)) / 2;
+    }
+
+    public List<(int, int)> HexWithinDistance(int x, int y, int d)
+    {
+        Axial a = RectangularToAxial(x, y);
+        List<(int, int)> output = new();
+        for (int q = -d; q <= d; q++)
+        {
+            //max(-N, -q - N) ≤ r ≤ min(+N, -q + N):
+            for (int r = Math.Max(-d, -q-d); r <= Math.Min(d, -q+d); r++)
+            {
+                //results.append(axial_add(center, Hex(q, r)))
+                (int, int) b = AxialToRectangular(new Axial(a.q + q, a.r + r));
+                if (isValid(b))
+                {
+                    output.Add(b);
+                }
+            }
+        }
+
+        return output;
+    }
+
+    public List<(int, int)> GetLine(int x1, int y1, int x2, int y2, int count)
+    {
+        if (GetDistance(x1, y1, x2, y2) > 1)
+        {
+            return new List<(int, int)>();
+        }
+
+        List<(int, int)> output = new();
+        Axial a = new Axial(x1, y1);
+        Axial b = new Axial(x2, y2);
+        for (int i = 0; i < count; i++)
+        {
+            Axial d = new Axial(a.q - b.q, a.r - b.r);
+            Axial o = new Axial(b.q + d.q, b.r + d.r);
+            (int, int) rect = AxialToRectangular(o);
+            if (isValid(rect))
+            {
+                output.Add(rect);
+                a = b;
+                b = o;
+            }
+            else
+            {
+                break;
+            }
+        }
+
         return output;
     }
 }
