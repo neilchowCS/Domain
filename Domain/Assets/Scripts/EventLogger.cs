@@ -73,9 +73,22 @@ public class EventLogger
         log.Add(new() { "UNIT MOVE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", $"({prevX}. {prevY}) to ({unit.X}. {unit.Y})"});
     }
 
-    public void AddAttack(IBattleUnit unit, IBattleUnit target, bool isSkill)
+    public void AddAttack(IBattleUnit unit, IBattleUnit target, AbilityType abilityType)
     {
-        log.Add(new() { "UNIT ATTACK", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", (isSkill?"skill":"basic"), $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})" });
+        string x = "";
+        switch (abilityType)
+        {
+            case AbilityType.Basic:
+                x = "Basic";
+                break;
+            case AbilityType.Skill:
+                x = "Skill";
+                break;
+            case AbilityType.Passive:
+                x = "Passive";
+                break;
+        }
+        log.Add(new() { "UNIT ATTACK", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", x, $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})" });
     }
 
     public void DealDamage(IBattleUnit unit, int amount, IBattleUnit target, int hpi, int hpf, bool isCrit)

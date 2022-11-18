@@ -11,6 +11,8 @@ public class RandomGenerators : MonoBehaviour
     private void Awake()
     {
         s = (int)System.DateTime.Now.Ticks & 0x0000FFFF;
+        rand0 = new System.Random(s);
+        rand1 = new System.Random(s);
     }
 
     // Start is called before the first frame update

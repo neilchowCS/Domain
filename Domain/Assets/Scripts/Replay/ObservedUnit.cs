@@ -109,7 +109,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             {
                 waitProjectile = true;
                 //SKILL
-                Executor.logger.AddAttack(this, CurrentTarget, true);
+                Executor.logger.AddAttack(this, CurrentTarget, AbilityType.Skill);
                 NewProjectile(1);
                 ModifyMana(-UnitData.mana);
             }
@@ -117,7 +117,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             {
                 waitProjectile = true;
                 //BASIC
-                Executor.logger.AddAttack(this, CurrentTarget, false);
+                Executor.logger.AddAttack(this, CurrentTarget, AbilityType.Basic);
                 NewProjectile(0);
                 ModifyMana(1);
             }
@@ -167,7 +167,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-           DamageType.normal, false).Cast<IEventCommand>().ToList()
+           DamageType.normal, AbilityType.Basic).Cast<IEventCommand>().ToList()
         );
     }
 
@@ -176,7 +176,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal, true).Cast<IEventCommand>().ToList()
+            DamageType.normal, AbilityType.Skill).Cast<IEventCommand>().ToList()
         );
     }
 

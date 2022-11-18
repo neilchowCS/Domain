@@ -34,6 +34,7 @@ public class EventManagement
             }
             //ordered object[i] = ith speed tier, get event array
             //ordered object[^1] = last event array, get list
+            orderedObjects[i][2].Add(units[i]);
             orderedObjects[i][3].Add(units[i]);
             orderedObjects[i][^1].Add(units[i]);
         }
@@ -119,13 +120,13 @@ public class EventManagement
     }
 
     public void InvokeDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget,
-        int amount, DamageType damageType, bool isSkill, bool isCrit)
+        int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
     {
         foreach (List<IBattleObject>[] speedTier in orderedObjects)
         {
             foreach (IBattleObject obj in speedTier[2])
             {
-                obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, isSkill, isCrit);
+                obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, abilityType, isCrit);
             }
         }
     }

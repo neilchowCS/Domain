@@ -110,13 +110,13 @@ public class BattleUnit : BattleObject, IBattleUnit
         {
             if (UnitData.mana >= UnitData.unitMaxMana.Value)
             {
-                Executor.logger.AddAttack(this, CurrentTarget, true);
+                Executor.logger.AddAttack(this, CurrentTarget, AbilityType.Skill);
                 PerformSkill();
                 ModifyMana(-UnitData.mana);
             }
             else
             {
-                Executor.logger.AddAttack(this, CurrentTarget, false);
+                Executor.logger.AddAttack(this, CurrentTarget, AbilityType.Basic);
                 PerformBasic();
                 ModifyMana(1);
             }
@@ -128,7 +128,7 @@ public class BattleUnit : BattleObject, IBattleUnit
     {
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-           DamageType.normal, false).Cast<IEventCommand>().ToList()
+           DamageType.normal, AbilityType.Basic).Cast<IEventCommand>().ToList()
         );
     }
 
@@ -136,7 +136,7 @@ public class BattleUnit : BattleObject, IBattleUnit
     {
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal, true).Cast<IEventCommand>().ToList()
+            DamageType.normal, AbilityType.Skill).Cast<IEventCommand>().ToList()
         );
     }
 

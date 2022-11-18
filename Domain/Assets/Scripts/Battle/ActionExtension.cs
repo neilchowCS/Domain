@@ -8,10 +8,11 @@ namespace ActionExtension
     public static class ActionExtension
     {
         public static List<DamageDealtCommand> ProcessDamage(IBattleUnit damageSource,
-            List<IBattleUnit> damageTargets, int premitigationAmount, DamageType damageType, bool isSkill)
+            List<IBattleUnit> damageTargets, int premitigationAmount, DamageType damageType, AbilityType abilityType)
         {
             List<DamageDealtCommand> output = new();
             int postmitigationDamage = 0;
+            Debug.Log(damageSource.Executor.rng == null);
             bool crit = damageSource.Executor.rng.NextDouble() <= damageSource.UnitData.unitCritChance.Value;
 
             foreach (IBattleUnit damageTarget in damageTargets)
@@ -35,7 +36,7 @@ namespace ActionExtension
                 damageTarget.Executor.CreateDamageNumber(damageTarget.Position, postmitigationDamage, damageType, crit);
 
                 damageSource.Executor.UpdateProfileDamage(damageSource.GlobalObjectId, postmitigationDamage);
-                output.Add(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType, isSkill, crit));
+                output.Add(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType, abilityType, crit));
             }
             //damageSource.Executor.EnqueueEvent(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType));
             return output;

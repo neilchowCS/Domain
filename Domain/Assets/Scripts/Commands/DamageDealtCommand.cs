@@ -9,17 +9,17 @@ public class DamageDealtCommand : IEventCommand
     private IBattleUnit damageTarget;
     private int amount;
     private DamageType damageType;
-    private bool isSkill;
+    private AbilityType abilityType;
     private bool isCrit;
 
     public DamageDealtCommand(IBattleUnit damageSource, IBattleUnit damageTarget,
-        int amount, DamageType damageType, bool isSkill, bool isCrit)
+        int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
     {
         this.damageSource = damageSource;
         this.damageTarget = damageTarget;
         this.amount = amount;
         this.damageType = damageType;
-        this.isSkill = isSkill;
+        this.abilityType = abilityType;
         this.isCrit = isCrit;
     }
 
@@ -28,6 +28,6 @@ public class DamageDealtCommand : IEventCommand
     /// </summary>
     public void Execute(IBattleObject obj)
     {
-        obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, isSkill, isCrit);
+        obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, abilityType, isCrit);
     }
 }
