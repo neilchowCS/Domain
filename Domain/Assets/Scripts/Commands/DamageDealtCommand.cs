@@ -9,14 +9,18 @@ public class DamageDealtCommand : IEventCommand
     private IBattleUnit damageTarget;
     private int amount;
     private DamageType damageType;
+    private bool isSkill;
+    private bool isCrit;
 
     public DamageDealtCommand(IBattleUnit damageSource, IBattleUnit damageTarget,
-        int amount, DamageType damageType)
+        int amount, DamageType damageType, bool isSkill, bool isCrit)
     {
         this.damageSource = damageSource;
         this.damageTarget = damageTarget;
         this.amount = amount;
         this.damageType = damageType;
+        this.isSkill = isSkill;
+        this.isCrit = isCrit;
     }
 
     /// <summary>
@@ -24,6 +28,6 @@ public class DamageDealtCommand : IEventCommand
     /// </summary>
     public void Execute(IBattleObject obj)
     {
-        obj.OnDamageDealt(damageSource, damageTarget, amount, damageType);
+        obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, isSkill, isCrit);
     }
 }

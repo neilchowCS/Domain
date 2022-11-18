@@ -31,7 +31,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         if (this.enabled == false)
         {
-            InitState(1);
+            InitState(execId);
             
             Debug.Log($"P0: {player0Active.Count}");
             Debug.Log($"P1: {player1Active.Count}");
@@ -214,14 +214,18 @@ public class ObservedBattleExecutor : BattleExecutor
         }
     }
 
-    public override void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType)
+    public override void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType, bool isCrit)
     {
         DamageNumber x = Instantiate(replayManager.damageNumber,
                 replayManager.screenOverlayCanvas.transform, false);
         x.transform.position = Camera.main.WorldToScreenPoint(unitPosition) + new Vector3(0, 50, 0);
 
-
-        if (damageType == DamageType.normal)
+        if (isCrit)
+        {
+            x.textMesh.text = "-" + value;
+            x.textMesh.color = Color.red;
+        }
+        else if (damageType == DamageType.normal)
         {
             x.textMesh.text = "-" + value;
         }

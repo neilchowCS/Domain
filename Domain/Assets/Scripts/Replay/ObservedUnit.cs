@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ActionExtension;
+using System.Linq;
 
 public class ObservedUnit : ObservedObject, IBattleUnit
 {
@@ -84,7 +85,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     /// </summary>
     public void MoveTowardsNext()
     {
-        (int, int) temp = (X,Y);
+        (int, int) temp = (X, Y);
         Executor.hexMap[X, Y].occupant = null;
 
         (int, int) newTile = this.GetNextBattleTile();
@@ -97,7 +98,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         movementController.StartMovement(Executor.hexMap[X, Y].Position,
             Vector3.Distance(Executor.hexMap[X, Y].Position, Position) / time);
 
-        Executor.logger.AddMovement(this, X, Y);
+        Executor.logger.AddMovement(this, temp.Item1, temp.Item2);
     }
 
     public virtual void PerformAttack()
@@ -108,7 +109,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             {
                 waitProjectile = true;
                 //SKILL
-                Executor.logger.AddAttack(this, 1, CurrentTarget);
+                Executor.logger.AddAttack(this, CurrentTarget, true);
                 NewProjectile(1);
                 ModifyMana(-UnitData.mana);
             }
@@ -116,7 +117,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             {
                 waitProjectile = true;
                 //BASIC
-                Executor.logger.AddAttack(this, 0, CurrentTarget);
+                Executor.logger.AddAttack(this, CurrentTarget, false);
                 NewProjectile(0);
                 ModifyMana(1);
             }
@@ -164,17 +165,19 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public virtual void BasicProjectileEffect()
     {
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
-        ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
-    (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-    DamageType.normal);
+        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+           (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
+           DamageType.normal, false).Cast<IEventCommand>().ToList()
+        );
     }
 
     public virtual void SkillProjectileEffect()
     {
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
-        ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
-    (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-    DamageType.normal);
+        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
+            DamageType.normal, true).Cast<IEventCommand>().ToList()
+        );
     }
 
     public override void OnUnitDeath(IBattleUnit deadUnit)

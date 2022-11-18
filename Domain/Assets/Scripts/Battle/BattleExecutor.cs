@@ -6,11 +6,15 @@ using System.Linq;
 
 public class BattleExecutor : MonoBehaviour
 {
+    public int execId;
     public bool isObserved = false;
 
     public UDListScriptableObject dataListSO;
 
     public MessengerReader reader;
+    [SerializeField]
+    protected RandomGenerators rngGen;
+    public System.Random rng;
 
     public int globalTick;
     /// <summary>
@@ -69,7 +73,7 @@ public class BattleExecutor : MonoBehaviour
 
     public virtual void ExecuteBattle()
     {
-        InitState(0);
+        InitState(execId);
         //Debug.Log($"P0: {player0Active.Count}");
         //Debug.Log($"P1: {player1Active.Count}");
         globalTick++;
@@ -155,6 +159,7 @@ public class BattleExecutor : MonoBehaviour
         //eventHandler = new BattleEventHandler(this);
         events = new(this);
         logger = new(i);
+        
         factory = new Factory(this);
 
         globalTick = 0;
@@ -176,6 +181,14 @@ public class BattleExecutor : MonoBehaviour
         if (!reader.hasRead)
         {
             reader.ReadTeamMessenger();
+        }
+        if (execId == 0)
+        {
+            rng = rngGen.rand0;
+        }
+        else
+        {
+            rng = rngGen.rand1;
         }
 
         InstantiateUnits();
@@ -301,7 +314,7 @@ public class BattleExecutor : MonoBehaviour
         return player0Active;
     }
 
-    public void EnqueueEvent(IEventCommand command)
+    public void EnqueueEvent(List<IEventCommand> command)
     {
         events.commandQueue.Enqueue(command);
         if (events.commandQueue.Count <= 1)
@@ -310,7 +323,7 @@ public class BattleExecutor : MonoBehaviour
         }
     }
 
-    public virtual void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType)
+    public virtual void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType, bool isCrit)
     {
 
     }

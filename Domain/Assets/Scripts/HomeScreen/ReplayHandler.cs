@@ -24,41 +24,43 @@ public class ReplayHandler : MonoBehaviour
             Delta x = 115
         */
         float deltaX = 115;
-
-        for (int i = 0; i < storage.replayRecords.Count; i++)
+        if (storage != null)
         {
-            ReplayInstanceUI ui = Instantiate(prefabReplayInstance, scrollContents.transform);
-            ui.replayRecord = storage.replayRecords[i];
-
-            Vector3 position = new Vector3(-114.5f, 65, 0);
-            for (int j = 0; j < storage.replayRecords[i].team0Data.Count; j++)
+            for (int i = 0; i < storage.replayRecords.Count; i++)
             {
-                BaseUnitIcon icon = Instantiate(prefabIcon, ui.p1GridLayout.transform);
-                icon.transform.localPosition = position;
-                icon.transform.localScale = new Vector3(0.527f, 0.527f, 0.527f);
+                ReplayInstanceUI ui = Instantiate(prefabReplayInstance, scrollContents.transform);
+                ui.replayRecord = storage.replayRecords[i];
 
-                icon.InitButton(collectionHandler.uDListSO, storage.replayRecords[i].team0Data[j]);
-
-                position += new Vector3(deltaX, 0, 0);
-                if (j == 2)
+                Vector3 position = new Vector3(-114.5f, 65, 0);
+                for (int j = 0; j < storage.replayRecords[i].team0Data.Count; j++)
                 {
-                    position = new Vector3(position.x - deltaX*3, -position.y, 0);
+                    BaseUnitIcon icon = Instantiate(prefabIcon, ui.p1GridLayout.transform);
+                    icon.transform.localPosition = position;
+                    icon.transform.localScale = new Vector3(0.527f, 0.527f, 0.527f);
+
+                    icon.InitButton(collectionHandler.uDListSO, storage.replayRecords[i].team0Data[j]);
+
+                    position += new Vector3(deltaX, 0, 0);
+                    if (j == 2)
+                    {
+                        position = new Vector3(position.x - deltaX * 3, -position.y, 0);
+                    }
                 }
-            }
 
-            position = new Vector3(114.5f - deltaX * 2, 65, 0);
-            for (int j = 0; j < storage.replayRecords[i].team1Data.Count; j++)
-            {
-                BaseUnitIcon icon = Instantiate(prefabIcon, ui.p2GridLayout.transform);
-                icon.transform.localPosition = position;
-                icon.transform.localScale = new Vector3(0.527f, 0.527f, 0.527f);
-
-                icon.InitButton(collectionHandler.uDListSO, storage.replayRecords[i].team1Data[j]);
-
-                position += new Vector3(deltaX, 0, 0);
-                if (j == 2)
+                position = new Vector3(114.5f - deltaX * 2, 65, 0);
+                for (int j = 0; j < storage.replayRecords[i].team1Data.Count; j++)
                 {
-                    position = new Vector3(position.x - deltaX * 3, -position.y, 0);
+                    BaseUnitIcon icon = Instantiate(prefabIcon, ui.p2GridLayout.transform);
+                    icon.transform.localPosition = position;
+                    icon.transform.localScale = new Vector3(0.527f, 0.527f, 0.527f);
+
+                    icon.InitButton(collectionHandler.uDListSO, storage.replayRecords[i].team1Data[j]);
+
+                    position += new Vector3(deltaX, 0, 0);
+                    if (j == 2)
+                    {
+                        position = new Vector3(position.x - deltaX * 3, -position.y, 0);
+                    }
                 }
             }
         }

@@ -11,7 +11,7 @@ public class EventManagement
     //Layer 2: array of obj list : each event
     //Layer 3: obj list : each subscriber
 
-    public Queue<IEventCommand> commandQueue;
+    public Queue<List<IEventCommand>> commandQueue;
 
     public EventManagement(BattleExecutor exec)
     {
@@ -48,12 +48,16 @@ public class EventManagement
     {
         while (commandQueue.Count > 0)
         {
-            IEventCommand command = commandQueue.Dequeue();
+            //first, go through each speed tier, go through each command in list, then go next command list
+            List<IEventCommand> commandList = commandQueue.Dequeue();
             foreach (List<IBattleObject>[] speedTier in orderedObjects)
             {
-                foreach (IBattleObject obj in speedTier[command.Id])
+                foreach (IEventCommand command in commandList)
                 {
-                    command.Execute(obj);
+                    foreach (IBattleObject obj in speedTier[command.Id])
+                    {
+                        command.Execute(obj);
+                    }
                 }
             }
         }
@@ -115,13 +119,13 @@ public class EventManagement
     }
 
     public void InvokeDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget,
-        int amount, DamageType damageType)
+        int amount, DamageType damageType, bool isSkill, bool isCrit)
     {
         foreach (List<IBattleObject>[] speedTier in orderedObjects)
         {
             foreach (IBattleObject obj in speedTier[2])
             {
-                obj.OnDamageDealt(damageSource, damageTarget, amount, damageType);
+                obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, isSkill, isCrit);
             }
         }
     }

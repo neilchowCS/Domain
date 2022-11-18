@@ -73,14 +73,14 @@ public class EventLogger
         log.Add(new() { "UNIT MOVE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", $"({prevX}. {prevY}) to ({unit.X}. {unit.Y})"});
     }
 
-    public void AddAttack(IBattleUnit unit, int id, IBattleUnit target)
+    public void AddAttack(IBattleUnit unit, IBattleUnit target, bool isSkill)
     {
-        log.Add(new() { "UNIT ATTACK", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", "id "+ id, $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})" });
+        log.Add(new() { "UNIT ATTACK", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", (isSkill?"skill":"basic"), $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})" });
     }
 
-    public void DealDamage(IBattleUnit unit, int amount, IBattleUnit target, int hpi, int hpf)
+    public void DealDamage(IBattleUnit unit, int amount, IBattleUnit target, int hpi, int hpf, bool isCrit)
     {
-        log.Add(new() { "DEAL DAMAGE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", "amount " + amount, $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})", "hpi "+ hpi, "hpf "+hpf });
+        log.Add(new() { "DEAL DAMAGE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", (!isCrit?("amount " + amount):("CRIT " + amount)), $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})", "hpi "+ hpi, "hpf "+hpf });
     }
 
     public void UnitDeath(IBattleUnit unit)

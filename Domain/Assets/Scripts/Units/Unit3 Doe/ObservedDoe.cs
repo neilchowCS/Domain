@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ActionExtension;
+using System.Linq;
 
 public class ObservedDoe : ObservedUnit
 {
@@ -15,11 +16,9 @@ public class ObservedDoe : ObservedUnit
 
         List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, line);
 
-        foreach (IBattleUnit target in targets)
-        {
-            ActionExtension.ActionExtension.DealDamage(this, new() { target },
+        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, targets,
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.special);
-        }
+            DamageType.normal, true).Cast<IEventCommand>().ToList()
+        );
     }
 }

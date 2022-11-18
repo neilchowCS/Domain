@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MessengerReader : MonoBehaviour
 {
+    public RandomGenerators rng;
     public BattleRecord record;
     public int stageId;
     public bool hasRead = false;
@@ -37,7 +38,7 @@ public class MessengerReader : MonoBehaviour
                 record = m.teamRecord;
                 this.stageId = m.stageId;
 
-                StoreReplay();
+                StoreReplay(rng.s);
 
                 foreach (TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
                 {
@@ -55,7 +56,7 @@ public class MessengerReader : MonoBehaviour
             {
                 replayFlag = true;
                 record = new BattleRecord(r.record);
-                UnityEngine.Random.state = r.record.seed;
+                rng.RestoreRandom(r.record.seed);
 
                 foreach (TeamMessenger messenger in FindObjectsOfType<TeamMessenger>())
                 {
@@ -72,7 +73,7 @@ public class MessengerReader : MonoBehaviour
         return false;
     }
 
-    public void StoreReplay()
+    public void StoreReplay(int seed)
     {
         ReplayStorage storage = DataSerialization.DeserializeReplayStore(
                 System.IO.File.ReadAllText(Application.persistentDataPath + "/ReplayRecord.json"));
@@ -85,7 +86,7 @@ public class MessengerReader : MonoBehaviour
             storage.replayRecords.RemoveAt(storage.replayRecords.Count - 1);
         }
 
-        storage.replayRecords.Insert(0, new ReplayRecord(record, UnityEngine.Random.state));
+        storage.replayRecords.Insert(0, new ReplayRecord(record, seed));
 
         string jsonOutput = DataSerialization.SerializeData(storage);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/ReplayRecord.json", jsonOutput);

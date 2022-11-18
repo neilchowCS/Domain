@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ActionExtension;
 using AoeTargetingExtension;
+using System.Linq;
 
 /// <summary>
 /// Inherits from BattleObject, IBattleUnit. Unobserved (server side).
@@ -40,11 +41,13 @@ public class BattleUnit : BattleObject, IBattleUnit
         Executor.hexMap[X, Y].occupant = this;
     }
 
-    public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source) {
+    public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source)
+    {
         UnitData.health += amount;
     }
 
-    public virtual void ModifyMana(int amount) {
+    public virtual void ModifyMana(int amount)
+    {
         UnitData.mana += amount;
     }
 
@@ -85,7 +88,7 @@ public class BattleUnit : BattleObject, IBattleUnit
     /// </summary>
     public void MoveTowardsNext()
     {
-        (int, int) temp = (X,Y);
+        (int, int) temp = (X, Y);
 
         Executor.hexMap[X, Y].occupant = null;
 
@@ -107,13 +110,13 @@ public class BattleUnit : BattleObject, IBattleUnit
         {
             if (UnitData.mana >= UnitData.unitMaxMana.Value)
             {
-                Executor.logger.AddAttack(this, 1, CurrentTarget);
+                Executor.logger.AddAttack(this, CurrentTarget, true);
                 PerformSkill();
                 ModifyMana(-UnitData.mana);
             }
             else
             {
-                Executor.logger.AddAttack(this, 0, CurrentTarget);
+                Executor.logger.AddAttack(this, CurrentTarget, false);
                 PerformBasic();
                 ModifyMana(1);
             }
@@ -123,23 +126,25 @@ public class BattleUnit : BattleObject, IBattleUnit
 
     public virtual void PerformBasic()
     {
-        ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
-            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-            DamageType.normal);
+        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+           (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
+           DamageType.normal, false).Cast<IEventCommand>().ToList()
+        );
     }
 
     public virtual void PerformSkill()
     {
-        ActionExtension.ActionExtension.DealDamage(this, new() { CurrentTarget },
+        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal);
+            DamageType.normal, true).Cast<IEventCommand>().ToList()
+        );
     }
 
     public override void OnUnitDeath(IBattleUnit deadUnit)
     {
         if (deadUnit == this)
         {
-            Executor.hexMap[X,Y].occupant = this;
+            Executor.hexMap[X, Y].occupant = null;
         }
 
         if (deadUnit == CurrentTarget)

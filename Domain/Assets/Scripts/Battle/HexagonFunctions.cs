@@ -59,9 +59,6 @@ public class HexagonFunctions
         */
         Axial a = RectangularToAxial(x1, y1);
         Axial b = RectangularToAxial(x2, y2);
-        Debug.Log((Math.Abs(a.q - b.q)
-          + Math.Abs(a.q + a.r - b.q - b.r)
-          + Math.Abs(a.r - b.r)) / 2f);
         return (Math.Abs(a.q - b.q)
           + Math.Abs(a.q + a.r - b.q - b.r)
           + Math.Abs(a.r - b.r)) / 2;

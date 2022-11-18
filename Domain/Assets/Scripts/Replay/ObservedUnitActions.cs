@@ -28,7 +28,7 @@ public class ObservedUnitActions : BattleUnitActions
     {
         base.TakeDamage(damageSource, amount, damageType);
         unit.healthBar.RefreshFill();
-        unit.Executor.CreateDamageNumber(unit.Position, amount, damageType);
+        //unit.Executor.CreateDamageNumber(unit.Position, amount, damageType);
     }
 
     public override void DealtDamage(int amount)

@@ -15,7 +15,7 @@ public interface IBattleObject
     public void OnStartTurn();
     public void OnEndTurn();
 
-    public void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType);
+    public void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, bool isSkill, bool isCrit);
     public void OnUnitDeath(IBattleUnit deadUnit);
     public void OnHealApplied(IBattleUnit healSource, IBattleUnit healTarget, int amount);
     public void OnSpawn(IBattleObject source);
