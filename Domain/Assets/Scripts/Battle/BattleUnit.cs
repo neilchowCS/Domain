@@ -41,7 +41,7 @@ public class BattleUnit : BattleObject, IBattleUnit
         Executor.hexMap[X, Y].occupant = this;
     }
 
-    public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source)
+    public virtual void ModifyHealth(int amount, DamageType damageType)
     {
         UnitData.health += amount;
     }

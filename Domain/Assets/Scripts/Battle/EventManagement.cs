@@ -13,11 +13,16 @@ public class EventManagement
 
     public Queue<List<IEventCommand>> commandQueue;
 
+    public List<IBattleUnit> deadUnits;
+    public List<IBattleStatus> clearedStatus;
+
     public EventManagement(BattleExecutor exec)
     {
         executor = exec;
         orderedObjects = new();
         commandQueue = new();
+        deadUnits = new();
+        clearedStatus = new();
     }
 
     public void Initialize(List<IBattleUnit> units)
@@ -45,6 +50,63 @@ public class EventManagement
         }
     }
 
+    public void RemoveUnit(IBattleUnit unit)
+    {
+        bool found = false;
+        for (int i = 0; i < orderedObjects.Count; i++)
+        {
+            if (orderedObjects[i][^1][0] == unit)
+            {
+                orderedObjects[i][2].Remove(unit);
+                orderedObjects[i][3].Remove(unit);
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            Debug.Log("ERROR!!! UNIT NOT FOUND!!!");
+        }
+    }
+
+    public void AddObject(IBattleObject obj, IBattleUnit dependent)
+    {
+        bool found = false;
+        for (int i = 0; i < orderedObjects.Count; i++)
+        {
+            if (orderedObjects[i][^1][0] == dependent)
+            {
+                orderedObjects[i][0].Add(obj);
+                orderedObjects[i][1].Add(obj);
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            Debug.Log("ERROR!!! DEPENDENT NOT FOUND!!!");
+        }
+    }
+
+    public void RemoveObject(IBattleObject obj, IBattleUnit dependent)
+    {
+        bool found = false;
+        for (int i = 0; i < orderedObjects.Count; i++)
+        {
+            if (orderedObjects[i][^1][0] == dependent)
+            {
+                orderedObjects[i][0].Remove(obj);
+                orderedObjects[i][1].Remove(obj);
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            Debug.Log("ERROR!!! DEPENDENT NOT FOUND!!!");
+        }
+    }
+
     public void ExecuteQueue()
     {
         while (commandQueue.Count > 0)
@@ -55,6 +117,7 @@ public class EventManagement
             {
                 foreach (IEventCommand command in commandList)
                 {
+                    Debug.Log(command.Id);
                     foreach (IBattleObject obj in speedTier[command.Id])
                     {
                         command.Execute(obj);
@@ -63,7 +126,6 @@ public class EventManagement
             }
         }
         CleanUp();
-        
     }
 
     public void CleanUp()
@@ -76,6 +138,7 @@ public class EventManagement
             {
                 //FIXME
                 IBattleUnit deadUnit = executor.activeUnits[i];
+                deadUnits.Add(deadUnit);
                 executor.logger.UnitDeath(deadUnit);
 
                 i--;
@@ -96,6 +159,24 @@ public class EventManagement
         }
     }
 
+    public void ClearUnits()
+    {
+        while(deadUnits.Count > 0)
+        {
+            RemoveUnit(deadUnits[0]);
+            deadUnits.RemoveAt(0);
+        }
+    }
+
+    public void ClearStatus()
+    {
+        while (clearedStatus.Count > 0)
+        {
+            clearedStatus[0].RemoveStatus();
+            clearedStatus.RemoveAt(0);
+        }
+    }
+
     public void InvokeStartTurn()
     {
         foreach (List<IBattleObject>[] speedTier in orderedObjects)
@@ -103,18 +184,6 @@ public class EventManagement
             foreach (IBattleObject obj in speedTier[0])
             {
                 obj.OnStartTurn();
-            }
-        }
-    }
-
-    public void InvokeEndTurn()
-    {
-        //Debug.Log(orderedObjects[0].Length);
-        foreach (List<IBattleObject>[] speedTier in orderedObjects)
-        {
-            foreach (IBattleObject obj in speedTier[1])
-            {
-                obj.OnEndTurn();
             }
         }
     }

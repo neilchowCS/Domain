@@ -91,9 +91,9 @@ public class EventLogger
         log.Add(new() { "UNIT ATTACK", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", x, $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})" });
     }
 
-    public void DealDamage(IBattleUnit unit, int amount, IBattleUnit target, int hpi, int hpf, bool isCrit)
+    public void DealDamage(IBattleObject source, int amount, IBattleUnit target, int hpi, int hpf, bool isCrit)
     {
-        log.Add(new() { "DEAL DAMAGE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", (!isCrit?("amount " + amount):("CRIT " + amount)), $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})", "hpi "+ hpi, "hpf "+hpf });
+        log.Add(new() { "DEAL DAMAGE", $"{source.ObjectName} ({source.GlobalObjectId})", (!isCrit?("amount " + amount):("CRIT " + amount)), $"{target.UnitData.baseData.unitName} ({target.GlobalObjectId})", "hpi "+ hpi, "hpf "+hpf });
     }
 
     public void UnitDeath(IBattleUnit unit)

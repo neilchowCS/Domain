@@ -5,14 +5,14 @@ using UnityEngine;
 public class DamageDealtCommand : IEventCommand
 {
     public int Id { get; set; } = 2;
-    private IBattleUnit damageSource;
+    private IBattleObject damageSource;
     private IBattleUnit damageTarget;
     private int amount;
     private DamageType damageType;
     private AbilityType abilityType;
     private bool isCrit;
 
-    public DamageDealtCommand(IBattleUnit damageSource, IBattleUnit damageTarget,
+    public DamageDealtCommand(IBattleObject damageSource, IBattleUnit damageTarget,
         int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
     {
         this.damageSource = damageSource;

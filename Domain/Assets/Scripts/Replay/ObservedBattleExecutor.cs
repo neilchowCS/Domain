@@ -5,6 +5,8 @@ using System.Linq;
 
 public class ObservedBattleExecutor : BattleExecutor
 {
+    public Tiler tiler;
+    public GameObject tileParent;
     public List<ReplayProfile> profiles;
     public List<ReplayProfile> side0Profiles;
     public List<ReplayProfile> side1Profiles;
@@ -43,6 +45,15 @@ public class ObservedBattleExecutor : BattleExecutor
     protected override void InitState(int i)
     {
         base.InitState(i);
+
+        MapTile[] templist = tileParent.GetComponentsInChildren<MapTile>();
+        for (int j = 0; j < 8; j++)
+        {
+            for (int k = 0; k < 6; k++)
+            {
+                mapTilesObj[j].Add(templist[(6 * j) + k]);
+            }
+        }
 
         profiles = new();
         side0Profiles = new();
@@ -108,9 +119,13 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         bottlenecked = false;
 
-        events.InvokeEndTurn();
+        InvokeEndTurn();
 
         AdvanceTimeline();
+
+        //FIXME CHECK IF WILL PRODUCE UNWANTED LOGIC
+        events.ClearUnits();
+        events.ClearStatus();
 
         timelineUI.RefreshTimeline();
 

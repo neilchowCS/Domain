@@ -35,13 +35,15 @@ public class ObservedUnit : ObservedObject, IBattleUnit
 
     //********************* Observed Specific *****************************
     public HealthBar healthBar;
+    public MeshRenderer meshRenderer;
+    public GameObject shadow;
     public UnitMovementController movementController;
     protected bool hasMoved;
     protected bool hasAttacked;
     protected bool waitProjectile;
     //********************* Observed Specific *****************************
 
-    public virtual void ModifyHealth(int amount, DamageType damageType, IBattleUnit source)
+    public virtual void ModifyHealth(int amount, DamageType damageType)
     {
         UnitData.health += amount;
         healthBar.RefreshFill();
@@ -94,7 +96,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         Executor.hexMap[newTile.Item1, newTile.Item2].occupant = this;
 
         //unit.Position = unit.Executor.mapGraph[unit.Tile].Position;
-        float time = .3f;
+        float time = .15f;
         movementController.StartMovement(Executor.hexMap[X, Y].Position,
             Vector3.Distance(Executor.hexMap[X, Y].Position, Position) / time);
 
@@ -185,7 +187,8 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         if (deadUnit == this)
         {
             Executor.hexMap[X, Y].occupant = null;
-            this.gameObject.SetActive(false);
+            meshRenderer.enabled = false;
+            shadow.SetActive(false);
             GameObject.Destroy(healthBar.gameObject);
         }
 

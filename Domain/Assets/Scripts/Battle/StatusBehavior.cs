@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class StatusBehavior : ObjectBehavior
 {
     protected readonly IBattleStatus status;
@@ -33,3 +33,4 @@ public class StatusBehavior : ObjectBehavior
         }
     }
 }
+*/

@@ -13,4 +13,6 @@ public class CommonReference : ScriptableObject
     public List<Sprite> statusIconList;
 
     public List<Sprite> elementIconList;
+
+    public ObservedStatusBurn observedBurn;
 }

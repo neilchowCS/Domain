@@ -26,14 +26,8 @@ MonoBehaviour:
   baseStartingMana: 0
   baseMaxMana: 1
   baseCrit: 2
-  baseCritChance: 0.1
+  baseCritChance: 0.7
   baseMovementRecovery: 0
-  eventSubscriptions:
-    OnTick: 1
-    OnDamageDealt: 1
-    OnDamageTaken: 0
-    OnUnitDeath: 1
-    OnHealApplied: 0
   attackDataList:
   - {fileID: 11400000, guid: 6ec212f13add44fbe97c73d48aaf0273, type: 2}
   - {fileID: 11400000, guid: f041db16175804cc1870a1a6c305e110, type: 2}

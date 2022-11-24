@@ -31,7 +31,7 @@ public class Factory
     }
 
     //***************** Unit Constructor *******************
-    public virtual IBattleUnit NewUnit(int side, UnitRuntimeData data, (int,int) tile)
+    public virtual IBattleUnit NewUnit(int side, UnitRuntimeData data, (int, int) tile)
     {
         BattleUnit output = null;
         int tileX = tile.Item1;
@@ -148,45 +148,30 @@ public class Factory
     }
 
     //***************** Status Constructor *******************
-    public virtual IBattleStatus NewStatus(StatusType type, IBattleUnit host,
-        IBattleUnit source, SimpleStatusData data)
+
+    public virtual void ObservedStatusConstructor(ObservedStatusFramework status, IBattleObject source,
+        IBattleUnit host, StatusType type, int duration)
     {
-        IBattleStatus output = new BattleStatus(executor, type.ToString(), host, source, data);
-        //output.Behavior = GetStatusBehavior(type, output);
-        output.Actions = GetStatusActions(output);
+        status.Source = source;
+        status.Host = host;
+        status.hasDuration = true;
+        status.duration = duration;
+        status.statusType = type;
 
-        host.StatusList.Add(output);
-
-        //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
-        //executor.eventHandler.UnitDeath += output.Behavior.OnUnitDeath;
-
-        //output.Behavior.OnSpawn();
-
-        return output;
+        status.Attach();
     }
 
-    public StatusBehavior GetStatusBehavior(StatusType type, IBattleStatus status)
+    public virtual ObservedStatusBurn NewObservedStatusBurn(IBattleObject source,
+        IBattleUnit host, int duration, int dmgPerTick)
     {
-        switch (type)
-        {
-            case StatusType.Burn:
-                return new StatusBurnBehavior(status);
-            case StatusType.AttackMod:
-                return new StatusAttackModifyBehavior(status);
-        }
-        return null;
+        ObservedStatusBurn burn = GameObject.Instantiate(host.UnitData.baseData.commonRef.observedBurn);
+        ObservedObjectConstructor(burn, source.Side, "StatusBurn");
+        ObservedStatusConstructor(burn, source, host, StatusType.debuff, duration);
+        burn.dmgPerTick = dmgPerTick;
+
+        return burn;
     }
 
-    public BattleStatusActions GetStatusActions(IBattleStatus status)
-    {
-        /*
-        switch (status.ObjectName)
-        {
-            
-        }
-        */
-        return new BattleStatusActions(status);
-    }
     //***************** Observed Projectile *******************
 
     public ObservedProjectile GetObservedProjectile(ObservedProjectile reference, Vector3 spawnPosition, IBattleUnit target, float speed)
@@ -208,7 +193,7 @@ public class Factory
         output.target = source.CurrentTarget;
         output.unitTarget = true;
         output.speed = source.UnitData.baseData.attackDataList[id].speed;
-        
+
         return output;
     }
 

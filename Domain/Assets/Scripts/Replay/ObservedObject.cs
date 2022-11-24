@@ -31,8 +31,8 @@ public class ObservedObject : MonoBehaviour, IBattleObject
     public virtual void OnStartTurn() { }
     public virtual void OnEndTurn() { }
 
-    public virtual void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, AbilityType abilityType, bool isCrit) { }
+    public virtual void OnDamageDealt(IBattleObject damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, AbilityType abilityType, bool isCrit) { }
     public virtual void OnUnitDeath(IBattleUnit deadUnit) { }
-    public virtual void OnHealApplied(IBattleUnit healSource, IBattleUnit healTarget, int amount) { }
+    public virtual void OnHealApplied(IBattleObject healSource, IBattleUnit healTarget, int amount) { }
     public virtual void OnSpawn(IBattleObject source) { }
 }

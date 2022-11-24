@@ -10,6 +10,7 @@ public class BattleExecutor : MonoBehaviour
     public bool isObserved = false;
 
     public UDListScriptableObject dataListSO;
+    public List<IBattleStatus> battleStatuses;
 
     public MessengerReader reader;
     [SerializeField]
@@ -114,11 +115,20 @@ public class BattleExecutor : MonoBehaviour
 
         actingUnit.PerformAction();
 
-        events.InvokeEndTurn();
+        InvokeEndTurn();
+
+        //FIXME CHECK IF WILL PRODUCE UNWANTED LOGIC// WILL PRODUCE: CASE: UNIT DIES EARLY IN ROUND STIll TRIGGERS EFFECTS
+        events.ClearUnits();
+        events.ClearStatus();
 
         AdvanceTimeline();
 
         globalTick++;
+    }
+
+    public void InvokeEndTurn()
+    {
+        EnqueueEvent(new() { new EndTurnCommand()});
     }
 
     public void AdvanceTimeline()

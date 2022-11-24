@@ -19,7 +19,12 @@ public class BattleJoe : BattleUnit
 
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, targets,
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal, AbilityType.Skill).Cast<IEventCommand>().ToList()
-        );
+            DamageType.normal, AbilityType.Skill).Cast<IEventCommand>().ToList());
+
+        foreach (IBattleUnit target in targets)
+        {
+            ActionExtension.ActionExtension.NewBurnStatus(this, target, 2, UnitData.unitAttack.Value);
+
+        }
     }
 }

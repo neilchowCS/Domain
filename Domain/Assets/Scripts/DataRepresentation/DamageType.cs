@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum DamageType
 {
-    normal, critical, special, trueDamage, healing
+    normal, special, trueDamage, healing
 }

@@ -232,6 +232,8 @@ MonoBehaviour:
   <Timeline>k__BackingField: 0
   <StatusList>k__BackingField: []
   healthBar: {fileID: 0}
+  meshRenderer: {fileID: 9102060322379185762}
+  shadow: {fileID: 8494233845177976585}
   movementController: {fileID: 3984690259686226219}
   references:
     version: 2

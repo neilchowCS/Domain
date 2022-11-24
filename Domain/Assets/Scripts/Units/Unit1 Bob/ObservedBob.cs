@@ -5,13 +5,16 @@ using System.Linq;
 
 public class ObservedBob : ObservedUnit
 {
-    public override void OnDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
-    {
-        if (damageTarget == this && (abilityType == AbilityType.Basic || abilityType == AbilityType.Skill))
-        {
+    public BobAnimController animController;
 
+    public override void OnDamageDealt(IBattleObject damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
+    {
+        if (damageTarget == this && damageSource is IBattleUnit &&
+            (abilityType == AbilityType.Basic || abilityType == AbilityType.Skill))
+        {
+            animController.CreateThorns();
             Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(
-                this, new() { damageSource }, (int)(UnitData.unitMaxHealth.Value * 0.05f),
+                this, new() { (IBattleUnit)damageSource }, (int)(UnitData.unitMaxHealth.Value * 0.025f),
                 DamageType.special, AbilityType.Passive).Cast<IEventCommand>().ToList());
         }
     }

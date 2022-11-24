@@ -25,8 +25,8 @@ MonoBehaviour:
   baseSpeed: 65
   baseStartingMana: 0
   baseMaxMana: 0
-  baseCrit: 0
-  baseCritChance: 0
+  baseCrit: 3
+  baseCritChance: 0.25
   baseMovementRecovery: 0.5
   attackDataList:
   - {fileID: 11400000, guid: 6ec212f13add44fbe97c73d48aaf0273, type: 2}

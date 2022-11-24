@@ -7,37 +7,45 @@ namespace ActionExtension
 {
     public static class ActionExtension
     {
-        public static List<DamageDealtCommand> ProcessDamage(IBattleUnit damageSource,
+        public static List<DamageDealtCommand> ProcessDamage(IBattleObject damageSource,
             List<IBattleUnit> damageTargets, int premitigationAmount, DamageType damageType, AbilityType abilityType)
         {
             List<DamageDealtCommand> output = new();
-            int postmitigationDamage = 0;
-            Debug.Log(damageSource.Executor.rng == null);
-            bool crit = damageSource.Executor.rng.NextDouble() <= damageSource.UnitData.unitCritChance.Value;
 
             foreach (IBattleUnit damageTarget in damageTargets)
             {
-                if (damageType == DamageType.normal || damageType == DamageType.special)
+                int postmitigationDamage = premitigationAmount;
+
+                if (damageType == DamageType.normal)
                 {
                     if (damageTarget.UnitData.armorReduction < 1)
                     {
                         postmitigationDamage = (int)(premitigationAmount * damageTarget.UnitData.armorReduction);
                     }
                 }
-                if (crit)
+
+                bool crit = false;
+                if (damageSource is IBattleUnit)
                 {
-                    postmitigationDamage = (int)(postmitigationDamage * damageSource.UnitData.unitCrit.Value);
+                    crit = (abilityType == AbilityType.Basic || abilityType == AbilityType.Skill) &&
+                        damageSource.Executor.rng.NextDouble() <= ((IBattleUnit)damageSource).UnitData.unitCritChance.Value;
+                    if (crit)
+                    {
+                        postmitigationDamage = (int)(postmitigationDamage * ((IBattleUnit)damageSource).UnitData.unitCrit.Value);
+                    }
+
+                    damageSource.Executor.UpdateProfileDamage(damageSource.GlobalObjectId, postmitigationDamage);
                 }
 
                 //damage reduction calcs here
                 damageSource.Executor.logger.DealDamage(damageSource, postmitigationDamage, damageTarget, damageTarget.UnitData.health, damageTarget.UnitData.health - postmitigationDamage, crit);
 
-                damageTarget.ModifyHealth(-postmitigationDamage, damageType, damageSource);
+                damageTarget.ModifyHealth(-postmitigationDamage, damageType);
                 damageTarget.Executor.CreateDamageNumber(damageTarget.Position, postmitigationDamage, damageType, crit);
 
-                damageSource.Executor.UpdateProfileDamage(damageSource.GlobalObjectId, postmitigationDamage);
                 output.Add(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType, abilityType, crit));
             }
+
             //damageSource.Executor.EnqueueEvent(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType));
             return output;
         }
@@ -58,9 +66,33 @@ namespace ActionExtension
 
             //modulation
 
-            healTarget.ModifyHealth(amount, DamageType.healing, healSource);
+            healTarget.ModifyHealth(amount, DamageType.healing);
 
             //eventHandler.OnHealApplied(healSource, healTarget, amount);
+        }
+
+        public static List<IBattleStatus> NewBurnStatus(IBattleObject source, IBattleUnit host,
+            int duration, int dmgPerTick)
+        {
+            List<IBattleStatus> l = new();
+            IBattleStatus output = null;
+            if (host is ObservedUnit)
+            {
+                output = source.Executor.factory.NewObservedStatusBurn(source, host, duration, dmgPerTick);
+            }
+            else
+            {
+                output = new StatusBurn(source.Executor, source.Side, source, host, duration, dmgPerTick);
+            }
+            AddStatus(source, host, output);
+
+            return l;
+        }
+
+        public static void AddStatus(IBattleObject source, IBattleUnit host, IBattleStatus status)
+        {
+            host.StatusList.Add(status);
+            source.Executor.events.AddObject(status, host);
         }
     }
 }

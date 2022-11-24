@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class StatusBurnBehavior : StatusBehavior
 {
     private float timer = 0;
@@ -46,5 +46,6 @@ public class StatusBurnBehavior : StatusBehavior
             });
         }
     }
-    */
+    
 }
+*/

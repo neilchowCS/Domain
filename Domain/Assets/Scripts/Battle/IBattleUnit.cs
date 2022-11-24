@@ -20,6 +20,6 @@ public interface IBattleUnit : IBattleObject
     //Behavior
     public void PerformAction();
 
-    public void ModifyHealth(int amount, DamageType damageType, IBattleUnit source);
+    public void ModifyHealth(int amount, DamageType damageType);
     public void ModifyMana(int amount);
 }

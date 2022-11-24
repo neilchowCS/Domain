@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum StatusType
 {
-    Burn, AttackMod
+    buff, debuff, mark
 }
