@@ -85,6 +85,8 @@ namespace ActionExtension
                 output = new StatusBurn(source.Executor, source.Side, source, host, duration, dmgPerTick);
             }
             AddStatus(source, host, output);
+            //FIXME
+            output.OnSpawn(output);
 
             return l;
         }

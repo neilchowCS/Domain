@@ -78,6 +78,7 @@ public class EventManagement
             {
                 orderedObjects[i][0].Add(obj);
                 orderedObjects[i][1].Add(obj);
+                orderedObjects[i][3].Add(obj);
                 found = true;
                 break;
             }
@@ -97,6 +98,7 @@ public class EventManagement
             {
                 orderedObjects[i][0].Remove(obj);
                 orderedObjects[i][1].Remove(obj);
+                orderedObjects[i][3].Remove(obj);
                 found = true;
                 break;
             }

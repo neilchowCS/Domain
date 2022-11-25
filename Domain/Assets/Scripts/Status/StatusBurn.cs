@@ -16,8 +16,11 @@ public class StatusBurn : StatusFramework
 
     public override void OnEndTurn()
     {
-        InflictBurn();
-        base.OnEndTurn();
+        if (Executor.actingUnit == Host)
+        {
+            InflictBurn();
+            base.OnEndTurn();
+        }
     }
 
     public override void OnSpawn(IBattleObject source)
