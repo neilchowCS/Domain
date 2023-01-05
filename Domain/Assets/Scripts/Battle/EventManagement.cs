@@ -6,10 +6,6 @@ using System.Linq;
 public class EventManagement
 {
     public BattleExecutor executor;
-    public List<List<IBattleObject>[]> orderedObjects;
-    //Layer 1: list of array of list of objects : each speed
-    //Layer 2: array of obj list : each event
-    //Layer 3: obj list : each subscriber
 
     public Queue<List<IEventCommand>> commandQueue;
 
@@ -19,7 +15,6 @@ public class EventManagement
     public EventManagement(BattleExecutor exec)
     {
         executor = exec;
-        orderedObjects = new();
         commandQueue = new();
         deadUnits = new();
         clearedStatus = new();
@@ -27,32 +22,14 @@ public class EventManagement
 
     public void Initialize(List<IBattleUnit> units)
     {
-        //FIXME
-        int count = 6;//units[0].UnitData.baseData.eventSubscriptions.events.Count;
-        //Debug.Log(orderedObjects[^1].Length + " events");
-        for (int i = 0; i < units.Count; i++)
-        {
-            orderedObjects.Add(new List<IBattleObject>[count + 1]);
-            for (int j = 0; j < orderedObjects[i].Length; j++)
-            {
-                orderedObjects[i][j] = new List<IBattleObject>();
-            }
-            //ordered object[i] = ith speed tier, get event array
-            //ordered object[^1] = last event array, get list
-            orderedObjects[i][2].Add(units[i]);
-            orderedObjects[i][3].Add(units[i]);
-            orderedObjects[i][^1].Add(units[i]);
-        }
 
-        //for (int i = 0; i < orderedObjects.Count; i++)
-        {
-            //Debug.Log(orderedObjects[i][^1][0].ObjectName);
-        }
     }
 
     public void RemoveUnit(IBattleUnit unit)
     {
+        Debug.Log("Removing unit");
         bool found = false;
+        /*
         for (int i = 0; i < orderedObjects.Count; i++)
         {
             if (orderedObjects[i][^1][0] == unit)
@@ -63,71 +40,42 @@ public class EventManagement
                 break;
             }
         }
+        */
         if (!found)
         {
             Debug.Log("ERROR!!! UNIT NOT FOUND!!!");
         }
     }
 
-    public void AddObject(IBattleObject obj, IBattleUnit dependent)
-    {
-        bool found = false;
-        for (int i = 0; i < orderedObjects.Count; i++)
-        {
-            if (orderedObjects[i][^1][0] == dependent)
-            {
-                orderedObjects[i][0].Add(obj);
-                orderedObjects[i][1].Add(obj);
-                orderedObjects[i][3].Add(obj);
-                found = true;
-                break;
-            }
-        }
-        if (!found)
-        {
-            Debug.Log("ERROR!!! DEPENDENT NOT FOUND!!!");
-        }
-    }
-
-    public void RemoveObject(IBattleObject obj, IBattleUnit dependent)
-    {
-        bool found = false;
-        for (int i = 0; i < orderedObjects.Count; i++)
-        {
-            if (orderedObjects[i][^1][0] == dependent)
-            {
-                orderedObjects[i][0].Remove(obj);
-                orderedObjects[i][1].Remove(obj);
-                orderedObjects[i][3].Remove(obj);
-                found = true;
-                break;
-            }
-        }
-        if (!found)
-        {
-            Debug.Log("ERROR!!! DEPENDENT NOT FOUND!!!");
-        }
-    }
-
     public void ExecuteQueue()
     {
+        System.Console.WriteLine("execute queue");
         while (commandQueue.Count > 0)
         {
-            //first, go through each speed tier, go through each command in list, then go next command list
-            List<IEventCommand> commandList = commandQueue.Dequeue();
-            foreach (List<IBattleObject>[] speedTier in orderedObjects)
+            List<IEventCommand> commandList = commandQueue.Peek();
+            foreach (IEventCommand command in commandList)
             {
-                foreach (IEventCommand command in commandList)
+                foreach (IBattleObject obj in executor.sortedStack)
                 {
-                    Debug.Log(command.Id);
-                    foreach (IBattleObject obj in speedTier[command.Id])
-                    {
-                        command.Execute(obj);
-                    }
+                    command.Execute(obj);
                 }
             }
+            commandQueue.Dequeue();
+
+            Debug.Log((commandQueue.Count) + " " + ((commandQueue.Count > 0) ? "repeat" : "exit"));
         }
+        Debug.Log("clearing");
         CleanUp();
+        //somehow causing bug???
+        ClearStatus();
+        ClearUnits();
+        if (deadUnits.Count >= 0)
+        {
+            Debug.Log("unit death event");
+            InvokeUnitDeath(deadUnits);
+        }
+        Debug.Log("queue completed");
+
     }
 
     public void CleanUp()
@@ -155,15 +103,14 @@ public class EventManagement
                     deadUnit.Executor.player1Active.Remove(deadUnit);
                     deadUnit.Executor.player1Dead.Add(deadUnit);
                 }
-                InvokeUnitDeath(deadUnit);
-                ExecuteQueue();
             }
         }
     }
 
     public void ClearUnits()
     {
-        while(deadUnits.Count > 0)
+        Debug.Log(deadUnits.Count);
+        for (int i = 0; i < deadUnits.Count; i++)
         {
             RemoveUnit(deadUnits[0]);
             deadUnits.RemoveAt(0);
@@ -172,7 +119,8 @@ public class EventManagement
 
     public void ClearStatus()
     {
-        while (clearedStatus.Count > 0)
+        Debug.Log(clearedStatus.Count);
+        for (int i = 0; i < clearedStatus.Count; i++)
         {
             clearedStatus[0].RemoveStatus();
             clearedStatus.RemoveAt(0);
@@ -181,32 +129,26 @@ public class EventManagement
 
     public void InvokeStartTurn()
     {
-        foreach (List<IBattleObject>[] speedTier in orderedObjects)
+        foreach (IBattleObject obj in executor.sortedStack)
         {
-            foreach (IBattleObject obj in speedTier[0])
-            {
-                obj.OnStartTurn();
-            }
+            obj.OnStartTurn();
         }
     }
 
     public void InvokeDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget,
         int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
     {
-        foreach (List<IBattleObject>[] speedTier in orderedObjects)
+        foreach (IBattleObject obj in executor.sortedStack)
         {
-            foreach (IBattleObject obj in speedTier[2])
-            {
-                obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, abilityType, isCrit);
-            }
+            obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, abilityType, isCrit);
         }
     }
 
-    public void InvokeUnitDeath(IBattleUnit unit)
+    public void InvokeUnitDeath(List<IBattleUnit> units)
     {
-        foreach (List<IBattleObject>[] speedTier in orderedObjects)
+        foreach (IBattleObject obj in executor.sortedStack)
         {
-            foreach (IBattleObject obj in speedTier[3])
+            foreach (IBattleUnit unit in units)
             {
                 obj.OnUnitDeath(unit);
             }

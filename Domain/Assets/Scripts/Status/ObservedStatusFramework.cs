@@ -48,7 +48,6 @@ public class ObservedStatusFramework : ObservedObject, IBattleStatus
         OnUnapply();
         Host.StatusList.Remove(this);
         Executor.GetAlliedObjects(this).Remove(this);
-        Host.Executor.events.RemoveObject(this, Host);
         foreach(ParticleSystem p in particleSystems)
         {
             Destroy(p);

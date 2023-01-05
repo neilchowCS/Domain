@@ -11,7 +11,7 @@ public class StatusFramework : BattleObject, IBattleStatus
     public int duration;
 
     public StatusFramework(BattleExecutor exec, int side, string name, IBattleObject source,
-        IBattleUnit host, StatusType sType) : base(exec, side, name)
+        IBattleUnit host, StatusType sType) : base(exec, side, name, host)
     {
         Host = host;
         Source = source;
@@ -20,7 +20,7 @@ public class StatusFramework : BattleObject, IBattleStatus
     }
 
     public StatusFramework(BattleExecutor exec, int side, string name, IBattleObject source,
-        IBattleUnit host, StatusType sType, int duration):base(exec,side,name)
+        IBattleUnit host, StatusType sType, int duration):base(exec,side,name, host)
     {
         Host = host;
         Source = source;

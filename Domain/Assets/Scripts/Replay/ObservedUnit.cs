@@ -43,6 +43,20 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     protected bool waitProjectile;
     //********************* Observed Specific *****************************
 
+    public virtual void Initialize(BattleExecutor executor, int side,
+        UnitRuntimeData unitData, int x, int y)
+    {
+        Initialize(executor, side, unitData.baseData.unitName, unitData.GenerateSpeed());
+        UnitData = unitData;
+        StatusList = new();
+
+        X = x;
+        Y = y;
+        Timeline = 0;
+
+        executor.hexMap[X, Y].occupant = this;
+    }
+
     public virtual void ModifyHealth(int amount, DamageType damageType)
     {
         UnitData.health += amount;

@@ -22,7 +22,6 @@ public class UnitRuntimeData
     public AttributeFloat unitAttackSpeed;
     public float ticksPerAttack { get; private set; }
     public AttributeFloat unitRange;
-    public AttributeInt unitSpeed;
     public AttributeInt unitMaxMana;
     public AttributeFloat unitCrit;
     public AttributeFloat unitCritChance;
@@ -43,7 +42,6 @@ public class UnitRuntimeData
         unitMDefense = new AttributeInt((int)(baseData.baseMDefense * levelMultiplier));
         unitAttackSpeed = new AttributeFloat(baseData.baseAttackSpeed);
         unitRange = new AttributeFloat(baseData.baseRange);
-        unitSpeed = new AttributeInt((int)(baseData.baseSpeed * levelMultiplier));
         unitMaxMana = new AttributeInt(baseData.baseMaxMana);
         unitCrit = new AttributeFloat(baseData.baseCrit);
         unitCritChance = new AttributeFloat(baseData.baseCritChance);
@@ -52,6 +50,12 @@ public class UnitRuntimeData
 
         ticksPerAttack = TickSpeed.ticksPerSecond / unitAttackSpeed.Value;
         armorReduction = Mathf.Pow(0.25f, unitDefense.Value / (levelMultiplier * 100));
+    }
+
+    public int GenerateSpeed()
+    {
+        levelMultiplier = 1 + ((individualData.level - 1) * 0.085f);
+        return (int)(baseData.baseSpeed * levelMultiplier);
     }
 
     public void ModifyAttackSpeed(float modifier)

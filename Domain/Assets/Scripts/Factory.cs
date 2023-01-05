@@ -12,22 +12,13 @@ public class Factory
     }
 
     //***************** Object Constructor *******************
-    public virtual IBattleObject NewObject(int side, string name)
+    public virtual IBattleObject NewObject(int side, string name, int speed)
     {
-        IBattleObject output = new BattleObject(executor, side, name);
+        IBattleObject output = new BattleObject(executor, side, name, speed);
 
         //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
 
         return output;
-    }
-
-    public void ObservedObjectConstructor(IBattleObject obj, int side, string name)
-    {
-        obj.Executor = executor;
-        obj.Side = side;
-        obj.ObjectName = name;
-        obj.GlobalObjectId = executor.SetGlobalObjectId();
-        executor.GetAlliedObjects(obj).Add(obj);
     }
 
     //***************** Unit Constructor *******************
@@ -52,11 +43,7 @@ public class Factory
                 output = new BattleUnit(executor, side, data, tileX, tileY);
                 break;
         }
-        //output = new BattleUnit(executor, side, data, tileId);
-        //output.Behavior = GetUnitBehavior(output);
-        //output.Actions = GetUnitActions(output);
-        //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
-        //EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
+
         return output;
     }
 
@@ -66,11 +53,7 @@ public class Factory
             GameObject.Instantiate(executor.replayManager.replayUnitPrefabs[data.baseData.unitId],
             executor.hexMap[tile.Item1, tile.Item2].Position,
             (side == 0 ? Quaternion.Euler(0, 90, 0) : Quaternion.Euler(0, -90, 0)));
-        ObservedUnitConstructor(output, side, data, tile.Item1, tile.Item2);
-        //output.Behavior = GetUnitBehavior(output);
-        //output.Actions = GetObservedUnitActions(output);
-        //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
-        //EventSubscriber.Subscribe(executor, output.Behavior, data.baseData.eventSubscriptions);
+        output.Initialize(executor, side, data, tile.Item1, tile.Item2);
 
         output.healthBar = GameObject.Instantiate(output.UnitData.baseData.commonRef.healthBarPrefab,
             executor.replayManager.screenOverlayCanvas.transform, false);
@@ -83,68 +66,6 @@ public class Factory
         output.healthBar.RefreshFill();
 
         return output;
-    }
-
-    /*
-    public UnitBehavior GetUnitBehavior(IBattleUnit unit)
-    {
-        switch (unit.UnitData.baseData.unitId)
-        {
-            case 0:
-                return new AliceBehavior(unit);
-            case 1:
-                return new UnitBehavior(unit);
-            case 2:
-                return new JoeBehavior(unit);
-            case 3:
-                return new DoeBehavior(unit);
-        }
-        return null;
-    }
-    */
-
-    /*
-    public BattleUnitActions GetUnitActions(BattleUnit unit)
-    {
-        switch (unit.UnitData.baseData.unitId)
-        {
-            default:
-                return new BattleUnitActions(unit);
-        }
-    }
-    */
-
-    public void ObservedUnitConstructor(IBattleUnit unit, int side,
-        UnitRuntimeData unitData, int x, int y)
-    {
-        ObservedObjectConstructor(unit, side, unitData.baseData.name);
-        unit.UnitData = unitData;
-        unit.StatusList = new();
-
-        unit.X = x;
-        unit.Y = y;
-        unit.Timeline = 0;
-
-        executor.hexMap[unit.X, unit.Y].occupant = unit;
-
-        /*
-        this.UnitData = unitData;
-        StatusList = new();
-
-        Tile = tileId;
-        Timeline = 0;
-        Position = Executor.mapGraph[Tile].Position;
-        Executor.mapGraph[Tile].occupied = true;
-        */
-    }
-
-    public ObservedUnitActions GetObservedUnitActions(ObservedUnit unit)
-    {
-        switch (unit.UnitData.baseData.unitId)
-        {
-            default:
-                return new ObservedUnitActions(unit);
-        }
     }
 
     //***************** Status Constructor *******************
@@ -165,7 +86,7 @@ public class Factory
         IBattleUnit host, int duration, int dmgPerTick)
     {
         ObservedStatusBurn burn = GameObject.Instantiate(host.UnitData.baseData.commonRef.observedBurn);
-        ObservedObjectConstructor(burn, source.Side, "StatusBurn");
+        burn.Initialize(executor, source.Side, "StatusBurn", host);
         ObservedStatusConstructor(burn, source, host, StatusType.debuff, duration);
         burn.dmgPerTick = dmgPerTick;
 

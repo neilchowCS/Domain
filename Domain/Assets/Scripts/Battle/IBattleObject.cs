@@ -10,7 +10,9 @@ public interface IBattleObject
     public int GlobalObjectId { get; set; }
     public string ObjectName { get; set; }
 
-    public EnabledEvents eventSubscriptions { get; set; }
+    public EnabledEvents EventSubscriptions { get; set; }
+
+    public AttributeInt ObjSpeed { get; set; }
 
     public void OnStartTurn();
     public void OnEndTurn();

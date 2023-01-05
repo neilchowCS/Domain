@@ -59,7 +59,7 @@ public class EventLogger
     }
 
     public void AddInitialize(IBattleUnit unit) {
-        log.Add(new() { "INITIALIZE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", $"timeline {unit.Timeline}", $"speed {unit.UnitData.unitSpeed.Value}", $"tile ({unit.X}. {unit.Y})" });
+        log.Add(new() { "INITIALIZE", $"{unit.UnitData.baseData.unitName} ({unit.GlobalObjectId})", $"timeline {unit.Timeline}", $"speed {unit.ObjSpeed.Value}", $"tile ({unit.X}. {unit.Y})" });
     }
 
     public void AddTimeline(IBattleUnit unit, float initialTimeline, float timespan, float distance, float finalTimeline, bool isLeader)

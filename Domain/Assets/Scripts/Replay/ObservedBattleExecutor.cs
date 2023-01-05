@@ -123,9 +123,6 @@ public class ObservedBattleExecutor : BattleExecutor
 
         AdvanceTimeline();
 
-        //FIXME CHECK IF WILL PRODUCE UNWANTED LOGIC
-        events.ClearUnits();
-        events.ClearStatus();
 
         timelineUI.RefreshTimeline();
 
@@ -155,7 +152,8 @@ public class ObservedBattleExecutor : BattleExecutor
         }
 
         activeUnits = Enumerable.Concat(player0Active, player1Active).ToList();
-        activeUnits = activeUnits.OrderByDescending(o => o.UnitData.unitSpeed.Value).ToList();
+        sortedStack = activeUnits.OrderByDescending(o => o.ObjSpeed.Value).Cast<IBattleObject>()
+            .ToList();
         InitializeTimeline();
     }
 

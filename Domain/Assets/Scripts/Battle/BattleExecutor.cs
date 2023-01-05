@@ -55,14 +55,16 @@ public class BattleExecutor : MonoBehaviour
         return globalObjectId++;
     }
 
+    public List<IBattleObject> sortedStack;
+
     public List<IBattleUnit> activeUnits;
     public List<IBattleUnit> player0Active;
     public List<IBattleUnit> player1Active;
+
     public List<IBattleUnit> player0Dead;
     public List<IBattleUnit> player1Dead;
-    //[SerializeReference]
+
     public List<IBattleObject> playerObjects0;
-    //[SerializeReference]
     public List<IBattleObject> playerObjects1;
 
     // Start is called before the first frame update
@@ -117,9 +119,6 @@ public class BattleExecutor : MonoBehaviour
 
         InvokeEndTurn();
 
-        //FIXME CHECK IF WILL PRODUCE UNWANTED LOGIC// WILL PRODUCE: CASE: UNIT DIES EARLY IN ROUND STIll TRIGGERS EFFECTS
-        events.ClearUnits();
-        events.ClearStatus();
 
         AdvanceTimeline();
 
@@ -180,6 +179,8 @@ public class BattleExecutor : MonoBehaviour
         hexagonFunctions = new HexagonFunctions(hexMap.GetLength(0) - 1, hexMap.GetLength(1) - 1);
         mapTilesObj = new List<List<MapTile>> { mapTilesX0, mapTilesX1, mapTilesX2, mapTilesX3, mapTilesX4, mapTilesX5, mapTilesX6, mapTilesX7 };
 
+        sortedStack = new();
+
         player0Active = new List<IBattleUnit>();
         player0Dead = new List<IBattleUnit>();
         playerObjects0 = new List<IBattleObject>();
@@ -228,7 +229,8 @@ public class BattleExecutor : MonoBehaviour
         }
 
         activeUnits = Enumerable.Concat(player0Active, player1Active).ToList();
-        activeUnits = activeUnits.OrderByDescending(o => o.UnitData.unitSpeed.Value).ToList();
+        sortedStack = activeUnits.OrderByDescending(o => o.ObjSpeed.Value)
+            .Cast<IBattleObject>().ToList();
         InitializeTimeline();
     }
 
@@ -240,14 +242,14 @@ public class BattleExecutor : MonoBehaviour
             return;
         }
 
-        float max = activeUnits[0].UnitData.unitSpeed.Value;
+        float max = sortedStack[0].ObjSpeed.Value;
 
         foreach (IBattleUnit unit in activeUnits)
         {
             if (max != 0)
             {
                 unit.Timeline = maxTimeline -
-                    (unit.UnitData.unitSpeed.Value / max * maxTimeline);
+                    (unit.ObjSpeed.Value / max * maxTimeline);
             }
         }
 
@@ -258,34 +260,34 @@ public class BattleExecutor : MonoBehaviour
         }
     }
 
-    /*
-    protected void CleanUp()
+    public void AddObject(IBattleObject obj)
     {
-        foreach (IBattleUnit unit in player0Dead)
+        //ERROR SOURCE HERE!!!
+        sortedStack.Add(obj);
+        sortedStack = sortedStack.OrderBy(o => o.ObjSpeed).ToList();
+        switch (obj.Side)
         {
-            if (unit.NeedsCleaning)
-            {
-                //eventHandler.TickUp -= unit.Behavior.OnTickUp;
-                //subscribe to onUnitDeadTick
-                unit.NeedsCleaning = false;
-            }
-        }
-        foreach (IBattleUnit unit in player1Dead)
-        {
-            if (unit.NeedsCleaning)
-            {
-                //eventHandler.TickUp -= unit.Behavior.OnTickUp;
-                unit.NeedsCleaning = false;
-            }
+            case 0:
+                playerObjects0.Add(obj);
+                break;
+            default:
+                playerObjects1.Add(obj);
+                break;
         }
     }
-    */
 
     public void RemoveObject(IBattleObject obj)
     {
-        //eventHandler.TickUp -= obj.Behavior.OnTickUp;
-        playerObjects0.Remove(obj);
-        playerObjects1.Remove(obj);
+        sortedStack.Remove(obj);
+        switch (obj.Side)
+        {
+            case 0:
+                playerObjects0.Remove(obj);
+                break;
+            default:
+                playerObjects1.Remove(obj);
+                break;
+        }
     }
 
     public List<IBattleObject> GetAlliedObjects(IBattleObject obj)
@@ -326,9 +328,11 @@ public class BattleExecutor : MonoBehaviour
 
     public void EnqueueEvent(List<IEventCommand> command)
     {
+        Debug.Log("event queue");
         events.commandQueue.Enqueue(command);
         if (events.commandQueue.Count <= 1)
         {
+            Debug.Log("event call");
             events.ExecuteQueue();
         }
     }

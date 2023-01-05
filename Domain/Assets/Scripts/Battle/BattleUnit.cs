@@ -28,7 +28,7 @@ public class BattleUnit : BattleObject, IBattleUnit
     /// </summary>
     public BattleUnit(BattleExecutor exec, int side,
         UnitRuntimeData unitData, int tileX, int tileY)
-        : base(exec, side, unitData.baseData.unitName)
+        : base(exec, side, unitData.baseData.unitName, unitData.GenerateSpeed())
     {
         this.UnitData = unitData;
         StatusList = new();
