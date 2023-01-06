@@ -13,6 +13,6 @@ public class CommonReference : ScriptableObject
     public List<Sprite> statusIconList;
 
     public List<Sprite> elementIconList;
-
+    [SerializeReference]
     public ObservedStatusBurn observedBurn;
 }

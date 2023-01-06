@@ -12,6 +12,7 @@ public class StatusBurn : StatusFramework
         base(exec, side, "StatusBurn", source, host, StatusType.debuff, duration)
     {
         this.dmgPerTick = dmgPerTick;
+        InflictBurn();
     }
 
     public override void OnEndTurn()
@@ -20,14 +21,6 @@ public class StatusBurn : StatusFramework
         {
             InflictBurn();
             base.OnEndTurn();
-        }
-    }
-
-    public override void OnSpawn(IBattleObject source)
-    {
-        if (source == this)
-        {
-            InflictBurn();
         }
     }
 

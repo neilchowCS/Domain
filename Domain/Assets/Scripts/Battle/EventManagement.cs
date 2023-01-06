@@ -10,16 +10,19 @@ public class EventManagement
     public List<IBattleObject> orderedList;
     public Queue<List<IEventCommand>> commandQueue;
 
+    private List<IBattleObject> additionOnHold;
+    private List<IBattleObject> removalOnHold;
+
     public List<IBattleUnit> deadUnits;
-    public List<IBattleStatus> clearedStatus;
 
     public EventManagement(BattleExecutor exec)
     {
         executor = exec;
         orderedList = new();
+        additionOnHold = new();
+        removalOnHold = new();
         commandQueue = new();
         deadUnits = new();
-        clearedStatus = new();
     }
 
     public void ExecuteQueue()
@@ -35,20 +38,40 @@ public class EventManagement
                     command.Execute(obj);
                 }
             }
+
+
+            Debug.Log("clearing");
+            CleanUp();
+            //somehow causing bug???
+            
+            if (deadUnits.Count >= 0)
+            {
+                OrderSpeedList();
+                Debug.Log("unit death event");
+                InvokeUnitDeath(deadUnits);
+                deadUnits = new();
+            }
+
+            foreach (IBattleUnit u in deadUnits)
+            {
+                DestructiveRemoveObject(u);
+            }
+
             commandQueue.Dequeue();
             //DEAL WITH WITHHELD OBJECTS
+            foreach (IBattleObject obj in removalOnHold)
+            {
+                DestructiveRemoveObject(obj);
+            }
+            removalOnHold = new();
+            foreach (IBattleObject obj in additionOnHold)
+            {
+                DestructiveAddObject(obj);
+            }
+            additionOnHold = new();
+            OrderSpeedList();
 
             Debug.Log((commandQueue.Count) + " " + ((commandQueue.Count > 0) ? "repeat" : "exit"));
-        }
-        Debug.Log("clearing");
-        CleanUp();
-        //somehow causing bug???
-        ClearStatus();
-        ClearUnits();
-        if (deadUnits.Count >= 0)
-        {
-            Debug.Log("unit death event");
-            InvokeUnitDeath(deadUnits);
         }
         Debug.Log("queue completed");
 
@@ -64,6 +87,10 @@ public class EventManagement
         if (executor.isInitializing)
         {
             DestructiveAddObject(obj);
+        }
+        else
+        {
+            additionOnHold.Add(obj);
         }
     }
 
@@ -83,6 +110,18 @@ public class EventManagement
         }
     }
 
+    public void RemoveObject(IBattleObject obj)
+    {
+        if (executor.isInitializing)
+        {
+            DestructiveRemoveObject(obj);
+        }
+        else
+        {
+            removalOnHold.Add(obj);
+        }
+    }
+
     private void DestructiveRemoveObject(IBattleObject obj)
     {
         orderedList.Remove(obj);
@@ -94,6 +133,11 @@ public class EventManagement
             default:
                 executor.playerObjects1.Remove(obj);
                 break;
+        }
+
+        if(obj is IBattleStatus o)
+        {
+            o.RemoveStatus();
         }
     }
 
@@ -123,26 +167,6 @@ public class EventManagement
                     deadUnit.Executor.player1Dead.Add(deadUnit);
                 }
             }
-        }
-    }
-
-    public void ClearUnits()
-    {
-        Debug.Log(deadUnits.Count);
-        for (int i = 0; i < deadUnits.Count; i++)
-        {
-            //RemoveUnit(deadUnits[0]);
-            deadUnits.RemoveAt(0);
-        }
-    }
-
-    public void ClearStatus()
-    {
-        Debug.Log(clearedStatus.Count);
-        for (int i = 0; i < clearedStatus.Count; i++)
-        {
-            clearedStatus[0].RemoveStatus();
-            clearedStatus.RemoveAt(0);
         }
     }
 

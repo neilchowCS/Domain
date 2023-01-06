@@ -7,20 +7,20 @@ public class ObservedStatusBurn : ObservedStatusFramework
 {
     public int dmgPerTick;
 
+    public virtual void Initialize(BattleExecutor executor, IBattleObject source,
+        IBattleUnit host, int duration, int dmgPerTick)
+    {
+        Initialize(executor, "burn status", source, host, StatusType.debuff, duration);
+        this.dmgPerTick = dmgPerTick;
+        InflictBurn();
+    }
+
     public override void OnEndTurn()
     {
         if (Executor.actingUnit == Host)
         {
             InflictBurn();
             base.OnEndTurn();
-        }
-    }
-
-    public override void OnSpawn(IBattleObject source)
-    {
-        if (source == this)
-        {
-            InflictBurn();
         }
     }
 

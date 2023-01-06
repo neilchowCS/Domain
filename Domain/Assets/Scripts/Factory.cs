@@ -70,26 +70,11 @@ public class Factory
 
     //***************** Status Constructor *******************
 
-    public virtual void ObservedStatusConstructor(ObservedStatusFramework status, IBattleObject source,
-        IBattleUnit host, StatusType type, int duration)
-    {
-        status.Source = source;
-        status.Host = host;
-        status.hasDuration = true;
-        status.duration = duration;
-        status.statusType = type;
-
-        status.Attach();
-    }
-
     public virtual ObservedStatusBurn NewObservedStatusBurn(IBattleObject source,
         IBattleUnit host, int duration, int dmgPerTick)
     {
         ObservedStatusBurn burn = GameObject.Instantiate(host.UnitData.baseData.commonRef.observedBurn);
-        burn.Initialize(executor, source.Side, "StatusBurn", host);
-        ObservedStatusConstructor(burn, source, host, StatusType.debuff, duration);
-        burn.dmgPerTick = dmgPerTick;
-
+        burn.Initialize(executor, source, host, duration, dmgPerTick);
         return burn;
     }
 

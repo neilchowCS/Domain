@@ -24,7 +24,6 @@ public class BattleJoe : BattleUnit
         foreach (IBattleUnit target in targets)
         {
             ActionExtension.ActionExtension.NewBurnStatus(this, target, 2, UnitData.unitAttack.Value);
-
         }
     }
 }
