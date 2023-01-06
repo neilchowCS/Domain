@@ -23,6 +23,8 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         }
     }
 
+    public bool IsDead { get; set; }
+
     public int X { get; set; }
     public int Y { get; set; }
 
@@ -49,7 +51,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         Initialize(executor, side, unitData.baseData.unitName, unitData.GenerateSpeed());
         UnitData = unitData;
         StatusList = new();
-
+        IsDead = false;
         X = x;
         Y = y;
         Timeline = 0;

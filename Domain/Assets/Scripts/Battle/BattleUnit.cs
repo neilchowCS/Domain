@@ -16,6 +16,8 @@ public class BattleUnit : BattleObject, IBattleUnit
     public float Timeline { get; set; }
     public Vector3 Position { get; set; }
 
+    public bool IsDead { get; set; }
+
     public int X { get; set; }
     public int Y { get; set; }
 
@@ -33,6 +35,7 @@ public class BattleUnit : BattleObject, IBattleUnit
         this.UnitData = unitData;
         StatusList = new();
 
+        IsDead = false;
         X = tileX;
         Y = tileY;
         Timeline = 0;
@@ -138,18 +141,5 @@ public class BattleUnit : BattleObject, IBattleUnit
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.normal, AbilityType.Skill).Cast<IEventCommand>().ToList()
         );
-    }
-
-    public override void OnUnitDeath(IBattleUnit deadUnit)
-    {
-        if (deadUnit == this)
-        {
-            Executor.hexMap[X, Y].occupant = null;
-        }
-
-        if (deadUnit == CurrentTarget)
-        {
-            CurrentTarget = null;
-        }
     }
 }

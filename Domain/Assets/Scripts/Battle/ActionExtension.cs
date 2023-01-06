@@ -44,6 +44,12 @@ namespace ActionExtension
                 damageTarget.Executor.CreateDamageNumber(damageTarget.Position, postmitigationDamage, damageType, crit);
 
                 output.Add(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType, abilityType, crit));
+
+                if (damageTarget.UnitData.health <= 0 && damageSource is ObservedUnit o && abilityType != AbilityType.Dot)
+                {
+                    GameObject.Instantiate(o.UnitData.baseData.commonRef.warpParticle, o.Position,
+                        o.UnitData.baseData.commonRef.warpParticle.transform.rotation);
+                }
             }
 
             //damageSource.Executor.EnqueueEvent(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType));

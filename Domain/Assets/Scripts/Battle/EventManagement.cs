@@ -12,8 +12,7 @@ public class EventManagement
 
     private List<IBattleObject> additionOnHold;
     private List<IBattleObject> removalOnHold;
-
-    public List<IBattleUnit> deadUnits;
+    private List<Hexagon> clearedTiles;
 
     public EventManagement(BattleExecutor exec)
     {
@@ -21,8 +20,8 @@ public class EventManagement
         orderedList = new();
         additionOnHold = new();
         removalOnHold = new();
+        clearedTiles = new();
         commandQueue = new();
-        deadUnits = new();
     }
 
     public void ExecuteQueue()
@@ -41,21 +40,8 @@ public class EventManagement
 
 
             Debug.Log("clearing");
-            CleanUp();
+            HandleDeadUnits(FindDeadUnits());
             //somehow causing bug???
-            
-            if (deadUnits.Count >= 0)
-            {
-                OrderSpeedList();
-                Debug.Log("unit death event");
-                InvokeUnitDeath(deadUnits);
-                deadUnits = new();
-            }
-
-            foreach (IBattleUnit u in deadUnits)
-            {
-                DestructiveRemoveObject(u);
-            }
 
             commandQueue.Dequeue();
             //DEAL WITH WITHHELD OBJECTS
@@ -135,39 +121,73 @@ public class EventManagement
                 break;
         }
 
-        if(obj is IBattleStatus o)
+        if (obj is IBattleStatus o)
         {
             o.RemoveStatus();
         }
     }
 
-    public void CleanUp()
+    public List<IBattleUnit> FindDeadUnits()
     {
-        //check dead, if dead, execute queue
-
+        List<IBattleUnit> output = new();
         for (int i = 0; i < executor.activeUnits.Count; i++)
         {
             if (executor.activeUnits[i].UnitData.health <= 0)
             {
-                //FIXME
-                IBattleUnit deadUnit = executor.activeUnits[i];
-                deadUnits.Add(deadUnit);
-                executor.logger.UnitDeath(deadUnit);
-
-                i--;
-                executor.activeUnits.Remove(deadUnit);
-                if (deadUnit.Side == 0)
-                {
-                    deadUnit.Executor.player0Active.Remove(deadUnit);
-                    deadUnit.Executor.player0Dead.Add(deadUnit);
-                }
-                else
-                {
-                    deadUnit.Executor.player1Active.Remove(deadUnit);
-                    deadUnit.Executor.player1Dead.Add(deadUnit);
-                }
+                output.Add(executor.activeUnits[i]);
             }
         }
+        return output;
+    }
+
+    public void HandleDeadUnits(List<IBattleUnit> deadUnits)
+    {
+        foreach (IBattleUnit deadUnit in deadUnits)
+        {
+            clearedTiles.Add(executor.hexMap[deadUnit.X, deadUnit.Y]);
+            ClearTargetReferences(deadUnit);
+            executor.logger.UnitDeath(deadUnit);
+            RemoveObject(deadUnit);
+            executor.activeUnits.Remove(deadUnit);
+
+            if (deadUnit.Side == 0)
+            {
+                deadUnit.Executor.player0Active.Remove(deadUnit);
+                deadUnit.Executor.player0Dead.Add(deadUnit);
+            }
+            else
+            {
+                deadUnit.Executor.player1Active.Remove(deadUnit);
+                deadUnit.Executor.player1Dead.Add(deadUnit);
+            }
+        }
+
+        if (deadUnits.Count >= 0)
+        {
+            OrderSpeedList();
+            InvokeUnitDeath(deadUnits);
+        }
+    }
+
+    public void ClearTargetReferences(IBattleUnit deadUnit)
+    {
+        //NOTE: REVIVED UNITS MUST HAVE REFERENCES CLEARED
+        foreach (IBattleUnit u in executor.activeUnits)
+        {
+            if (u.CurrentTarget == deadUnit)
+            {
+                u.CurrentTarget = null;
+            }
+        }
+    }
+
+    public void ClearEmptyTiles()
+    {
+        foreach (Hexagon h in clearedTiles)
+        {
+            h.occupant = null;
+        }
+        clearedTiles = new();
     }
 
     public void InvokeStartTurn()
@@ -196,5 +216,10 @@ public class EventManagement
                 obj.OnUnitDeath(unit);
             }
         }
+    }
+
+    public void UnitDeathResponse(IBattleUnit unit)
+    {
+
     }
 }

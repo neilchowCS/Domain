@@ -123,8 +123,9 @@ public class ObservedBattleExecutor : BattleExecutor
 
         InvokeEndTurn();
 
-        AdvanceTimeline();
+        eventManager.ClearEmptyTiles();
 
+        AdvanceTimeline();
 
         timelineUI.RefreshTimeline();
 

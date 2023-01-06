@@ -18,3 +18,5 @@ MonoBehaviour:
   statusIconList:
   - {fileID: 21300000, guid: 34d5f86f0879e46f7a1103ca7bb8e198, type: 3}
   - {fileID: 21300000, guid: f4d9d70887caa450ba5858741a63237a, type: 3}
+  elementIconList: []
+  observedBurn: {fileID: 6214824007357022591, guid: 55f61c7fb8a004b5baed7ae0dc78757e, type: 3}

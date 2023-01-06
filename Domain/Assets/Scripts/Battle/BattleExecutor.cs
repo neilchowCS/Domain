@@ -118,6 +118,8 @@ public class BattleExecutor : MonoBehaviour
 
         InvokeEndTurn();
 
+        eventManager.ClearEmptyTiles();
+
         AdvanceTimeline();
 
         globalTick++;

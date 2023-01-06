@@ -14564,6 +14564,7 @@ MonoBehaviour:
   reader: {fileID: 1969906534}
   rngGen: {fileID: 1969906536}
   globalTick: 0
+  isInitializing: 0
   replayManager: {fileID: 1969906531}
   mapTilesX0:
   - {fileID: 0}
@@ -14715,6 +14716,7 @@ MonoBehaviour:
   reader: {fileID: 1969906534}
   rngGen: {fileID: 1969906536}
   globalTick: 0
+  isInitializing: 0
   replayManager: {fileID: 1969906531}
   mapTilesX0:
   - {fileID: 0}
