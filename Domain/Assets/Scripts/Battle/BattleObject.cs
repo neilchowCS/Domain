@@ -34,7 +34,7 @@ public class BattleObject : IBattleObject
 
         ObjSpeed = new(speed);
 
-        Executor.AddObject(this);
+        exec.eventManager.AddObject(this);
     }
 
     public BattleObject(BattleExecutor exec, int side, string name, IBattleObject dependent)
@@ -47,7 +47,7 @@ public class BattleObject : IBattleObject
 
         ObjSpeed = dependent.ObjSpeed;
 
-        Executor.AddObject(this);
+        exec.eventManager.AddObject(this);
     }
 
     public virtual void OnStartTurn() { }

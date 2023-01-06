@@ -29,7 +29,7 @@ public class ObservedObject : MonoBehaviour, IBattleObject
 
         ObjSpeed = new(speed);
 
-        Executor.AddObject(this);
+        exec.eventManager.AddObject(this);
     }
 
     public virtual void Initialize(BattleExecutor exec, int side, string name, IBattleObject dependent)
@@ -42,7 +42,7 @@ public class ObservedObject : MonoBehaviour, IBattleObject
 
         ObjSpeed = dependent.ObjSpeed;
 
-        Executor.AddObject(this);
+        exec.eventManager.AddObject(this);
     }
 
     public virtual void OnStartTurn() { }

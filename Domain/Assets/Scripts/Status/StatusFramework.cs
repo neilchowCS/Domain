@@ -33,7 +33,7 @@ public class StatusFramework : BattleObject, IBattleStatus
     {
         if (deadUnit == Host)
         {
-            Executor.events.clearedStatus.Add(this);
+            Executor.eventManager.clearedStatus.Add(this);
         }
     }
 
@@ -44,7 +44,7 @@ public class StatusFramework : BattleObject, IBattleStatus
             duration--;
             if (duration <= 0)
             {
-                Executor.events.clearedStatus.Add(this);
+                Executor.eventManager.clearedStatus.Add(this);
             }
         }
     }
@@ -54,7 +54,7 @@ public class StatusFramework : BattleObject, IBattleStatus
         OnUnapply();
         Host.StatusList.Remove(this);
         Executor.GetAlliedObjects(this).Remove(this);
-        Executor.events.RemoveObject(this, Host);
+        //Executor.eventManager.RemoveObject(this, Host);
     }
 
     public virtual void OnUnapply()

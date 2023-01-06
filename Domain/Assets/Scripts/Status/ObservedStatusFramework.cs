@@ -27,7 +27,7 @@ public class ObservedStatusFramework : ObservedObject, IBattleStatus
     {
         if (deadUnit == Host)
         {
-            Executor.events.clearedStatus.Add(this);
+            Executor.eventManager.clearedStatus.Add(this);
         }
     }
 
@@ -38,7 +38,7 @@ public class ObservedStatusFramework : ObservedObject, IBattleStatus
             duration--;
             if (duration <= 0)
             {
-                Executor.events.clearedStatus.Add(this);
+                Executor.eventManager.clearedStatus.Add(this);
             }
         }
     }

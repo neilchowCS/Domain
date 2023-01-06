@@ -7,6 +7,7 @@ public class EventManagement
 {
     public BattleExecutor executor;
 
+    public List<IBattleObject> orderedList;
     public Queue<List<IEventCommand>> commandQueue;
 
     public List<IBattleUnit> deadUnits;
@@ -15,36 +16,10 @@ public class EventManagement
     public EventManagement(BattleExecutor exec)
     {
         executor = exec;
+        orderedList = new();
         commandQueue = new();
         deadUnits = new();
         clearedStatus = new();
-    }
-
-    public void Initialize(List<IBattleUnit> units)
-    {
-
-    }
-
-    public void RemoveUnit(IBattleUnit unit)
-    {
-        Debug.Log("Removing unit");
-        bool found = false;
-        /*
-        for (int i = 0; i < orderedObjects.Count; i++)
-        {
-            if (orderedObjects[i][^1][0] == unit)
-            {
-                orderedObjects[i][2].Remove(unit);
-                orderedObjects[i][3].Remove(unit);
-                found = true;
-                break;
-            }
-        }
-        */
-        if (!found)
-        {
-            Debug.Log("ERROR!!! UNIT NOT FOUND!!!");
-        }
     }
 
     public void ExecuteQueue()
@@ -53,14 +28,15 @@ public class EventManagement
         while (commandQueue.Count > 0)
         {
             List<IEventCommand> commandList = commandQueue.Peek();
-            foreach (IEventCommand command in commandList)
+            foreach (IBattleObject obj in orderedList)
             {
-                foreach (IBattleObject obj in executor.sortedStack)
+                foreach (IEventCommand command in commandList)
                 {
                     command.Execute(obj);
                 }
             }
             commandQueue.Dequeue();
+            //DEAL WITH WITHHELD OBJECTS
 
             Debug.Log((commandQueue.Count) + " " + ((commandQueue.Count > 0) ? "repeat" : "exit"));
         }
@@ -76,6 +52,49 @@ public class EventManagement
         }
         Debug.Log("queue completed");
 
+    }
+
+    public void OrderSpeedList()
+    {
+        orderedList = orderedList.OrderByDescending(o => o.ObjSpeed.Value).ToList();
+    }
+
+    public void AddObject(IBattleObject obj)
+    {
+        if (executor.isInitializing)
+        {
+            DestructiveAddObject(obj);
+        }
+    }
+
+    private void DestructiveAddObject(IBattleObject obj)
+    {
+        //ERROR SOURCE HERE!!!
+        orderedList.Add(obj);
+        //orderedList = orderedList.OrderBy(o => o.ObjSpeed).ToList();
+        switch (obj.Side)
+        {
+            case 0:
+                executor.playerObjects0.Add(obj);
+                break;
+            default:
+                executor.playerObjects1.Add(obj);
+                break;
+        }
+    }
+
+    private void DestructiveRemoveObject(IBattleObject obj)
+    {
+        orderedList.Remove(obj);
+        switch (obj.Side)
+        {
+            case 0:
+                executor.playerObjects0.Remove(obj);
+                break;
+            default:
+                executor.playerObjects1.Remove(obj);
+                break;
+        }
     }
 
     public void CleanUp()
@@ -112,7 +131,7 @@ public class EventManagement
         Debug.Log(deadUnits.Count);
         for (int i = 0; i < deadUnits.Count; i++)
         {
-            RemoveUnit(deadUnits[0]);
+            //RemoveUnit(deadUnits[0]);
             deadUnits.RemoveAt(0);
         }
     }
@@ -129,7 +148,7 @@ public class EventManagement
 
     public void InvokeStartTurn()
     {
-        foreach (IBattleObject obj in executor.sortedStack)
+        foreach (IBattleObject obj in orderedList)
         {
             obj.OnStartTurn();
         }
@@ -138,7 +157,7 @@ public class EventManagement
     public void InvokeDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget,
         int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
     {
-        foreach (IBattleObject obj in executor.sortedStack)
+        foreach (IBattleObject obj in orderedList)
         {
             obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, abilityType, isCrit);
         }
@@ -146,7 +165,7 @@ public class EventManagement
 
     public void InvokeUnitDeath(List<IBattleUnit> units)
     {
-        foreach (IBattleObject obj in executor.sortedStack)
+        foreach (IBattleObject obj in orderedList)
         {
             foreach (IBattleUnit unit in units)
             {

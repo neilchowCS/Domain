@@ -46,6 +46,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         base.InitState(i);
 
+        //UI SPECIFIC//
         MapTile[] templist = tileParent.GetComponentsInChildren<MapTile>();
         for (int j = 0; j < 8; j++)
         {
@@ -71,6 +72,7 @@ public class ObservedBattleExecutor : BattleExecutor
         }
 
         timelineUI.InitTimeline(activeUnits);
+        //UI SPECIFIC//
     }
 
     private void Update()
@@ -106,7 +108,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         actingUnit = activeUnits[0];
 
-        events.InvokeStartTurn();
+        eventManager.InvokeStartTurn();
 
         actingUnit.PerformAction();
 
@@ -152,9 +154,6 @@ public class ObservedBattleExecutor : BattleExecutor
         }
 
         activeUnits = Enumerable.Concat(player0Active, player1Active).ToList();
-        sortedStack = activeUnits.OrderByDescending(o => o.ObjSpeed.Value).Cast<IBattleObject>()
-            .ToList();
-        InitializeTimeline();
     }
 
     public void InitProfile(IBattleUnit unit)

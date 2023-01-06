@@ -94,7 +94,6 @@ namespace ActionExtension
         public static void AddStatus(IBattleObject source, IBattleUnit host, IBattleStatus status)
         {
             host.StatusList.Add(status);
-            source.Executor.events.AddObject(status, host);
         }
     }
 }
