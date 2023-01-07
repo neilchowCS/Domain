@@ -116,18 +116,13 @@ public class BattleExecutor : MonoBehaviour
 
         actingUnit.PerformAction();
 
-        InvokeEndTurn();
+        eventManager.InvokeEndTurn();
 
         eventManager.ClearEmptyTiles();
 
         AdvanceTimeline();
 
         globalTick++;
-    }
-
-    public void InvokeEndTurn()
-    {
-        EnqueueEvent(new() { new EndTurnCommand()});
     }
 
     public void AdvanceTimeline()

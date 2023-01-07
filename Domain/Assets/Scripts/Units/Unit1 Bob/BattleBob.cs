@@ -11,7 +11,7 @@ public class BattleBob : BattleUnit
 
     }
 
-    public override void OnDamageDealt(IBattleObject damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
+    public override void OnDamageDealt(IBattleObject damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, AbilityType abilityType, bool isCrit, int overkill)
     {
         if (damageTarget == this && damageSource is IBattleUnit &&
             (abilityType == AbilityType.Basic || abilityType == AbilityType.Skill))

@@ -26,7 +26,6 @@ public class EventManagement
 
     public void ExecuteQueue()
     {
-        System.Console.WriteLine("execute queue");
         while (commandQueue.Count > 0)
         {
             List<IEventCommand> commandList = commandQueue.Peek();
@@ -38,24 +37,25 @@ public class EventManagement
                 }
             }
 
-
-            Debug.Log("clearing");
             HandleDeadUnits(FindDeadUnits());
-            //somehow causing bug???
 
             commandQueue.Dequeue();
-            //DEAL WITH WITHHELD OBJECTS
+
             foreach (IBattleObject obj in removalOnHold)
             {
                 DestructiveRemoveObject(obj);
             }
             removalOnHold = new();
-            foreach (IBattleObject obj in additionOnHold)
+
+            if (additionOnHold.Count > 0)
             {
-                DestructiveAddObject(obj);
+                foreach (IBattleObject obj in additionOnHold)
+                {
+                    DestructiveAddObject(obj);
+                }
+                additionOnHold = new();
+                OrderSpeedList();
             }
-            additionOnHold = new();
-            OrderSpeedList();
 
             Debug.Log((commandQueue.Count) + " " + ((commandQueue.Count > 0) ? "repeat" : "exit"));
         }
@@ -82,9 +82,7 @@ public class EventManagement
 
     private void DestructiveAddObject(IBattleObject obj)
     {
-        //ERROR SOURCE HERE!!!
         orderedList.Add(obj);
-        //orderedList = orderedList.OrderBy(o => o.ObjSpeed).ToList();
         switch (obj.Side)
         {
             case 0:
@@ -198,12 +196,11 @@ public class EventManagement
         }
     }
 
-    public void InvokeDamageDealt(IBattleUnit damageSource, IBattleUnit damageTarget,
-        int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
+    public void InvokeEndTurn()
     {
         foreach (IBattleObject obj in orderedList)
         {
-            obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, abilityType, isCrit);
+            obj.OnEndTurn();
         }
     }
 

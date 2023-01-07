@@ -121,7 +121,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         bottlenecked = false;
 
-        InvokeEndTurn();
+        eventManager.InvokeEndTurn();
 
         eventManager.ClearEmptyTiles();
 

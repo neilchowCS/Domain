@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class DamageDealtCommand : IEventCommand
 {
-    public int Id { get; set; } = 2;
     private IBattleObject damageSource;
     private IBattleUnit damageTarget;
     private int amount;
     private DamageType damageType;
     private AbilityType abilityType;
     private bool isCrit;
+    private int overkill;
 
     public DamageDealtCommand(IBattleObject damageSource, IBattleUnit damageTarget,
-        int amount, DamageType damageType, AbilityType abilityType, bool isCrit)
+        int amount, DamageType damageType, AbilityType abilityType, bool isCrit, int overkill)
     {
         this.damageSource = damageSource;
         this.damageTarget = damageTarget;
@@ -21,6 +21,7 @@ public class DamageDealtCommand : IEventCommand
         this.damageType = damageType;
         this.abilityType = abilityType;
         this.isCrit = isCrit;
+        this.overkill = overkill;
     }
 
     /// <summary>
@@ -28,6 +29,6 @@ public class DamageDealtCommand : IEventCommand
     /// </summary>
     public void Execute(IBattleObject obj)
     {
-        obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, abilityType, isCrit);
+        obj.OnDamageDealt(damageSource, damageTarget, amount, damageType, abilityType, isCrit, overkill);
     }
 }

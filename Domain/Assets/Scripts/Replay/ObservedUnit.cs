@@ -213,4 +213,13 @@ public class ObservedUnit : ObservedObject, IBattleUnit
             CurrentTarget = null;
         }
     }
+
+    public override void OnDamageDealt(IBattleObject damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, AbilityType abilityType, bool isCrit, int overkill)
+    {
+        if (damageSource == this && overkill >= 0 && abilityType != AbilityType.Dot)
+        {
+            Instantiate(UnitData.baseData.commonRef.warpParticle, Position,
+                    UnitData.baseData.commonRef.warpParticle.transform.rotation);
+        }
+    }
 }

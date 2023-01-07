@@ -7,10 +7,10 @@ namespace ActionExtension
 {
     public static class ActionExtension
     {
-        public static List<DamageDealtCommand> ProcessDamage(IBattleObject damageSource,
+        public static List<IEventCommand> ProcessDamage(IBattleObject damageSource,
             List<IBattleUnit> damageTargets, int premitigationAmount, DamageType damageType, AbilityType abilityType)
         {
-            List<DamageDealtCommand> output = new();
+            List<IEventCommand> output = new();
 
             foreach (IBattleUnit damageTarget in damageTargets)
             {
@@ -43,13 +43,9 @@ namespace ActionExtension
                 damageTarget.ModifyHealth(-postmitigationDamage, damageType);
                 damageTarget.Executor.CreateDamageNumber(damageTarget.Position, postmitigationDamage, damageType, crit);
 
-                output.Add(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType, abilityType, crit));
+                int overkill = (damageTarget.UnitData.health > 0) ? -1 : -damageTarget.UnitData.health;
 
-                if (damageTarget.UnitData.health <= 0 && damageSource is ObservedUnit o && abilityType != AbilityType.Dot)
-                {
-                    GameObject.Instantiate(o.UnitData.baseData.commonRef.warpParticle, o.Position,
-                        o.UnitData.baseData.commonRef.warpParticle.transform.rotation);
-                }
+                output.Add(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType, abilityType, crit, overkill));
             }
 
             //damageSource.Executor.EnqueueEvent(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType));
