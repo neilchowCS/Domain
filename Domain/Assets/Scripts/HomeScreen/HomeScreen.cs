@@ -17,14 +17,18 @@ public class HomeScreen : MonoBehaviour
 
     public UDListScriptableObject uDListSO;
 
-    public string currentPage;
+    //IF STACK IS EMPTY, ASSUME CURRENT PAGE IS HOME
+    public Stack<GameObject> UIStack;
+
 
     // Start is called before the first frame update
+    
     void Awake()
     {
         //QUESTION why does initializing player collection here (start not awake) not work?
-        currentPage = "Home";
+        UIStack = new();
     }
+    
 
     // Update is called once per frame
     void Update()
@@ -59,13 +63,30 @@ public class HomeScreen : MonoBehaviour
         }
     }
 
-    public void ChangePage(string toOpen)
+    public void OpenPage(string toOpen)
     {
-        if (GetUI(currentPage) != null && GetUI(toOpen) != null)
+        if (GetUI(toOpen) != null)
         {
-            GetUI(currentPage).SetActive(false);
-            currentPage = toOpen;
-            GetUI(toOpen).SetActive(true);
+            if (UIStack.Count > 0)
+            {
+                UIStack.Peek().SetActive(false);
+            }
+            UIStack.Push(GetUI(toOpen));
+            UIStack.Peek().SetActive(true);
+        }
+    }
+
+    public void ClosePage()
+    {
+        if (UIStack.Count > 1)
+        {
+            UIStack.Pop().SetActive(false);
+            UIStack.Peek().SetActive(true);
+        }
+        else
+        {
+            UIStack.Pop().SetActive(false);
+            this.gameObject.SetActive(true);
         }
     }
 
@@ -85,6 +106,6 @@ public class HomeScreen : MonoBehaviour
         
         unitDisplay.SetUnit(individualData);
 
-        ChangePage("Unit");
+        OpenPage("Unit");
     }
 }

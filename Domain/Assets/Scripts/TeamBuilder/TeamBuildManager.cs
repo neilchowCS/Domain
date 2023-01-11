@@ -13,6 +13,7 @@ public class TeamBuildManager : MonoBehaviour
     public GameObject charIconBounds;
     public ScrollRect scrollRect;
     public CharSelectIcon charSelectIcon;
+    public List<CharSelectIcon> charSelectIconList;
 
     public GameObject gridMarkerParent;
     public HexParent hexParent;
@@ -34,6 +35,11 @@ public class TeamBuildManager : MonoBehaviour
     // Start is called before the first frame update
     public void Init()
     {
+        foreach(CharSelectIcon icon in charSelectIconList)
+        {
+            Destroy(icon.gameObject);
+        }
+        charSelectIconList = new();
         DataSerialization serializer = new DataSerialization();
         markList = new();
         positionList = new();
@@ -45,6 +51,7 @@ public class TeamBuildManager : MonoBehaviour
             CharSelectIcon temp = Instantiate(charSelectIcon, charIconBounds.transform);
             temp.SetInitial(this, (dataListSO.uDList[newCollection.individualDataList[i].unitId],
                 newCollection.individualDataList[i]), i);
+            charSelectIconList.Add(temp);
         }
 
         hexTileLocalPositions = new List<Vector3>();
