@@ -11,6 +11,7 @@ public class HomeScreen : MonoBehaviour
     public UnitProfileDisplay unitDisplay;
     public DismissalManager dismissalManager;
     public TowerManager towerManager;
+    public BagManager bagManager;
     //Overlays
     public ReplayHandler replayUI;
     public TeamBuildManager teamBuildManager;
@@ -58,6 +59,8 @@ public class HomeScreen : MonoBehaviour
                 return replayUI.gameObject;
             case "Teambuilder":
                 return teamBuildManager.gameObject;
+            case "Bag":
+                return bagManager.gameObject;
             default:
                 return null;
         }

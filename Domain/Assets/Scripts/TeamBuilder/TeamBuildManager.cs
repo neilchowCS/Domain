@@ -32,7 +32,6 @@ public class TeamBuildManager : MonoBehaviour
 
     public int maxTeamSize = 4;
 
-    // Start is called before the first frame update
     public void Init()
     {
         foreach(CharSelectIcon icon in charSelectIconList)
@@ -41,6 +40,10 @@ public class TeamBuildManager : MonoBehaviour
         }
         charSelectIconList = new();
         DataSerialization serializer = new DataSerialization();
+        foreach (BaseUnitIcon icon in markList)
+        {
+            Destroy(icon.gameObject);
+        }
         markList = new();
         positionList = new();
         PlayerCollectionData newCollection = serializer.DeserializeCollection(
@@ -64,8 +67,7 @@ public class TeamBuildManager : MonoBehaviour
         SetEnemyIcons();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
 
     }

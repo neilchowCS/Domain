@@ -15,6 +15,8 @@ public class PlayerData
 
     public int currentStage;
 
+    public int[] playerInventory;
+
     public PlayerData()
     {
 
@@ -34,5 +36,8 @@ public class PlayerData
         overflowEssence = ovfG;
 
         currentStage = cStage;
+
+        //FIXME
+        playerInventory = new int[] { 10, 0, 0};
     }
 }
