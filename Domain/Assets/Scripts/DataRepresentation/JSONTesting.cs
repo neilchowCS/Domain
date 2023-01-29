@@ -28,8 +28,6 @@ public class JSONTesting : MonoBehaviour
         //UnitIndividualCollection newCollection = serializer.DeserializeCollection(
         //    System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerCollection.json"));
 
-        StageDataCollection stageCollection = new StageDataCollection();
-
         StageDataCollection stageData = new StageDataCollection();
         PrimitiveTeamData stage0 = new PrimitiveTeamData();
         stage0.dataList.Add(new UnitIndividualData(1, 0));
@@ -98,6 +96,15 @@ public class JSONTesting : MonoBehaviour
         jsonOutput = serializer.SerializeData(playerData);
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);
+
+        StageRewardStorage rewardStorage = new();
+        for(int i = 0; i < stageData.stageDataList.Count; i++)
+        {
+            rewardStorage.stageInstances.Add(new StageInstanceReward(new() { new StageRewardInstance(0, 1, 1, 1, 0) }));
+        }
+        jsonOutput = serializer.SerializeData(rewardStorage);
+        Debug.Log(jsonOutput);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/StageRewards.json", jsonOutput);
     }
 
     // Update is called once per frame

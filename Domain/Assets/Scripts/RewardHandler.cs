@@ -31,4 +31,24 @@ public class RewardHandler : MonoBehaviour
     {
         
     }
+
+    public void GetRewards(int stageId)
+    {
+        StageInstanceReward stageInstanceReward = DataSerialization.DeserializeRewardStorage(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/StageRewards.json")).stageInstances[stageId];
+
+        PlayerData playerData = DataSerialization.DeserializeStaticPlayerData(
+            System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
+
+        foreach (StageRewardInstance i in stageInstanceReward.rewardInstances)
+        {
+            if (i.randomMode == 0)
+            {
+                playerData.playerInventory[i.itemId] += i.countMin;
+            }
+        }
+
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json",
+                DataSerialization.SerializeStaticPlayerData(playerData));
+    }
 }

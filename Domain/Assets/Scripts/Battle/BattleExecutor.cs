@@ -17,6 +17,8 @@ public class BattleExecutor : MonoBehaviour
     protected RandomGenerators rngGen;
     public System.Random rng;
 
+    public RewardHandler rewardHandler;
+
     public int globalTick;
     /// <summary>
     /// Holds delegates and events
@@ -90,14 +92,21 @@ public class BattleExecutor : MonoBehaviour
         {
             logger.AddVictory(0);
             Debug.Log("Player won!");
-            PlayerData data = DataSerialization.DeserializeStaticPlayerData(
-                System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
-            if (reader.stageId > data.currentStage)
+            if (!reader.replayFlag)
             {
-                Debug.Log("Level Cleared! Campaign progressed!");
-                data.currentStage = reader.stageId;
-                string jsonOutput = DataSerialization.SerializeStaticPlayerData(data);
-                System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);
+                PlayerData data = DataSerialization.DeserializeStaticPlayerData(
+                    System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
+                if (reader.stageId > data.currentStage)
+                {
+                    Debug.Log("Level Cleared! Campaign progressed!");
+                    data.currentStage = reader.stageId;
+                    string jsonOutput = DataSerialization.SerializeStaticPlayerData(data);
+                    System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);
+                }
+
+                //HANDLE REWARDS!!!
+                Debug.Log($"Stage {reader.stageId}");
+                rewardHandler.GetRewards(reader.stageId);
             }
         }
         else
