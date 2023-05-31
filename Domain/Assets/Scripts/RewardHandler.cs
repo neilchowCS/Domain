@@ -23,32 +23,35 @@ public class RewardHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void GetRewards(int stageId)
     {
-        StageInstanceReward stageInstanceReward = DataSerialization.DeserializeRewardStorage(
-            System.IO.File.ReadAllText(Application.persistentDataPath + "/StageRewards.json")).stageInstances[stageId];
-
         PlayerData playerData = DataSerialization.DeserializeStaticPlayerData(
             System.IO.File.ReadAllText(Application.persistentDataPath + "/PlayerData.json"));
 
-        foreach (StageRewardInstance i in stageInstanceReward.rewardInstances)
+        if (stageId >= 0 && stageId < 100)
         {
-            if (i.randomMode == 0)
-            {
-                playerData.playerInventory[i.itemId] += i.countMin;
-            }
+            playerData.playerInventory[0] += 0;
+        }
+        else
+        {
+            switch (stageId) { }
         }
 
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json",
                 DataSerialization.SerializeStaticPlayerData(playerData));
+    }
+
+    private void CalcCampaignVictoryReward(int stageId)
+    {
+
     }
 }

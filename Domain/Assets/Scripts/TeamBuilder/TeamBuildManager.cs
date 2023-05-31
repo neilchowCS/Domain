@@ -20,11 +20,11 @@ public class TeamBuildManager : MonoBehaviour
     private float yValPositionOffset = 235;
     public List<Vector3> hexTileLocalPositions;
 
-    public BaseUnitIcon marker;
-    public List<BaseUnitIcon> markList;
+    public IconGeneric marker;
+    public List<IconGeneric> markList;
     public List<int> positionList;
     public GameObject enemyTileGrid;
-    public List<BaseUnitIcon> enemyMarkList;
+    public List<IconGeneric> enemyMarkList;
 
     public TeamMessenger teamMessenger;
 
@@ -40,7 +40,7 @@ public class TeamBuildManager : MonoBehaviour
         }
         charSelectIconList = new();
         DataSerialization serializer = new DataSerialization();
-        foreach (BaseUnitIcon icon in markList)
+        foreach (IconGeneric icon in markList)
         {
             Destroy(icon.gameObject);
         }
@@ -91,10 +91,10 @@ public class TeamBuildManager : MonoBehaviour
         if (!collider.occupied && markList.Count < maxTeamSize)
         {
             icon.CharUsed();
-            BaseUnitIcon temp = Instantiate(marker, gridMarkerParent.transform);
+            IconGeneric temp = Instantiate(marker, gridMarkerParent.transform);
             temp.transform.position = collider.transform.position;
             temp.transform.localScale = new Vector3(.6f, .6f, .6f);
-            temp.InitButton(dataListSO, icon.compositeData.Item2);
+            temp.RecastIcon(dataListSO, icon.compositeData.Item2);
 
             //temp.SetInitial(collider.transform.position, icon.compositeData, i);
             collider.occupied = true;
@@ -126,7 +126,7 @@ public class TeamBuildManager : MonoBehaviour
 
     public void SetEnemyIcons()
     {
-        foreach (BaseUnitIcon gridMarker in enemyMarkList)
+        foreach (IconGeneric gridMarker in enemyMarkList)
         {
             Destroy(gridMarker.gameObject);
         }
@@ -137,7 +137,7 @@ public class TeamBuildManager : MonoBehaviour
         PrimitiveTeamData currentStageData = stageList.stageDataList[stageId];
         for (int i = 0; i < currentStageData.dataList.Count; i++)
         {
-            BaseUnitIcon temp = Instantiate(marker, enemyTileGrid.transform);
+            IconGeneric temp = Instantiate(marker, enemyTileGrid.transform);
             /*
             temp.SetEnemyInitial(hexTileLocalPositions[currentStageData.positionList[i] - 24] - new Vector3(0, yValPositionOffset, 0),
                 dataListSO.uDList[currentStageData.dataList[i].unitId].unitSprite);
@@ -145,7 +145,7 @@ public class TeamBuildManager : MonoBehaviour
             temp.transform.localPosition = hexTileLocalPositions[currentStageData.positionList[i] - 24]
                 - new Vector3(0, yValPositionOffset, 0);
             temp.transform.localScale = new Vector3(.6f, .6f, .6f);
-            temp.InitButton(dataListSO, currentStageData.dataList[i]);
+            temp.RecastIcon(dataListSO, currentStageData.dataList[i]);
             /*
             temp.SetEnemyInitial(hexTileLocalPositions[currentStageData.positionList[i] - 24] -
                 new Vector3(0,(enemyTileGrid.transform.localPosition.y - hexParent.transform.localPosition.y), 0),

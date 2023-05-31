@@ -147,9 +147,9 @@ GameObject:
   - component: {fileID: 5122344982927994023}
   - component: {fileID: 5122344982927994022}
   - component: {fileID: 5122344982927994021}
-  - component: {fileID: 352102801119856016}
+  - component: {fileID: 6737691189462185861}
   m_Layer: 5
-  m_Name: BaseUnitIcon
+  m_Name: IconGeneric
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,8 +259,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 352102801119856016}
-        m_TargetAssemblyTypeName: BaseUnitIcon, Assembly-CSharp
+      - m_Target: {fileID: 6737691189462185861}
+        m_TargetAssemblyTypeName: IconGeneric, Assembly-CSharp
         m_MethodName: SettingBasedClickEvent
         m_Mode: 1
         m_Arguments:
@@ -271,7 +271,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &352102801119856016
+--- !u!114 &6737691189462185861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5122344982927994010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac449814782df4631b24301d96f92003, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d0c81b0be9a246b68980e61576c356c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   individualData:

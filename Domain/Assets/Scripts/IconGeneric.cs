@@ -4,14 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class BaseUnitIcon : MonoBehaviour
+public class IconGeneric : MonoBehaviour
 {
     public UnitIndividualData individualData;
     public Image image;
     public Image elementCircle;
-    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI levelText; //also item count display
 
-    public enum IconSetting { nil, collection, dismissal, dismissalSelect }
+    public int itemId;
+    public int itemCount;
+
+    public enum IconSetting { nil, inventory, collection, dismissal, dismissalSelect }
     public IconSetting iconSetting = IconSetting.nil;
 
     public HomeScreen homeScreen;
@@ -28,20 +31,35 @@ public class BaseUnitIcon : MonoBehaviour
 
     }
 
-    public void InitButton(HomeScreen homeScreen, IconSetting setting,
+    public void InitIcon(HomeScreen homeScreen, IconSetting setting,
         UDListScriptableObject UDListSO, UnitIndividualData individual)
     {
         this.homeScreen = homeScreen;
         iconSetting = setting;
-        InitButton(UDListSO, individual);
+        RecastIcon(UDListSO, individual);
     }
 
-    public void InitButton(UDListScriptableObject UDListSO, UnitIndividualData individual)
+    public void InitIcon(HomeScreen homeScreen, IconSetting setting, int itemId, int itemCount,
+        Sprite itemIcon)
+    {
+        this.homeScreen = homeScreen;
+        iconSetting = setting;
+        RecastIcon(itemId, itemCount, itemIcon);
+    }
+
+    public void RecastIcon(UDListScriptableObject UDListSO, UnitIndividualData individual)
     {
         individualData = individual;
         image.sprite = UDListSO.uDList[individual.unitId].unitSprite;
         levelText.text = individual.level + "";
         elementCircle.color = ElementColor.GetColor(UDListSO.uDList[individual.unitId].elementEnum);
+    }
+
+    public void RecastIcon(int itemId, int itemCount, Sprite itemIcon) //also need reference to image files
+    {
+        this.itemId = itemId;
+        this.itemCount = itemCount;
+        image.sprite = itemIcon;
     }
 
     public void SettingBasedClickEvent()
@@ -53,6 +71,9 @@ public class BaseUnitIcon : MonoBehaviour
                 break;
             case IconSetting.dismissal:
                 homeScreen.dismissalManager.ChosenUnit(this);
+                break;
+            case IconSetting.inventory:
+                //OPEN ITEM TOOLTIP
                 break;
         }
     }

@@ -8,6 +8,7 @@ public class ResourceManager : MonoBehaviour
     public ResourceHandler resourceHandler;
     public TextMeshProUGUI stageRewardText;
     public TextMeshProUGUI availableText;
+    public TextMeshProUGUI stageIndicator;
 
     public System.DateTime dateTime;
 
@@ -18,7 +19,7 @@ public class ResourceManager : MonoBehaviour
     public float GoldPerMin { get { return goldPerMin; }
         set { goldPerMin = value; DisplayStageReward(); } }
 
-    public float essencePerMin;
+    private float essencePerMin;
     public float EssencePerMin
     {
         get { return essencePerMin; }
@@ -39,6 +40,7 @@ public class ResourceManager : MonoBehaviour
         //DEPENDENT ON HANDLER RUNNING BEFORE
         SetStageReward();
         DisplayAvailableReward();
+        stageIndicator.text = $"Stage 1-{resourceHandler.playerData.currentStage + 1}";
     }
 
     // replace with coroutine

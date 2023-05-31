@@ -11,12 +11,6 @@ public class DataSerialization
 
     }
 
-    public string SerializeData(StageRewardStorage rewardData)
-    {
-        string json = JsonUtility.ToJson(rewardData, true);
-        return json;
-    } 
-
     public static PlayerCollectionData DeserializeStaticCollection(string s)
     {
         return JsonUtility.FromJson<PlayerCollectionData>(s);
@@ -98,10 +92,5 @@ public class DataSerialization
     public StageDataCollection DeserializeStageData(string text)
     {
         return JsonUtility.FromJson<StageDataCollection>(text);
-    }
-
-    public static StageRewardStorage DeserializeRewardStorage(string text)
-    {
-        return JsonUtility.FromJson<StageRewardStorage>(text); ;
     }
 }

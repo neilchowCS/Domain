@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ReplayHandler : MonoBehaviour
 {
     public CollectionHandler collectionHandler;
-    public BaseUnitIcon prefabIcon;
+    public IconGeneric prefabIcon;
     public ReplayInstanceUI prefabReplayInstance;
     public GameObject scrollContents;
 
@@ -34,11 +34,11 @@ public class ReplayHandler : MonoBehaviour
                 Vector3 position = new Vector3(-114.5f, 65, 0);
                 for (int j = 0; j < storage.replayRecords[i].team0Data.Count; j++)
                 {
-                    BaseUnitIcon icon = Instantiate(prefabIcon, ui.p1GridLayout.transform);
+                    IconGeneric icon = Instantiate(prefabIcon, ui.p1GridLayout.transform);
                     icon.transform.localPosition = position;
                     icon.transform.localScale = new Vector3(0.527f, 0.527f, 0.527f);
 
-                    icon.InitButton(collectionHandler.uDListSO, storage.replayRecords[i].team0Data[j]);
+                    icon.RecastIcon(collectionHandler.uDListSO, storage.replayRecords[i].team0Data[j]);
 
                     position += new Vector3(deltaX, 0, 0);
                     if (j == 2)
@@ -50,11 +50,11 @@ public class ReplayHandler : MonoBehaviour
                 position = new Vector3(114.5f - deltaX * 2, 65, 0);
                 for (int j = 0; j < storage.replayRecords[i].team1Data.Count; j++)
                 {
-                    BaseUnitIcon icon = Instantiate(prefabIcon, ui.p2GridLayout.transform);
+                    IconGeneric icon = Instantiate(prefabIcon, ui.p2GridLayout.transform);
                     icon.transform.localPosition = position;
                     icon.transform.localScale = new Vector3(0.527f, 0.527f, 0.527f);
 
-                    icon.InitButton(collectionHandler.uDListSO, storage.replayRecords[i].team1Data[j]);
+                    icon.RecastIcon(collectionHandler.uDListSO, storage.replayRecords[i].team1Data[j]);
 
                     position += new Vector3(deltaX, 0, 0);
                     if (j == 2)

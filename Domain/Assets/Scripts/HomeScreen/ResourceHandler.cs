@@ -6,6 +6,7 @@ public class ResourceHandler : MonoBehaviour
 {
     public PlayerData playerData;
     public WalletDisplay wallet;
+    public SpriteStoreScriptableObject itemSprites;
 
     // Start is called before the first frame update
 
