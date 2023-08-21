@@ -32,7 +32,7 @@ public class ObservedStatusBurn : ObservedStatusFramework
     public virtual void InflictBurn()
     {
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(Source, new() { Host },
-           dmgPerTick, DamageType.special, AbilityType.Dot).Cast<IEventCommand>().ToList()
+           dmgPerTick, DamageType.special, AbilityType.Dot).Cast<IEventTrigger>().ToList()
         );
         foreach (ParticleSystem pSys in particleSystems)
         {

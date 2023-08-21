@@ -25,8 +25,6 @@ public class UnitDataScriptableObject : ScriptableObject
 
     public float baseMovementRecovery;
 
-    public EnabledEvents eventSubscriptions;
-
     public List<UnitAttackDataScriptableObject> attackDataList;
 
     public CommonReference commonRef;

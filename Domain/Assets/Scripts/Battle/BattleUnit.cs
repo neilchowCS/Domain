@@ -12,6 +12,7 @@ using System.Linq;
 public class BattleUnit : BattleObject, IBattleUnit
 {
     public UnitRuntimeData UnitData { get; set; }
+    public AttributeInt UnitSpeed { get; set; }
 
     public float Timeline { get; set; }
     public Vector3 Position { get; set; }
@@ -30,9 +31,10 @@ public class BattleUnit : BattleObject, IBattleUnit
     /// </summary>
     public BattleUnit(BattleExecutor exec, int side,
         UnitRuntimeData unitData, int tileX, int tileY)
-        : base(exec, side, unitData.baseData.unitName, unitData.GenerateSpeed())
+        : base(exec, side, unitData.baseData.unitName)
     {
         this.UnitData = unitData;
+        this.UnitSpeed = new(unitData.GenerateSpeed());
         StatusList = new();
 
         IsDead = false;
@@ -129,17 +131,33 @@ public class BattleUnit : BattleObject, IBattleUnit
 
     public virtual void PerformBasic()
     {
+        /*
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-           DamageType.normal, AbilityType.Basic).Cast<IEventCommand>().ToList()
+           DamageType.normal, AbilityType.Basic).Cast<IEventTrigger>().ToList()
         );
+        */
+        Stack<IEventTrigger> eventTriggers = ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+           (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
+           DamageType.normal, AbilityType.Basic);
+        
+        while (eventTriggers.Count() > 0)
+        {
+            Executor.eventManager.ManualInvokeTrigger(eventTriggers.Pop());
+        }
+        Executor.eventManager.ExecuteQueue();
     }
 
     public virtual void PerformSkill()
     {
-        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
-            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal, AbilityType.Skill).Cast<IEventCommand>().ToList()
-        );
+        Stack<IEventTrigger> eventTriggers = ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+           (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
+           DamageType.normal, AbilityType.Skill);
+
+        while (eventTriggers.Count() > 0)
+        {
+            Executor.eventManager.ManualInvokeTrigger(eventTriggers.Pop());
+        }
+        Executor.eventManager.ExecuteQueue();
     }
 }

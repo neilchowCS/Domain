@@ -108,7 +108,7 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         actingUnit = activeUnits[0];
 
-        eventManager.InvokeStartTurn();
+        eventManager.AutoInvokeTrigger(new StartTurnTrigger());
 
         actingUnit.PerformAction();
 
@@ -121,9 +121,9 @@ public class ObservedBattleExecutor : BattleExecutor
     {
         bottlenecked = false;
 
-        eventManager.InvokeEndTurn();
+        eventManager.AutoInvokeTrigger(new EndTurnTrigger());
 
-        eventManager.ClearEmptyTiles();
+        eventManager.EndRoundCleanup();
 
         AdvanceTimeline();
 

@@ -6,6 +6,7 @@ using ActionExtension;
 public interface IBattleUnit : IBattleObject
 {
     public UnitRuntimeData UnitData { get; set; }
+    public AttributeInt UnitSpeed { get; set; }
 
     public float Timeline { get; set; }
     public Vector3 Position { get; set; }

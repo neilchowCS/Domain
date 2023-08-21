@@ -18,7 +18,7 @@ public class ObservedDoe : ObservedUnit
 
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, targets,
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal, AbilityType.Skill).Cast<IEventCommand>().ToList()
+            DamageType.normal, AbilityType.Skill).Cast<IEventTrigger>().ToList()
         );
     }
 }

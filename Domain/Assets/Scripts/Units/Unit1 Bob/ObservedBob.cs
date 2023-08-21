@@ -16,7 +16,7 @@ public class ObservedBob : ObservedUnit
             animController.CreateThorns();
             Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(
                 this, new() { (IBattleUnit)damageSource }, (int)(UnitData.unitMaxHealth.Value * 0.025f),
-                DamageType.special, AbilityType.Passive).Cast<IEventCommand>().ToList());
+                DamageType.special, AbilityType.Passive).Cast<IEventTrigger>().ToList());
         }
     }
 }

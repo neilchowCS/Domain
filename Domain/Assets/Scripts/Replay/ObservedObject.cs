@@ -15,32 +15,13 @@ public class ObservedObject : MonoBehaviour, IBattleObject
     [field: SerializeField]
     public int Side { get; set; }
 
-    public virtual AttributeInt ObjSpeed { get; set; }
-
-    public EnabledEvents EventSubscriptions { get; set; }
-
-    public virtual void Initialize(BattleExecutor exec, int side, string name, int speed)
+    public virtual void Initialize(BattleExecutor exec, int side, string name)
     {
         Executor = exec;
         Side = side;
 
         GlobalObjectId = Executor.SetGlobalObjectId();
         ObjectName = name;
-
-        ObjSpeed = new(speed);
-
-        exec.eventManager.AddObject(this);
-    }
-
-    public virtual void Initialize(BattleExecutor exec, int side, string name, IBattleObject dependent)
-    {
-        Executor = exec;
-        Side = side;
-
-        GlobalObjectId = Executor.SetGlobalObjectId();
-        ObjectName = name;
-
-        ObjSpeed = dependent.ObjSpeed;
 
         exec.eventManager.AddObject(this);
     }

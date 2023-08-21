@@ -10,6 +10,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     //[field: Header(" ")]
     [field: SerializeField]
     public UnitRuntimeData UnitData { get; set; }
+    public AttributeInt UnitSpeed { get; set; }
 
     [field: SerializeField]
     public float Timeline { get; set; }
@@ -48,8 +49,9 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public virtual void Initialize(BattleExecutor executor, int side,
         UnitRuntimeData unitData, int x, int y)
     {
-        Initialize(executor, side, unitData.baseData.unitName, unitData.GenerateSpeed());
+        Initialize(executor, side, unitData.baseData.unitName);
         UnitData = unitData;
+        UnitSpeed = new(unitData.GenerateSpeed());
         StatusList = new();
         IsDead = false;
         X = x;
@@ -185,7 +187,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-           DamageType.normal, AbilityType.Basic).Cast<IEventCommand>().ToList()
+           DamageType.normal, AbilityType.Basic).Cast<IEventTrigger>().ToList()
         );
     }
 
@@ -194,7 +196,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal, AbilityType.Skill).Cast<IEventCommand>().ToList()
+            DamageType.normal, AbilityType.Skill).Cast<IEventTrigger>().ToList()
         );
     }
 

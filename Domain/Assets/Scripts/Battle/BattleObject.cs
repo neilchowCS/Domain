@@ -20,32 +20,13 @@ public class BattleObject : IBattleObject
     [field: SerializeField]
     public string ObjectName { get; set; }
 
-    public virtual AttributeInt ObjSpeed { get; set; }
-
-    public EnabledEvents EventSubscriptions { get; set; }
-
-    public BattleObject(BattleExecutor exec, int side, string name, int speed)
+    public BattleObject(BattleExecutor exec, int side, string name)
     {
         Executor = exec;
         Side = side;
 
         GlobalObjectId = Executor.SetGlobalObjectId();
         ObjectName = name;
-
-        ObjSpeed = new(speed);
-
-        exec.eventManager.AddObject(this);
-    }
-
-    public BattleObject(BattleExecutor exec, int side, string name, IBattleObject dependent)
-    {
-        Executor = exec;
-        Side = side;
-
-        GlobalObjectId = Executor.SetGlobalObjectId();
-        ObjectName = name;
-
-        ObjSpeed = dependent.ObjSpeed;
 
         exec.eventManager.AddObject(this);
     }

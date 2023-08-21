@@ -59,6 +59,7 @@ public class BattleExecutor : MonoBehaviour
     }
 
     public List<IBattleUnit> activeUnits;
+
     public List<IBattleUnit> player0Active;
     public List<IBattleUnit> player1Active;
 
@@ -121,13 +122,13 @@ public class BattleExecutor : MonoBehaviour
     {
         actingUnit = activeUnits[0];
 
-        eventManager.InvokeStartTurn();
+        eventManager.AutoInvokeTrigger(new StartTurnTrigger());
 
         actingUnit.PerformAction();
 
-        eventManager.InvokeEndTurn();
+        eventManager.AutoInvokeTrigger(new EndTurnTrigger());
 
-        eventManager.ClearEmptyTiles();
+        eventManager.EndRoundCleanup();
 
         AdvanceTimeline();
 
@@ -206,7 +207,6 @@ public class BattleExecutor : MonoBehaviour
         }
 
         InstantiateUnits();
-        eventManager.OrderSpeedList();
         InitializeTimeline();
 
         isInitializing = false;
@@ -245,15 +245,16 @@ public class BattleExecutor : MonoBehaviour
             return;
         }
 
-        Debug.Log(eventManager.orderedList.Count);
-        float max = eventManager.orderedList[0].ObjSpeed.Value;
+
+        List<IBattleUnit> orderedList = activeUnits.OrderByDescending(o => o.UnitSpeed.Value).ToList();
+        float max = orderedList[0].UnitSpeed.Value;
 
         foreach (IBattleUnit unit in activeUnits)
         {
             if (max != 0)
             {
                 unit.Timeline = maxTimeline -
-                    (unit.ObjSpeed.Value / max * maxTimeline);
+                    (unit.UnitSpeed.Value / max * maxTimeline);
             }
         }
 
@@ -298,17 +299,6 @@ public class BattleExecutor : MonoBehaviour
             return player1Active;
         }
         return player0Active;
-    }
-
-    public void EnqueueEvent(List<IEventCommand> command)
-    {
-        Debug.Log("event queue");
-        eventManager.commandQueue.Enqueue(command);
-        if (eventManager.commandQueue.Count <= 1)
-        {
-            Debug.Log("event call");
-            eventManager.ExecuteQueue();
-        }
     }
 
     public virtual void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType, bool isCrit)

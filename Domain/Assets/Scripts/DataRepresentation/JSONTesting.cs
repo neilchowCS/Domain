@@ -97,14 +97,7 @@ public class JSONTesting : MonoBehaviour
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);
 
-        StageRewardStorage rewardStorage = new();
-        for(int i = 0; i < stageData.stageDataList.Count; i++)
-        {
-            rewardStorage.stageInstances.Add(new StageInstanceReward(new() { new StageRewardInstance(0, 1, 1, 1, 0) }));
-        }
-        jsonOutput = serializer.SerializeData(rewardStorage);
-        Debug.Log(jsonOutput);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/StageRewards.json", jsonOutput);
+       
     }
 
     // Update is called once per frame

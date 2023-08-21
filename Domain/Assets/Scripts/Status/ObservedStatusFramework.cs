@@ -14,7 +14,7 @@ public class ObservedStatusFramework : ObservedObject, IBattleStatus
     public virtual void Initialize(BattleExecutor executor, string name, IBattleObject source,
         IBattleUnit host, StatusType type, int duration)
     {
-        Initialize(executor, source.Side, name, host);
+        Initialize(executor, source.Side, name);
 
         Source = source;
         Host = host;
