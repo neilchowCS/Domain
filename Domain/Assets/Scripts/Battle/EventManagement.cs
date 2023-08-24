@@ -53,9 +53,39 @@ public class EventManagement
             }
         }
 
+        isExecuting = false;
+
         //CLEAR ALL DEATHS, EVENTS, ETC.
 
-        isExecuting = false;
+        ManageUnitDeath();
+    }
+
+    private void ManageUnitDeath()
+    {
+        List<IBattleUnit> deadUnits = new();
+        foreach (IBattleUnit checkUnit in executor.activeUnits)
+        {
+            if (checkUnit.UnitData.health <= 0)
+            {
+                //dead
+                deadUnits.Add(checkUnit);
+            }
+        }
+
+        ClearDeadReferences(deadUnits);
+
+        //set death flags
+
+        foreach (IBattleUnit deadUnit in deadUnits)
+        {
+            ManualInvokeTrigger(new UnitDeathTrigger(deadUnit));
+        }
+        ExecuteQueue();
+    }
+
+    private void ClearDeadReferences(List<IBattleUnit> deadUnits)
+    {
+
     }
 
     public void ManualInvokeTrigger(IEventTrigger trigger)
@@ -87,6 +117,8 @@ public class EventManagement
 
     }
 
+    //SORT OBJECTS BASED ON TRIGGER PRIORITY, THEN BY DEFAULT
+    //Should all objects have x? no. THere should be set arrays of priority configurations so that they can be referenced
     private void PushObjectQueue()
     {
         List<IBattleObject> temp = new();

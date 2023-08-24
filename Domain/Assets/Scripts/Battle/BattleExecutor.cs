@@ -124,9 +124,17 @@ public class BattleExecutor : MonoBehaviour
 
         eventManager.AutoInvokeTrigger(new StartTurnTrigger());
 
+        //PHASE END / CLEAR TILES
+
         actingUnit.PerformAction();
 
+        //PHASE END / CLEAR TILES
+
+        //MANAGE EXTRA COMBAT PHASES (ie counterattack, not gain an extra action)
+
         eventManager.AutoInvokeTrigger(new EndTurnTrigger());
+
+        //PHASE END / CLEAR TILES
 
         eventManager.EndRoundCleanup();
 
