@@ -14,7 +14,7 @@ public class Factory
     //***************** Object Constructor *******************
     public virtual IBattleObject NewObject(int side, string name)
     {
-        IBattleObject output = new BattleObject(executor, side, name);
+        IBattleObject output = new BattleObject(executor, BattleObjectType.Normal, side, name);
 
         //executor.eventHandler.TickUp += output.Behavior.OnTickUp;
 

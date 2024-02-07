@@ -14,7 +14,7 @@ public class ObservedStatusFramework : ObservedObject, IBattleStatus
     public virtual void Initialize(BattleExecutor executor, string name, IBattleObject source,
         IBattleUnit host, StatusType type, int duration)
     {
-        Initialize(executor, source.Side, name);
+        Initialize(executor, BattleObjectType.Status, source.Side, name);
 
         Source = source;
         Host = host;
@@ -41,7 +41,7 @@ public class ObservedStatusFramework : ObservedObject, IBattleStatus
     {
         if (deadUnit == Host)
         {
-            Executor.eventManager.RemoveObject(this);
+            //Executor.eventManager.RemoveObject(this);
         }
     }
 
@@ -52,7 +52,7 @@ public class ObservedStatusFramework : ObservedObject, IBattleStatus
             duration--;
             if (duration <= 0)
             {
-                Executor.eventManager.RemoveObject(this);
+                //Executor.eventManager.RemoveObject(this);
             }
         }
     }
@@ -61,7 +61,7 @@ public class ObservedStatusFramework : ObservedObject, IBattleStatus
     {
         OnUnapply();
         Host.StatusList.Remove(this);
-        foreach(ParticleSystem p in particleSystems)
+        foreach (ParticleSystem p in particleSystems)
         {
             Destroy(p);
         }

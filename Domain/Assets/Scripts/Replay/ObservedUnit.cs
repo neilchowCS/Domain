@@ -49,7 +49,7 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public virtual void Initialize(BattleExecutor executor, int side,
         UnitRuntimeData unitData, int x, int y)
     {
-        Initialize(executor, side, unitData.baseData.unitName);
+        Initialize(executor, BattleObjectType.Unit, side, unitData.baseData.unitName);
         UnitData = unitData;
         UnitSpeed = new(unitData.GenerateSpeed());
         StatusList = new();
@@ -185,19 +185,27 @@ public class ObservedUnit : ObservedObject, IBattleUnit
     public virtual void BasicProjectileEffect()
     {
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
-        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+        /* Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
            DamageType.normal, AbilityType.Basic).Cast<IEventTrigger>().ToList()
-        );
+        );*/
+
+        Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+           (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
+           DamageType.normal, AbilityType.Basic));
     }
 
     public virtual void SkillProjectileEffect()
     {
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
-        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+        /*Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.normal, AbilityType.Skill).Cast<IEventTrigger>().ToList()
-        );
+        );*/
+
+        Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+           (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
+           DamageType.normal, AbilityType.Skill));
     }
 
     public override void OnUnitDeath(IBattleUnit deadUnit)

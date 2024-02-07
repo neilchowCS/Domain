@@ -16,9 +16,8 @@ public class ObservedDoe : ObservedUnit
 
         List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, line);
 
-        Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, targets,
+        Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(this, targets,
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal, AbilityType.Skill).Cast<IEventTrigger>().ToList()
-        );
+            DamageType.normal, AbilityType.Skill));
     }
 }

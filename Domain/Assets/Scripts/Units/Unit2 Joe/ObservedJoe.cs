@@ -10,7 +10,7 @@ public class ObservedJoe : ObservedUnit
     {
         Executor.mapTilesObj[CurrentTarget.X][CurrentTarget.Y].SetRed();
         List<(int, int)> neighbors = Executor.hexagonFunctions.GetNeighbors(CurrentTarget.X, CurrentTarget.Y);
-        foreach ((int,int) i in neighbors)
+        foreach ((int, int) i in neighbors)
         {
             Executor.mapTilesObj[i.Item1][i.Item2].SetRed();
         }
@@ -18,9 +18,14 @@ public class ObservedJoe : ObservedUnit
         List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, neighbors);
         targets.Add(CurrentTarget);
 
+        /*
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, targets,
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-            DamageType.normal, AbilityType.Skill).Cast<IEventTrigger>().ToList());
+            DamageType.normal, AbilityType.Skill).Cast<IEventTrigger>().ToList());*/
+
+        Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(this, targets,
+            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
+            DamageType.normal, AbilityType.Skill));
 
         foreach (IBattleUnit target in targets)
         {

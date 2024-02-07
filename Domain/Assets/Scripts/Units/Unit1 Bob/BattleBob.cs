@@ -16,9 +16,15 @@ public class BattleBob : BattleUnit
         if (damageTarget == this && damageSource is IBattleUnit &&
             (abilityType == AbilityType.Basic || abilityType == AbilityType.Skill))
         {
+            /*
             Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(
                 this, new() { (IBattleUnit)damageSource }, (int)(UnitData.unitMaxHealth.Value * 0.025f),
                 DamageType.special, AbilityType.Passive).Cast<IEventTrigger>().ToList());
+            */
+
+            Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(
+                this, new() { (IBattleUnit)damageSource }, (int)(UnitData.unitMaxHealth.Value * 0.025f),
+                DamageType.special, AbilityType.Passive));
         }
     }
 }

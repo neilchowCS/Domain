@@ -13,12 +13,16 @@ public class BattleDoe : BattleUnit
 
     public override void PerformSkill()
     {
-        List<(int, int)> line = Executor.hexagonFunctions.GetLine(X,Y,CurrentTarget.X,CurrentTarget.Y,3);
+        List<(int, int)> line = Executor.hexagonFunctions.GetLine(X, Y, CurrentTarget.X, CurrentTarget.Y, 3);
         List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, line);
-
+        /*
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, targets,
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.normal, AbilityType.Skill).Cast<IEventTrigger>().ToList()
-        );
+        );*/
+
+        Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(this, targets,
+            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
+            DamageType.normal, AbilityType.Skill));
     }
 }

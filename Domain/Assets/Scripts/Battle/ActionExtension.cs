@@ -7,10 +7,10 @@ namespace ActionExtension
 {
     public static class ActionExtension
     {
-        public static Stack<IEventTrigger> ProcessDamage(IBattleObject damageSource,
+        public static List<IEventTrigger> ProcessDamage(IBattleObject damageSource,
             List<IBattleUnit> damageTargets, int premitigationAmount, DamageType damageType, AbilityType abilityType)
         {
-            Stack<IEventTrigger> output = new();
+            List<IEventTrigger> output = new();
 
             foreach (IBattleUnit damageTarget in damageTargets)
             {
@@ -45,7 +45,7 @@ namespace ActionExtension
 
                 int overkill = (damageTarget.UnitData.health > 0) ? -1 : -damageTarget.UnitData.health;
 
-                output.Push(new DamageDealtTrigger(damageSource, damageTarget, postmitigationDamage, damageType, abilityType, crit, overkill));
+                output.Add(new DamageDealtTrigger(damageSource, damageTarget, postmitigationDamage, damageType, abilityType, crit, overkill));
             }
 
             //damageSource.Executor.EnqueueEvent(new DamageDealtCommand(damageSource, damageTarget, postmitigationDamage, damageType));

@@ -48,6 +48,7 @@ public class EventManagement
             }
             else
             {
+                //iterated through event stack, execute all triggers on object
                 eventTriggerStack.Peek().Execute(eventStack.Peek()[0]);
                 eventStack.Peek().RemoveAt(0);
             }
@@ -88,28 +89,35 @@ public class EventManagement
 
     }
 
-    public void ManualInvokeTrigger(IEventTrigger trigger)
+    public void InitiateTriggers(List<IEventTrigger> triggerList)
     {
-        PushObjectQueue();
-        eventTriggerStack.Push(trigger);
-        /*
+        for (int i = triggerList.Count - 1; i >= 0; i++)
+        {
+            PushObjectQueue();
+            eventTriggerStack.Push(triggerList[i]);
+        }
+
         if (!isExecuting)
         {
             ExecuteQueue();
         }
-        */
+    }
+
+    public void ManualInvokeTrigger(IEventTrigger trigger)
+    {
+        PushObjectQueue();
+        eventTriggerStack.Push(trigger);
     }
 
     public void AutoInvokeTrigger(IEventTrigger trigger)
     {
         PushObjectQueue();
         eventTriggerStack.Push(trigger);
-        
+
         if (!isExecuting)
         {
             ExecuteQueue();
         }
-        
     }
 
     public void EndRoundCleanup()

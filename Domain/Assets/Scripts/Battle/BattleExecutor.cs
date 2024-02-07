@@ -182,7 +182,7 @@ public class BattleExecutor : MonoBehaviour
         //eventHandler = new BattleEventHandler(this);
         eventManager = new(this);
         logger = new(i);
-        
+
         factory = new Factory(this);
 
         globalTick = 0;
@@ -307,6 +307,11 @@ public class BattleExecutor : MonoBehaviour
             return player1Active;
         }
         return player0Active;
+    }
+
+    public void AddObject(IBattleObject obj)
+    {
+
     }
 
     public virtual void CreateDamageNumber(Vector3 unitPosition, int value, DamageType damageType, bool isCrit)

@@ -20,15 +20,19 @@ public class BattleObject : IBattleObject
     [field: SerializeField]
     public string ObjectName { get; set; }
 
-    public BattleObject(BattleExecutor exec, int side, string name)
+    [field: SerializeField]
+    public BattleObjectType ObjectType { get; set; }
+
+    public BattleObject(BattleExecutor exec, BattleObjectType objType, int side, string name)
     {
         Executor = exec;
         Side = side;
+        ObjectType = objType;
 
         GlobalObjectId = Executor.SetGlobalObjectId();
         ObjectName = name;
 
-        exec.eventManager.AddObject(this);
+        exec.AddObject(this);
     }
 
     public virtual void OnStartTurn() { }

@@ -31,7 +31,7 @@ public class BattleUnit : BattleObject, IBattleUnit
     /// </summary>
     public BattleUnit(BattleExecutor exec, int side,
         UnitRuntimeData unitData, int tileX, int tileY)
-        : base(exec, side, unitData.baseData.unitName)
+        : base(exec, BattleObjectType.Unit, side, unitData.baseData.unitName)
     {
         this.UnitData = unitData;
         this.UnitSpeed = new(unitData.GenerateSpeed());
@@ -137,27 +137,15 @@ public class BattleUnit : BattleObject, IBattleUnit
            DamageType.normal, AbilityType.Basic).Cast<IEventTrigger>().ToList()
         );
         */
-        Stack<IEventTrigger> eventTriggers = ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
-           (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
-           DamageType.normal, AbilityType.Basic);
-        
-        while (eventTriggers.Count() > 0)
-        {
-            Executor.eventManager.ManualInvokeTrigger(eventTriggers.Pop());
-        }
-        Executor.eventManager.ExecuteQueue();
+        Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[0].value0),
+            DamageType.normal, AbilityType.Basic));
     }
 
     public virtual void PerformSkill()
     {
-        Stack<IEventTrigger> eventTriggers = ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
+        Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(this, new() { CurrentTarget },
            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
-           DamageType.normal, AbilityType.Skill);
-
-        while (eventTriggers.Count() > 0)
-        {
-            Executor.eventManager.ManualInvokeTrigger(eventTriggers.Pop());
-        }
-        Executor.eventManager.ExecuteQueue();
+           DamageType.normal, AbilityType.Skill));
     }
 }

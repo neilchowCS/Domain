@@ -14,9 +14,14 @@ public class ObservedBob : ObservedUnit
             (abilityType == AbilityType.Basic || abilityType == AbilityType.Skill))
         {
             animController.CreateThorns();
+            /*
             Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(
                 this, new() { (IBattleUnit)damageSource }, (int)(UnitData.unitMaxHealth.Value * 0.025f),
                 DamageType.special, AbilityType.Passive).Cast<IEventTrigger>().ToList());
+            */
+            Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(
+                this, new() { (IBattleUnit)damageSource }, (int)(UnitData.unitMaxHealth.Value * 0.025f),
+                DamageType.special, AbilityType.Passive));
         }
     }
 }

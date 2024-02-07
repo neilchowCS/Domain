@@ -15,15 +15,19 @@ public class ObservedObject : MonoBehaviour, IBattleObject
     [field: SerializeField]
     public int Side { get; set; }
 
-    public virtual void Initialize(BattleExecutor exec, int side, string name)
+    [field: SerializeField]
+    public BattleObjectType ObjectType { get; set; }
+
+    public virtual void Initialize(BattleExecutor exec, BattleObjectType objType, int side, string name)
     {
         Executor = exec;
         Side = side;
+        ObjectType = objType;
 
         GlobalObjectId = Executor.SetGlobalObjectId();
         ObjectName = name;
 
-        exec.eventManager.AddObject(this);
+        exec.AddObject(this);
     }
 
     public virtual void OnStartTurn() { }

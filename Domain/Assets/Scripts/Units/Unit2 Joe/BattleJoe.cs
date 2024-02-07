@@ -16,10 +16,15 @@ public class BattleJoe : BattleUnit
         List<(int, int)> neighbors = Executor.hexagonFunctions.GetNeighbors(CurrentTarget.X, CurrentTarget.Y);
         List<IBattleUnit> targets = MovementExtension.GetEnemiesInTiles(this, neighbors);
         targets.Add(CurrentTarget);
-
+        /*
         Executor.EnqueueEvent(ActionExtension.ActionExtension.ProcessDamage(this, targets,
             (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
             DamageType.normal, AbilityType.Skill).Cast<IEventTrigger>().ToList());
+        */
+
+        Executor.eventManager.InitiateTriggers(ActionExtension.ActionExtension.ProcessDamage(this, targets,
+            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
+            DamageType.normal, AbilityType.Skill));
 
         foreach (IBattleUnit target in targets)
         {
