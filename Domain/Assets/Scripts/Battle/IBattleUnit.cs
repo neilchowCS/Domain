@@ -20,9 +20,13 @@ public interface IBattleUnit : IBattleObject
 
     public List<IBattleStatus> StatusList { get; set; }
 
+    public void HandleDeath(IBattleUnit deadUnit);
+
     //Behavior
     public void PerformAction();
 
     public void ModifyHealth(int amount, DamageType damageType);
     public void ModifyMana(int amount);
+
+
 }

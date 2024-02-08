@@ -148,4 +148,17 @@ public class BattleUnit : BattleObject, IBattleUnit
            (int)(UnitData.unitAttack.Value * UnitData.baseData.attackDataList[1].value0),
            DamageType.normal, AbilityType.Skill));
     }
+
+    public virtual void HandleDeath(IBattleUnit deadUnit)
+    {
+        if (deadUnit == this)
+        {
+            Executor.hexMap[X, Y].occupant = null;
+        }
+
+        if (deadUnit == CurrentTarget)
+        {
+            CurrentTarget = null;
+        }
+    }
 }

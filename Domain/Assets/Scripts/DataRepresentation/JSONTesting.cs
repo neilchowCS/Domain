@@ -97,7 +97,10 @@ public class JSONTesting : MonoBehaviour
         Debug.Log(jsonOutput);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/PlayerData.json", jsonOutput);
 
-       
+
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/ReplayRecord.json", "");
+
+
     }
 
     // Update is called once per frame

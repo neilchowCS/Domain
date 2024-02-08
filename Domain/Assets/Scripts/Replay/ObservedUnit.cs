@@ -208,10 +208,11 @@ public class ObservedUnit : ObservedObject, IBattleUnit
            DamageType.normal, AbilityType.Skill));
     }
 
-    public override void OnUnitDeath(IBattleUnit deadUnit)
+    public virtual void HandleDeath(IBattleUnit deadUnit)
     {
         if (deadUnit == this)
         {
+            Debug.Log("self dead");
             Executor.hexMap[X, Y].occupant = null;
             meshRenderer.enabled = false;
             shadow.SetActive(false);
@@ -220,8 +221,14 @@ public class ObservedUnit : ObservedObject, IBattleUnit
 
         if (deadUnit == CurrentTarget)
         {
+            Debug.Log("clear target");
             CurrentTarget = null;
         }
+    }
+
+    public override void OnUnitDeath(IBattleUnit deadUnit)
+    {
+        
     }
 
     public override void OnDamageDealt(IBattleObject damageSource, IBattleUnit damageTarget, int amount, DamageType damageType, AbilityType abilityType, bool isCrit, int overkill)
